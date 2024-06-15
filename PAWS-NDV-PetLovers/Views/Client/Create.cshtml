@@ -1,0 +1,149 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model PAWS_NDV_PetLovers.ViewModels.ClientVm
+@{
+
+}
+
+<div class="bg-secondary bg-opacity-10 py-2 mb-3">
+    <div class="container">
+        <h1>Owner</h1>
+    </div>
+</div>
+
+<div class="container">
+    <form method="post" asp-action="Create">
+        <div class="row">
+
+            @*Owner*@
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group col-md-4 col-sm-12 ">
+                <label asp-for="Owner.fname" class="control-label"></label>
+                <input asp-for="Owner.fname" class="form-control bg-light" />
+                <span asp-validation-for="Owner.fname" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-4 col-sm-12 ">
+                <label asp-for="Owner.lname" class="control-label"></label>
+                <input asp-for="Owner.lname" class="form-control bg-light" />
+                <span asp-validation-for="Owner.lname" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-4 col-sm-12 ">
+                <label asp-for="Owner.mname" class="control-label"></label>
+                <input asp-for="Owner.mname" class="form-control bg-light" />
+                <span asp-validation-for="Owner.mname" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-4 col-sm-12">
+                <label asp-for="Owner.gender" class="control-label"></label>
+                <select asp-for="Owner.gender" class="form-control bg-light">
+                    <option value="" selected>Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+                <span asp-validation-for="Owner.gender" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-4 col-sm-12 ">
+                <label asp-for="Owner.contact" class="control-label"></label>
+                <input asp-for="Owner.contact" class="form-control bg-light" />
+                <span asp-validation-for="Owner.contact" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-4 col-sm-12 ">
+                <label asp-for="Owner.email" class="control-label"></label>
+                <input asp-for="Owner.email" class="form-control bg-light" />
+                <span asp-validation-for="Owner.email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-4 col-sm-12 ">
+                <label asp-for="Owner.address" class="control-label"></label>
+                <input asp-for="Owner.address" class="form-control bg-light" />
+                <span asp-validation-for="Owner.address" class="text-danger"></span>
+            </div>
+
+            @*PET*@
+            <div class="bg-secondary bg-opacity-10 py-2 my-3">
+                <div class="container">
+                    <h1>Pet</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group col-md-4 col-sm-12">
+                    <label asp-for="Pet.petName" class="control-label"></label>
+                    <input asp-for="Pet.petName" class="form-control bg-light" />
+                    <span asp-validation-for="Pet.petName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-md-4 col-sm-12">
+                    <label asp-for="Pet.species" class="control-label"></label>
+                    <select asp-for="Pet.species" class="form-control bg-light">
+                        <option value="" selected hidden>Select specie</option>
+                        <option value="Aspin">Aspin</option>
+                        <option value="Shitzu">Shitzu</option>
+                        <option value="Japanese Spitz">Japanese Spitz</option>
+                    </select>
+                    <span asp-validation-for="Pet.species" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-md-4 col-sm-12">
+                    <label asp-for="Pet.breed" class="control-label"></label>
+                    <select asp-for="Pet.breed" class="form-control bg-light">
+                        <option value="" selected hidden>----------</option>
+                        <option value="Siamese">Siamese</option>
+                        <option value="Ragdoll">Ragdoll</option>
+                        <option value="Ragamuffin">Ragamuffin</option>
+                    </select>
+                    <span asp-validation-for="Pet.breed" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-md-4 col-sm-12">
+                    <label asp-for="Pet.bdate" class="control-label"></label>
+                    <input asp-for="Pet.bdate" class="form-control bg-light" />
+                    <span asp-validation-for="Pet.bdate" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-md-4 col-sm-12">
+                    <label asp-for="Pet.gender" class="control-label"></label>
+                    <select asp-for="Pet.gender" class="form-control bg-light">
+                        <option value="" selected hidden>Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                    <span asp-validation-for="Pet.gender" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-md-4 col-sm-12">
+                    <label asp-for="Pet.color" class="control-label"></label>
+                    <input asp-for="Pet.color" class="form-control bg-light" />
+                    <span asp-validation-for="Pet.color" class="text-danger"></span>
+                </div>
+
+           
+
+                <div class="row">
+                    <div class="form-group col-2 d-grid mt-5">
+                        <input type="submit" class="btn btn-primary btn-md" value="Create" />
+                    </div>
+                    <div class="form-group col-2 d-grid mt-5">
+                        <a asp-action="Index" style="text-decoration:none"><button class="btn btn-dark"> Cancel </button></a>
+                    </div>
+                </div>
+            </div>
+
+          
+    </form>
+  
+</div>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
