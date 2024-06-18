@@ -1,0 +1,59 @@
+﻿@model PAWS_NDV_PetLovers.ViewModels.ClientVm
+@{
+}
+
+@*PET*@
+<div class="bg-secondary bg-opacity-10 py-2 my-3">
+    <div class="container">
+        <h1>Pets</h1>
+    </div>
+</div>
+
+
+<div id="PetContainer">
+    <div class="row pet-row">
+        <div class="form-group col-md-4 col-sm-12">
+            <label>Pet Name</label>
+            <input name="Pets[0].petName" class="form-control bg-light" />
+        </div>
+
+        <div class="form-group col-md-4 col-sm-12">
+            <label>Species</label>
+            <select name="Pets[0].species" class="form-control bg-light">
+                <option value="" selected hidden>Select Species</option>
+                <option value="Aspin">Aspin</option>
+                <option value="Shitzu">Shitzu</option>
+                <option value="Japanese Spitz">Japanese Spitz</option>
+            </select>
+        </div>
+
+        <div class="form-group col-md-4 col-sm-12">
+            <label>Breed</label>
+            <select name="Pets[0].breed" class="form-control bg-light">
+                <option value="" selected hidden>Select Breed</option>
+                <option value="Siamese">Siamese</option>
+                <option value="Ragdoll">Ragdoll</option>
+                <option value="Ragamuffin">Ragamuffin</option>
+            </select>
+        </div>
+
+        <div class="form-group col-md-4 col-sm-12">
+            <label>Birth Date</label>
+            <input name="Pets[0].bdate" type="date" class="form-control bg-light" />
+        </div>
+
+        <div class="form-group col-md-4 col-sm-12">
+            <label>Gender</label>
+            <select name="Pets[0].gender" class="form-control bg-light">
+                <option value="" selected hidden>Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+        </div>
+
+        <div class="form-group col-md-4 col-sm-12">
+            <label>Color</label>
+            <input name="Pets[0].color" class="form-control bg-light" />
+        </div>
+    </div>
+</div>

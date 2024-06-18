@@ -41,4 +41,6 @@ namespace PAWS_NDV_PetLovers.Models.Records
         //navigation property
         public Owner owner { get; set; }
     }
+
+
 }
