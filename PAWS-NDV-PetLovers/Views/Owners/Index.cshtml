@@ -1,0 +1,72 @@
+﻿@model IEnumerable<PAWS_NDV_PetLovers.Models.Records.Owner>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table table-striped table-info" id="OwnerTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+               <p style="margin:0">Full Name</p>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.contact)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.address)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fname)
+                @Html.Raw(' ')
+                @Html.DisplayFor(modelItem => item.mname)
+                @Html.Raw(' ')
+                @Html.DisplayFor(modelItem => item.lname)
+            </td>
+         
+            <td>
+                @Html.DisplayFor(modelItem => item.gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.contact)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.address)
+            </td>
+            <td>
+                <a asp-action="Edit" class="btn btn-primary btn-sm" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details" class="btn btn-warning btn-sm" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<script src="~/js/clientCategory/Index.js" async></script>

@@ -26,6 +26,9 @@ namespace PAWS_NDV_PetLovers.Models.Records
         public DateTime? bdate { get; set; }
 
         [Required]
+        public int? age { get; set; }
+
+        [Required]
         [Display(Name = "Color")]
         public string? color { get; set; }
 

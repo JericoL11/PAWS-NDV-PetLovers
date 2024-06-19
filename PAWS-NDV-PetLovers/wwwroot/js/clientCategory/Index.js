@@ -1,3 +1,3 @@
 ﻿$(document).ready(function () {
-    var table = new DataTable('#ClientTable');
+    var table = new DataTable('#OwnerTable');
 })
