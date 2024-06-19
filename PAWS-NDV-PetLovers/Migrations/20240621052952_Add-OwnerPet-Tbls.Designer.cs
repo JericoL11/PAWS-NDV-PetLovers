@@ -12,8 +12,8 @@ using PAWS_NDV_PetLovers.Data;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     [DbContext(typeof(PAWS_NDV_PetLoversContext))]
-    [Migration("20240615075310_AddDbContext-OwnersPetTbl")]
-    partial class AddDbContextOwnersPetTbl
+    [Migration("20240621052952_Add-OwnerPet-Tbls")]
+    partial class AddOwnerPetTbls
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,6 +73,10 @@ namespace PAWS_NDV_PetLovers.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<int?>("age")
+                        .IsRequired()
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("bdate")
                         .IsRequired()

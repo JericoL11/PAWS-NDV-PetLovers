@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     /// <inheritdoc />
-    public partial class AddDbContextOwnersPetTbl : Migration
+    public partial class AddOwnerPetTbls : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,7 +16,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "10000, 1"),
+                        .Annotation("SqlServer:Identity", "1000, 1"),
                     fname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     lname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     mname = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -35,11 +35,12 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1000000000, 1"),
+                        .Annotation("SqlServer:Identity", "100000000, 1"),
                     petName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     species = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     breed = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     bdate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    age = table.Column<int>(type: "int", nullable: false),
                     color = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     gender = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
                     ownerId = table.Column<int>(type: "int", nullable: false)

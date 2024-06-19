@@ -8,7 +8,7 @@ namespace PAWS_NDV_PetLovers.Models.Records
         public int id { get; set; }
 
         [Required]
-        [Display(Name = "First n ame")]
+        [Display(Name = "First name")]
         public string? fname { get; set; }
 
         [Required]
