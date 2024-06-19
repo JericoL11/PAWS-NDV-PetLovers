@@ -26,56 +26,21 @@ public class ClientController : Controller
     [HttpGet]
     public IActionResult Create()
     {
-        var clientVm = new ClientVm
-        {
-            Owner = new Owner(), // Initialize Owner object
-            Pets = new List<Pet>() // Initialize Pets list
-        };
 
-        return View(clientVm);
+        return View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(ClientVm clientVm)
+    public async Task<IActionResult> Create(Owner owner)
     {
-        if (!ModelState.IsValid)
-        {
-            return View(clientVm);
-        }
-
         // Save owner to the database
-        _context.Owners.Add(clientVm.Owner);
-        await _context.SaveChangesAsync();
-
-        // Assign the owner ID to the pets
-        foreach (var pet in clientVm.Pets)
-        {
-            pet.ownerId = clientVm.Owner.id; // Assuming the OwnerId property in the Pet model represents the owner ID
-            _context.Pets.Add(pet);
-        }
-
-        await _context.SaveChangesAsync();
+        _context.Owners.Add(owner);
+                // Assign the owner ID to the pets
+            
+                await _context.SaveChangesAsync();
 
         return RedirectToAction("Index");
     }
 
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult AddPetPost(ClientVm clientVm)
-    {
-        clientVm.Pets = new List<Pet>(); // Initialize the list if it's null
-
-        if (clientVm.Pet != null)
-        {
-            clientVm.Pets.Add(clientVm.Pet); // Add the new pet to the list
-
-            clientVm.Pet = new Pet(); // Clear the current Pet object for the next input
-
-        }
-        return View("Create", clientVm);
-
-        // ithink need nig database kay add naman kag pet
-
-    }
 }
+

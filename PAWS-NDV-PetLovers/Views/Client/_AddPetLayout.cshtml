@@ -57,3 +57,148 @@
         </div>
     </div>
 </div>
+@*
+
+        <!-- Button trigger modal -->
+        <div class="col-12 d-flex justify-content-end">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPetModal">
+                Add Pet
+            </button>
+        </div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th><p style="margin:0;">Pet Id</p></th>
+            <th><p style="margin:0;">Pet Name</p></th>
+            <th><p style="margin:0;">Gender</p></th>
+            <th><p style="margin:0;">Specie</p></th>
+            <th><p style="margin:0;">Breed.</p></th>
+            <th><p style="margin:0;">Birth date</p></th>
+            <th><p style="margin:0;">Color</p></th>
+        </tr>
+    </thead>
+ 
+    <tbody>
+        foreach (var item in Model.Pets)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.petName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.gender)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.species)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.breed)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.bdate)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.color)
+                </td>
+
+                <td>
+                    <a asp-action="Create" asp-route-id="@item.id"> <button class="btn btn-danger btn-sm">Update</button></a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+@**@
+<!-- Modal -->
+<div class="modal fade" id="addPetModal" tabindex="-1" aria-labelledby="addPetModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="card container">
+                <div class="row p-2">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="addPetModalLabel">Add Pet</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    @* Pet Fields *@
+                    <div id="PetContainer">
+                        <form method="post" asp-action="AddPetPost">
+                            @*      <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
+                            <div class="row pet-row">
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label asp-for="Pet.petName" class="control-label">Pet Name</label>
+                                    <input asp-for="Pet.petName" class="form-control bg-light" />
+                                    <span asp-validation-for="Pet.petName" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label asp-for="Pet.species" class="control-label">Species</label>
+                                    <select asp-for="Pet.species" class="form-control bg-light">
+                                        <option value="" selected hidden>Select Species</option>
+                                        <option value="Aspin">Aspin</option>
+                                        <option value="Shitzu">Shitzu</option>
+                                        <option value="Japanese Spitz">Japanese Spitz</option>
+                                    </select>
+                                    <span asp-validation-for="Pet.species" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label asp-for="Pet.breed" class="control-label">Breed</label>
+                                    <select asp-for="Pet.breed" class="form-control bg-light">
+                                        <option value="" selected hidden>Select Breed</option>
+                                        <option value="Siamese">Siamese</option>
+                                        <option value="Ragdoll">Ragdoll</option>
+                                        <option value="Ragamuffin">Ragamuffin</option>
+                                    </select>
+                                    <span asp-validation-for="Pet.breed" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label asp-for="Pet.bdate" class="control-label">Birth Date</label>
+                                    <input asp-for="Pet.bdate" type="date" class="form-control bg-light" />
+                                    <span asp-validation-for="Pet.bdate" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label asp-for="Pet.gender" class="control-label">Gender</label>
+                                    <select asp-for="Pet.gender" class="form-control bg-light">
+                                        <option value="" selected hidden>Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                    <span asp-validation-for="Pet.gender" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label asp-for="Pet.color" class="control-label">Color</label>
+                                    <input asp-for="Pet.color" class="form-control bg-light" />
+                                    <span asp-validation-for="Pet.color" class="text-danger"></span>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" class="btn btn-primary" value="Add" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

@@ -7,8 +7,6 @@ namespace PAWS_NDV_PetLovers.ViewModels
         public Owner Owner { get; set; }
         public Pet Pet { get; set; }
 
-        public List<Pet> Pets { get; set; }
-
      
     }
 }
