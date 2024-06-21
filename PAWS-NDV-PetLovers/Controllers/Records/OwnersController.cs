@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.Models.Records;
+using PAWS_NDV_PetLovers.ViewModels;
 
 namespace PAWS_NDV_PetLovers.Controllers.Records
 {
@@ -63,7 +64,12 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
             if (verifyOwner == null)
             {
-        
+                if(owner.contact.Length < 11)
+                {
+                    ModelState.AddModelError("", "Contact number is invalid");
+                    return View(owner);
+                }
+              
                 _context.Add(owner);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -81,17 +87,36 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             // GET: Owners/Edit/5
             public async Task<IActionResult> Edit(int? id)
         {
+
+            //no id 
             if (id == null)
             {
                 return NotFound();
             }
 
+            //mathching the Routed Id to owner Id
             var owner = await _context.Owners.FindAsync(id);
+
             if (owner == null)
             {
                 return NotFound();
             }
-            return View(owner);
+
+            //matching ownerId to Pet
+            var pet = await _context.Pets
+                .Where(P => P.ownerId == id)
+                .Select(p => p).ToListAsync();
+
+
+            //view Model Instantiations for VIEWS
+            var data = new ClientVm
+            {
+                Owner = owner,
+                IPets = pet
+            };
+
+
+            return View(data);
         }
 
         // POST: Owners/Edit/5
@@ -106,8 +131,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
+          /*  if (ModelState.IsValid)
+            {*/
                 try
                 {
                     _context.Update(owner);
@@ -124,9 +149,21 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(owner);
+              /*  return RedirectToAction(nameof(Index));
+            }*/
+
+            // If we reach this point, something went wrong, redisplay the form with the current model
+            var pets = await _context.Pets
+                        .Where(p => p.ownerId == id)
+                        .ToListAsync();
+
+            var data = new ClientVm
+            {
+                Owner = owner,
+                IPets = pets
+            };
+
+            return View(data);
         }
 
         // GET: Owners/Delete/5

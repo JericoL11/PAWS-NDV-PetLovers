@@ -1,62 +1,113 @@
-﻿@model PAWS_NDV_PetLovers.Models.Records.Owner
+﻿@model PAWS_NDV_PetLovers.ViewModels.ClientVm
 
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
 
-<h4>Owner</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="id" />
-            <div class="form-group">
-                <label asp-for="fname" class="control-label"></label>
-                <input asp-for="fname" class="form-control" />
-                <span asp-validation-for="fname" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="lname" class="control-label"></label>
-                <input asp-for="lname" class="form-control" />
-                <span asp-validation-for="lname" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="mname" class="control-label"></label>
-                <input asp-for="mname" class="form-control" />
-                <span asp-validation-for="mname" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="gender" class="control-label"></label>
-                <input asp-for="gender" class="form-control" />
-                <span asp-validation-for="gender" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="contact" class="control-label"></label>
-                <input asp-for="contact" class="form-control" />
-                <span asp-validation-for="contact" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="email" class="control-label"></label>
-                <input asp-for="email" class="form-control" />
-                <span asp-validation-for="email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="address" class="control-label"></label>
-                <input asp-for="address" class="form-control" />
-                <span asp-validation-for="address" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+@* Owner *@
+<div class="bg-secondary bg-opacity-10 py-2 my-3">
+    <div class="container">
+        <h1>Owner</h1>
     </div>
 </div>
+<div class="container">
+    <form asp-action="Edit">
+        <div class="card">
+            <div class="row p-2">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Owner.id" />
+                <div class="form-group col-lg-3 col-md-6">
+                    <label asp-for="Owner.fname" class="control-label"></label>
+                    <input asp-for="Owner.fname" class="form-control" readonly />
+                    <span asp-validation-for="Owner.fname" class="text-danger"></span>
+                </div>
+                <div class="form-group col-lg-3 col-md-6">
+                    <label asp-for="Owner.lname" class="control-label"></label>
+                    <input asp-for="Owner.lname" class="form-control" readonly />
+                    <span asp-validation-for="Owner.lname" class="text-danger"></span>
+                </div>
+                 <div class="form-group col-lg-3 col-md-6">
+                    <label asp-for="Owner.mname" class="control-label"></label>
+                    <input asp-for="Owner.mname" class="form-control" readonly/>
+                    <span asp-validation-for="Owner.mname" class="text-danger"></span>
+                </div>
+                <div class="form-group col-lg-3 col-md-6">
+                    <label asp-for="Owner.gender" class="control-label"></label>
+                    <input asp-for="Owner.gender" class="form-control" readonly/>
+                    <span asp-validation-for="Owner.gender" class="text-danger"></span>
+                </div>
+                <div class="form-group  col-lg-3 col-md-6">
+                    <label asp-for="Owner.contact" class="control-label"></label>
+                    <input asp-for="Owner.contact" class="form-control" />
+                    <span asp-validation-for="Owner.contact" class="text-danger"></span>
+                </div>
+                <div class="form-group  col-lg-3 col-md-6">
+                    <label asp-for="Owner.email" class="control-label"></label>
+                    <input asp-for="Owner.email" class="form-control" />
+                    <span asp-validation-for="Owner.email" class="text-danger"></span>
+                </div>
+                <div class="form-group  col-lg-3 col-md-6">
+                    <label asp-for="Owner.address" class="control-label"></label>
+                    <input asp-for="Owner.address" class="form-control" />
+                    <span asp-validation-for="Owner.address" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+
+
+@* add the Pet form here using looop with button edits *@
+    @* Pets *@
+    <div class="bg-secondary bg-opacity-10 py-2 my-3">
+        <div class="container">
+            <h1>Pets</h1>
+        </div>
+    </div>
+<div class="card p-2">
+@foreach(var item in Model.IPets)
+{
+    <table class="table table-striped text-center" id="PetTable">
+        <thead>
+            <tr>
+                 <th>@Html.DisplayNameFor(modelItem => item.id)</th>
+                 <th>@Html.DisplayNameFor(modelItem => item.petName)</th>
+                 <th>@Html.DisplayNameFor(modelItem => item.species)</th>
+                 <th>@Html.DisplayNameFor(modelItem => item.gender)</th>
+                 <th>@Html.DisplayNameFor(modelItem => item.bdate)</th>
+                 <th>@Html.DisplayNameFor(modelItem => item.age)</th>
+                 <th>@Html.DisplayNameFor(modelItem => item.breed)</th>             
+  
+            </tr>
+        </thead>
+        
+        <tbody>
+            <tr> 
+                <td>@Html.DisplayFor(modelItem => item.id)</td>
+                <td>@Html.DisplayFor(modelItem => item.petName)</td>
+                <td>@Html.DisplayFor(modelItem => item.species)</td>
+                <td>@Html.DisplayFor(modelItem => item.gender)</td>
+                <td>@Html.DisplayFor(modelItem => item.bdate)</td>
+                <td>@Html.DisplayFor(modelItem => item.age)</td>
+                <td>@Html.DisplayFor(modelItem => item.breed)</td>
+                <td>
+                <a asp-action="Edit" asp-controller="Pets" class="btn btn-success btn-sm" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details" class="btn btn-warning btn-sm" asp-route-id="@item.id">Details</a> 
+               @*  <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.id">Delete</a> *@
+            </td>
+            </tr>
+        </tbody>
+    </table>
+}
+    </div>
+
+        <div class="form-group justify-content-end">
+            <input type="submit" value="Save" class="btn btn-primary px-5" />
+            <a class="btn btn-md btn-secondary my-2 px-5" asp-action="Index">Back</a>
+        </div>
+     
+</form>
+  
 </div>
 
 @section Scripts {
