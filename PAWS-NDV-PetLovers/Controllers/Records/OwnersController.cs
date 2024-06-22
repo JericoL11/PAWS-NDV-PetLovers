@@ -7,10 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.Models.Records;
-<<<<<<< HEAD
 using PAWS_NDV_PetLovers.ViewModels;
-=======
->>>>>>> 298c220e5047a6c7fef5216e0a1f317282d4992f
 
 namespace PAWS_NDV_PetLovers.Controllers.Records
 {
@@ -67,16 +64,12 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
             if (verifyOwner == null)
             {
-<<<<<<< HEAD
                 if(owner.contact.Length < 11)
                 {
                     ModelState.AddModelError("", "Contact number is invalid");
                     return View(owner);
                 }
               
-=======
-        
->>>>>>> 298c220e5047a6c7fef5216e0a1f317282d4992f
                 _context.Add(owner);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -94,28 +87,18 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             // GET: Owners/Edit/5
             public async Task<IActionResult> Edit(int? id)
         {
-<<<<<<< HEAD
 
-            //no id 
-=======
->>>>>>> 298c220e5047a6c7fef5216e0a1f317282d4992f
+          
             if (id == null)
             {
                 return NotFound();
             }
 
-<<<<<<< HEAD
-            //mathching the Routed Id to owner Id
             var owner = await _context.Owners.FindAsync(id);
-
-=======
-            var owner = await _context.Owners.FindAsync(id);
->>>>>>> 298c220e5047a6c7fef5216e0a1f317282d4992f
             if (owner == null)
             {
                 return NotFound();
             }
-<<<<<<< HEAD
 
             //matching ownerId to Pet
             var pet = await _context.Pets
@@ -132,9 +115,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
 
             return View(data);
-=======
-            return View(owner);
->>>>>>> 298c220e5047a6c7fef5216e0a1f317282d4992f
         }
 
         // POST: Owners/Edit/5
@@ -149,11 +129,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 return NotFound();
             }
 
-<<<<<<< HEAD
-=======
-            if (ModelState.IsValid)
-            {
->>>>>>> 298c220e5047a6c7fef5216e0a1f317282d4992f
                 try
                 {
                     _context.Update(owner);
@@ -170,7 +145,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                         throw;
                     }
                 }
-<<<<<<< HEAD
               /*  return RedirectToAction(nameof(Index));
             }*/
 
@@ -249,13 +223,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
 
 
-=======
-                return RedirectToAction(nameof(Index));
-            }
-            return View(owner);
-        }
-
->>>>>>> 298c220e5047a6c7fef5216e0a1f317282d4992f
         // GET: Owners/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -289,21 +256,15 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             return RedirectToAction(nameof(Index));
         }
 
-<<<<<<< HEAD
         //checking if id exist in the db
-=======
->>>>>>> 298c220e5047a6c7fef5216e0a1f317282d4992f
         private bool OwnerExists(int id)
         {
             return _context.Owners.Any(e => e.id == id);
         }
-<<<<<<< HEAD
 
         private bool PetExists(int id)
         {
             return _context.Pets.Any(e => e.id == id);
         }
-=======
->>>>>>> 298c220e5047a6c7fef5216e0a1f317282d4992f
     }
 }

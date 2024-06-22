@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<<<<<<< HEAD
+
 <div class="bg-secondary bg-opacity-10 py-2 mb-3">
     <div class="container">
         <h1>Owner</h1>
@@ -17,15 +17,7 @@
     <a class="btn btn-primary btn-md mb-4 px-5" asp-action="Create">Add</a>
 <table class="table table-striped table-info" id="OwnerTable">
     <thead> 
-=======
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table table-striped table-info" id="OwnerTable">
-    <thead>
->>>>>>> 298c220e5047a6c7fef5216e0a1f317282d4992f
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.id)
@@ -75,24 +67,14 @@
                 @Html.DisplayFor(modelItem => item.address)
             </td>
             <td>
-<<<<<<< HEAD
                 <a asp-action="Edit" class="btn btn-success btn-sm px-3" asp-route-id="@item.id">Edit</a> 
                 <a asp-action="Details" class="btn btn-warning btn-sm" asp-route-id="@item.id">Details</a> 
       @*           <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.id">Delete</a> *@
-=======
-                <a asp-action="Edit" class="btn btn-primary btn-sm" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" class="btn btn-warning btn-sm" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.id">Delete</a>
->>>>>>> 298c220e5047a6c7fef5216e0a1f317282d4992f
+
             </td>
         </tr>
 }
     </tbody>
 </table>
-<<<<<<< HEAD
 </div>
 <script src="~/js/clientCategory/Index.js" defer></script>
-=======
-
-<script src="~/js/clientCategory/Index.js" async></script>
->>>>>>> 298c220e5047a6c7fef5216e0a1f317282d4992f

@@ -72,10 +72,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<int?>("age")
-<<<<<<< HEAD
                         .IsRequired()
-=======
->>>>>>> 298c220e5047a6c7fef5216e0a1f317282d4992f
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("bdate")
