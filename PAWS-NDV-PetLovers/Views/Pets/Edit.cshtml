@@ -4,65 +4,86 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>Pet</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="id" />
-            <div class="form-group">
-                <label asp-for="petName" class="control-label"></label>
-                <input asp-for="petName" class="form-control" />
-                <span asp-validation-for="petName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="species" class="control-label"></label>
-                <input asp-for="species" class="form-control" />
-                <span asp-validation-for="species" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="breed" class="control-label"></label>
-                <input asp-for="breed" class="form-control" />
-                <span asp-validation-for="breed" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="bdate" class="control-label"></label>
-                <input asp-for="bdate" class="form-control" />
-                <span asp-validation-for="bdate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="age" class="control-label"></label>
-                <input asp-for="age" class="form-control" />
-                <span asp-validation-for="age" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="color" class="control-label"></label>
-                <input asp-for="color" class="form-control" />
-                <span asp-validation-for="color" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="gender" class="control-label"></label>
-                <input asp-for="gender" class="form-control" />
-                <span asp-validation-for="gender" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ownerId" class="control-label"></label>
-                <select asp-for="ownerId" class="form-control" asp-items="ViewBag.ownerId"></select>
-                <span asp-validation-for="ownerId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="bg-secondary bg-opacity-10 py-2 mb-3">
+    <div class="container">
+        <h1>EDIT PET</h1>
     </div>
 </div>
 
-<div>
-    <a asp-controller="Owners" asp-action="Edit" asp-route-id="@Model.ownerId">Back to List</a>
+
+<div class="main container">
+    <div class="card mb-4">
+        <form method="post" asp-action="Edit">
+            <div class="row petrow p-2">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="id" />
+                <div class="form-group col-lg-4 col-md-6">
+                    <label asp-for="petName" class="control-label"></label>
+                    <input asp-for="petName" class="form-control bg-light" />
+                    <span asp-validation-for="petName" class="text-danger"></span>
+                </div>
+                <div class="form-group col-lg-4 col-md-6">
+                    <label asp-for="species" class="control-label"></label>
+                    <select asp-for="species" class="form-control bg-light" required>
+                        <option value="" selected hidden>----</option>
+                        <option value="Dog">Dog</option>
+                        <option value="Cat">Cat</option>
+                    </select>
+                    <span asp-validation-for="species" class="text-danger"></span>
+                </div>
+                <div class="form-group col-lg-4 col-md-6">
+                    <label asp-for="breed" class="control-label"></label>
+                    <input asp-for="breed" class="form-control bg-light" />
+                    <span asp-validation-for="breed" class="text-danger"></span>
+                </div>
+                <div class="form-group col-lg-4 col-md-6">
+                    <label asp-for="bdate" class="control-label"></label>
+                    <input asp-for="bdate" class="form-control bg-light birthdate" />
+                    <span asp-validation-for="bdate" class="text-danger"></span>
+                </div>
+                <div class="form-group col-lg-4 col-md-6">
+                    <label asp-for="age" class="control-label"></label>
+                    <input asp-for="age" type="text" class="form-control bg-light age" readonly />
+                    <span asp-validation-for="age" class="text-danger"></span>
+                </div>
+                <div class="form-group col-lg-4 col-md-6">
+                    <label asp-for="color" class="control-label"></label>
+                    <input asp-for="color" class="form-control bg-light" />
+                    <span asp-validation-for="color" class="text-danger"></span>
+                </div>
+                <div class="form-group col-lg-4 col-md-6">
+                    <select asp-for="gender" class="form-control bg-light" required>
+                        <option value=""  hidden>----</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                    <span asp-validation-for="gender" class="text-danger"></span>
+                </div>
+                <div class="form-group col-lg-4 col-md-6">
+                    <label asp-for="ownerId" class="control-label bg-light"></label>
+                  @*   <select asp-for="ownerId" class="form-control" asp-items="ViewBag.ownerId"></select> *@
+                    <input asp-for="ownerId" type="text" class="form-control bg-light" readonly/>
+                    <span asp-validation-for="ownerId" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-4">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+                <div class="row p-2">
+         </form>
+    </div>
+
+    </div>
+
 </div>
+
+<div class="d-inline">
+    <a asp-controller="Owners" asp-action="Edit" class="btn btn-primary btn-md" asp-route-id="@Model.ownerId">View Owner</a>
+</div>
+
+<div class="d-inline">
+    <a asp-action="Index" class="btn btn-secondary btn-md">View All Pets</a>
+</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

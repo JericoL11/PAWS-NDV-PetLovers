@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.Models.Records;
 
+
+
 namespace PAWS_NDV_PetLovers.Controllers.Records
 {
     public class PetsController : Controller
@@ -82,7 +84,9 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             {
                 return NotFound();
             }
-            ViewData["ownerId"] = new SelectList(_context.Owners, "id", "address", pet.ownerId);
+
+/*
+            ViewData["ownerId"] = new SelectList(_context.Owners, "id", "address", pet.ownerId);*/
             return View(pet);
         }
 
@@ -98,8 +102,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
+          
                 try
                 {
                     _context.Update(pet);
@@ -117,9 +120,9 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["ownerId"] = new SelectList(_context.Owners, "id", "address", pet.ownerId);
-            return View(pet);
+            
+/*            ViewData["ownerId"] = new SelectList(_context.Owners, "id", "id", pet.ownerId);*/
+         
         }
 
         // GET: Pets/Delete/5

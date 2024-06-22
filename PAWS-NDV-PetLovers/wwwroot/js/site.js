@@ -49,19 +49,27 @@ $(document).ready(function () {
 
     // =================
 
-    // Function to set the max date for birthdate fields
-    function setMaxBirthdate() {
-        var today = new Date().toISOString().split('T')[0];
-        $('.birthdate').attr('max', today);
-    }
-
-    // Auto-fill age field based on birthdate
+    // Auto-fill age field based on birthdate for create
     $(document).on('change', '.birthdate', function () {
         var birthdate = $(this).val();
         var age = calculateAge(birthdate);
         $(this).closest('tr').find('.age').val(age);
     });
 
+
+    //for pets
+    $(document).on('change', '.birthdate', function () {
+        var birthdate = $(this).val();
+        var age = calculateAge(birthdate);
+        $(this).closest('.petrow').find('.age').val(age);
+    });
+
+
+    // Function to set the max date for birthdate fields
+    function setMaxBirthdate() {
+        var today = new Date().toISOString().split('T')[0];
+        $('.birthdate').attr('max', today);
+    }
     // Function to calculate age
     function calculateAge(birthdate) {
         var today = new Date();
@@ -78,6 +86,10 @@ $(document).ready(function () {
 });
 
 
+
+
+/*
+
 //get the pet id when clicking the modal edit
 document.addEventListener('DOMContentLoaded', function () {
     $('#editPetModal').on('show.bs.modal', function (event) {
@@ -89,4 +101,4 @@ document.addEventListener('DOMContentLoaded', function () {
             modal.find('.modal-body').html($(data).find('.modal-body').html());
         });
     });
-});
+});*/
