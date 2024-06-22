@@ -7,43 +7,106 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PAWS_NDV_PetLovers.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+
+    @* embbed-datatables - css*@
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
+
+   
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+     <header>
+        <nav class="navbar navbar-expand-lg bg-body-primary" style="padding:0; margin:0;">
+            <div class="container-fluid bg-primary py-2">
+                <a class="navbar-brand text-white ps-4 fw-bold" href="#">NDV Pet Lovers</a>
+                <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse row " id="navbarScroll">
+                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll d-flex justify-content-end pe-5">
+                        <li class="nav-item custom-padding">
+                            <a class="nav-link active" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item custom-padding">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Appointments</a>
+                        </li>
+                        <li class="nav-item dropdown custom-padding">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Record Management
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-action="Index" asp-controller="Owners">Owner</a></li>
+                                <li><a class="dropdown-item" asp-action="Index" asp-controller="Pets">Pets</a></li>
+                               @*  <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li> *@
+                            </ul>
+                        </li>
+                        <li class="nav-item custom-padding">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Transaction</a>
+                        </li>
+                        <li class="nav-item custom-padding">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Reports</a>
+                        </li>
+                 
+                    </ul>
+                @*     <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form> *@
+                </div>
+            </div>
+        </nav>
+     @*    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PAWS_NDV_PetLovers</a>
+                <a class="navbar-brand fw-bold ms-5" asp-area="" asp-controller="Home" asp-action="Index">NDV Pet Lovers</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav flex-grow-1 d-flex justify-content-end me-5">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Appointments</a>
+                        </li
+                          <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Client" asp-action="Index">Records</a>
+                        </li>
+                          <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Transaction</a>
+                        </li>
+                          <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
+        </nav> *@
+    </header> 
+    <div class="container-fluid" style="padding:0">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
+@* 
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2024 - PAWS_NDV_PetLovers - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
+    </footer> *@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+
+    @* add-form-script *@
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+      @* embbed datatables - js *@
+      <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 </body>
 </html>

@@ -1,3 +1,4 @@
 ﻿$(document).ready(function () {
-    var table = new DataTable('#OwnerTable');
+    var ownerTable = new DataTable('#OwnerTable');
+
 })

@@ -76,3 +76,17 @@ $(document).ready(function () {
 
     setMaxBirthdate(); // Set max date on initial load
 });
+
+
+//get the pet id when clicking the modal edit
+document.addEventListener('DOMContentLoaded', function () {
+    $('#editPetModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var petId = button.data('id');
+
+        var modal = $(this);
+        $.get('/Owners/EditPet', { id: petId }, function (data) {
+            modal.find('.modal-body').html($(data).find('.modal-body').html());
+        });
+    });
+});

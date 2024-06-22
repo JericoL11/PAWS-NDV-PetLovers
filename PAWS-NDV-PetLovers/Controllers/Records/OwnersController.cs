@@ -131,8 +131,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 return NotFound();
             }
 
-          /*  if (ModelState.IsValid)
-            {*/
                 try
                 {
                     _context.Update(owner);
@@ -165,6 +163,67 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
             return View(data);
         }
+
+        //edit pet button
+        [HttpGet]
+        public async Task<IActionResult> EditPet(int? id)
+        {
+
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            // Assuming you want to edit a specific pet in the context of a client
+            var clientVm = new ClientVm
+            {
+                Pet = await _context.Pets.FindAsync(id)
+            };
+
+            if (clientVm.Pet == null)
+            {
+                return NotFound();
+            }
+
+            return View(clientVm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditPet(int? id, [Bind("id","petName","specie","breed","bdate","color","gender")] Pet pet)
+        {
+            if (id != pet.id)
+            {
+                return NotFound(id);
+            }
+
+            try
+            {
+                _context.Pets.Update(pet);
+                await _context.SaveChangesAsync();
+            }
+            catch(DbUpdateConcurrencyException)
+            {
+                if (!PetExists(pet.id))
+                {
+                    return NotFound();
+                }
+            }
+
+            //converting into Client View Models
+
+            //vm instantiation
+            var viewModel = new ClientVm
+            {
+                Pet = pet
+
+            };
+           
+            return View(viewModel);
+        }
+
+
+
 
         // GET: Owners/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -199,9 +258,15 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             return RedirectToAction(nameof(Index));
         }
 
+        //checking if id exist in the db
         private bool OwnerExists(int id)
         {
             return _context.Owners.Any(e => e.id == id);
+        }
+
+        private bool PetExists(int id)
+        {
+            return _context.Pets.Any(e => e.id == id);
         }
     }
 }

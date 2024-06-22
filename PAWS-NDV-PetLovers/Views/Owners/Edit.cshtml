@@ -91,8 +91,15 @@
                 <td>@Html.DisplayFor(modelItem => item.age)</td>
                 <td>@Html.DisplayFor(modelItem => item.breed)</td>
                 <td>
-                <a asp-action="Edit" asp-controller="Pets" class="btn btn-success btn-sm" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" class="btn btn-warning btn-sm" asp-route-id="@item.id">Details</a> 
+
+                    @*modal button*@
+                                <button type="button" class="btn btn-success" asp-action="EditPet" asp-controller="Owners" data-bs-toggle="modal" data-bs-target="#editPetModal" data-id="@item.id">
+                                    Edit
+                                </button>
+
+
+              @*   <a asp-action="Edit" asp-controller="Pets" class="btn btn-success btn-sm" asp-route-id="@item.id">Edit</a> | *@
+                <a asp-action="Details" asp-controller="Pets" class="btn btn-warning btn-sm" asp-route-id="@item.id">Details</a> 
                @*  <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.id">Delete</a> *@
             </td>
             </tr>
@@ -109,6 +116,71 @@
 </form>
   
 </div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="editPetModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editPetModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="editPetModalLabel">EDIT PET</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-action="EditPet">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Pet.id" />
+                    <div class="form-group">
+                        <label asp-for="Pet.petName" class="control-label"></label>
+                        <input asp-for="Pet.petName" class="form-control" />
+                        <span asp-validation-for="Pet.petName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Pet.species" class="control-label"></label>
+                        <input asp-for="Pet.species" class="form-control" />
+                        <span asp-validation-for="Pet.species" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Pet.breed" class="control-label"></label>
+                        <input asp-for="Pet.breed" class="form-control" />
+                        <span asp-validation-for="Pet.breed" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Pet.bdate" class="control-label"></label>
+                        <input asp-for="Pet.bdate" class="form-control" />
+                        <span asp-validation-for="Pet.bdate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Pet.age" class="control-label"></label>
+                        <input asp-for="Pet.age" class="form-control" />
+                        <span asp-validation-for="Pet.age" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Pet.color" class="control-label"></label>
+                        <input asp-for="Pet.color" class="form-control" />
+                        <span asp-validation-for="Pet.color" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Pet.gender" class="control-label"></label>
+                        <input asp-for="Pet.gender" class="form-control" />
+                        <span asp-validation-for="Pet.gender" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
