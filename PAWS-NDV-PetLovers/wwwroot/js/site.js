@@ -73,8 +73,6 @@ $(document).ready(function () {
         var today = new Date().toISOString().split('T')[0];
         $('.birthdate').attr('max', today);
     }
-<<<<<<< HEAD
-=======
 
     // Auto-fill age field based on birthdate
     $(document).on('change', '.birthdate', function () {
@@ -83,27 +81,8 @@ $(document).ready(function () {
         $(this).closest('tr').find('.age').val(age);
     });
 
->>>>>>> 298c220e5047a6c7fef5216e0a1f317282d4992f
-    // Function to calculate age
-    function calculateAge(birthdate) {
-        var today = new Date();
-        var birthDate = new Date(birthdate);
-        var age = today.getFullYear() - birthDate.getFullYear();
-        var month = today.getMonth() - birthDate.getMonth();
-        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
-        }
-        return age;
-    }
-
-    setMaxBirthdate(); // Set max date on initial load
-});
-<<<<<<< HEAD
 
 
-
-
-/*
 
 //get the pet id when clicking the modal edit
 document.addEventListener('DOMContentLoaded', function () {
