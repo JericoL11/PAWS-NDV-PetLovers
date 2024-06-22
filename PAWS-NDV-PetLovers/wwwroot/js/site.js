@@ -49,6 +49,7 @@ $(document).ready(function () {
 
     // =================
 
+<<<<<<< HEAD
     // Auto-fill age field based on birthdate for create
     $(document).on('change', '.birthdate', function () {
         var birthdate = $(this).val();
@@ -65,11 +66,24 @@ $(document).ready(function () {
     });
 
 
+=======
+>>>>>>> 298c220e5047a6c7fef5216e0a1f317282d4992f
     // Function to set the max date for birthdate fields
     function setMaxBirthdate() {
         var today = new Date().toISOString().split('T')[0];
         $('.birthdate').attr('max', today);
     }
+<<<<<<< HEAD
+=======
+
+    // Auto-fill age field based on birthdate
+    $(document).on('change', '.birthdate', function () {
+        var birthdate = $(this).val();
+        var age = calculateAge(birthdate);
+        $(this).closest('tr').find('.age').val(age);
+    });
+
+>>>>>>> 298c220e5047a6c7fef5216e0a1f317282d4992f
     // Function to calculate age
     function calculateAge(birthdate) {
         var today = new Date();
@@ -84,6 +98,7 @@ $(document).ready(function () {
 
     setMaxBirthdate(); // Set max date on initial load
 });
+<<<<<<< HEAD
 
 
 
@@ -102,3 +117,5 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });*/
+=======
+>>>>>>> 298c220e5047a6c7fef5216e0a1f317282d4992f
