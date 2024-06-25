@@ -26,7 +26,6 @@ $(document).ready(function () {
     $('#addRow').click(function () {
         var rowCount = $('#PetTable tbody tr').length;
         var newRow = $('.detailRow').first().clone();
-
         newRow.find('input, select').each(function () {
             var name = $(this).attr('name');
             if (name) {
@@ -39,6 +38,7 @@ $(document).ready(function () {
         newRow.appendTo($('#PetTable tbody'));
     });
 
+
     // Remove row
     $(document).on('click', '.removeRow', function () {
         if ($('#PetTable tbody tr').length > 1) {
@@ -46,28 +46,8 @@ $(document).ready(function () {
             updateRowNames(); // Update the name attributes of the remaining rows
         }
     });
-
     // =================
 
-<<<<<<< HEAD
-    // Auto-fill age field based on birthdate for create
-    $(document).on('change', '.birthdate', function () {
-        var birthdate = $(this).val();
-        var age = calculateAge(birthdate);
-        $(this).closest('tr').find('.age').val(age);
-    });
-
-
-    //for pets
-    $(document).on('change', '.birthdate', function () {
-        var birthdate = $(this).val();
-        var age = calculateAge(birthdate);
-        $(this).closest('.petrow').find('.age').val(age);
-    });
-
-
-=======
->>>>>>> 298c220e5047a6c7fef5216e0a1f317282d4992f
     // Function to set the max date for birthdate fields
     function setMaxBirthdate() {
         var today = new Date().toISOString().split('T')[0];
@@ -80,6 +60,28 @@ $(document).ready(function () {
         var age = calculateAge(birthdate);
         $(this).closest('tr').find('.age').val(age);
     });
+
+    // Function to calculate age
+    function calculateAge(birthdate) {
+        var today = new Date();
+        var birthDate = new Date(birthdate);
+        var age = today.getFullYear() - birthDate.getFullYear();
+        var month = today.getMonth() - birthDate.getMonth();
+        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    }
+
+    setMaxBirthdate(); // Set max date on initial load
+});
+
+// Auto-fill age field based on birthdate
+$(document).on('change', '.birthdate', function () {
+    var birthdate = $(this).val();
+    var age = calculateAge(birthdate);
+    $(this).closest('tr').find('.age').val(age);
+});
 
 
 
@@ -95,6 +97,4 @@ document.addEventListener('DOMContentLoaded', function () {
             modal.find('.modal-body').html($(data).find('.modal-body').html());
         });
     });
-});*/
-=======
->>>>>>> 298c220e5047a6c7fef5216e0a1f317282d4992f
+});
