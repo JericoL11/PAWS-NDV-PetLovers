@@ -5,6 +5,7 @@ namespace PAWS_NDV_PetLovers.Models.Records
     public class Owner
     {
         [Key]
+        [Display (Name ="Owner Id")]
         public int id { get; set; }
 
         [Required]

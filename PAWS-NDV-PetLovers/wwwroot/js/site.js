@@ -3,11 +3,18 @@
 
 // Write your JavaScript code.
 
-
+//alert notification For create owner
+$(document).ready(function () {
+    var alert = $('#success-alert');
+    if (alert.length) {
+        setTimeout(function () {
+            alert.alert('close');
+        }, 5000); // 5 seconds
+    }
+});
 
 
 /*form-add-for-pet*/
-
 $(document).ready(function () {
     // Function to update the name attributes of the rows
     function updateRowNames() {
@@ -54,12 +61,24 @@ $(document).ready(function () {
         $('.birthdate').attr('max', today);
     }
 
-    // Auto-fill age field based on birthdate
+    // Auto-fill age field based on birthdate // owner create pets
     $(document).on('change', '.birthdate', function () {
         var birthdate = $(this).val();
         var age = calculateAge(birthdate);
         $(this).closest('tr').find('.age').val(age);
     });
+
+
+    //pets
+    // Auto-fill age field based on birthdate
+    $(document).on('change', '.birthdate', function () {
+        var birthdate = $(this).val();
+        var age = calculateAge(birthdate);
+        $(this).closest('.petrow').find('.age').val(age);
+    });
+
+
+
 
     // Function to calculate age
     function calculateAge(birthdate) {
@@ -75,15 +94,6 @@ $(document).ready(function () {
 
     setMaxBirthdate(); // Set max date on initial load
 });
-
-// Auto-fill age field based on birthdate
-$(document).on('change', '.birthdate', function () {
-    var birthdate = $(this).val();
-    var age = calculateAge(birthdate);
-    $(this).closest('tr').find('.age').val(age);
-});
-
-
 
 
 //get the pet id when clicking the modal edit

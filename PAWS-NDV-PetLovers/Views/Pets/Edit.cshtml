@@ -69,21 +69,21 @@
                 <div class="form-group mb-4">
                     <input type="submit" value="Save" class="btn btn-primary" />
                 </div>
-                <div class="row p-2">
-         </form>
+
+            </form>
     </div>
 
-    </div>
-
 </div>
+        <div class="d-inline">
+            <a asp-controller="Owners" asp-action="Edit" class="btn btn-primary btn-md" asp-route-id="@Model.ownerId">View Owner</a>
+        </div>
 
-<div class="d-inline">
-    <a asp-controller="Owners" asp-action="Edit" class="btn btn-primary btn-md" asp-route-id="@Model.ownerId">View Owner</a>
-</div>
+        <div class="d-inline">
+            <a asp-action="Index" class="btn btn-secondary btn-md">View All Pets</a>
+        </div>
 
-<div class="d-inline">
-    <a asp-action="Index" class="btn btn-secondary btn-md">View All Pets</a>
-</div>
+
+
 
 
 @section Scripts {
