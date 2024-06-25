@@ -1,11 +1,14 @@
 
+
+
 #alertPlaceholder, #success-alert {
-    position: absolute;
-    top: 50px;
-    right: 16px;
-    font-size: 18px;
-    justify-content: end;
+    position: fixed;
+    top: 20px; /* Adjust as needed */
+    right: 20px; /* Adjust as needed */
+    z-index: 1000; /* Ensure it's above other content */
+    width: 300px; /* Example width */
 }
+
 
 /* BOOTSTRAP NAVBAR */
 .nav-link {

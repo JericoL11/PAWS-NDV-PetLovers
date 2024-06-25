@@ -25,25 +25,33 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
         public async Task<IActionResult> addNewPet([Bind("id,petName,species,breed,bdate,age,color,gender,ownerId")] Pet pet)
         {
- /*           var checkPet = PetExists(pet);
-*/
+
+            var checkPet = _context.Pets.FirstOrDefault(e => e.petName == pet.petName &&
+                            e.bdate == pet.bdate && e.age == pet.age && e.breed == pet.breed && e.ownerId == pet.ownerId);
+
+
+            if (checkPet != null)
+            {
+                ModelState.AddModelError("", "Pet exist Already");
+                return Json(new { success = false, message = "Pet Exist Already" });
+            }
 
             if (pet != null)
             {
-              
+                //for modal
+
                 _context.Add(pet);
                 await _context.SaveChangesAsync();
 
                 TempData["SuccessMessage"] = "Pet added successfully!";
-
-                //for modal
                 return Json(new { success = true });
             }
 
-           
             return Json(new { success = false, message = "Invalid data" });
 
+
         }
+    
 
         private bool PetExists(Pet pet)
         {

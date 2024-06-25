@@ -3,8 +3,15 @@
 @{
     ViewData["Title"] = "Details";
 }
+
+<div class="bg-secondary bg-opacity-10 py-2 mb-3">
+    <div class="container">
+        <h1> PET DETAILS </h1>
+    </div>
+</div>
+
 <div class="container">
-    <h1>Details</h1>
+  
 
     <div>
         <h4>Pet</h4>
@@ -66,7 +73,7 @@
             </dd>
         </dl>
     </div>
-
+    
         <div class="d-inline">
             <a asp-controller="Owners" asp-action="Edit" class="btn btn-primary btn-md" asp-route-id="@Model.ownerId">View Owner</a>
         </div>

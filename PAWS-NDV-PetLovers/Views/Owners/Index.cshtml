@@ -7,12 +7,13 @@
 <!-- Alert Placeholder -->
 @if (TempData["SuccessMessage"] != null)
 {
+    //bootstrap not for modal
     <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
         @TempData["SuccessMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
-
+ 
 
 <div class="bg-secondary bg-opacity-10 py-2 mb-3">
     <div class="container">
@@ -28,22 +29,22 @@
     <thead> 
 
         <tr>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.id)
             </th>
-            <th>
+            <th class="text-center">
                <p style="margin:0">Full Name</p>
             </th>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.gender)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.contact)
             </th>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.email)
             </th>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.address)
             </th>
             <th></th>
@@ -51,11 +52,11 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
+        <tr >
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.id)
             </td>
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.fname)
                 @Html.Raw(' ')
                 @Html.DisplayFor(modelItem => item.mname)
@@ -63,27 +64,29 @@
                 @Html.DisplayFor(modelItem => item.lname)
             </td>
          
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.gender)
             </td>
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.contact)
             </td>
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.email)
             </td>
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.address)
             </td>
-            <td>
+            <td class="text-center">
+
                 <a asp-action="Edit" class="btn btn-success btn-sm px-3" asp-route-id="@item.id">View</a> 
               @*   <a asp-action="Details" class="btn btn-warning btn-sm" asp-route-id="@item.id">Details</a>  *@
               @*   <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.id">Delete</a>     *@
+
 
             </td>
         </tr>
 }
     </tbody>
-</table>
+    </table>
 </div>
-<script src="~/js/clientCategory/Index.js" defer></script>
+<script src="~/js/clientCategory/OwnerTable.js" defer></script>

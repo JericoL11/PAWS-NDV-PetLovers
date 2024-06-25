@@ -3,8 +3,6 @@
     ViewData["Title"] = "Edit";
 }
 
-<!-- Alert Placeholder -->
-<div class="d-lg-grid justify-content-end px-3" id="alertPlaceholder"></div>
 
 
 @* Owner *@
@@ -13,6 +11,10 @@
         <h1>Owner</h1>
     </div>
 </div>
+
+<!-- Alert Placeholder -->
+<div  id="alertPlaceholder"></div>
+
 <div class="container">
     <form asp-action="Edit">
         <div class="card">
@@ -88,6 +90,7 @@
                         <th><p>Birth date</p></th>
                         <th><p>Age</p></th>
                         <th><p>Breed</p></th>
+                        <th><p>Color</p></th>
 
                     </tr>
                 </thead>
@@ -103,8 +106,9 @@
                             <td>@Html.DisplayFor(modelItem => item.bdate)</td>
                             <td>@Html.DisplayFor(modelItem => item.age)</td>
                             <td>@Html.DisplayFor(modelItem => item.breed)</td>
+                            <td>@Html.DisplayFor(modelItem => item.color)</td>
                             <td>
-                                <a asp-action="Edit" asp-controller="Pets" class="btn btn-success btn-md" asp-route-id="@item.id">Edit</a> |
+                                <a asp-action="Edit" asp-controller="Pets" class="btn btn-success btn-md" asp-route-id="@item.id">Update</a> |
                                 <a asp-action="Details" asp-controller="Pets" class="btn btn-warning btn-md" asp-route-id="@item.id">Details</a>
                                 @*  <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.id">Delete</a> *@
                             </td>
@@ -126,7 +130,7 @@
 </div>
 
 
-<!-- Modal -->
+<!-- Modal --><!-- Modal -->
 <div class="modal fade" id="editPetModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editPetModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
@@ -140,6 +144,8 @@
                         <div class="row">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input type="hidden" asp-for="Pet.id" />
+                            <div id="errorMessages" class="alert alert-danger" style="display:none;"></div>
+                            <!-- Form Fields -->
                             <div class="form-group col-lg-4 col-md-6">
                                 <label asp-for="Pet.petName" class="control-label"></label>
                                 <input asp-for="Pet.petName" class="form-control bg-light" />
@@ -185,24 +191,20 @@
                             </div>
                             <div class="form-group col-lg-4 col-md-6">
                                 <label asp-for="Pet.ownerId" class="control-label bg-light"></label>
-                                @*   <select asp-for="ownerId" class="form-control" asp-items="ViewBag.ownerId"></select> *@
                                 <input asp-for="Pet.ownerId" type="text" class="form-control bg-light" value="@Model.Owner.id" readonly />
                                 <span asp-validation-for="Pet.ownerId" class="text-danger"></span>
                             </div>
                             <div class="modal-footer">
-                            
                                 <input type="submit" value="Save" class="btn btn-primary px-4" id="savePetBtn" />
-                              
                                 <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Close</button>
                             </div>
-                          
                         </div>
                     </form>
                 </div>
-             
             </div>
         </div>
     </div>
+</div>
 
 
     @section Scripts {
@@ -210,51 +212,77 @@
             await Html.RenderPartialAsync("_ValidationScriptsPartial");
         }
 
-        @* MODAL SCRIPT *@
-        <script>
-            $(document).ready(function () {
-                // Check if there is a success message in TempData
-                var successMessage = '@TempData["SuccessMessage"]';
-                if (successMessage) {
-                    showAlert(successMessage, 'success');
-                }
+        @* 
 
-                $('#savePetBtn').click(function (e) {
-                    e.preventDefault(); // Prevent form from submitting normally
-                    var form = $('#addPetForm');
-                    $.ajax({
-                        type: 'POST',
-                        url: '@Url.Action("addNewPet", "Owners")',
-                        data: form.serialize(),
-                        success: function (response) {
-                            if (response.success) {
-                                $('#editPetModal').modal('hide');
-                                showAlert('Pet added successfully!', 'success');
 
-                                // Redirect to the same page to show the success message
-                                setTimeout(function () {
-                                    location.reload();
-                                }, 500); // Small delay to ensure the modal has fully closed
-                            } else {
-                                showAlert(response.message || 'Error adding pet', 'danger');
-                            }
+        MODAL AJAX AND JQEURY SCRIPT
+        SOURCE : https://chatgpt.com/share/199ab4a7-1b0a-4e32-88d7-3d2a5e0d7d84*@
+    <script>
+
+        
+        $(document).ready(function () {
+            // Check if there is a success message in TempData
+            var successMessage = '@TempData["SuccessMessage"]';
+            if (successMessage) {
+                showAlert(successMessage, 'success');
+            }
+
+            $('#addPetForm').submit(function (e) {
+                e.preventDefault(); // Prevent form from submitting normally
+                var form = $(this);
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("addNewPet", "Owners")',
+                    data: form.serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            $('#editPetModal').modal('hide');
+                            showAlert('Pet added successfully!', 'success');
+
+                            // Redirect to the same page to show the success message
+                            setTimeout(function () {
+                                location.reload();
+                            }, 500); // Small delay to ensure the modal has fully closed
+                        } else {
+                           // displayValidationErrors(response.errors);
+                          
+                            showAlert(response.message || 'Error adding pet', 'danger');
                         }
-                    });
+                    }
                 });
             });
+        });
 
-            function showAlert(message, type) {
-                var alertPlaceholder = $('#alertPlaceholder');
-                var alertHTML = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
-                                            ${message}
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                         </div>`;
-                alertPlaceholder.html(alertHTML);
+        function showAlert(message, type) {
+            var alertPlaceholder = $('#alertPlaceholder');
+            var alertHTML = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                                        ${message}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                     </div>`;
+            alertPlaceholder.html(alertHTML);
 
-                // Automatically close the alert after 3 seconds
-                setTimeout(function () {
-                    $('.alert').alert('close');
-                }, 3000);
-            }
-        </script>
+            // Automatically close the alert after 3 seconds
+            setTimeout(function () {
+                $('.alert').alert('close');
+            }, 3000);
+        }
+
+        function displayValidationErrors(errors) {
+            // Clear existing error messages
+            $('.text-danger').text('');
+
+            errors.forEach(error => {
+                var errorElement = document.createElement('span');
+                errorElement.className = 'text-danger';
+                errorElement.innerText = error;
+
+                var fieldName = error.split(' ')[0].toLowerCase(); // Extract field name from error message
+                var inputField = document.querySelector('[name*="' + fieldName + '"]');
+                if (inputField) {
+                    inputField.parentNode.appendChild(errorElement);
+                }
+            });
+        }
+    </script>
+
     }

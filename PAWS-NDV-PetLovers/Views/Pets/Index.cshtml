@@ -17,35 +17,36 @@
     <a asp-action="Create">Create New</a>
 </p>
 
+
 <table class="table table-striped table-info" id="PetTable">
     <thead>
             <tr>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.id)
             </th>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.petName)
             </th>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.species)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.breed)
-            </th>
+            </th class="text-center">
             <th>
                 @Html.DisplayNameFor(model => model.bdate)
             </th>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.age)
             </th>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.color)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.gender)
-            </th>
+            </th class="text-center">
             <th>
-                @Html.DisplayNameFor(model => model.owner)
+                @Html.DisplayNameFor(model => model.ownerId)
             </th>
             <th></th>
         </tr>
@@ -53,37 +54,37 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.id)
             </td>
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.petName)
             </td>
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.species)
             </td>
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.breed)
             </td>
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.bdate)
             </td>
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.age)
             </td>
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.color)
             </td>
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.gender)
             </td>
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.owner.id)
             </td>
-            <td>
-                <a asp-action="Edit" class="btn btn-success" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" class="btn btn-warning" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.id">Delete</a>
+            <td class="text-center">
+                <a asp-action="Edit" class="btn btn-success" asp-route-id="@item.id">Update</a> |
+                <a asp-action="Details" class="btn btn-warning px-4" asp-route-id="@item.id">View</a> 
+      @*           <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.id">Delete</a> *@
             </td>
         </tr>
 }
