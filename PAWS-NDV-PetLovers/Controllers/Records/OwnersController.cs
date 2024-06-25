@@ -20,6 +20,43 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             _context = context;
         }
 
+        //pet area
+        #region == Pets code area == 
+
+        public async Task<IActionResult> addNewPet([Bind("id,petName,species,breed,bdate,age,color,gender,ownerId")] Pet pet)
+        {
+ /*           var checkPet = PetExists(pet);
+*/
+
+            if (pet != null)
+            {
+              
+                _context.Add(pet);
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Pet added successfully!";
+
+                //for modal
+                return Json(new { success = true });
+            }
+
+            return Json(new { success = false, message = "Invalid data" });
+
+        }
+
+        private bool PetExists(Pet pet)
+        {
+            return _context.Pets.Any(e => e.id == pet.id && e.petName == pet.petName &&
+            e.bdate == pet.bdate && e.age == pet.age && e.breed == pet.breed && e.ownerId == pet.ownerId);
+        }
+        private bool PetExistsById(int id)
+        {
+            return _context.Pets.Any(e => e.id == id);
+        }
+
+        #endregion
+
+
         // GET: Owners
         public async Task<IActionResult> Index()
         {
@@ -72,16 +109,21 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
               
                 _context.Add(owner);
                 await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Created Successfully";
+
                 return RedirectToAction(nameof(Index));
               
             }
             else
             {
                 ModelState.AddModelError("", "Owner already exist");
+               
 
             }
 
             return View("Create",owner);
+
         }
 
             // GET: Owners/Edit/5
@@ -202,7 +244,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             }
             catch(DbUpdateConcurrencyException)
             {
-                if (!PetExists(pet.id))
+                if (!PetExistsById(pet.id))
                 {
                     return NotFound();
                 }
@@ -262,9 +304,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             return _context.Owners.Any(e => e.id == id);
         }
 
-        private bool PetExists(int id)
-        {
-            return _context.Pets.Any(e => e.id == id);
-        }
+   
     }
 }
