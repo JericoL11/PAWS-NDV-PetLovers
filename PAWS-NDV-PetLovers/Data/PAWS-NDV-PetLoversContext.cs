@@ -15,5 +15,9 @@ namespace PAWS_NDV_PetLovers.Data
         public DbSet<Owner> Owners { get; set; } = default!;
 
         public DbSet<Pet> Pets { get; set; } = default!;
+
+        public DbSet<Category> categories { get; set; } = default!;
+
+        public DbSet<Product> products { get; set; } = default!;
     }
 }

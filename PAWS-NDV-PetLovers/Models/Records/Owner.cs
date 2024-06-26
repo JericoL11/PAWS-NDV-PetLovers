@@ -38,6 +38,11 @@ namespace PAWS_NDV_PetLovers.Models.Records
         [Display(Name = "Home Address")]
         public string? address { get; set; }
 
+        [Required]
+        [Display(Name = "Registered Date")]
+        [DataType(DataType.Date)]
+        public DateTime? registeredDate { get; set; }
+
         //Navigation Property - used to tell entity framework that 2 entities have relationship
         public ICollection<Pet> Pets { get; set; } // Navigation property for related pets
 

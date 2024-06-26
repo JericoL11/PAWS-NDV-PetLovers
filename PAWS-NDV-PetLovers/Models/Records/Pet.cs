@@ -37,6 +37,10 @@ namespace PAWS_NDV_PetLovers.Models.Records
         [Display(Name = "Gender")]
         public string? gender { get; set; }
 
+        [Required]
+        [Display(Name = "Registered Date")]
+        [DataType(DataType.Date)]
+        public DateTime? registeredDate { get; set; }
 
         [ForeignKey("Owner")]
         public int ownerId { get; set; }
