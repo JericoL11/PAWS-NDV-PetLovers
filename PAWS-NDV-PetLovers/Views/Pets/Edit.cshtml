@@ -66,6 +66,11 @@
                     <input asp-for="ownerId" type="text" class="form-control bg-light" readonly/>
                     <span asp-validation-for="ownerId" class="text-danger"></span>
                 </div>
+
+                <div class="form-group col-lg-4 col-md-6">
+                    <label asp-for="registeredDate" class="control-label"></label>
+                    <input asp-for="registeredDate" class="form-control bg-light" readonly/>
+                </div>
                 <div class="form-group mt-4">
                     <input type="submit" value="Save" class="btn btn-primary px-5" />
                 </div>

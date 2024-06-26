@@ -20,7 +20,6 @@
         <div class="card">
             <div class="row p-2">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
                 <div class="form-group col-lg-3 col-md-6">
                     <label asp-for="Owner.id" class="control-label"></label>
                     <input type="text" asp-for="Owner.id" class="form-control bg-light" readonly />
@@ -60,6 +59,13 @@
                     <input asp-for="Owner.address" class="form-control" />
                     <span asp-validation-for="Owner.address" class="text-danger"></span>
                 </div>
+
+
+                <div class="form-group col-lg-3">
+                    <label asp-for="Owner.registeredDate" class="control-label"></label>
+                    <input asp-for="Owner.registeredDate" class="form-control" readonly />
+                </div>
+
             </div>
         </div>
 
@@ -91,6 +97,7 @@
                         <th><p>Age</p></th>
                         <th><p>Breed</p></th>
                         <th><p>Color</p></th>
+                        <th><p>Registered Date</p></th>
 
                     </tr>
                 </thead>
@@ -107,6 +114,7 @@
                             <td>@Html.DisplayFor(modelItem => item.age)</td>
                             <td>@Html.DisplayFor(modelItem => item.breed)</td>
                             <td>@Html.DisplayFor(modelItem => item.color)</td>
+                            <td>@Html.DisplayFor(modelItem => item.registeredDate)</td>
                             <td>
                                 <a asp-action="Edit" asp-controller="Pets" class="btn btn-success btn-md" asp-route-id="@item.id">Update</a> |
                                 <a asp-action="Details" asp-controller="Pets" class="btn btn-warning btn-md" asp-route-id="@item.id">Details</a>
@@ -194,6 +202,12 @@
                                 <input asp-for="Pet.ownerId" type="text" class="form-control bg-light" value="@Model.Owner.id" readonly />
                                 <span asp-validation-for="Pet.ownerId" class="text-danger"></span>
                             </div>
+                            <div class="form-group col-lg-4 col-md-6">
+                                <label asp-for="Pet.registeredDate" class="control-label"></label>
+                                <input type="date" asp-for="Pet.registeredDate" class="form-control bg-light maxDate" id="dateInput" readonly />
+                                <span asp-validation-for="Pet.registeredDate" class="text-danger"></span>
+                            </div>
+
                             <div class="modal-footer">
                                 <input type="submit" value="Save" class="btn btn-primary px-4" id="savePetBtn" />
                                 <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Close</button>
@@ -283,6 +297,10 @@
                 }
             });
         }
+
+
+  
+
     </script>
 
     }

@@ -46,6 +46,10 @@
             </th>
             <th class="text-center">
                 @Html.DisplayNameFor(model => model.address)
+                   
+            </th>
+            <th class="text-center">
+               @Html.DisplayNameFor(model => model.registeredDate)
             </th>
             <th></th>
         </tr>
@@ -75,6 +79,9 @@
             </td>
             <td class="text-center">
                 @Html.DisplayFor(modelItem => item.address)
+            </td>
+             <td class="text-center">
+            @Html.DisplayFor(modelItem => item.registeredDate)
             </td>
             <td class="text-center">
 

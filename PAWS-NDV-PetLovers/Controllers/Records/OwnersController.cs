@@ -23,7 +23,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         //pet area
         #region == Pets code area == 
 
-        public async Task<IActionResult> addNewPet([Bind("id,petName,species,breed,bdate,age,color,gender,ownerId")] Pet pet)
+        public async Task<IActionResult> addNewPet([Bind("id,petName,species,breed,bdate,age,color,gender,registeredDate,ownerId")] Pet pet)
         {
 
             var checkPet = _context.Pets.FirstOrDefault(e => e.petName == pet.petName &&
@@ -93,7 +93,17 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         // GET: Owners/Create
         public IActionResult Create()
         {
-            return View();
+
+            var date = DateTime.Now;
+            var today = date.Date;
+           
+
+            var owner = new Owner
+            {
+                registeredDate = today
+            };
+
+            return View(owner);
         }
 
         // POST: Owners/Create
@@ -101,7 +111,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,fname,lname,mname,gender,contact,email,address,Pets")] Owner owner)
+        public async Task<IActionResult> Create([Bind("id,fname,lname,mname,gender,contact,email,address,registeredDate,Pets")] Owner owner)
         {
 
             var verifyOwner = _context.Owners
@@ -173,7 +183,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,fname,lname,mname,gender,contact,email,address,Pets")] Owner owner)
+        public async Task<IActionResult> Edit(int id, [Bind("id,fname,lname,mname,gender,contact,email,address,registeredDate,Pets")] Owner owner)
         {
             if (id != owner.id)
             {
@@ -239,7 +249,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditPet(int? id, [Bind("id","petName","specie","breed","bdate","color","gender")] Pet pet)
+        public async Task<IActionResult> EditPet(int? id, [Bind("id","petName","specie","breed","bdate","color",
+            "registeredDate","gender")] Pet pet)
         {
             if (id != pet.id)
             {

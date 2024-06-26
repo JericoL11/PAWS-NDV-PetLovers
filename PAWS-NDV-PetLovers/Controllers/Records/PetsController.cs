@@ -59,7 +59,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,petName,species,breed,bdate,age,color,gender,ownerId")] Pet pet)
+        public async Task<IActionResult> Create([Bind("id,petName,species,breed,bdate,age,color,gender,registeredDate,ownerId")] Pet pet)
         {
             if (ModelState.IsValid)
             {
@@ -80,14 +80,31 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             }
 
             var pet = await _context.Pets.FindAsync(id);
+
             if (pet == null)
             {
                 return NotFound();
             }
 
+            var date = DateTime.Now;
+            var today = date.Date;
+            //instantiation
+            var pets = new Pet
+            {
+                petName = pet.petName,
+                age = pet.age,
+                bdate = date,
+                color = pet.color,
+                ownerId = pet.ownerId,
+                species = pet.species,
+                gender = pet.gender,
+                breed = pet.breed,
+                owner = pet.owner,
+                registeredDate = today
+            };
 /*
             ViewData["ownerId"] = new SelectList(_context.Owners, "id", "address", pet.ownerId);*/
-            return View(pet);
+            return View(pets);
         }
 
         // POST: Pets/Edit/5
@@ -95,7 +112,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,petName,species,breed,bdate,age,color,gender,ownerId")] Pet pet)
+        public async Task<IActionResult> Edit(int id, [Bind("id,petName,species,breed,bdate,age,color,gender,registeredDate,ownerId")] Pet pet)
         {
             if (id != pet.id)
             {

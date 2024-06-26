@@ -3,6 +3,29 @@
 
 // Write your JavaScript code.
 
+//auto fill date
+$(document).ready(function () {
+    // Get the current date
+    var currentDate = new Date();
+
+    // Format the date in YYYY-MM-DD for input field
+    var formattedDate = currentDate.getFullYear() + '-' +
+        ('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' +
+        ('0' + currentDate.getDate()).slice(-2);
+
+    // Set the value of the input field with id 'dateInput'
+    $('#dateInput').val(formattedDate);
+});
+
+//max date for input type date
+$(document).ready(function () {
+    // Get the current date
+    var today = new Date().toISOString().split('T')[0];
+
+    // Set max attribute to today's date
+    $('.maxDate').attr('max', today);
+});
+
 //alert notification For create owner
 $(document).ready(function () {
     var alert = $('#success-alert');
@@ -33,18 +56,20 @@ $(document).ready(function () {
     $('#addRow').click(function () {
         var rowCount = $('#PetTable tbody tr').length;
         var newRow = $('.detailRow').first().clone();
+
         newRow.find('input, select').each(function () {
             var name = $(this).attr('name');
             if (name) {
                 var newName = name.replace(/\d+/, rowCount);
                 $(this).attr('name', newName);
             }
-            $(this).val(''); // Clear the value of the input/select
+            if ($(this).attr('id') !== 'dateInput') {
+                $(this).val(''); // Clear the value of the input/select except dateInput
+            }
         });
 
         newRow.appendTo($('#PetTable tbody'));
     });
-
 
     // Remove row
     $(document).on('click', '.removeRow', function () {
@@ -56,6 +81,7 @@ $(document).ready(function () {
     // =================
 
     // Function to set the max date for birthdate fields
+
     function setMaxBirthdate() {
         var today = new Date().toISOString().split('T')[0];
         $('.birthdate').attr('max', today);
@@ -76,6 +102,7 @@ $(document).ready(function () {
         var age = calculateAge(birthdate);
         $(this).closest('.petrow').find('.age').val(age);
     });
+
 
 
 
