@@ -3,6 +3,15 @@
     ViewData["Title"] = "Edit";
 }
 
+@if (TempData["SuccessMessage"] != null)
+{
+    //bootstrap not for modal
+    <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 <div class="bg-secondary bg-opacity-10 py-2 mb-3">
     <div class="container">
         <h1>Update Category</h1>
@@ -37,14 +46,23 @@
                         <input asp-for="registeredDate" class="form-control bg-light dateInput" readonly />
                     </div>
 
-                    <div class="card-footer mt-3 text-end">
-                        <input type="submit" class="btn btn-primary btn-md px-4" value="Create" />
-                        <a class="btn btn-secondary px-3" asp-action="Index">Cancel</a>
-                    </div>
+                    @if(Model.lastUpdate.HasValue){
+                        <div class="form-group">
+                            <label asp-for="lastUpdate" class="control-label"></label>
+                            <input asp-for="lastUpdate" class="form-control bg-light" readonly />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group visually-hidden">
+                            <label asp-for="lastUpdate" class="control-label"></label>
+                            <input asp-for="lastUpdate" class="form-control bg-light dateInput" readonly />
+                        </div>
+                    }
 
-                    <div class="form-group">
-                        <input type="submit" class="btn btn-primary" value="Save" /> | 
-                        <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+                    <div class="card-footer mt-3 text-end">
+                        <input type="submit" class="btn btn-primary btn-md px-4" value="Save" />
+                        <a class="btn btn-secondary px-3" asp-action="Index">Cancel</a>
                     </div>
                 </form>
             </div>

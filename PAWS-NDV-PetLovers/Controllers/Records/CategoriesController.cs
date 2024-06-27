@@ -42,6 +42,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 }
                 _context.Add(category);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Successfully Created!";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -66,8 +67,49 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             //if exist
             return View(category);
 
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int? id, [Bind("id,categoryName,description,registeredDate,lastUpdate")]Category category)
+        {
+            //id check
+            if(id != category.id)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                _context.Categories.Update(category);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Successfully Updated";
+            }
+            catch(DbUpdateConcurrencyException)
+            {
+                //verify to the database
+                if (!CategoryExist(category.id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return View(category);
 
         }
+        //check if Id exist
+
+        private bool CategoryExist(int id)
+        {
+            return _context.Categories.Any(c => c.id == id);
+        }
+
+
+
 
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
