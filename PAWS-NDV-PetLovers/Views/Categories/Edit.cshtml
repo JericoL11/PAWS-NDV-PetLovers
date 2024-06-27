@@ -1,6 +1,15 @@
-﻿@model PAWS_NDV_PetLovers.Models.Records.Category
+﻿@model PAWS_NDV_PetLovers.ViewModels.RecordsVm
 @{
     ViewData["Title"] = "Edit";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    //bootstrap not for modal
+    <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 }
 
 <div class="bg-secondary bg-opacity-10 py-2 mb-3">
@@ -21,33 +30,83 @@
                 <form method="post" asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="categoryName" class="control-label"></label>
-                        <input asp-for="categoryName" class="form-control bg-light" />
-                        <span asp-validation-for="categoryName" class="text-danger"></span>
+                        <label asp-for="Category.categoryName" class="control-label"></label>
+                        <input asp-for="Category.categoryName" class="form-control bg-light" />
+                        <span asp-validation-for="Category.categoryName" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
-                        <label asp-for="description" class="control-label"></label>
-                        <textarea asp-for="description" class="form-control bg-light" rows="5" style="resize: none;"></textarea>
-                        <span asp-validation-for="description" class="text-danger"></span>
+                        <label asp-for="Category.description" class="control-label"></label>
+                        <textarea asp-for="Category.description" class="form-control bg-light" rows="5" style="resize: none;"></textarea>
+                        <span asp-validation-for="Category.description" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
-                        <label asp-for="registeredDate" class="control-label"></label>
-                        <input asp-for="registeredDate" class="form-control bg-light dateInput" readonly />
+                        <label asp-for="Category.registeredDate" class="control-label"></label>
+                        <input asp-for="Category.registeredDate" class="form-control bg-light" readonly />
                     </div>
+
+                    @if (Model.Category.lastUpdate.HasValue)
+                    {
+                        <div class="form-group">
+                            <label asp-for="Category.lastUpdate" class="control-label"></label>
+                            <input asp-for="Category.lastUpdate" class="form-control bg-light" readonly />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group visually-hidden">
+                            <label asp-for="Category.lastUpdate" class="control-label"></label>
+                            <input asp-for="Category.lastUpdate" class="form-control bg-light dateInput" readonly />
+                        </div>
+                    }
 
                     <div class="card-footer mt-3 text-end">
-                        <input type="submit" class="btn btn-primary btn-md px-4" value="Create" />
+                        <input type="submit" class="btn btn-primary btn-md px-4" value="Save" />
                         <a class="btn btn-secondary px-3" asp-action="Index">Cancel</a>
-                    </div>
-
-                    <div class="form-group">
-                        <input type="submit" class="btn btn-primary" value="Save" /> | 
-                        <a class="btn btn-secondary" asp-action="Index">Cancel</a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+    @* Products Table *@
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Product.id)</th>
+                <th>@Html.DisplayNameFor(model => model.Product.productName)</th>
+                <th>@Html.DisplayNameFor(model => model.Product.supplierPrice)</th>
+                <th>@Html.DisplayNameFor(model => model.Product.sellingPrice)</th>
+                <th>@Html.DisplayNameFor(model => model.Product.quantity)</th>
+                <th>@Html.DisplayNameFor(model => model.Product.expiryDate)</th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Item in Model.IProducts)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => Item.id)</td>
+                    <td>@Html.DisplayFor(modelItem => Item.productName)</td>
+                    <td>@Html.DisplayFor(modelitem => Item.supplierPrice)</td>
+                    <td>@Html.DisplayFor(modelitem => Item.sellingPrice)</td>
+                    <td>@Html.DisplayFor(modelitem => Item.quantity)</td>
+                    <td>@Html.DisplayFor(modelitem => Item.expiryDate)</td>
+                    <td>
+                        <a asp-action="Edit" asp-controller="Products" class="btn btn-success btn-md" asp-route-id="@Item.id">Update</a> |
+                        <a asp-action="Details" asp-controller="Products" class="btn btn-warning btn-md" asp-route-id="@Item.id">Details</a>
+                        @*  <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.id">Delete</a> *@
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+
+
+
 </div>
+

@@ -5,6 +5,7 @@ namespace PAWS_NDV_PetLovers.Models.Records
     public class Category
     {
         [Key]
+        [Display(Name ="Category Id")]
         public int id { get; set; }
 
         [Required(ErrorMessage ="Name is required")]

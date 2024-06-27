@@ -1,6 +1,6 @@
 ﻿@model PAWS_NDV_PetLovers.Models.Records.Category
 @{
-   ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create";
 }
 
 <div class="bg-secondary bg-opacity-10 py-2 mb-3">
@@ -9,47 +9,128 @@
     </div>
 </div>
 
-<div class="main container">
-    <div class="row justify-content-center">
-        <div class="col-6">
-            <div class="card shadow border border-dark p-2">
-                <div class="card-header text-center fw-bold">
-                    Register New Category
+<div class="container">
+    <form method="post" asp-action="Create">
+        <div class="card p-3">
+            <!-- Owner -->
+            <div class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="categoryName" class="control-label"></label>
+                    <input asp-for="categoryName" class="form-control bg-light" />
+                    <span asp-validation-for="categoryName" class="text-danger"></span>
                 </div>
-                <div class="card-body">
-                     <form method="post" asp-action="Create">
-                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                         <div class="form-group">
-                             <label asp-for="categoryName" class="control-label"></label>
-                             <input asp-for="categoryName" class="form-control bg-light"/>
-                             <span asp-validation-for="categoryName" class="text-danger"></span>
-                         </div>
 
-                        <div class="form-group">
-                            <label asp-for="description" class="control-label"></label>
-                            <textarea asp-for="description" class="form-control bg-light" rows="5" style="resize: none;"></textarea>
-                            <span asp-validation-for="description" class="text-danger"></span>
-                        </div>
+                <div class="form-group">
+                    <label asp-for="description" class="control-label"></label>
+                    <textarea asp-for="description" class="form-control bg-light" rows="5" style="resize: none;"></textarea>
+                    <span asp-validation-for="description" class="text-danger"></span>
+                </div>
 
-                        <div class="form-group">
-                            <label asp-for="registeredDate" class="control-label"></label>
-                            <input asp-for="registeredDate" class="form-control bg-light dateInput" readonly />
-                        </div>
-
-                            <div class="card-footer mt-3 text-end">
-                                <input type="submit" class="btn btn-primary btn-md px-4" value="Create" />
-                              <a class="btn btn-secondary px-3" asp-action="Index">Cancel</a>
-                            </div>
-                     </form>
+                <div class="form-group visually-hidden">
+                    <label asp-for="registeredDate" class="control-label"></label>
+                    <input asp-for="registeredDate" class="form-control bg-light dateInput" readonly />
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+            <!-- End of Category -->
 
+            <!-- Products Table -->
+            <table id="ProductsTbl" class="table mt-3">
+                <thead>
+                    <tr class="text-center">
+                        <th><p style="margin:0;">Product Name</p></th>
+                        <th><p style="margin:0;">Supplier Price</p></th>
+                        <th><p style="margin:0;">Selling Price</p></th>
+                        <th><p style="margin:0;">Qty On Hand</p></th>
+                        <th><p style="margin:0;">Expiry Date</p></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="productRow">
+                        <td class="col-3">
+                            <input name="Products[0].productName" class="form-control " required placeholder="Enter Product Name" />
+                        </td>
+                        <td class="col-2">
+                            <input name="Products[0].supplierPrice" class="form-control " required placeholder="Enter Supplier Price" />
+                        </td>
+                        <td class="col-2">
+                            <input name="Products[0].sellingPrice" class="form-control " required placeholder="Enter Selling Price" />
+                        </td>
+                        <td class="col-2">
+                            <input name="Products[0].quantity" class="form-control " required placeholder="Enter Quantity" />
+                        </td>
+                        <td class="col-2">
+                            <input type="date" name="Products[0].expiryDate" class="form-control " placeholder="Optional" />
+                        </td>
+                        <td class="col-2 visually-hidden">
+                            <input type="date" name="Products[0].updateDate" class="form-control" id="dateInput" />
+                        </td>
+                        <td class="col-1">
+                            <button type="button" class="btn btn-danger removeRow">Remove</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="p-2">
+                <button type="button" class="btn btn-success" id="addRow">Add Row</button>
+            </div>
+            <!-- End of Products Table -->
+            <!-- Form Actions -->
+            <div class="form-group row d-flex justify-content-end mt-4">
+                <input type="submit" value="Create" class="btn btn-primary col-3" id="AddCategoryButton" />
+                <a asp-action="Index" class="btn btn-secondary ms-3 col-2">Cancel</a>
+            </div>
+            <!-- End of Form Actions -->
+        </div>
+    </form>
+</div>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+        $(document).ready(function () {
+            // Function to update the name attributes of the rows
+            function updateRowNames() {
+                $('#ProductsTbl tbody tr').each(function (index) {
+                    $(this).find('input').each(function () {
+                        var name = $(this).attr('name');
+                        if (name) {
+                            var newName = name.replace(/\d+/, index);
+                            $(this).attr('name', newName);
+                        }
+                    });
+                });
+            }
+
+            // Add row
+            $('#addRow').click(function () {
+                var rowCount = $('#ProductsTbl tbody tr').length;
+                var newRow = $('.productRow').first().clone();
+
+                newRow.find('input').each(function () {
+                    var name = $(this).attr('name');
+                    if (name) {
+                        var newName = name.replace(/\d+/, rowCount);
+                        $(this).attr('name', newName);
+                        if ($(this).attr('id') !== 'dateInput') {
+                            $(this).val(''); // Clear the value of the input/select except dateInput
+                        }
+                    }
+                });
+
+                newRow.appendTo($('#ProductsTbl tbody'));
+            });
+
+            // Remove row
+            $(document).on('click', '.removeRow', function () {
+                if ($('#ProductsTbl tbody tr').length > 1) {
+                    $(this).closest('tr').remove();
+                    updateRowNames(); // Update the name attributes of the remaining rows
+                }
+            });
+        });
+    </script>
 }

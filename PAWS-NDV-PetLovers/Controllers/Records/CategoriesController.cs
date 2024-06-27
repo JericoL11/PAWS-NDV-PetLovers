@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.Models.Records;
+using PAWS_NDV_PetLovers.ViewModels;
 
 namespace PAWS_NDV_PetLovers.Controllers.Records
 {
@@ -29,23 +30,49 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,categoryName,description,registeredDate")] Category category)
+        public async Task<IActionResult> Create([Bind("id,categoryName,description,registeredDate,Products")] Category category)
         {
 
-            if (category != null)
-            {
-                if (CategoryExist(category.categoryName))
-                {
-                    ModelState.AddModelError("", "Category already exist");
-                    return View(category);
+            /* if (category != null)
+             {
+                 return NotFound();
+             }
 
-                }
-                _context.Add(category);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+             if (CategoryExist(category.categoryName))
+             {
+                 ModelState.AddModelError("", "Category already exist");
+                 return View(category);
 
-            return View("Create",category);
+             }
+
+             *//*check product*//*
+             var product = _context.Products.FirstOrDefault(category.);
+
+             if (ProductExist())
+             {
+                 ModelState.AddModelError("", "Category already exist");
+                 return View(category);
+
+             }
+
+             _context.Add(category);
+             await _context.SaveChangesAsync();
+             TempData["SuccessMessage"] = "Successfully Created!";
+             return RedirectToAction(nameof(Index));
+             return View("Create", category);*/
+            return View("Create", category);
+        }
+
+
+        private bool CategoryExist(string categoryName)
+        {
+            return _context.Categories.Any(c => c.categoryName == categoryName);
+
+        }
+        private bool ProductExist(string productName)
+        {
+            return _context.Products.Any(c => c.productName == productName);
+
         }
 
         [HttpGet]
@@ -63,11 +90,86 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 return NotFound();
             }
 
-            //if exist
-            return View(category);
+            //retrieve related products
+            var updatedCategory = await _context.Categories
+                .Include(c => c.Products)
+                .FirstOrDefaultAsync(c => c.id == id);
+            
+            if(updatedCategory == null)
+            {
+                return NotFound();
+            }
 
+            var data = new RecordsVm
+            {
+                Category = updatedCategory,
+                IProducts = updatedCategory.Products
+            };
+
+          
+            return View(data);
 
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int? id, [Bind("id,categoryName,description,registeredDate,lastUpdate")]Category category)
+        {
+            //id check
+            if(id != category.id)
+            {
+                return NotFound();
+            }
+
+            category.lastUpdate = DateTime.Now;
+
+            try
+            {
+                _context.Categories.Update(category);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Successfully Updated";
+            }
+            catch(DbUpdateConcurrencyException)
+            {
+                //verify to the database
+                if (!CategoryExist(category.id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return View(category);
+
+        }
+        //check if Id exist
+
+        private bool CategoryExist(int id)
+        {
+            return _context.Categories.Any(c => c.id == id);
+        }
+
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+            return NotFound();
+            }
+
+            var category = await _context.Categories.FindAsync(id);   
+
+            if(category == null)
+            {
+            return NotFound();
+            }
+
+            return View(category);
+
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
@@ -104,11 +206,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         }
 
 
-        private bool CategoryExist(string categoryName)
-        {
-            return _context.Categories.Any(c => c.categoryName == categoryName);
-
-        }
 
     }
 

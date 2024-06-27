@@ -18,7 +18,7 @@
 
 @if (TempData["SuccessMessage"] != null)
 {
-   
+
     //bootstrap not for modal
     <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
         @TempData["SuccessMessage"]
@@ -32,7 +32,7 @@
         <div class="card">
             <div class="row p-2">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-              
+
                 <div class="form-group col-lg-3 col-md-6">
                     <label asp-for="Owner.id" class="control-label"></label>
                     <input type="text" asp-for="Owner.id" class="form-control bg-light" readonly />
@@ -79,12 +79,12 @@
                     <input asp-for="Owner.registeredDate" class="form-control" readonly />
                 </div>
 
-                
+
                 <div class="form-group col-lg-3 col-md-6">
-                
+
                     @if (Model.Owner.lastUpdate.HasValue)
                     {
-                        <label asp-for="Owner.lastUpdate" class="control-label" ></label>
+                        <label asp-for="Owner.lastUpdate" class="control-label"></label>
                         <input asp-for="Owner.lastUpdate" class="form-control" readonly />
                     }
                     else
@@ -92,10 +92,10 @@
                         <label asp-for="Owner.lastUpdate" class="control-label" hidden></label>
                         <input asp-for="Owner.lastUpdate" class="form-control dateInput" hidden readonly />
                     }
-                    
+
                 </div>
-                
-               
+
+
 
 
             </div>
@@ -253,19 +253,19 @@
 </div>
 
 
-    @section Scripts {
-        @{
-            await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        }
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 
-        @* 
+    @*
 
 
         MODAL AJAX AND JQEURY SCRIPT
         SOURCE : https://chatgpt.com/share/199ab4a7-1b0a-4e32-88d7-3d2a5e0d7d84*@
     <script>
 
-        
+
         $(document).ready(function () {
             // Check if there is a success message in TempData
             var successMessage = '@TempData["SuccessMessage"]';
@@ -290,8 +290,8 @@
                                 location.reload();
                             }, 500); // Small delay to ensure the modal has fully closed
                         } else {
-                           // displayValidationErrors(response.errors);
-                          
+                            // displayValidationErrors(response.errors);
+
                             showAlert(response.message || 'Error adding pet', 'danger');
                         }
                     }
@@ -302,9 +302,9 @@
         function showAlert(message, type) {
             var alertPlaceholder = $('#alertPlaceholder');
             var alertHTML = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
-                                        ${message}
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                     </div>`;
+                                                ${message}
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                             </div>`;
             alertPlaceholder.html(alertHTML);
 
             // Automatically close the alert after 3 seconds
@@ -331,8 +331,8 @@
         }
 
 
-  
+
 
     </script>
 
-    }
+}

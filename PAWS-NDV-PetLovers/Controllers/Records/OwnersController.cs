@@ -160,17 +160,18 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 return NotFound();
             }
 
-            //matching ownerId to Pet
-            var pet = await _context.Pets
-                .Where(P => P.ownerId == id)
-                .Select(p => p).ToListAsync();
+            // Retrieve related pets
+            var updatedOwner = await _context.Owners
+                                    .Include(o => o.Pets)
+                                    .FirstOrDefaultAsync(o => o.id == id);
+
 
 
             //view Model Instantiations for VIEWS
             var data = new RecordsVm
             {
-                Owner = owner,
-                IPets = pet
+                Owner = updatedOwner,
+                IPets = updatedOwner.Pets
             };
 
 
@@ -189,35 +190,53 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 return NotFound();
             }
 
-                try
-                {
-                    _context.Update(owner);
-                    await _context.SaveChangesAsync();
-                    TempData["SuccessMessage"] = "Update Successfully";
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OwnerExists(owner.id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-              /*  return RedirectToAction(nameof(Index));
-            }*/
+            if(string.IsNullOrEmpty(owner.contact) || owner.contact.Length < 11)
+            {
+                ModelState.AddModelError("","Please input a contact number correctly");
 
-            // If we reach this point, something went wrong, redisplay the form with the current model
-            var pets = await _context.Pets
-                        .Where(p => p.ownerId == id)
-                        .ToListAsync();
+                // Retrieve the updated data to redisplay the form
+                var owners = await _context.Owners
+                                        .Include(o => o.Pets)
+                                        .FirstOrDefaultAsync(o => o.id == id);
+
+                var contactCheck = new RecordsVm
+                {
+                    Owner = owners,
+                    IPets = owners.Pets
+                };
+                return View(contactCheck);
+            }
+
+            // Update the lastUpdate column
+            owner.lastUpdate = DateTime.Now;
+
+            try
+            {
+                _context.Update(owner);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Update Successfully";
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!OwnerExists(owner.id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            // Retrieve the updated data to redisplay the form
+            var updatedOwner = await _context.Owners
+                                    .Include(o => o.Pets)
+                                    .FirstOrDefaultAsync(o => o.id == id);
 
             var data = new RecordsVm
             {
-                Owner = owner,
-                IPets = pets
+                Owner = updatedOwner,
+                IPets = updatedOwner.Pets
             };
 
             return View(data);
