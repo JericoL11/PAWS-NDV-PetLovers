@@ -29,6 +29,10 @@ namespace PAWS_NDV_PetLovers.Models.Records
         [DataType(DataType.Date)]
         public DateTime? updateDate { get; set; }
 
+        [Display(Name = "Last Update")]
+        [DataType(DataType.Date)]
+        public DateTime? lastUpdate { get; set; }
+
         [Display(Name = "Expiry Date")]
         [DataType(DataType.Date)]
         public DateTime? expiryDate { get; set; }

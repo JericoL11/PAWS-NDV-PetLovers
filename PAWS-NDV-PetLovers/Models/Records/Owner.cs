@@ -43,6 +43,10 @@ namespace PAWS_NDV_PetLovers.Models.Records
         [DataType(DataType.Date)]
         public DateTime? registeredDate { get; set; }
 
+        [Display(Name = "Last Update")]
+        [DataType(DataType.Date)]
+        public DateTime? lastUpdate { get; set; }
+
         //Navigation Property - used to tell entity framework that 2 entities have relationship
         public ICollection<Pet> Pets { get; set; } // Navigation property for related pets
 

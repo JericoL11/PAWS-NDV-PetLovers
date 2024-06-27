@@ -1,0 +1,55 @@
+﻿@model PAWS_NDV_PetLovers.Models.Records.Category
+@{
+   ViewData["Title"] = "Create";
+}
+
+<div class="bg-secondary bg-opacity-10 py-2 mb-3">
+    <div class="container">
+        <h1>Create</h1>
+    </div>
+</div>
+
+<div class="main container">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="card shadow border border-dark p-2">
+                <div class="card-header text-center fw-bold">
+                    Register New Category
+                </div>
+                <div class="card-body">
+                     <form method="post" asp-action="Create">
+                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                         <div class="form-group">
+                             <label asp-for="categoryName" class="control-label"></label>
+                             <input asp-for="categoryName" class="form-control bg-light"/>
+                             <span asp-validation-for="categoryName" class="text-danger"></span>
+                         </div>
+
+                        <div class="form-group">
+                            <label asp-for="description" class="control-label"></label>
+                            <textarea asp-for="description" class="form-control bg-light" rows="5" style="resize: none;"></textarea>
+                            <span asp-validation-for="description" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="registeredDate" class="control-label"></label>
+                            <input asp-for="registeredDate" class="form-control bg-light dateInput" readonly />
+                        </div>
+
+                            <div class="card-footer mt-3 text-end">
+                                <input type="submit" class="btn btn-primary btn-md px-4" value="Create" />
+                              <a class="btn btn-secondary px-3" asp-action="Index">Cancel</a>
+                            </div>
+                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -4,6 +4,18 @@
     ViewData["Title"] = "Edit";
 }
 
+<!-- Alert Placeholder -->
+@if (TempData["SuccessMessage"] != null)
+{
+    //bootstrap not for modal
+    <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
+
 <div class="bg-secondary bg-opacity-10 py-2 mb-3">
     <div class="container">
         <h1>EDIT PET</h1>
@@ -71,6 +83,19 @@
                     <label asp-for="registeredDate" class="control-label"></label>
                     <input asp-for="registeredDate" class="form-control bg-light" readonly/>
                 </div>
+                <div class="form-group col-lg-4 col-md-6">
+                @if (Model.lastUpdate.HasValue)
+                {
+                    <label asp-for="lastUpdate" class="control-label"></label>
+                    <input asp-for="lastUpdate" class="form-control" readonly />
+                }
+                else
+                {
+                    <label asp-for="lastUpdate" class="control-label" hidden></label>
+                    <input asp-for="lastUpdate" class="form-control dateInput " hidden readonly />
+                }
+                </div>
+
                 <div class="form-group mt-4">
                     <input type="submit" value="Save" class="btn btn-primary px-5" />
                 </div>

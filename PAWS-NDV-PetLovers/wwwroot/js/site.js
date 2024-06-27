@@ -14,7 +14,7 @@ $(document).ready(function () {
         ('0' + currentDate.getDate()).slice(-2);
 
     // Set the value of the input field with id 'dateInput'
-    $('#dateInput').val(formattedDate);
+    $('#dateInput, .dateInput').val(formattedDate);
 });
 
 //max date for input type date
@@ -26,7 +26,7 @@ $(document).ready(function () {
     $('.maxDate').attr('max', today);
 });
 
-//alert notification For create owner
+//alert notification For success duration
 $(document).ready(function () {
     var alert = $('#success-alert');
     if (alert.length) {

@@ -1,0 +1,53 @@
+﻿@model PAWS_NDV_PetLovers.Models.Records.Category
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="bg-secondary bg-opacity-10 py-2 mb-3">
+    <div class="container">
+        <h1>Update Category</h1>
+    </div>
+</div>  
+
+@*  since it is edit, it needs a form *@
+<div class="container">
+    <div class="row">
+        <div class="card">
+            <div class="card-header">
+              @*   <p class="fw-bold"> </p> *@
+            </div>
+
+            <div class="card-body">
+                <form method="post" asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="categoryName" class="control-label"></label>
+                        <input asp-for="categoryName" class="form-control bg-light" />
+                        <span asp-validation-for="categoryName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="description" class="control-label"></label>
+                        <textarea asp-for="description" class="form-control bg-light" rows="5" style="resize: none;"></textarea>
+                        <span asp-validation-for="description" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="registeredDate" class="control-label"></label>
+                        <input asp-for="registeredDate" class="form-control bg-light dateInput" readonly />
+                    </div>
+
+                    <div class="card-footer mt-3 text-end">
+                        <input type="submit" class="btn btn-primary btn-md px-4" value="Create" />
+                        <a class="btn btn-secondary px-3" asp-action="Index">Cancel</a>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary" value="Save" /> | 
+                        <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

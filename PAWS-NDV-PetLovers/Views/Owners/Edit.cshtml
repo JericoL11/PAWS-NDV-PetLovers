@@ -1,4 +1,4 @@
-@model PAWS_NDV_PetLovers.ViewModels.ClientVm
+@model PAWS_NDV_PetLovers.ViewModels.RecordsVm
 @{
     ViewData["Title"] = "Edit";
 }
@@ -12,14 +12,27 @@
     </div>
 </div>
 
+
 <!-- Alert Placeholder -->
-<div  id="alertPlaceholder"></div>
+<div id="alertPlaceholder"></div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+   
+    //bootstrap not for modal
+    <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 
 <div class="container">
     <form asp-action="Edit">
         <div class="card">
             <div class="row p-2">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+              
                 <div class="form-group col-lg-3 col-md-6">
                     <label asp-for="Owner.id" class="control-label"></label>
                     <input type="text" asp-for="Owner.id" class="form-control bg-light" readonly />
@@ -65,6 +78,25 @@
                     <label asp-for="Owner.registeredDate" class="control-label"></label>
                     <input asp-for="Owner.registeredDate" class="form-control" readonly />
                 </div>
+
+                
+                <div class="form-group col-lg-3 col-md-6">
+                
+                    @if (Model.Owner.lastUpdate.HasValue)
+                    {
+                        <label asp-for="Owner.lastUpdate" class="control-label" ></label>
+                        <input asp-for="Owner.lastUpdate" class="form-control" readonly />
+                    }
+                    else
+                    {
+                        <label asp-for="Owner.lastUpdate" class="control-label" hidden></label>
+                        <input asp-for="Owner.lastUpdate" class="form-control dateInput" hidden readonly />
+                    }
+                    
+                </div>
+                
+               
+
 
             </div>
         </div>

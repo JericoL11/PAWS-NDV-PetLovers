@@ -2,7 +2,7 @@
 
 namespace PAWS_NDV_PetLovers.ViewModels
 {
-    public class ClientVm
+    public class RecordsVm
     {
         public Owner Owner { get; set; }
         public Pet Pet { get; set; }

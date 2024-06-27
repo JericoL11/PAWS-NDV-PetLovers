@@ -12,8 +12,8 @@ using PAWS_NDV_PetLovers.Data;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     [DbContext(typeof(PAWS_NDV_PetLoversContext))]
-    [Migration("20240626101209_add-Records-table")]
-    partial class addRecordstable
+    [Migration("20240627092524_Add-Records-Table")]
+    partial class AddRecordsTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,13 +41,16 @@ namespace PAWS_NDV_PetLovers.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("lastUpdate")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("registeredDate")
                         .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.HasKey("id");
 
-                    b.ToTable("categories");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Records.Owner", b =>
@@ -78,6 +81,9 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.Property<string>("gender")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("lastUpdate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("lname")
                         .IsRequired()
@@ -124,6 +130,9 @@ namespace PAWS_NDV_PetLovers.Migrations
                         .HasMaxLength(6)
                         .HasColumnType("nvarchar(6)");
 
+                    b.Property<DateTime?>("lastUpdate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("ownerId")
                         .HasColumnType("int");
 
@@ -160,6 +169,9 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.Property<DateTime?>("expiryDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("lastUpdate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("productName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -184,7 +196,7 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("products");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Records.Pet", b =>

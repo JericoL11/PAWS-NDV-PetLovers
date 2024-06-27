@@ -20,6 +20,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             _context = context;
         }
 
+
         //pet area
         #region == Pets code area == 
 
@@ -28,7 +29,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
             var checkPet = _context.Pets.FirstOrDefault(e => e.petName == pet.petName &&
                             e.bdate == pet.bdate && e.age == pet.age && e.breed == pet.breed && e.ownerId == pet.ownerId);
-
 
             if (checkPet != null)
             {
@@ -51,7 +51,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
 
         }
-    
+
 
         private bool PetExists(Pet pet)
         {
@@ -149,7 +149,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             public async Task<IActionResult> Edit(int? id)
         {
 
-          
             if (id == null)
             {
                 return NotFound();
@@ -168,7 +167,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
 
             //view Model Instantiations for VIEWS
-            var data = new ClientVm
+            var data = new RecordsVm
             {
                 Owner = owner,
                 IPets = pet
@@ -183,7 +182,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,fname,lname,mname,gender,contact,email,address,registeredDate,Pets")] Owner owner)
+        public async Task<IActionResult> Edit(int id, [Bind("id,fname,lname,mname,gender,contact,email,address,registeredDate,lastUpdate,Pets")] Owner owner)
         {
             if (id != owner.id)
             {
@@ -194,6 +193,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 {
                     _context.Update(owner);
                     await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Update Successfully";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -214,7 +214,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                         .Where(p => p.ownerId == id)
                         .ToListAsync();
 
-            var data = new ClientVm
+            var data = new RecordsVm
             {
                 Owner = owner,
                 IPets = pets
@@ -234,7 +234,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             }
 
             // Assuming you want to edit a specific pet in the context of a client
-            var clientVm = new ClientVm
+            var clientVm = new RecordsVm
             {
                 Pet = await _context.Pets.FindAsync(id)
             };
@@ -273,7 +273,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             //converting into Client View Models
 
             //vm instantiation
-            var viewModel = new ClientVm
+            var viewModel = new RecordsVm
             {
                 Pet = pet
 
