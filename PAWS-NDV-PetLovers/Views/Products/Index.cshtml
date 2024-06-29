@@ -2,6 +2,17 @@
 @{
     ViewData["Title"] = "Index";
 }
+
+@if (TempData["SuccessMessage"] != null)
+{
+    //bootstrap not for modal
+    <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
 <div class="bg-secondary bg-opacity-10 py-2 mb-3">
     <div class="container">
         <h1>Products</h1>
@@ -33,7 +44,7 @@
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.id)</td>
                     <td>@Html.DisplayFor(modelItem => item.productName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.CategoryId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.category.categoryName)</td>
                     <td>@Html.DisplayFor(modelItem => item.sellingPrice)</td>
                     <td>@Html.DisplayFor(modelItem => item.quantity)</td>
                     <td>

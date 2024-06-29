@@ -53,7 +53,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "500000, 1"),
+                        .Annotation("SqlServer:Identity", "5000000, 1"),
                     productName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     sellingPrice = table.Column<double>(type: "float", nullable: false),
                     supplierPrice = table.Column<double>(type: "float", nullable: false),

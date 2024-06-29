@@ -45,7 +45,7 @@
                 @Html.DisplayNameFor(model => model.registeredDate)
             </th>
             <th class="text-center">
-                @Html.DisplayNameFor(model => model.ownerId)
+                <p style="margin:0;"> Owner Name</p>
             </th>
 
             <th></th>
@@ -82,7 +82,9 @@
                 @Html.DisplayFor(modelItem => item.registeredDate)
             </td>
             <td class="text-center">
-                @Html.DisplayFor(modelItem => item.owner.id)
+                @Html.DisplayFor(modelItem => item.owner.fname)
+                @Html.Raw(' ')
+                @Html.DisplayFor(Modelitem => item.owner.lname)
             </td>
             <td class="text-center">
                 <a asp-action="Edit" class="btn btn-success" asp-route-id="@item.id">Update</a> |

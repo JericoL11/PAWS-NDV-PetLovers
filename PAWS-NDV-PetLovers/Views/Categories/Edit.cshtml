@@ -29,6 +29,8 @@
             <div class="card-body">
                 <form method="post" asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input asp-for="Category.id" class="visually visually-hidden"/>
+
                     <div class="form-group">
                         <label asp-for="Category.categoryName" class="control-label"></label>
                         <input asp-for="Category.categoryName" class="form-control bg-light" />
@@ -104,9 +106,5 @@
 
         </tbody>
     </table>
-
-
-
-
 </div>
 

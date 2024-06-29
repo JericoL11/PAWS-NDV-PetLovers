@@ -33,6 +33,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             if (checkPet != null)
             {
                 ModelState.AddModelError("", "Pet exist Already");
+
+                //for jquery code
                 return Json(new { success = false, message = "Pet Exist Already" });
             }
 
@@ -310,8 +312,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         }
 
 
-
-
         // GET: Owners/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -351,7 +351,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             return _context.Owners.Any(e => e.id == id);
         }
 
-   
     }
 }
 

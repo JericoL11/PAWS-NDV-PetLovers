@@ -38,9 +38,10 @@ namespace PAWS_NDV_PetLovers.Models.Records
         public DateTime? expiryDate { get; set; }
        
         [ForeignKey("Category")]
+        [Display(Name ="Category")]
         public int CategoryId { get; set; }
 
         //navigation property
-        public Category category { get; set; }
+        public Category? category { get; set; }
     }
 }

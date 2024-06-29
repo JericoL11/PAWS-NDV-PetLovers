@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.Models.Records;
@@ -19,6 +20,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         //Get
         public async Task<IActionResult> Index()
         {
+
+
             return View(await _context.Categories.ToListAsync());
         }
 
@@ -130,6 +133,20 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 _context.Categories.Update(category);
                 await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Successfully Updated";
+
+                //retrieve related products
+                var updatedCategory = await _context.Categories
+                    .Include(c => c.Products)
+                    .FirstOrDefaultAsync(c => c.id == id);
+
+                var vm = new RecordsVm
+                {
+                    Category = updatedCategory,
+                    IProducts = updatedCategory.Products
+
+                };
+
+                return View(vm);
             }
             catch(DbUpdateConcurrencyException)
             {
@@ -143,8 +160,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                     throw;
                 }
             }
-
-            return View(category);
 
         }
         //check if Id exist

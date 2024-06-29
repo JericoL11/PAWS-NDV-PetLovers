@@ -1,0 +1,106 @@
+﻿@model PAWS_NDV_PetLovers.Models.Records.Product
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<!-- Alert Placeholder -->
+@if (TempData["SuccessMessage"] != null)
+{
+    //utilize bootstrap, not for modal
+    <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
+
+<div class="bg-secondary bg-opacity-10 py-2 mb-3">
+    <div class="container">
+        <h1>Edit Product</h1>
+    </div>
+</div>
+
+<div class="main container">
+   <form method="post" asp-action="Edit">
+       <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+      
+        <div class="form-group">
+            <label asp-for="CategoryId" class="control-label"></label>
+            <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.categoryList"></select>
+            <span asp-validation-for="category" class="text-danger"></span>
+        </div>
+      
+       <div class="form-group">
+           <label asp-for="productName" class="control-label"></label>
+           <input asp-for="productName" class="form-control" />
+           <span asp-validation-for="productName" class="text-danger"></span>
+       </div>
+
+        <div class="form-group">
+            <label asp-for="supplierPrice" class="control-label"></label>
+            <input asp-for="supplierPrice" class="form-control" />
+            <span asp-validation-for="supplierPrice" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="sellingPrice" class="control-label"></label>
+            <input asp-for="sellingPrice" class="form-control" />
+            <span asp-validation-for="sellingPrice" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="quantity" class="control-label"></label>
+            <input asp-for="quantity" class="form-control" />
+            <span asp-validation-for="quantity" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="expiryDate" class="control-label"></label>
+            <input asp-for="expiryDate" class="form-control" />
+            <span asp-validation-for="expiryDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="updateDate" class="control-label"></label>
+            <input asp-for="updateDate" class="form-control" />
+            <span asp-validation-for="updateDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="expiryDate" class="control-label"></label>
+            <input asp-for="expiryDate" class="form-control" />
+            <span asp-validation-for="expiryDate" class="text-danger"></span>
+        </div>
+        @if (Model.lastUpdate.HasValue)
+        {
+            <div class="form-group">
+                <label asp-for="lastUpdate" class="control-label"></label>
+                <input asp-for="lastUpdate" class="form-control" />
+                <span asp-validation-for="lastUpdate" class="text-danger"></span>
+            </div>
+        }
+        else
+        {
+            <div class="form-group visually-hidden">
+                <label asp-for="lastUpdate" class="control-label"></label>
+                <input asp-for="lastUpdate" class="form-control dateInput" />
+                <span asp-validation-for="lastUpdate" class="text-danger"></span>
+            </div>
+        }
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Save"/>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </div>
+   </form>
+</div>
+
+<script>
+    function validateDecimalInput(input) {
+        input.value = input.value.replace(/[^0-9.]/g, ''); // Allow only numbers and periods
+        if ((input.value.match(/\./g) || []).length > 1) {
+            input.value = input.value.replace(/\.+$/, ""); // Remove extra periods
+        }
+    }
+</script>

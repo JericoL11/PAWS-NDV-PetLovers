@@ -26,7 +26,7 @@ $(document).ready(function () {
     $('.maxDate').attr('max', today);
 });
 
-//alert notification For success duration
+//CREATE -- alert notification For success duration
 $(document).ready(function () {
     var alert = $('#success-alert');
     if (alert.length) {
