@@ -113,40 +113,48 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,fname,lname,mname,gender,contact,email,address,registeredDate,Pets")] Owner owner)
         {
-
             var verifyOwner = _context.Owners
-                               .Where(m => m.fname == owner.fname && m.lname == owner.lname).FirstOrDefault();
-
+                               .Where(m => m.fname == owner.fname && m.lname == owner.lname)
+                               .FirstOrDefault();
 
             if (verifyOwner == null)
             {
-                if(owner.contact.Length < 11)
+                if (owner.contact.Length < 11)
                 {
                     ModelState.AddModelError("", "Contact number is invalid");
                     return View(owner);
                 }
-              
+
+                // Use a HashSet to track pet names and check for duplicates
+                var petNames = new HashSet<string>();
+
+                foreach (var pet in owner.Pets)
+                {
+                    if (!petNames.Add(pet.petName))
+                    {
+                        ModelState.AddModelError("", $"Duplicate pet name '{pet.petName}' is invalid");
+                        return View(owner);
+                    }
+                }
+
                 _context.Add(owner);
                 await _context.SaveChangesAsync();
 
                 TempData["SuccessMessage"] = "Created Successfully";
 
                 return RedirectToAction(nameof(Index));
-              
             }
             else
             {
-                ModelState.AddModelError("", "Owner already exist");
-               
-
+                ModelState.AddModelError("", "Owner already exists");
             }
 
-            return View("Create",owner);
-
+            return View("Create", owner);
         }
 
-            // GET: Owners/Edit/5
-            public async Task<IActionResult> Edit(int? id)
+
+        // GET: Owners/Edit/5
+        public async Task<IActionResult> Edit(int? id)
         {
 
             if (id == null)
@@ -346,3 +354,4 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
    
     }
 }
+

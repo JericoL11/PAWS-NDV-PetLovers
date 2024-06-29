@@ -33,7 +33,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         public async Task<IActionResult> Create([Bind("id,categoryName,description,registeredDate,Products")] Category category)
         {
 
-            /* if (category != null)
+            if (category == null)
              {
                  return NotFound();
              }
@@ -45,22 +45,24 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
              }
 
-             *//*check product*//*
-             var product = _context.Products.FirstOrDefault(category.);
+            /*check product*/
+            // Use a HashSet to track pet names and check for duplicates
+            var products = new HashSet<string>();
 
-             if (ProductExist())
-             {
-                 ModelState.AddModelError("", "Category already exist");
-                 return View(category);
+            foreach (var product in category.Products)
+            {
+                if (!products.Add(product.productName))
+                {
+                    ModelState.AddModelError("",$"Duplicate Product '{product.productName}' is invalid ");
+                    return View(category);
+                }
+            }
 
-             }
+                _context.Add(category);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Successfully Created!";
 
-             _context.Add(category);
-             await _context.SaveChangesAsync();
-             TempData["SuccessMessage"] = "Successfully Created!";
-             return RedirectToAction(nameof(Index));
-             return View("Create", category);*/
-            return View("Create", category);
+                return RedirectToAction(nameof(Index));
         }
 
 
