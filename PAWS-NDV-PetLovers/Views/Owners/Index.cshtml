@@ -24,7 +24,11 @@
 
 
 <div class="container">
-    <a class="btn btn-primary btn-md mb-4 px-5" id="btnAdd" asp-action="Create">Add</a>
+    <div class="d-flex justify-content-end">
+        <a class="btn btn-primary btn-md mb-4  me-2" asp-action="Create">Add new Owner</a>
+        <a class="btn btn-primary btn-md mb-4 px-4" asp-action="Index" asp-controller="Pets">View Pet List</a>
+    </div>
+   
     <table class="table table-striped table-info" id="OwnerTable">
     <thead> 
 

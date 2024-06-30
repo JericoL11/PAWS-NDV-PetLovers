@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -22,15 +23,21 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
 
         //pet area
-        #region == Pets code area == 
+        #region == Pets code area || EDIT > ADD NEW PET == 
 
         public async Task<IActionResult> addNewPet([Bind("id,petName,species,breed,bdate,age,color,gender,registeredDate,ownerId")] Pet pet)
         {
+            /*
+                        var checkPet = _context.Pets.FirstOrDefault(e => e.petName == pet.petName &&
+                                        e.bdate == pet.bdate && e.age == pet.age && e.breed == pet.breed && e.ownerId == pet.ownerId);*/
 
-            var checkPet = _context.Pets.FirstOrDefault(e => e.petName == pet.petName &&
-                            e.bdate == pet.bdate && e.age == pet.age && e.breed == pet.breed && e.ownerId == pet.ownerId);
 
-            if (checkPet != null)
+            if(pet == null)
+            {
+                return View(pet);
+            }
+
+            if (PetExists(pet.petName, pet.species ,pet.breed, pet.ownerId))
             {
                 ModelState.AddModelError("", "Pet exist Already");
 
@@ -55,10 +62,12 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         }
 
 
-        private bool PetExists(Pet pet)
+        private bool PetExists(string petName, string specie,string breed, int ownerId)
         {
-            return _context.Pets.Any(e => e.id == pet.id && e.petName == pet.petName &&
-            e.bdate == pet.bdate && e.age == pet.age && e.breed == pet.breed && e.ownerId == pet.ownerId);
+            return _context.Pets.Any(e => e.petName == petName && e.species == specie  && e.breed == breed &&
+           e.ownerId == ownerId);
+            /* return _context.Pets.Any(e => e.id == pet.id && e.petName == pet.petName &&
+             e.bdate == pet.bdate && e.age == pet.age && e.breed == pet.breed && e.ownerId == pet.ownerId);*/
         }
         private bool PetExistsById(int id)
         {

@@ -12,8 +12,10 @@
 </div>
 
 <div class="container">
-
-
+    <div class="d-flex justify-content-end">
+        @* <a class="btn btn-primary btn-md mb-4  me-2" asp-action="Create">Add new Pet</a> *@
+        <a class="btn btn-primary btn-md mb-4 px-4" asp-action="Index" asp-controller="Owners">View Owner List</a>
+    </div>
 <table class="table table-striped table-info" id="PetTable">
     <thead>
             <tr>

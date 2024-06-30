@@ -32,7 +32,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "10000, 1"),
+                        .Annotation("SqlServer:Identity", "100000, 1"),
                     fname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     lname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     mname = table.Column<string>(type: "nvarchar(max)", nullable: true),

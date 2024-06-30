@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Create";
 }
+@* add nag details ug delete bai *@
 
 <div class="bg-secondary bg-opacity-10 py-2 mb-3">
     <div class="container">
@@ -9,7 +10,9 @@
     </div>
 </div>
 
+
 <div class="container">
+
     <form method="post" asp-action="Create">
         <div class="card p-3">
             <!-- Owner -->
@@ -52,13 +55,13 @@
                             <input name="Products[0].productName" class="form-control " required placeholder="Enter Product Name" />
                         </td>
                         <td class="col-2">
-                            <input name="Products[0].supplierPrice" class="form-control " required placeholder="Enter Supplier Price" />
+                            <input name="Products[0].supplierPrice" class="form-control" oninput="validateDecimalInput(this)" required placeholder="Enter Supplier Price" />
                         </td>
                         <td class="col-2">
-                            <input name="Products[0].sellingPrice" class="form-control " required placeholder="Enter Selling Price" />
+                            <input name="Products[0].sellingPrice" class="form-control " oninput="validateDecimalInput(this)" required placeholder="Enter Selling Price" />
                         </td>
                         <td class="col-2">
-                            <input name="Products[0].quantity" class="form-control " required placeholder="Enter Quantity" />
+                            <input type="number" name="Products[0].quantity" class="form-control" required placeholder="Enter Quantity" />
                         </td>
                         <td class="col-2">
                             <input type="date" name="Products[0].expiryDate" class="form-control " placeholder="Optional" />

@@ -46,23 +46,28 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             }
 
 
-            if (!ProductExistByName(product.productName))
+            // if inputs are null, this is the solution
+            try
             {
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Created Successfully";
-         
+
                 return RedirectToAction(nameof(Index));
             }
-
-            else
+            catch
             {
-                await SetCategoryListAsync();
-                ModelState.AddModelError("", $"Product name '{product.productName}' already exists.");
+                if (ProductExistByName(product.productName))
+                {
+                    await SetCategoryListAsync();
+                    ModelState.AddModelError("", $"Product name '{product.productName}' already exists.");
 
-                await SetCategoryListAsync();
-                return View(product);
+                    await SetCategoryListAsync();
+                    return View(product);
+                }
             }
+            await SetCategoryListAsync();
+            return View(product);
       
         }
     
@@ -119,10 +124,25 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                     throw;
                 }
             }
-
-
-        
         }
+        [HttpGet]
+        public async Task<IActionResult> Details(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var product = await _context.Products.FindAsync(id);
+
+            if(product == null)
+            {
+                return NotFound();
+            }
+
+            return View(product);
+        }
+
         #region == funtions ==
         private async Task SetCategoryListAsync()
         {
@@ -142,6 +162,3 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
     }
 
 }
-
-
-//buhati nag details ug delete ang products
