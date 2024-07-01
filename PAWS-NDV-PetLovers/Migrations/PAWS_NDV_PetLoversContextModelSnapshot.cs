@@ -177,6 +177,10 @@ namespace PAWS_NDV_PetLovers.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("registeredDate")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
                     b.Property<double?>("sellingPrice")
                         .IsRequired()
                         .HasColumnType("float");
@@ -184,10 +188,6 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.Property<double?>("supplierPrice")
                         .IsRequired()
                         .HasColumnType("float");
-
-                    b.Property<DateTime?>("updateDate")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
 
                     b.HasKey("id");
 

@@ -25,9 +25,9 @@ namespace PAWS_NDV_PetLovers.Models.Records
         public int? quantity { get; set; }
 
         [Required]
-        [Display(Name ="Date added")]
+        [Display(Name ="Registered Date")]
         [DataType(DataType.Date)]
-        public DateTime? updateDate { get; set; }
+        public DateTime? registeredDate { get; set; }
 
         [Display(Name = "Last Update")]
         [DataType(DataType.Date)]
@@ -38,9 +38,10 @@ namespace PAWS_NDV_PetLovers.Models.Records
         public DateTime? expiryDate { get; set; }
        
         [ForeignKey("Category")]
+        [Display(Name ="Category")]
         public int CategoryId { get; set; }
 
         //navigation property
-        public Category category { get; set; }
+        public Category? category { get; set; }
     }
 }

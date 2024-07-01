@@ -103,27 +103,28 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             {
                 return NotFound();
             }
-                try
-                {
-                    _context.Update(pet);
-                    await _context.SaveChangesAsync();
-                    TempData["SuccessMessage"] = "Update Successfully";
 
+            try
+            {
+                _context.Update(pet);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Update Successfully";
+                return View(pet);
             }
-                catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!PetExists(pet.id))
                 {
-                    if (!PetExists(pet.id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return NotFound();
                 }
-            return View(pet);
+                else
+                {
+                    throw;
+                }
+            }
+          
 
-            /*            ViewData["ownerId"] = new SelectList(_context.Owners, "id", "id", pet.ownerId);*/
+            /*ViewData["ownerId"] = new SelectList(_context.Owners, "id", "id", pet.ownerId);*/
 
         }
 

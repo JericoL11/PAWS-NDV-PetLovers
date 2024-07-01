@@ -36,13 +36,13 @@
                                 Record Management
                             </a>
                             <ul class="dropdown-menu">
-                                <li class="px-3 fw-bold text-center">Client</li>
-                                <li><a class="dropdown-item" asp-action="Index" asp-controller="Owners">Owner</a></li>
-                                <li><a class="dropdown-item" asp-action="Index" asp-controller="Pets">Pets</a></li>
+                              @*<li class="px-3 fw-bold text-center">Client</li> *@
+                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Owners">Client Management</a></li>
+                              @*   <li><a class="dropdown-item" asp-action="Index" asp-controller="Pets">Pets</a></li> *@
                                 <li><hr class="dropdown-divider"></li>
-                                <li class="px-3 fw-bold text-center">Products</li>
-                                <li><a class="dropdown-item" asp-action="Index" asp-controller="Categories">Category</a></li>
-                                <li><a class="dropdown-item" asp-action="Index" asp-controller="Products">Products List</a></li>
+                              @*   <li class="px-3 fw-bold text-center">Products</li> *@
+                              @* <li><a class="dropdown-item" asp-action="Index" asp-controller="Categories">Category</a></li> *@
+                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Products">Product Management</a></li>
                                @*  <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="#">Something else here</a></li> *@
                             </ul>
