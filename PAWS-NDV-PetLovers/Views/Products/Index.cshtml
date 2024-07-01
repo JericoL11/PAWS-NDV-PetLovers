@@ -15,7 +15,7 @@
 
 <div class="bg-secondary bg-opacity-10 py-2 mb-3">
     <div class="container">
-        <h1>Products</h1>
+        <h1>Product Dashboard</h1>
     </div>
 </div>
 
@@ -30,11 +30,11 @@
     <table class="table table-striped" id="ProductTable">
         <thead>
             <tr>
-                <th>@Html.DisplayNameFor(model => model.id)</th>
-                <th>@Html.DisplayNameFor(model => model.productName)</th>
-                <th>@Html.DisplayNameFor(model => model.CategoryId)</th>
-                <th>@Html.DisplayNameFor(model => model.sellingPrice)</th>
-                <th>@Html.DisplayNameFor(model => model.quantity)</th>
+                <th class="text-center">@Html.DisplayNameFor(model => model.id)</th>
+                <th class="text-center">@Html.DisplayNameFor(model => model.productName)</th>
+                <th class="text-center">@Html.DisplayNameFor(model => model.CategoryId)</th>
+                <th class="text-center">@Html.DisplayNameFor(model => model.sellingPrice)</th>
+                <th class="text-center">@Html.DisplayNameFor(model => model.quantity)</th>
                 <th></th>
             </tr>
         </thead>
@@ -42,15 +42,15 @@
             @foreach(var item in Model)
             {
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.id)</td>
-                    <td>@Html.DisplayFor(modelItem => item.productName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.category.categoryName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.sellingPrice)</td>
-                    <td>@Html.DisplayFor(modelItem => item.quantity)</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.id)</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.productName)</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.category.categoryName)</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.sellingPrice)</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.quantity)</td>
                     <td>
                         <a asp-action="Edit" class="btn btn-success" asp-route-id="@item.id">Update</a> |
-                        <a asp-action="Details" class="btn btn-success" asp-route-id="@item.id">Details</a> |
-                        <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.id">Delete</a>
+                        <a asp-action="Details" class="btn btn-warning" asp-route-id="@item.id">Details</a> @* |
+                        <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.id">Delete</a> *@
                     </td>
                 </tr>
             }

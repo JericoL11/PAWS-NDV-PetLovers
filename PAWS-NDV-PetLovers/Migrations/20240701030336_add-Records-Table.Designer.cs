@@ -12,8 +12,8 @@ using PAWS_NDV_PetLovers.Data;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     [DbContext(typeof(PAWS_NDV_PetLoversContext))]
-    [Migration("20240630020648_Add-Records-Table")]
-    partial class AddRecordsTable
+    [Migration("20240701030336_add-Records-Table")]
+    partial class addRecordsTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -180,6 +180,10 @@ namespace PAWS_NDV_PetLovers.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("registeredDate")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
                     b.Property<double?>("sellingPrice")
                         .IsRequired()
                         .HasColumnType("float");
@@ -187,10 +191,6 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.Property<double?>("supplierPrice")
                         .IsRequired()
                         .HasColumnType("float");
-
-                    b.Property<DateTime?>("updateDate")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
 
                     b.HasKey("id");
 

@@ -25,9 +25,9 @@ namespace PAWS_NDV_PetLovers.Models.Records
         public int? quantity { get; set; }
 
         [Required]
-        [Display(Name ="Date added")]
+        [Display(Name ="Registered Date")]
         [DataType(DataType.Date)]
-        public DateTime? updateDate { get; set; }
+        public DateTime? registeredDate { get; set; }
 
         [Display(Name = "Last Update")]
         [DataType(DataType.Date)]

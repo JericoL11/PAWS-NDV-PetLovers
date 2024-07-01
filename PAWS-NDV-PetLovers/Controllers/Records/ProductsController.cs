@@ -35,7 +35,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,productName,supplierPrice,sellingPrice,quantity,updateDate,expiryDate,CategoryId")] Product product)
+        public async Task<IActionResult> Create([Bind("id,productName,supplierPrice,sellingPrice,quantity,registeredDate,expiryDate,CategoryId")] Product product)
         {
             if (product == null)
             {
@@ -93,7 +93,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,productName,supplierPrice,sellingPrice,quantity,updateDate,lastUpdate,expiryDate,CategoryId")]Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("id,productName,supplierPrice,sellingPrice,quantity,registeredDate,lastUpdate,expiryDate,CategoryId")]Product product)
         {
             await SetCategoryListAsync();
 
@@ -142,6 +142,49 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
             return View(product);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var product = await _context.Products.FindAsync(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View(product);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult>DeleteConfirmed(int? id)
+        {
+         
+            var products = await _context.Products.FindAsync(id);
+
+            if(products != null)
+            {
+                _context.Products.Remove(products);
+
+                TempData["SuccessMessage"] = "Deleted Successfully";
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return NotFound();
+            }
+        
+        }
+
 
         #region == funtions ==
         private async Task SetCategoryListAsync()
