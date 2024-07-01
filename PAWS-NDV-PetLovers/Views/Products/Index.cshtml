@@ -1,0 +1,62 @@
+﻿@model IEnumerable<PAWS_NDV_PetLovers.Models.Records.Product>
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    //bootstrap not for modal
+    <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
+<div class="bg-secondary bg-opacity-10 py-2 mb-3">
+    <div class="container">
+        <h1>Product Dashboard</h1>
+    </div>
+</div>
+
+
+<div class="main container">
+    <div class="d-flex justify-content-end">
+        <a asp-action="Create" class="btn btn-primary me-2">Add Product</a>
+        <a asp-action="Index" asp-controller="Categories" class="btn btn-primary me-2">View Category</a>
+    </div>
+    
+
+    <table class="table table-striped" id="ProductTable">
+        <thead>
+            <tr>
+                <th class="text-center">@Html.DisplayNameFor(model => model.id)</th>
+                <th class="text-center">@Html.DisplayNameFor(model => model.productName)</th>
+                <th class="text-center">@Html.DisplayNameFor(model => model.CategoryId)</th>
+                <th class="text-center">@Html.DisplayNameFor(model => model.sellingPrice)</th>
+                <th class="text-center">@Html.DisplayNameFor(model => model.quantity)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.id)</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.productName)</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.category.categoryName)</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.sellingPrice)</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.quantity)</td>
+                    <td>
+                        <a asp-action="Edit" class="btn btn-success" asp-route-id="@item.id">Update</a> 
+                      @*  <a asp-action="Details" class="btn btn-warning" asp-route-id="@item.id">Details</a> |
+                        <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.id">Delete</a> *@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<script src="~/js/RecordsDataTables/ProductTable.js" defer></script>

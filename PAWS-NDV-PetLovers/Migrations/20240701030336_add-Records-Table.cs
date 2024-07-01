@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     /// <inheritdoc />
-    public partial class AddRecordsTable : Migration
+    public partial class addRecordsTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,7 +32,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "10000, 1"),
+                        .Annotation("SqlServer:Identity", "100000, 1"),
                     fname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     lname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     mname = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -53,12 +53,12 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "500000, 1"),
+                        .Annotation("SqlServer:Identity", "50000, 1"),
                     productName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     sellingPrice = table.Column<double>(type: "float", nullable: false),
                     supplierPrice = table.Column<double>(type: "float", nullable: false),
                     quantity = table.Column<int>(type: "int", nullable: false),
-                    updateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    registeredDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     lastUpdate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     expiryDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
@@ -79,7 +79,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "10000000, 1"),
+                        .Annotation("SqlServer:Identity", "1000000, 1"),
                     petName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     species = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     breed = table.Column<string>(type: "nvarchar(max)", nullable: false),

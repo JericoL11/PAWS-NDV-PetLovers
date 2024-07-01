@@ -3,6 +3,15 @@
 
 // Write your JavaScript code.
 
+//Numbers/Decimal only for inputs
+function validateDecimalInput(input) {
+    input.value = input.value.replace(/[^0-9.]/g, ''); // Allow only numbers and periods
+    if ((input.value.match(/\./g) || []).length > 1) {
+        input.value = input.value.replace(/\.+$/, ""); // Remove extra periods
+    }
+}
+
+
 //auto fill date
 $(document).ready(function () {
     // Get the current date
@@ -26,7 +35,7 @@ $(document).ready(function () {
     $('.maxDate').attr('max', today);
 });
 
-//alert notification For success duration
+//CREATE -- alert notification For success duration
 $(document).ready(function () {
     var alert = $('#success-alert');
     if (alert.length) {

@@ -50,7 +50,7 @@ namespace PAWS_NDV_PetLovers.Models.Records
         public int ownerId { get; set; }
 
         //navigation property
-        public Owner owner { get; set; }
+        public Owner? owner { get; set; }
     }
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -22,17 +23,20 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
 
         //pet area
-        #region == Pets code area == 
+        #region == Pets code area || EDIT > ADD NEW PET == 
 
         public async Task<IActionResult> addNewPet([Bind("id,petName,species,breed,bdate,age,color,gender,registeredDate,ownerId")] Pet pet)
         {
+            if(pet == null)
+            {
+                return View(pet);
+            }
 
-            var checkPet = _context.Pets.FirstOrDefault(e => e.petName == pet.petName &&
-                            e.bdate == pet.bdate && e.age == pet.age && e.breed == pet.breed && e.ownerId == pet.ownerId);
-
-            if (checkPet != null)
+            if (PetExists(pet.petName, pet.species ,pet.breed, pet.ownerId))
             {
                 ModelState.AddModelError("", "Pet exist Already");
+
+                //for jquery code
                 return Json(new { success = false, message = "Pet Exist Already" });
             }
 
@@ -53,10 +57,12 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         }
 
 
-        private bool PetExists(Pet pet)
+        private bool PetExists(string petName, string specie,string breed, int ownerId)
         {
-            return _context.Pets.Any(e => e.id == pet.id && e.petName == pet.petName &&
-            e.bdate == pet.bdate && e.age == pet.age && e.breed == pet.breed && e.ownerId == pet.ownerId);
+            return _context.Pets.Any(e => e.petName == petName && e.species == specie  && e.breed == breed &&
+           e.ownerId == ownerId);
+            /* return _context.Pets.Any(e => e.id == pet.id && e.petName == pet.petName &&
+             e.bdate == pet.bdate && e.age == pet.age && e.breed == pet.breed && e.ownerId == pet.ownerId);*/
         }
         private bool PetExistsById(int id)
         {
@@ -113,40 +119,48 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,fname,lname,mname,gender,contact,email,address,registeredDate,Pets")] Owner owner)
         {
-
             var verifyOwner = _context.Owners
-                               .Where(m => m.fname == owner.fname && m.lname == owner.lname).FirstOrDefault();
-
+                               .Where(m => m.fname == owner.fname && m.lname == owner.lname)
+                               .FirstOrDefault();
 
             if (verifyOwner == null)
             {
-                if(owner.contact.Length < 11)
+                if (owner.contact.Length < 11)
                 {
                     ModelState.AddModelError("", "Contact number is invalid");
                     return View(owner);
                 }
-              
+
+                // Use a HashSet to track pet names and check for duplicates
+                var petNames = new HashSet<string>();
+
+                foreach (var pet in owner.Pets)
+                {
+                    if (!petNames.Add(pet.petName))
+                    {
+                        ModelState.AddModelError("", $"Duplicate pet name '{pet.petName}' is invalid");
+                        return View(owner);
+                    }
+                }
+
                 _context.Add(owner);
                 await _context.SaveChangesAsync();
 
                 TempData["SuccessMessage"] = "Created Successfully";
 
                 return RedirectToAction(nameof(Index));
-              
             }
             else
             {
-                ModelState.AddModelError("", "Owner already exist");
-               
-
+                ModelState.AddModelError("", "Owner already exists");
             }
 
-            return View("Create",owner);
-
+            return View("Create", owner);
         }
 
-            // GET: Owners/Edit/5
-            public async Task<IActionResult> Edit(int? id)
+
+        // GET: Owners/Edit/5
+        public async Task<IActionResult> Edit(int? id)
         {
 
             if (id == null)
@@ -160,17 +174,18 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 return NotFound();
             }
 
-            //matching ownerId to Pet
-            var pet = await _context.Pets
-                .Where(P => P.ownerId == id)
-                .Select(p => p).ToListAsync();
+            // Retrieve related pets
+            var updatedOwner = await _context.Owners
+                                    .Include(o => o.Pets)
+                                    .FirstOrDefaultAsync(o => o.id == id);
+
 
 
             //view Model Instantiations for VIEWS
             var data = new RecordsVm
             {
-                Owner = owner,
-                IPets = pet
+                Owner = updatedOwner,
+                IPets = updatedOwner.Pets
             };
 
 
@@ -189,35 +204,53 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 return NotFound();
             }
 
-                try
-                {
-                    _context.Update(owner);
-                    await _context.SaveChangesAsync();
-                    TempData["SuccessMessage"] = "Update Successfully";
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OwnerExists(owner.id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-              /*  return RedirectToAction(nameof(Index));
-            }*/
+            if(string.IsNullOrEmpty(owner.contact) || owner.contact.Length < 11)
+            {
+                ModelState.AddModelError("","Please input a contact number correctly");
 
-            // If we reach this point, something went wrong, redisplay the form with the current model
-            var pets = await _context.Pets
-                        .Where(p => p.ownerId == id)
-                        .ToListAsync();
+                // Retrieve the updated data to redisplay the form
+                var owners = await _context.Owners
+                                        .Include(o => o.Pets)
+                                        .FirstOrDefaultAsync(o => o.id == id);
+
+                var contactCheck = new RecordsVm
+                {
+                    Owner = owners,
+                    IPets = owners.Pets
+                };
+                return View(contactCheck);
+            }
+
+            // Update the lastUpdate column
+            owner.lastUpdate = DateTime.Now;
+
+            try
+            {
+                _context.Update(owner);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Update Successfully";
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!OwnerExists(owner.id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            // Retrieve the updated data to redisplay the form
+            var updatedOwner = await _context.Owners
+                                    .Include(o => o.Pets)
+                                    .FirstOrDefaultAsync(o => o.id == id);
 
             var data = new RecordsVm
             {
-                Owner = owner,
-                IPets = pets
+                Owner = updatedOwner,
+                IPets = updatedOwner.Pets
             };
 
             return View(data);
@@ -283,8 +316,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         }
 
 
-
-
         // GET: Owners/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -324,6 +355,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             return _context.Owners.Any(e => e.id == id);
         }
 
-   
     }
 }
+
