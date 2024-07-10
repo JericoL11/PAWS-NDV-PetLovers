@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PAWS_NDV_PetLovers.Models.Appointments;
 using PAWS_NDV_PetLovers.Models.Records;
 
 namespace PAWS_NDV_PetLovers.Data
@@ -19,5 +20,47 @@ namespace PAWS_NDV_PetLovers.Data
         public DbSet<Category> Categories { get; set; } = default!;
 
         public DbSet<Product> Products { get; set; } = default!;
+
+        public DbSet<Appontment> Appointments { get; set; } = default!; 
+
+        public DbSet<AppointmentDetails> AppointmentDetails { get; set; } = default!;
+
+        public DbSet<Services>Services { get; set; } = default!;
+
+
+#region == fluent API == 
+        /*
+         * The Fluent API is a way of configuring your Entity
+        Framework model classes using method chaining in the
+        OnModelCreating method of your DbContext class.
+        This approach provides more control over the database schema and
+        relationships compared to using only data annotations.
+        */
+
+        //FIXING potential for a cycle or multiple cascade paths in your foreign key constraints,
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<AppointmentDetails>()
+                .HasOne(ad => ad.Pet)
+                .WithMany()
+                .HasForeignKey(ad => ad.petID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<AppointmentDetails>()
+                .HasOne(ad => ad.Appointment)
+                .WithMany()
+                .HasForeignKey(ad => ad.AppointId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<AppointmentDetails>()
+                .HasOne(ad => ad.services)
+                .WithMany()
+                .HasForeignKey(ad => ad.serviceID)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
+        #endregion
     }
 }

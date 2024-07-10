@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     /// <inheritdoc />
-    public partial class addRecordsTable : Migration
+    public partial class Add_Records_Table : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,7 +32,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "100000, 1"),
+                        .Annotation("SqlServer:Identity", "1000, 1"),
                     fname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     lname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     mname = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -79,7 +79,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1000000, 1"),
+                        .Annotation("SqlServer:Identity", "100000, 1"),
                     petName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     species = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     breed = table.Column<string>(type: "nvarchar(max)", nullable: false),
