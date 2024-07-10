@@ -4,12 +4,26 @@
 // Write your JavaScript code.
 
 //Numbers/Decimal only for inputs
-function validateDecimalInput(input) {
-    input.value = input.value.replace(/[^0-9.]/g, ''); // Allow only numbers and periods
-    if ((input.value.match(/\./g) || []).length > 1) {
-        input.value = input.value.replace(/\.+$/, ""); // Remove extra periods
+$(document).ready(function () {
+    function validateDecimalInput(input) {
+        var value = $(input).val().replace(/[^0-9.]/g, ''); // Allow only numbers and periods
+        if ((value.match(/\./g) || []).length > 1) {
+            value = value.replace(/\.+$/, ""); // Remove extra periods
+        }
+
+        // Limit the maximum length to 10
+        if (value.length > 10) {
+            value = value.substring(0, 10); // Truncate to 10 characters
+        }
+
+        $(input).val(value);
     }
-}
+
+    // Apply the function on input event
+    $('input.decimal-input').on('input', function () {
+        validateDecimalInput(this);
+    });
+});
 
 
 //auto fill date
@@ -34,6 +48,16 @@ $(document).ready(function () {
     // Set max attribute to today's date
     $('.maxDate').attr('max', today);
 });
+
+//minimum date - not include past dates
+$(document).ready(function () {
+    // Get the current date in YYYY-MM-DD format
+    var today = new Date().toISOString().split('T')[0];
+
+    // Set min attribute to today's date to prevent selecting past dates
+    $('.minDate').attr('min', today);
+});
+
 
 //CREATE -- alert notification For success duration
 $(document).ready(function () {

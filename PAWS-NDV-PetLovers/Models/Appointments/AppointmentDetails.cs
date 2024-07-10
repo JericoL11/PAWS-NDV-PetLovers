@@ -34,10 +34,13 @@ namespace PAWS_NDV_PetLovers.Models.Appointments
         public int petID { get; set; }
 
 
+        [Display(Name = "Status")]
+        public string? status { get; set; }
+
         //navigation Property
 
         public Pet? Pet { get; set; }
-        public Appontment? Appointment {get;set;}
+        public Appointment? Appointment {get;set;}
         public Services? services { get; set; }
 
     }

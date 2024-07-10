@@ -28,8 +28,19 @@
                         <li class="nav-item custom-padding">
                             <a class="nav-link active" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item custom-padding">
-                            <a class="nav-link" asp-area="" asp-controller="Index" asp-action="Appointments">Appointments</a>
+                        <li class="nav-item dropdown custom-padding">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Appointments
+                            </a>
+                            <ul class="dropdown-menu">
+                              
+                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Appointment">Register an Owner</a></li>
+                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="AppointmentDetails">Appointments</a></li>
+                               @*  <li><hr class="dropdown-divider"></li> *@
+                             
+                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Services">Services</a></li>
+
+                            </ul>
                         </li>
                         <li class="nav-item dropdown custom-padding">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
