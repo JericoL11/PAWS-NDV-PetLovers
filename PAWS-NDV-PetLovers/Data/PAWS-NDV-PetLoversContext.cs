@@ -21,14 +21,14 @@ namespace PAWS_NDV_PetLovers.Data
 
         public DbSet<Product> Products { get; set; } = default!;
 
-        public DbSet<Appontment> Appointments { get; set; } = default!; 
+        public DbSet<Appointment> Appointments { get; set; } = default!;
 
         public DbSet<AppointmentDetails> AppointmentDetails { get; set; } = default!;
 
-        public DbSet<Services>Services { get; set; } = default!;
+        public DbSet<Services> Services { get; set; } = default!;
 
 
-#region == fluent API == 
+        #region == fluent API == 
         /*
          * The Fluent API is a way of configuring your Entity
         Framework model classes using method chaining in the

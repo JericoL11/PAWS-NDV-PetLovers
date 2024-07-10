@@ -1,0 +1,194 @@
+﻿@model PAWS_NDV_PetLovers.ViewModels.AppointmentVm
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="bg-secondary bg-opacity-10 py-2 mb-3">
+    <div class="container">
+        <h1>Create Appointment</h1>
+    </div>
+</div>
+
+<div class="container">
+    <div>
+        <a class="btn btn-primary" asp-action="Create" asp-controller="Appointment">Register an Appointment</a>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <form method="post" asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="row">
+                    <div class="form-group col-lg-6">
+                        <label asp-for="AppointmentDetails.AppointId" class="control-label"></label>
+                        <input asp-for="AppointmentDetails.AppointId" id="AppointmentId" class="form-control" />
+
+                        <input type="text" id="OwnerIdInput" class="form-control" hidden readonly /> 
+                        <span asp-validation-for="AppointmentDetails.AppointId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <label class="control-label"></label>
+                        <button type="button" class="btn btn-primary form-control" data-bs-toggle="modal" data-bs-target="#selectOwnerModel">
+                            Select
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="AppointmentDetails.date" class="control-label"></label>
+                    <input asp-for="AppointmentDetails.date" class="form-control minDate" />
+                    <span asp-validation-for="AppointmentDetails.date" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="AppointmentDetails.time" class="control-label"></label>
+                    <input asp-for="AppointmentDetails.time" class="form-control" />
+                    <span asp-validation-for="AppointmentDetails.time" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="AppointmentDetails.serviceID" class="control-label"></label>
+                    <select asp-for="AppointmentDetails.serviceID" asp-items="@ViewBag.services" class="form-control"></select>
+                    <span asp-validation-for="AppointmentDetails.serviceID" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="AppointmentDetails.petID" class="control-label"></label>
+                    <select asp-for="AppointmentDetails.petID" class="form-control" id="petDropdown"></select>
+                    <span asp-validation-for="AppointmentDetails.petID" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-3">
+                    <input type="submit" value="Create" id="SubmitCreate" class="btn btn-primary" />
+                    <a class="btn btn-secondary px-3" asp-action="Index"> Cancel </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal For selecting AppointmentId -->
+<div class="modal fade" id="selectOwnerModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="selectOwnerModelLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="selectOwnerModelLabel">Select Owner</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="OwnerSelectionForm">
+                    <table class="table table-striped w-100" id="OwnerTable">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Selector</th>
+                                <th class="text-center">Appointment ID</th>
+                                <th class="text-center">Fullname</th>
+                                <th class="text-center">Owner ID</th>
+                                <th class="text-center">Address</th>
+                                <th class="text-center">Contact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var owner in Model.Iappointments)
+                            {
+                                <tr>
+                                    <td class="text-center">
+                                        <input type="radio" name="SelectedAppointmentId" value="@owner.AppointId" data-owner-id="@owner.Owner.id" />
+                                    </td>
+                                    <td class="text-center">@Html.DisplayFor(modelItem => owner.AppointId)</td>
+                                    <td class="text-center">@Html.DisplayFor(modelItem => owner.Owner.fname) @Html.Raw(" ") @Html.DisplayFor(modelItem => owner.Owner.lname)</td>
+                                    <td class="text-center">@Html.DisplayFor(modelItem => owner.Owner.id)</td>
+                                    <td class="text-center">@Html.DisplayFor(modelItem => owner.Owner.address)</td>
+                                    <td class="text-center">@Html.DisplayFor(modelItem => owner.Owner.contact)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="SelectOwnerButton">Select</button>
+                    </div>
+                </form>
+                <script src="~/js/RecordsDataTables/OwnerTable.js" async></script>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            // Handle the selection of an owner in the modal
+            $('#SelectOwnerButton').click(function () {
+                var selectedAppointmentId = $('input[name="SelectedAppointmentId"]:checked').val();
+                var selectedOwnerId = $('input[name="SelectedAppointmentId"]:checked').data('owner-id');
+
+                if (selectedAppointmentId && selectedOwnerId) {
+                    $('#AppointmentId').val(selectedAppointmentId); // Set the selected appointment ID
+                    $('#OwnerIdInput').val(selectedOwnerId); // Set the corresponding owner ID
+                    $('#selectOwnerModel').modal('hide'); // Close the modal
+                    fetchPets(selectedOwnerId); // Fetch and populate the pets dropdown
+                } else {
+                    alert("Please select an owner."); // Show alert if no owner is selected
+                }
+            });
+
+            // Auto-fill pet dropdown on page load if AppointmentDetails.AppointId is provided
+            var initialAppointmentId = $('#AppointmentId').val();
+            if (initialAppointmentId) {
+                fetchOwnerId(initialAppointmentId); // Fetch owner ID and pets based on the initial appointment ID
+            }
+
+            // Fetch owner ID based on appointment ID
+            function fetchOwnerId(appointmentId) {
+                $.ajax({
+                    url: '@Url.Action("GetOwnerIdByAppointmentId", "AppointmentDetails")',
+                    type: 'GET',
+                    data: { appointmentId: appointmentId },
+                    success: function (data) {
+                        $('#OwnerIdInput').val(data.ownerId); // Set the fetched owner ID
+                        fetchPets(data.ownerId); // Fetch and populate the pets dropdown
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("Error: " + textStatus + " - " + errorThrown); // Log any errors
+                    }
+                });
+            }
+
+            // Fetch pets based on owner ID
+            function fetchPets(ownerId) {
+                $.ajax({
+                    url: '@Url.Action("GetPetsByOwnerId", "AppointmentDetails")',
+                    type: 'GET',
+                    data: { ownerId: ownerId },
+                    success: function (data) {
+                        var $petDropdown = $('#petDropdown');
+                        $petDropdown.empty();
+                        if (data.length > 0) {
+                            $.each(data, function (index, pet) {
+                                $petDropdown.append($('<option>', {
+                                    value: pet.id,
+                                    text: pet.petName
+                                }));
+                            });
+                        } else {
+                            $petDropdown.append($('<option>', {
+                                value: '',
+                                text: 'No pets found'
+                            }));
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("Error: " + textStatus + " - " + errorThrown); // Log any errors
+                    }
+                });
+            }
+        });
+
+    </script>
+}

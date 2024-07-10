@@ -1,0 +1,107 @@
+﻿@model PAWS_NDV_PetLovers.ViewModels.AppointmentVm
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="bg-secondary bg-opacity-10 py-2 mb-3">
+    <div class="container">
+        <h1> Register An Owner </h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="card">
+                <div class="p-3">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Appointment.OwnerId" class="control-label"></label>
+                            <input asp-for="Appointment.OwnerId" id="OwnerIdInput" name="Appointment.OwnerId" class="form-control" readonly />
+                            <span asp-validation-for="Appointment.OwnerId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-5">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#selectOwnerModel">
+                                Search Owner
+                            </button>
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                        </div>
+                        <div class="card-footer text-end">
+                           
+                            <a class="btn btn-secondary" asp-action="Index">View Registered Owners</a>
+                            <a class="btn btn-secondary" asp-action="Index" asp-controller="appointmentDetails">View All Appointments</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal For selecting Owner -->
+<div class="modal fade" id="selectOwnerModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="selectOwnerModelLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="selectOwnerModelLabel">Select Owner</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="OwnerSelectionForm">
+                    <table class="table table-striped w-100" id="OwnerTable">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Selector</th>
+                                <th class="text-center">OwnerId</th>
+                                <th class="text-center">Fullname</th>
+                                <th class="text-center">Address</th>
+                                <th class="text-center">Contact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var owner in Model.IOwner)
+                            {
+                                <tr>
+                                    <td class="text-center"><input type="radio" name="SelectedOwnerId" value="@owner.id" /></td>
+                                    <td class="text-center">@Html.DisplayFor(modelItem => owner.id)</td>
+                                    <td class="text-center">@Html.DisplayFor(modelItem => owner.fname) @Html.Raw(" ") @Html.DisplayFor(modelItem => owner.lname)</td>
+                                    <td class="text-center">@Html.DisplayFor(modelItem => owner.address)</td>
+                                    <td class="text-center">@Html.DisplayFor(modelItem => owner.contact)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="SelectOwnerButton">Select</button>
+                    </div>
+                    <script src="~/js/RecordsDataTables/OwnerTable.js" async></script>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            $('#SelectOwnerButton').click(function () {
+                var selectedOwnerId = $('input[name="SelectedOwnerId"]:checked').val();
+                if (selectedOwnerId) {
+                    $('#OwnerIdInput').val(selectedOwnerId);
+                    $('#selectOwnerModel').modal('hide');
+                } else {
+                    alert("Please select an owner.");
+                }
+            });
+        });
+
+
+    </script>
+}
