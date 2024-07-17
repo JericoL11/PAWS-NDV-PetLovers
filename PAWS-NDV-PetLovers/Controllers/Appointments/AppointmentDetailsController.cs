@@ -126,12 +126,14 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AppointId_details,AppointId,date,time,serviceID,petID")] AppointmentDetails appointmentDetails)
+
         {
             // Get select list
             await GetListAsync();
 
             // Verify if the owner exists in the appointment
             var exists = await _context.Appointments.AnyAsync(a => a.AppointId == appointmentDetails.AppointId);
+
             if (!exists)
             {
                 ModelState.AddModelError("AppointId", "The selected appointment does not exist.");
@@ -166,6 +168,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
        
 
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

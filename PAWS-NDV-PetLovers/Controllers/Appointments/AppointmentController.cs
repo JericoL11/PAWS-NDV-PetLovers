@@ -32,7 +32,10 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
         {
             // Assigning IOwners for AppointmentVm
             var owners = await _context.Owners.ToListAsync();
+
+          
             var appointmentOwner = await _context.Appointments.Include(a => a.Owner).ToListAsync();
+
 
             var appointmentVm = new AppointmentVm
             {

@@ -37,6 +37,9 @@ namespace PAWS_NDV_PetLovers.Models.Appointments
         [Display(Name = "Status")]
         public string? status { get; set; }
 
+        [Display(Name = "Status")]
+        public string? status { get; set; }
+
         //navigation Property
 
         public Pet? Pet { get; set; }

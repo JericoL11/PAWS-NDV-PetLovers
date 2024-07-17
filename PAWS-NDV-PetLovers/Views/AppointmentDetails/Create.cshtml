@@ -23,7 +23,7 @@
                         <label asp-for="AppointmentDetails.AppointId" class="control-label"></label>
                         <input asp-for="AppointmentDetails.AppointId" id="AppointmentId" class="form-control" />
 
-                        <input type="text" id="OwnerIdInput" class="form-control" hidden readonly /> 
+                        <input type="text" id="OwnerIdInput" class="form-control" hidden readonly />
                         <span asp-validation-for="AppointmentDetails.AppointId" class="text-danger"></span>
                     </div>
                     <div class="form-group col-lg-4">
@@ -66,6 +66,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- Modal For selecting AppointmentId -->
 <div class="modal fade" id="selectOwnerModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="selectOwnerModelLabel" aria-hidden="true">
@@ -117,6 +118,7 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
@@ -156,26 +158,32 @@
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log("Error: " + textStatus + " - " + errorThrown); // Log any errors
-                    }
-                });
+                }
+            });
             }
 
             // Fetch pets based on owner ID
             function fetchPets(ownerId) {
                 $.ajax({
+                    // URL to call for getting pets based on owner ID
                     url: '@Url.Action("GetPetsByOwnerId", "AppointmentDetails")',
                     type: 'GET',
+                    // Data sent to the server
                     data: { ownerId: ownerId },
                     success: function (data) {
+                        // Log the returned data for debugging
+                        console.log(data);
                         var $petDropdown = $('#petDropdown');
+                        // Clear existing options in the pet dropdown
                         $petDropdown.empty();
                         if (data.length > 0) {
-                            $.each(data, function (index, pet) {
-                                $petDropdown.append($('<option>', {
-                                    value: pet.id,
-                                    text: pet.petName
-                                }));
-                            });
+                        $.each(data, function (index, pet) {
+                            // Append a new option for each pet in the dropdown
+                            $petDropdown.append($('<option>', {
+                                value: pet.id,
+                                text: pet.petName
+                            }));
+                        });
                         } else {
                             $petDropdown.append($('<option>', {
                                 value: '',
@@ -191,4 +199,5 @@
         });
 
     </script>
+
 }
