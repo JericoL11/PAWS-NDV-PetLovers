@@ -8,42 +8,20 @@ namespace PAWS_NDV_PetLovers.Models.Appointments
     {
         [Key]
         [Display(Name = "Details Id")]
-        public int AppointId_details { get; set; }
+        public int AppDetailsId { get; set; }
 
-   
         [ForeignKey("Appointment")]
         [Display(Name = "Appointment Id")]
         public int AppointId { get; set; }
 
-        [Required]
-        [DataType(DataType.Date)]
-        [Display(Name = "Date")]
-        public DateTime date { get; set; }
-
-        [Required]
-        [DataType(DataType.Time)]
-        [Display(Name = "Time")]
-        public DateTime time { get; set; }
-
-
         [ForeignKey("Services")]
         public int serviceID { get; set; }
 
+        [Display(Name = "Remarks")]
+        public string? remarks { get; set; } = "Uncompleted";
 
-        [ForeignKey("Pet")]
-        public int petID { get; set; }
-         
-
-        [Display(Name = "Status")]
-        public string? status { get; set; }
-
-
-
-        //navigation Property
-
-        public Pet? Pet { get; set; }
-        public Appointment? Appointment {get;set;}
-        public Services? services { get; set; }
-
+        // Navigation Property
+        public Appointment? Appointment { get; set; }
+        public Services? Services { get; set; } // Corrected to single object
     }
 }

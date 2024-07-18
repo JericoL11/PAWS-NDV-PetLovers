@@ -22,61 +22,6 @@ namespace PAWS_NDV_PetLovers.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.Appointment", b =>
-                {
-                    b.Property<int>("AppointId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AppointId"));
-
-                    b.Property<int>("OwnerId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AppointId");
-
-                    b.HasIndex("OwnerId");
-
-                    b.ToTable("Appointments");
-                });
-
-            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.AppointmentDetails", b =>
-                {
-                    b.Property<int>("AppointId_details")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AppointId_details"));
-
-                    b.Property<int>("AppointId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("petID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("serviceID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("time")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("AppointId_details");
-
-                    b.HasIndex("AppointId");
-
-                    b.HasIndex("petID");
-
-                    b.HasIndex("serviceID");
-
-                    b.ToTable("AppointmentDetails");
-                });
-
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.Services", b =>
                 {
                     b.Property<int>("serviceId")
@@ -270,44 +215,6 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.Appointment", b =>
-                {
-                    b.HasOne("PAWS_NDV_PetLovers.Models.Records.Owner", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Owner");
-                });
-
-            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.AppointmentDetails", b =>
-                {
-                    b.HasOne("PAWS_NDV_PetLovers.Models.Appointments.Appointment", "Appointment")
-                        .WithMany()
-                        .HasForeignKey("AppointId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PAWS_NDV_PetLovers.Models.Records.Pet", "Pet")
-                        .WithMany()
-                        .HasForeignKey("petID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PAWS_NDV_PetLovers.Models.Appointments.Services", "services")
-                        .WithMany()
-                        .HasForeignKey("serviceID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Appointment");
-
-                    b.Navigation("Pet");
-
-                    b.Navigation("services");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Records.Pet", b =>

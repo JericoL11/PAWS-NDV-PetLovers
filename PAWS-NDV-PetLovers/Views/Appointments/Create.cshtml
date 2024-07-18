@@ -1,0 +1,141 @@
+﻿@model PAWS_NDV_PetLovers.Models.Appointments.Appointment
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="bg-secondary bg-opacity-10 py-2 mb-3">
+    <div class="container">
+        <h1> Set Appointments</h1>
+    </div>
+</div>
+
+<div class="container">
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="row">
+            @* appointments *@
+            <div class="form-group col-lg-4">
+                <label asp-for="fname" class="control-label"></label>
+                <input asp-for="fname" class="form-control" />
+                <span asp-validation-for="fname" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-lg-4">
+                <label asp-for="lname" class="control-label"></label>
+                <input asp-for="lname" class="form-control" />
+                <span asp-validation-for="lname" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-lg-4">
+                <label asp-for="mname" class="control-label"></label>
+                <input asp-for="mname" class="form-control" />
+                <span asp-validation-for="mname" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-lg-4">
+                <label asp-for="contact" class="control-label"></label>
+                <input asp-for="contact" class="form-control" />
+                <span asp-validation-for="contact" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-lg-4">
+                <label asp-for="date" class="control-label"></label>
+                <input asp-for="date" class="form-control" />
+                <span asp-validation-for="date" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-lg-4">
+                <label asp-for="time" class="control-label"></label>
+                <input asp-for="time" class="form-control" />
+                <span asp-validation-for="time" class="text-danger"></span>
+            </div>
+
+            @* appointment Details *@
+            @* <div class="bg-secondary bg-opacity-10 py-2 my-3">
+               <div class="px-3"> <h1>Appointment Details</h1> </div>
+               </div>
+                *@
+         
+            <div class="col-8">
+              
+                <table class="table mt-2" id="DetailsTable">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Actions</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr class="detailRow">
+                        
+                            <td>
+                                <div class="form-group">
+                                    <select name="IAppDetails[0].serviceId" asp-items="@ViewBag.Services" class="form-control" required> </select>
+                                    
+                                </div>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger removeRow">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+                <button type="button" class="btn btn-success" id="addRow">Add Row</button>
+
+            </div>
+          
+ 
+            <div class="form-group mt-3 text-end">
+                <a asp-action="Index" class="btn btn-secondary px-4">Cancel</a>
+                <input type="submit" value="Create" class="btn btn-primary px-4" />
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        function updateRowNames() {
+            $('#DetailsTable tbody tr').each(function (index) {
+                $(this).find('input, select').each(function () {
+                    var name = $(this).attr('name');
+                    if (name) {
+                        var newName = name.replace(/\d+/, index);
+                        $(this).attr('name', newName);
+                    }
+                });
+            });
+        }
+
+        // Add row
+        $('#addRow').click(function () {
+            var rowCount = $('#DetailsTable tbody tr').length;
+            var newRow = $('.detailRow').first().clone();
+
+            newRow.find('input, select').each(function () {
+                var name = $(this).attr('name');
+                if (name) {
+                    var newName = name.replace(/\d+/, rowCount);
+                    $(this).attr('name', newName);
+                }
+                $(this).val(''); // Clear the value of the input/select
+            });
+
+            newRow.appendTo($('#DetailsTable tbody'));
+            updateRowNames();
+        });
+
+        // Remove row
+        $(document).on('click', '.removeRow', function () {
+            if ($('#DetailsTable tbody tr').length > 1) {
+                $(this).closest('tr').remove();
+                updateRowNames(); // Update the name attributes of the remaining rows
+            }
+        });
+    });
+</script>

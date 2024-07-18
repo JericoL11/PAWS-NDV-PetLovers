@@ -12,7 +12,7 @@ using PAWS_NDV_PetLovers.Data;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     [DbContext(typeof(PAWS_NDV_PetLoversContext))]
-    [Migration("20240715010649_Add_Records_Table")]
+    [Migration("20240722062448_Add_Records_Table")]
     partial class Add_Records_Table
     {
         /// <inheritdoc />
@@ -24,6 +24,27 @@ namespace PAWS_NDV_PetLovers.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.Services", b =>
+                {
+                    b.Property<int>("serviceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("serviceId"));
+
+                    b.Property<double>("serviceCharge")
+                        .HasColumnType("float");
+
+                    b.Property<string>("serviceName")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.HasKey("serviceId");
+
+                    b.ToTable("Services");
+                });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Records.Category", b =>
                 {

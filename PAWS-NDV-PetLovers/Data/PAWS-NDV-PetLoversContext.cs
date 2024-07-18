@@ -13,6 +13,8 @@ namespace PAWS_NDV_PetLovers.Data
         }
 
         //dbset -  represents a collection of entities of a specific type
+
+        //records
         public DbSet<Owner> Owners { get; set; } = default!;
 
         public DbSet<Pet> Pets { get; set; } = default!;
@@ -21,11 +23,12 @@ namespace PAWS_NDV_PetLovers.Data
 
         public DbSet<Product> Products { get; set; } = default!;
 
+        public DbSet<Services> Services { get; set; } = default!;
+
+        //appointments
         public DbSet<Appointment> Appointments { get; set; } = default!;
 
         public DbSet<AppointmentDetails> AppointmentDetails { get; set; } = default!;
-
-        public DbSet<Services> Services { get; set; } = default!;
 
 
         #region == fluent API == 
@@ -39,28 +42,28 @@ namespace PAWS_NDV_PetLovers.Data
 
         //FIXING potential for a cycle or multiple cascade paths in your foreign key constraints,
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
+        /*  protected override void OnModelCreating(ModelBuilder modelBuilder)
+          {
+              base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<AppointmentDetails>()
-                .HasOne(ad => ad.Pet)
-                .WithMany()
-                .HasForeignKey(ad => ad.petID)
-                .OnDelete(DeleteBehavior.Restrict);
+              modelBuilder.Entity<AppointmentDetails>()
+                  .HasOne(ad => ad.Pet)
+                  .WithMany()
+                  .HasForeignKey(ad => ad.petID)
+                  .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<AppointmentDetails>()
-                .HasOne(ad => ad.Appointment)
-                .WithMany()
-                .HasForeignKey(ad => ad.AppointId)
-                .OnDelete(DeleteBehavior.Restrict);
+              modelBuilder.Entity<AppointmentDetails>()
+                  .HasOne(ad => ad.Appointment)
+                  .WithMany()
+                  .HasForeignKey(ad => ad.AppointId)
+                  .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<AppointmentDetails>()
-                .HasOne(ad => ad.services)
-                .WithMany()
-                .HasForeignKey(ad => ad.serviceID)
-                .OnDelete(DeleteBehavior.Restrict);
-        }
+              modelBuilder.Entity<AppointmentDetails>()
+                  .HasOne(ad => ad.services)
+                  .WithMany()
+                  .HasForeignKey(ad => ad.serviceID)
+                  .OnDelete(DeleteBehavior.Restrict);
+          }*/
         #endregion
     }
 }

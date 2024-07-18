@@ -1,0 +1,70 @@
+﻿@model PAWS_NDV_PetLovers.ViewModels.AppointmentVm
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="bg-secondary bg-opacity-10 py-2 mb-3">
+    <div class="container">
+        <h1>Appointments</h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="my-3">
+        <a asp-action="Create" class="btn btn-primary">Set Appointment</a>
+    </div>
+    <table class="table table-striped" id="AppointmentTable">
+        <thead>
+            <tr>
+                <th>Appointment ID</th>
+                <th>Name</th>
+                <th>Service</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Remarks</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AppointmentGrouping)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Appointment.AppointId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Appointment.fname) @Html.Raw(" ") @Html.DisplayFor(modelItem => item.Appointment.lname)</td>
+                    <td>
+                        @{
+                            var services = item.Details
+                            .Select(d => d.Services.serviceName)
+                            .Distinct()
+                            .ToList();
+                            <span>@string.Join(", ", services)</span>
+                        }
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Appointment.date)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Appointment.time)</td>
+                    <td>
+                        @{
+                            var uniqueRemarks = item.Details
+                            .Where(d => !string.IsNullOrEmpty(d.remarks))
+                            .Select(d => d.remarks)
+                            .Distinct()
+                            .ToList();
+
+                            for (int i = 0; i < uniqueRemarks.Count; i++)
+                            {
+                                <span>@uniqueRemarks[i]</span>
+                                @if (i < uniqueRemarks.Count - 1)
+                                {
+                                    <span>, </span>
+                                }
+                            }
+                        }
+                    </td>
+                    <td>
+                        <button class="btn btn-success" name="SetRemarks">Set as Completed</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

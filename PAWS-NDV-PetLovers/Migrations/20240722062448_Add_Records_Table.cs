@@ -49,6 +49,20 @@ namespace PAWS_NDV_PetLovers.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Services",
+                columns: table => new
+                {
+                    serviceId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "500, 1"),
+                    serviceName = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
+                    serviceCharge = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Services", x => x.serviceId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -121,6 +135,9 @@ namespace PAWS_NDV_PetLovers.Migrations
 
             migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Services");
 
             migrationBuilder.DropTable(
                 name: "Owners");
