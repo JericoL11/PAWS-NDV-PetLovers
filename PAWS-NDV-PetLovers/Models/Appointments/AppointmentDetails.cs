@@ -15,10 +15,10 @@ namespace PAWS_NDV_PetLovers.Models.Appointments
         public int AppointId { get; set; }
 
         [ForeignKey("Services")]
-        public int serviceID { get; set; }
+        public int? serviceID { get; set; }
 
         [Display(Name = "Remarks")]
-        public string? remarks { get; set; } = "Uncompleted";
+        public string? remarks { get; set; }
 
         // Navigation Property
         public Appointment? Appointment { get; set; }

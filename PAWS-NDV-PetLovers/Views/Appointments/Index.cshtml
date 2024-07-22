@@ -11,24 +11,30 @@
 
 <div class="container">
     <div class="my-3">
-        <a asp-action="Create" class="btn btn-primary">Set Appointment</a>
+        @* set current date as default *@
+        <a asp-action="Create" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")" class="btn btn-primary">
+            Set Appointment
+        </a>
+
     </div>
     <table class="table table-striped" id="AppointmentTable">
         <thead>
-            <tr>
+            <tr class="text-center">
                 <th>Appointment ID</th>
                 <th>Name</th>
                 <th>Service</th>
+                <th>Contact #</th>
                 <th>Date</th>
                 <th>Time</th>
                 <th>Remarks</th>
-                <th></th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
+            @* TARGETING THE AppointmentGrouping property referenced to AppointmentGroup class *@
             @foreach (var item in Model.AppointmentGrouping)
             {
-                <tr>
+                <tr class="text-center">
                     <td>@Html.DisplayFor(modelItem => item.Appointment.AppointId)</td>
                     <td>@Html.DisplayFor(modelItem => item.Appointment.fname) @Html.Raw(" ") @Html.DisplayFor(modelItem => item.Appointment.lname)</td>
                     <td>
@@ -37,34 +43,105 @@
                             .Select(d => d.Services.serviceName)
                             .Distinct()
                             .ToList();
+
+                            //FOREACH
                             <span>@string.Join(", ", services)</span>
                         }
                     </td>
+                    <td>@Html.DisplayFor(modelItem => item.Appointment.contact)</td>
                     <td>@Html.DisplayFor(modelItem => item.Appointment.date)</td>
                     <td>@Html.DisplayFor(modelItem => item.Appointment.time)</td>
-                    <td>
+               
+                    <td class="remarks-cell">
                         @{
+
+                            //NOT NULL REMARKS
                             var uniqueRemarks = item.Details
                             .Where(d => !string.IsNullOrEmpty(d.remarks))
                             .Select(d => d.remarks)
                             .Distinct()
                             .ToList();
 
-                            for (int i = 0; i < uniqueRemarks.Count; i++)
-                            {
-                                <span>@uniqueRemarks[i]</span>
-                                @if (i < uniqueRemarks.Count - 1)
-                                {
-                                    <span>, </span>
-                                }
-                            }
+                            //serve as foreach
+                            <span>@string.Join(", ", uniqueRemarks)</span>
                         }
                     </td>
+
                     <td>
-                        <button class="btn btn-success" name="SetRemarks">Set as Completed</button>
+                        @{
+                            //get multiple appointment IDs
+                            var appDetailIds = item.Details
+                            .Select(d => d.AppDetailsId)
+                            .ToList();
+                            var appDetailIdsString = string.Join(",", appDetailIds);
+                        }
+                        <div>
+                            <form asp-action="SetRemarks" method="post">
+                                <input type="hidden" name="AppDetailsIds" value="@appDetailIdsString" />
+
+                                @{
+
+                                    //get null remarks
+                                    var remarksResult = string.Empty;
+
+                                    var remarksCheck = item.Details
+                                    .Where(d => string.IsNullOrEmpty(d.remarks))
+                                    .Select(d => d.remarks)
+                                    .ToList();
+
+
+                                    foreach (var x in remarksCheck)
+                                    {
+                                        remarksResult = x;
+                                    }
+
+                                    // Check if owner exists and matches appointment details
+                                    var ownerExists = Model.IOwner
+                                    .FirstOrDefault(o => o.fname == item.Appointment.fname
+                                    && o.lname == item.Appointment.lname);
+                                }
+
+                                @if (ownerExists == null)
+                                {
+                                    //storing the necessary fields
+                                    //asp-route-fname and etc, will be pass to craete params
+                                    <a class="btn btn-info" asp-action="Create" asp-controller="Owners"
+                                       asp-route-fname="@item.Appointment.fname" 
+                                       asp-route-lname="@item.Appointment.lname"
+                                       asp-route-mname="@item.Appointment.mname"
+                                       asp-route-contact="@item.Appointment.contact"> Register</a>
+                                }
+
+
+                                @if (remarksResult == null)
+                                {
+                                    <button class="btn btn-success">Complete</button>
+                                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Appointment.AppointId"> Update</a>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-secondary" disabled>Complete</button>
+                                    <a class="btn btn-primary visually-hidden" asp-action="Edit" asp-route-id="@item.Appointment.AppointId"> Update</a>
+                                }
+                                <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Appointment.AppointId">Delete</a>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.remarks-cell').each(function () {
+            var remarks = $(this).text().trim();
+            if (!remarks) {
+                $(this).text('Uncompleted');
+            }
+        });
+    });
+</script>

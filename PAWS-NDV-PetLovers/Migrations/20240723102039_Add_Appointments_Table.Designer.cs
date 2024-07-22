@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PAWS_NDV_PetLovers.Data;
 
@@ -11,9 +12,11 @@ using PAWS_NDV_PetLovers.Data;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     [DbContext(typeof(PAWS_NDV_PetLoversContext))]
-    partial class PAWS_NDV_PetLoversContextModelSnapshot : ModelSnapshot
+    [Migration("20240723102039_Add_Appointments_Table")]
+    partial class Add_Appointments_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

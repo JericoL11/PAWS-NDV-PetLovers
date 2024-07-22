@@ -137,9 +137,6 @@ $(document).ready(function () {
     });
 
 
-
-
-
     // Function to calculate age
     function calculateAge(birthdate) {
         var today = new Date();
@@ -166,5 +163,51 @@ document.addEventListener('DOMContentLoaded', function () {
         $.get('/Owners/EditPet', { id: petId }, function (data) {
             modal.find('.modal-body').html($(data).find('.modal-body').html());
         });
+    });
+});
+
+//contact number fields
+$(document).ready(function () {
+    // Target the contact input field
+    var contactInput = $('#contact');
+
+    // Function to clean and format the input value
+    function formatContact(value) {
+        // Remove non-numeric characters
+        value = value.replace(/\D/g, '');
+
+        // Ensure it starts with "09"
+        if (!value.startsWith('09')) {
+            value = '09' + value;
+        }
+
+        // Limit the length of the value (e.g., 11 digits)
+        if (value.length > 11) {
+            value = value.slice(0, 11);
+        }
+
+        return value;
+    }
+
+    // On input event, format the contact field
+    contactInput.on('input', function () {
+        var formattedValue = formatContact($(this).val());
+        $(this).val(formattedValue);
+    });
+
+    // On focus event, ensure the contact field starts with "09"
+    contactInput.on('focus', function () {
+        var value = $(this).val();
+        if (!value.startsWith('09')) {
+            $(this).val('09' + value);
+        }
+    });
+
+    // On blur event, ensure the contact field starts with "09"
+    contactInput.on('blur', function () {
+        var value = $(this).val();
+        if (!value.startsWith('09')) {
+            $(this).val('09' + value);
+        }
     });
 });
