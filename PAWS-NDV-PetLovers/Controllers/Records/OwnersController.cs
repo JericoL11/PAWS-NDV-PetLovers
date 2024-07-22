@@ -96,26 +96,32 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             return View(owner);
         }
 
-        // GET: Owners/Create
-        public IActionResult Create()
+        // GET: Owners/Create 
+        //variables inside the parameters are the receiver of appointment route*
+        public IActionResult Create(string? fname, string? lname, string? mname, string? contact)
         {
 
             var date = DateTime.Now;
             var today = date.Date;
-           
 
+           
             var owner = new Owner
             {
-                registeredDate = today
+                registeredDate = today,
+                fname = fname,
+                lname = lname,
+                mname = mname,
+                contact = contact
             };
 
             return View(owner);
         }
 
+
         // POST: Owners/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("CreatePost")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,fname,lname,mname,gender,contact,email,address,registeredDate,Pets")] Owner owner)
         {
@@ -127,8 +133,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             {
                 if (owner.contact.Length < 11)
                 {
-                    ModelState.AddModelError("", "Contact number is invalid");
-                    return View(owner);
+                    ModelState.AddModelError("", $"Contact number below 11 is not valid");
+                    return View("Create",owner);
                 }
 
                 // Use a HashSet to track pet names and check for duplicates

@@ -1,79 +1,80 @@
-﻿@model PAWS_NDV_PetLovers.Models.Appointments.Appointment
+﻿@model PAWS_NDV_PetLovers.ViewModels.AppointmentVm
 @{
     ViewData["Title"] = "Create";
 }
 
 <div class="bg-secondary bg-opacity-10 py-2 mb-3">
     <div class="container">
-        <h1> Set Appointments</h1>
+        <h1>Set Appointments</h1>
     </div>
 </div>
 
 <div class="container">
+    <div class="mb-4">
+        <a class="btn btn-primary" asp-action="Create" asp-controller="Owners">Register</a>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Existing Record
+        </button>
+    </div>
+
     <form asp-action="Create" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="row">
-            @* appointments *@
+            <!-- Owner fields -->
             <div class="form-group col-lg-4">
-                <label asp-for="fname" class="control-label"></label>
-                <input asp-for="fname" class="form-control" />
-                <span asp-validation-for="fname" class="text-danger"></span>
+                <label asp-for="Appointment.fname" class="control-label"></label>
+                <input id="fname" asp-for="Appointment.fname" class="form-control" />
+                <span asp-validation-for="Appointment.fname" class="text-danger"></span>
             </div>
 
             <div class="form-group col-lg-4">
-                <label asp-for="lname" class="control-label"></label>
-                <input asp-for="lname" class="form-control" />
-                <span asp-validation-for="lname" class="text-danger"></span>
+                <label asp-for="Appointment.lname" class="control-label"></label>
+                <input id="lname" asp-for="Appointment.lname" class="form-control" />
+                <span asp-validation-for="Appointment.lname" class="text-danger"></span>
             </div>
 
             <div class="form-group col-lg-4">
-                <label asp-for="mname" class="control-label"></label>
-                <input asp-for="mname" class="form-control" />
-                <span asp-validation-for="mname" class="text-danger"></span>
+                <label asp-for="Appointment.mname" class="control-label"></label>
+                <input id="mname" asp-for="Appointment.mname" class="form-control" />
+                <span asp-validation-for="Appointment.mname" class="text-danger"></span>
             </div>
 
             <div class="form-group col-lg-4">
-                <label asp-for="contact" class="control-label"></label>
-                <input asp-for="contact" class="form-control" />
-                <span asp-validation-for="contact" class="text-danger"></span>
+                <label asp-for="Appointment.contact" class="control-label"></label>
+                <input id="contact" asp-for="Appointment.contact" class="form-control" />
+                <span asp-validation-for="Appointment.contact" class="text-danger"></span>
             </div>
 
             <div class="form-group col-lg-4">
-                <label asp-for="date" class="control-label"></label>
-                <input asp-for="date" class="form-control" />
-                <span asp-validation-for="date" class="text-danger"></span>
+                <label asp-for="Appointment.date" class="control-label"></label>
+                <input asp-for="Appointment.date" class="form-control minDate" id="appointmentDate" type="date" />
+                <span asp-validation-for="Appointment.date" class="text-danger"></span>
             </div>
 
             <div class="form-group col-lg-4">
-                <label asp-for="time" class="control-label"></label>
-                <input asp-for="time" class="form-control" />
-                <span asp-validation-for="time" class="text-danger"></span>
+                <label asp-for="Appointment.time" class="control-label"></label>
+                <select id="timeDropdown" name="Appointment.time" class="form-control">
+                    <!-- Times will be loaded here -->
+                </select>
+                <span asp-validation-for="Appointment.time" class="text-danger"></span>
             </div>
 
-            @* appointment Details *@
-            @* <div class="bg-secondary bg-opacity-10 py-2 my-3">
-               <div class="px-3"> <h1>Appointment Details</h1> </div>
-               </div>
-                *@
-         
+            <!-- Services Table -->
             <div class="col-8">
-              
                 <table class="table mt-2" id="DetailsTable">
                     <thead>
                         <tr>
                             <th>Service</th>
                             <th>Actions</th>
                         </tr>
-
                     </thead>
                     <tbody>
                         <tr class="detailRow">
-                        
                             <td>
                                 <div class="form-group">
-                                    <select name="IAppDetails[0].serviceId" asp-items="@ViewBag.Services" class="form-control" required> </select>
-                                    
+                                    <select name="Appointment.IAppDetails[0].serviceId" asp-items="@ViewBag.Services" class="form-control" required></select>
                                 </div>
                             </td>
                             <td>
@@ -81,14 +82,11 @@
                             </td>
                         </tr>
                     </tbody>
-
                 </table>
-
                 <button type="button" class="btn btn-success" id="addRow">Add Row</button>
-
             </div>
-          
- 
+
+            <!-- Submit and Cancel buttons -->
             <div class="form-group mt-3 text-end">
                 <a asp-action="Index" class="btn btn-secondary px-4">Cancel</a>
                 <input type="submit" value="Create" class="btn btn-primary px-4" />
@@ -97,9 +95,66 @@
     </form>
 </div>
 
+<!-- Modal for selecting existing records -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Select Record</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="OwnerSelectionForm">
+                    <table class="table table-striped w-100" id="OwnerTable">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Selector</th>
+                                <th class="text-center">OwnerId</th>
+                                <th class="text-center">Fullname</th>
+                                <th class="text-center">Address</th>
+                                <th class="text-center">Contact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var owner in Model.IOwner)
+                            {
+                                <tr>
+                                    <td class="text-center">
+                                        <input type="radio" name="SelectedOwnerId"
+                                               value="@owner.id"
+                                               data-fname="@owner.fname"
+                                               data-lname="@owner.lname"
+                                               data-mname="@owner.mname"
+                                               data-contact="@owner.contact" />
+                                    </td>
+                                    <td class="text-center">@Html.DisplayFor(modelItem => owner.id)</td>
+                                    <td class="text-center">@Html.DisplayFor(modelItem => owner.fname) @Html.Raw(" ") @Html.DisplayFor(modelItem => owner.lname)</td>
+                                    <td class="text-center">@Html.DisplayFor(modelItem => owner.address)</td>
+                                    <td class="text-center">@Html.DisplayFor(modelItem => owner.contact)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="SelectOwnerButton">Select</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
+        // Function to update row names
         function updateRowNames() {
             $('#DetailsTable tbody tr').each(function (index) {
                 $(this).find('input, select').each(function () {
@@ -137,5 +192,71 @@
                 updateRowNames(); // Update the name attributes of the remaining rows
             }
         });
+
+        // Modal select button
+        $('#SelectOwnerButton').click(function () {
+            var selectedOwner = $('input[name="SelectedOwnerId"]:checked');
+            if (selectedOwner.length > 0) {
+                var fname = selectedOwner.data('fname');
+                var lname = selectedOwner.data('lname');
+                var mname = selectedOwner.data('mname');
+                var contact = selectedOwner.data('contact');
+
+                $('#fname').val(fname);
+                $('#lname').val(lname);
+                $('#mname').val(mname);
+                $('#contact').val(contact);
+                $('#staticBackdrop').modal('hide');
+            } else {
+                alert("Please select an owner.");
+            }
+        });
+
+        // Function to fetch available times
+        function fetchAvailableTimes() {
+            var selectedDate = $('#appointmentDate').val();
+
+            if (selectedDate) {
+                $.ajax({
+                    url: '@Url.Action("GetAvailableTimes", "Appointments")',
+                    type: 'GET',
+                    data: { date: selectedDate },
+                    success: function (data) {
+                        var timeDropdown = $('#timeDropdown');
+                        timeDropdown.empty(); // Clear existing options
+
+                        // Add AM options
+                        var amGroup = $('<optgroup>', { label: 'AM' });
+                        $.each(data.availableAM, function (index, value) {
+                            amGroup.append($('<option>', {
+                                value: value,
+                                text: value + ' AM'
+                            }));
+                        });
+                        timeDropdown.append(amGroup);
+
+                        // Add PM options
+                        var pmGroup = $('<optgroup>', { label: 'PM' });
+                        $.each(data.availablePM, function (index, value) {
+                            pmGroup.append($('<option>', {
+                                value: value,
+                                text: value + ' PM'
+                            }));
+                        });
+                        timeDropdown.append(pmGroup);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching available times:', error);
+                    }
+                });
+            }
+        }
+
+        // Trigger the date change event on page load if date is pre-filled
+        if ($('#appointmentDate').val()) {
+            fetchAvailableTimes();
+        }
+
+        $('#appointmentDate').change(fetchAvailableTimes);
     });
 </script>

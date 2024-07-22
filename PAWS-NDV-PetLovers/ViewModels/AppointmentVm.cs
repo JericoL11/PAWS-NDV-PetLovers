@@ -1,4 +1,6 @@
-﻿using PAWS_NDV_PetLovers.Models.Appointments;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using PAWS_NDV_PetLovers.Controllers.Appointments;
+using PAWS_NDV_PetLovers.Models.Appointments;
 using PAWS_NDV_PetLovers.Models.Records;
 
 namespace PAWS_NDV_PetLovers.ViewModels
@@ -9,24 +11,26 @@ namespace PAWS_NDV_PetLovers.ViewModels
 
         public AppointmentDetails? AppointmentDetails { get; set; }
 
-        public Services? Services { get; set; }
+        public List<Services>? IlistServices { get; set; }
+
+        //for create CREATE View
+        public IEnumerable<Owner> IOwner { get; set; }
 
 
 
 
-        //Enumerables for index View
+        //List for index View
 
-        public IEnumerable<Appointment>? Iappointments { get; set; }
-        public IEnumerable<AppointmentDetails>? IappointmentDetails { get; set; }
-
-        public IEnumerable<Owner>? IOwner { get; set; }
-
-        public IEnumerable<Services>? Iservices { get; set; }
-
-
+        public List<AppointmentDetails> IAppDetails { get; set; }
 
         //GROUP FOR INDEX UNIQUE ID
         public List<AppointmentGroup> AppointmentGrouping { get; set; }
+
+         public List<Appointment> IAppointments { get; set; }
+
+
+        public List<string> AvailableAM {  get; set; }
+        public List<string> AvailablePM { get; set; }
     }
 
 

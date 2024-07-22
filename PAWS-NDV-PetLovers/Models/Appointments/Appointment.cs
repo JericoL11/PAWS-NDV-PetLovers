@@ -12,21 +12,21 @@ namespace PAWS_NDV_PetLovers.Models.Appointments
 
         [Required]
         [Display(Name = "First name")]
-        public string fname { get; set; }
+        public string? fname { get; set; }
 
 
         [Display(Name = "Middle name")]
-        public string mname { get; set; }
+        public string? mname { get; set; }
 
         [Required]
         [Display(Name = "Last name")]
-        public string lname { get; set; }
+        public string? lname { get; set; }
 
         [Required]
         [DataType(DataType.PhoneNumber)]
         [MaxLength(11)]
         [Display(Name = "Contact #")]
-        public string? contact { get; set; }
+        public string contact { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
