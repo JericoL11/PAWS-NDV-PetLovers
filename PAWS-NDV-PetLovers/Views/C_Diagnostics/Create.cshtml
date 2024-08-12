@@ -1,0 +1,180 @@
+﻿@model PAWS_NDV_PetLovers.ViewModels.TransactionsVm
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="bg-secondary bg-opacity-10 py-2 mb-3">
+    <div class="container">
+        <h1>Diagnostics</h1>
+    </div>
+</div>
+
+<div class="container">
+    <form method="post" asp-action="Create">
+        <div class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="container">
+                <h3>Pet Information</h3>
+            </div>
+
+            <div class="form-group col-lg-3 col-md-6">
+                <label asp-for="Diagnostics.petId" class="control-label"></label>
+                <input asp-for="Diagnostics.petId" class="form-control" readonly />
+            </div>
+
+            <div class="form-group col-lg-3 col-md-6">
+                <label asp-for="Pets.petName" class="control-label"></label>
+                <input asp-for="Pets.petName" class="form-control" readonly />
+            </div>
+
+            <div class="form-group col-lg-3 col-md-6">
+                <label asp-for="Pets.breed" class="control-label"></label>
+                <input asp-for="Pets.breed" class="form-control" readonly />
+            </div>
+
+            <div class="form-group col-lg-3 col-md-6">
+                <label asp-for="Pets.gender" class="control-label"></label>
+                <input asp-for="Pets.gender" class="form-control" readonly />
+            </div>
+
+            <div class="form-group col-lg-3 col-md-6">
+                <label asp-for="Pets.age" class="control-label"></label>
+                <input asp-for="Pets.age" class="form-control" readonly />
+            </div>
+
+            <div class="form-group col-lg-3 col-md-6">
+                <label asp-for="Pets.bdate" class="control-label"></label>
+                <input asp-for="Pets.bdate" class="form-control" readonly />
+            </div>
+
+            <div class="form-group visually-hidden">
+                <input asp-for="Diagnostics.date" class="form-control dateInput" />
+            </div>
+
+            <div class="form-group col-lg-3 col-md-6">
+                <label class="control-label">Owner ID - Name</label>
+                <input value="@($"{Model.Pets.ownerId} - {Model.Pets.owner.fname} {Model.Pets.owner.lname}")" class="form-control" readonly />
+            </div>
+
+            <!-- Diagnostics Details -->
+            <div class="col-12">
+                <table class="table mt-2" id="DetailsTable">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="detailRow">
+                            <td>
+                                <div class="form-group mt-2">
+                                    <select name="Diagnostics.IdiagnosticDetails[0].serviceId" class="form-control service-select" required>
+                                        <option value="" data-price="0" disabled selected>Select Service</option>
+                                        @foreach (var service in Model.Services)
+                                        {
+                                            <option value="@service.serviceId" data-price="@service.serviceCharge">@service.serviceName</option>
+                                        }
+                                    </select>
+
+                                    <input type="hidden" name="Diagnostics.IdiagnosticDetails[0].servicePrice" class="service-charge" value="" />
+
+                                    <label class="control-label">Diagnosis Result</label>
+                                    <textarea name="Diagnostics.IdiagnosticDetails[0].diagnosis" class="form-control bg-light" rows="10" style="resize: none;" required></textarea>         
+                                </div>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger removeRow">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-success" id="addRow">Add Service</button>
+
+            </div>
+
+            <!-- Total Payment -->
+            <div class="fixed-right-Payment ps-4" style="margin-right:0">
+                <div class="form-group">
+                    <label asp-for="Diagnostics.totalPayment" class="control-label fw-bold"></label>
+                    <input asp-for="Diagnostics.totalPayment" id="totalPayment" class="form-control"  readonly />
+                    <a asp-action="Edit" asp-controller="Owners" class="btn btn-secondary" asp-route-id="@Model.Pets.ownerId">Cancel</a>
+                    <input type="submit" value="Save" class="btn btn-primary btn-md px-4 my-2" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+
+            function updateRowNames() {
+                $('#DetailsTable tbody tr').each(function (index) {
+                    $(this).find('input, select').each(function () {
+                        var name = $(this).attr('name');
+                        if (name) {
+                            var newName = name.replace(/\d+/, index);
+                            $(this).attr('name', newName);
+                        }
+                    });
+                });
+            }
+
+            function updateTotalPrice() {
+                var totalPrice = 0;
+
+                $('#DetailsTable tbody tr').each(function () {
+                    var $select = $(this).find('select.service-select');
+                    var price = parseFloat($select.find('option:selected').data('price')) || 0;
+                    $(this).find('input.service-charge').val(price); // Update the hidden input with the price
+                    totalPrice += price;
+                });
+
+                $('#totalPayment').val(totalPrice.toFixed(2));
+            }
+
+
+            $('#addRow').click(function () {
+                var rowCount = $('#DetailsTable tbody tr').length;
+                var newRow = $('.detailRow').first().clone();
+
+
+                newRow.find('input, select, textarea').each(function () {
+                    var name = $(this).attr('name');
+                    if (name) {
+                        var newName = name.replace(/\d+/, rowCount);
+                        $(this).attr('name', newName);
+                    }
+                    $(this).val(''); // Clear the value of the input/select
+                });
+
+                newRow.appendTo($('#DetailsTable tbody'));
+                updateRowNames();
+                updateTotalPrice();
+            });
+
+            //remove row
+            $(document).on('click', '.removeRow', function () {
+                if ($('#DetailsTable tbody tr').length > 1) {
+                    $(this).closest('tr').remove();
+                    updateRowNames(); // Update the name attributes of the remaining rows
+                    updateTotalPrice(); // Update the total price after removing a row
+                }
+            });
+
+            $(document).on('change', '.service-select', function () {
+                updateTotalPrice();
+            });
+
+            // Initial calculation
+            updateTotalPrice();
+        });
+    </script>
+}

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<PAWS_NDV_PetLovers.Models.Transactions.Diagnostics>
+@{
+    ViewData["Title"] = "DiagnosHistory";
+    var ownerId = ViewBag.OwnerId;
+}
+
+<div class="bg bg-secondary bg-opacity-10 py-2 mb-3">
+    <div class="container">
+        <h2>Diagnostic History</h2>
+    </div>
+</div>
+
+<div class="container">
+    <div class="mt-2">
+        @* Display the ownerId even if there are no diagnostic results *@
+        <a asp-action="Edit" asp-controller="Owners" asp-route-id="@ownerId" class="btn btn-secondary">Back to Owner</a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Diagnostic ID</th>
+                <th>Services</th>
+                <th>Date</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.diagnostic_Id)</td>
+                    <td>
+                        @{
+                            var service = item.IdiagnosticDetails
+                            .Select(dd => dd.Services.serviceName)
+                            .Distinct();
+                            var serviceName = string.Join(", ", service);
+                        }
+                        <span>@serviceName</span>
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.date)</td>
+                    <td>
+                        <a asp-action="ViewHistory" asp-controller="Pets" asp-route-id="@item.diagnostic_Id" class="btn btn-success">View</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+</div>

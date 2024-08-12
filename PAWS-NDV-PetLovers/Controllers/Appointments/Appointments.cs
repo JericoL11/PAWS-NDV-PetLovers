@@ -1,19 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.CodeAnalysis.Options;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Linq;
-using NuGet.Packaging.Signing;
 using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.Models.Appointments;
-using PAWS_NDV_PetLovers.Models.Records;
 using PAWS_NDV_PetLovers.ViewModels;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace PAWS_NDV_PetLovers.Controllers.Appointments
 {
@@ -32,6 +22,14 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             return View(appDetails);
         }
 
+        //ang issue ani is nag fk ka then nig create sa appointments kay walay makita nga fk gikan sa owners table
+        
+
+        //SOLUTION: 
+        //Instead of complete button, when complete button is triggered it will go to owners Edit record, then user will select pet and proceed to diagnosis
+
+        //Note:
+       
 
 
         #region == Functions == 
@@ -105,8 +103,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
         #endregion
 
-
-
         //ready to fetch function for JQUERY
         [HttpGet]
         public async Task<IActionResult> GetAvailableTimes(DateTime date)
@@ -138,9 +134,10 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
                 }
                 else if (hour >= 1 && hour <= 4) // PM Times
                 {
-                    if (!convertedToString.Contains(time))
+                    var timePm = $"{hour}:00";
+                    if (!convertedToString.Contains(timePm))
                     {
-                        pm.Add(time);
+                        pm.Add(timePm + " pm");
                     }
                 }
             }
@@ -169,7 +166,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             //get data is read and stored individually
             var convertedToString = string.Join(" ", appointmentsOnDate);
             var am = new List<string>();
-            var pm= new List<string>();
+            var pm = new List<string>();
 
             for (int hour = 1; hour < 12; hour++)
             {
@@ -185,8 +182,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
                 }
                 else if (hour >= 1 && hour <= 4) // PM Times
                 {
-       
-                    /*  time = $"{hour + 12}:00"; // Convert to 24-hour format for PM*/
+
+                    time = $"{hour + 12}:00"; // Convert to 24-hour format for PM
                     if (!convertedToString.Contains(time))
                     {
                         pm.Add(time);
@@ -201,9 +198,9 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
                 IlistServices = services,
                 IAppointments = appointments,
                 AvailableAM = am,
-                AvailablePM = pm ,
+                AvailablePM = pm,
                 Appointment = new Appointment { date = date } // Set input field date by default (this is routed from index)
-                
+
             };
 
             return View(viewModel);
@@ -271,16 +268,16 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SetRemarks(string fname,string lname,string AppDetailsIds)
+        public async Task<IActionResult> SetRemarks(string fname, string lname, string AppDetailsIds)
         {
 
-            var verifyOwner = _context.Owners.FirstOrDefault( a => a.fname == fname && a.lname == lname);
+            var verifyOwner = _context.Owners.FirstOrDefault(a => a.fname == fname && a.lname == lname);
 
-            if(verifyOwner == null)
+            if (verifyOwner == null)
             {
-                ModelState.AddModelError("","Registration required");
+                ModelState.AddModelError("", "Registration required");
                 var vm = await GetAllAsync();
-                return View("Index",vm);
+                return View("Index", vm);
             }
 
             //collect the id and split by comma
@@ -334,7 +331,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AppointId,fname,mname,lname,contact,date,time,Owner,IAppDetails")] Appointment appointments)
+        public async Task<IActionResult> Edit(int id, [Bind("AppointId,fname,mname,lname,contact,date,time,ownerId,IAppDetails")] Appointment appointments)
         {
             await GetServices();
 
@@ -420,7 +417,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             var appointment = await _context.Appointments
                 .Include(a => a.IAppDetails)
                 .FirstOrDefaultAsync(a => a.AppointId == id);
-
+             
             if (appointment != null)
             {
                 _context.Appointments.Remove(appointment);

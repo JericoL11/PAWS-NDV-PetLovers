@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 using PAWS_NDV_PetLovers.Models.Appointments;
 using PAWS_NDV_PetLovers.Models.Records;
+using PAWS_NDV_PetLovers.Models.Transactions;
 
 namespace PAWS_NDV_PetLovers.Data
 {
@@ -30,7 +32,28 @@ namespace PAWS_NDV_PetLovers.Data
 
         public DbSet<AppointmentDetails> AppointmentDetails { get; set; } = default!;
 
+        //Transaction
 
+        public DbSet<Diagnostics> Diagnostics { get; set; } = default!;
+
+        public DbSet<DiagnosticDetails> DiagnosticDetails { get; set; } = default!;
+
+        public DbSet<Purchase> Purchases { get; set; } = default!;
+
+        public DbSet<PurchaseDetails> PurchaseDetails { get; set; } = default!;
+
+
+        //fluent API for Diagnostics Pet
+        /*        protected override void OnModelCreating(ModelBuilder modelBuilder)
+                {
+                    modelBuilder.Entity<Pet>()
+                        .HasOne(p => p.owner)
+                        .WithMany(o => o.Pets)
+                        .HasForeignKey(p => p.ownerId)
+                        .OnDelete(DeleteBehavior.NoAction);
+                }
+
+        */
         #region == fluent API == 
         /*
          * The Fluent API is a way of configuring your Entity

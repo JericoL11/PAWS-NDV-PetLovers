@@ -66,16 +66,18 @@
     </form>
 </div>
 
-
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
-<script>
-    $(document).ready(function(){
-        $('.remarks-cell').each(function (){
-            var remarks = $(this).text().trim();
-            if(!remarks){
-            $(this).text('Uncompleted')
-            }
+@section Scripts{
+   @{
+       await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            $('.remarks-cell').each(function () {
+                var remarks = $(this).text().trim();
+                if (!remarks) {
+                    $(this).text('Uncompleted')
+                }
+            })
         })
-    })
-</script>
+    </script>
+}

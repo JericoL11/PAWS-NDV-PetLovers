@@ -1,0 +1,96 @@
+﻿@model IEnumerable<PAWS_NDV_PetLovers.Models.Transactions.Diagnostics>
+@{
+    ViewData["Title"] = "Diagnostic BIll";
+}
+
+<div class="bg-secondary bg-opacity-10 py-2 mb-3">
+    <div class="container">
+        <h1> Diagnostic Bill</h1>
+    </div>
+</div>
+
+<div class="container">
+    <table class="table table-striped" id="diagnosticTable">
+        <thead>
+            <tr>
+                <th>Diagnostic Id</th>
+                <th> Owner ID - Name</th>
+                <th>Pet Id - Name</th>
+                <th>Services</th>
+                <th>Total Payment</th>
+                <th>Invoice</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.diagnostic_Id)</td>
+            
+                    <td>
+                    @Html.DisplayFor(modelItem => item.petId)
+                    @Html.Raw(" - ")
+                    @Html.DisplayFor(modelItem => item.pet.owner.fname)
+                    @Html.Raw(' ')
+                    @Html.DisplayFor(modelItem => item.pet.owner.lname)
+                    </td> 
+          
+                    <td>
+                        @Html.DisplayFor(modelItem => item.petId)
+                        @Html.Raw(" - ")
+                        @Html.DisplayFor(modelItem => item.pet.petName)
+                    </td>
+         
+                    <td>
+                        @{
+                            var diagnosticDetails = item.IdiagnosticDetails
+                                    .Select(d => d.Services.serviceName)
+                                    .Distinct();
+
+                            var Services = string.Join(" , ", diagnosticDetails);
+                        }
+
+                        @Html.DisplayFor(modelItem => Services)
+                    </td>
+                    @{
+                        double totalPayment = (double)item.totalPayment; //ConvertToDouble
+                        var payment = totalPayment.ToString("N2"); //Add decimal
+                        var paymentDisplay = $"P{payment}"; //add P sign
+                    }
+                    <td>@Html.DisplayFor(modelItem => paymentDisplay)</td>
+                    <td class="remarks-cell">@Html.DisplayFor(modelItem => item.remarks) </td>
+                    <td>
+                      <form method="post" asp-action="SetRemarks">
+                          <input type="hidden" name="diagnosticId"  value="@item.diagnostic_Id"/>
+                       
+                            @if (string.IsNullOrEmpty(item.remarks))
+                            {
+                                <button class="btn btn-success">Paid</button>
+                                <a asp-action="Edit" asp-route-id="@item.diagnostic_Id" class="btn btn-primary">Update Result</a>
+                            }
+                      </form>
+                    </td>
+                </tr>
+            }
+     
+        </tbody>
+    </tabl>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            $('.remarks-cell').each(function () {
+                var remarks = $(this).text().trim();
+                if (!remarks) {
+                    $(this).text('Pending');
+                }
+            });
+        });
+    </script>
+}
+

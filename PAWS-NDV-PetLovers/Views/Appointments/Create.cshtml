@@ -55,7 +55,7 @@
 
             <div class="form-group col-lg-4">
                 <label asp-for="Appointment.time" class="control-label"></label>
-                <select id="timeDropdown" name="Appointment.time" class="form-control">
+                <select id="timeDropdown" name="Appointment.time" class="form-control" required>
                     <!-- Times will be loaded here -->
                 </select>
                 <span asp-validation-for="Appointment.time" class="text-danger"></span>
@@ -149,114 +149,113 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-}
+    <script>
+        $(document).ready(function () {
+            // Function to update row names
+            function updateRowNames() {
+                $('#DetailsTable tbody tr').each(function (index) {
+                    $(this).find('input, select').each(function () {
+                        var name = $(this).attr('name');
+                        if (name) {
+                            var newName = name.replace(/\d+/, index);
+                            $(this).attr('name', newName);
+                        }
+                    });
+                });
+            }
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () {
-        // Function to update row names
-        function updateRowNames() {
-            $('#DetailsTable tbody tr').each(function (index) {
-                $(this).find('input, select').each(function () {
+            // Add row
+            $('#addRow').click(function () {
+                var rowCount = $('#DetailsTable tbody tr').length;
+                var newRow = $('.detailRow').first().clone();
+
+                newRow.find('input, select').each(function () {
                     var name = $(this).attr('name');
                     if (name) {
-                        var newName = name.replace(/\d+/, index);
+                        var newName = name.replace(/\d+/, rowCount);
                         $(this).attr('name', newName);
                     }
+                    $(this).val(''); // Clear the value of the input/select
                 });
+
+                newRow.appendTo($('#DetailsTable tbody'));
+                updateRowNames();
             });
-        }
 
-        // Add row
-        $('#addRow').click(function () {
-            var rowCount = $('#DetailsTable tbody tr').length;
-            var newRow = $('.detailRow').first().clone();
-
-            newRow.find('input, select').each(function () {
-                var name = $(this).attr('name');
-                if (name) {
-                    var newName = name.replace(/\d+/, rowCount);
-                    $(this).attr('name', newName);
+            // Remove row
+            $(document).on('click', '.removeRow', function () {
+                if ($('#DetailsTable tbody tr').length > 1) {
+                    $(this).closest('tr').remove();
+                    updateRowNames(); // Update the name attributes of the remaining rows
                 }
-                $(this).val(''); // Clear the value of the input/select
             });
 
-            newRow.appendTo($('#DetailsTable tbody'));
-            updateRowNames();
-        });
+            // Modal select button
+            $('#SelectOwnerButton').click(function () {
+                var selectedOwner = $('input[name="SelectedOwnerId"]:checked');
+                if (selectedOwner.length > 0) {
+                    var fname = selectedOwner.data('fname');
+                    var lname = selectedOwner.data('lname');
+                    var mname = selectedOwner.data('mname');
+                    var contact = selectedOwner.data('contact');
 
-        // Remove row
-        $(document).on('click', '.removeRow', function () {
-            if ($('#DetailsTable tbody tr').length > 1) {
-                $(this).closest('tr').remove();
-                updateRowNames(); // Update the name attributes of the remaining rows
+                    $('#fname').val(fname);
+                    $('#lname').val(lname);
+                    $('#mname').val(mname);
+                    $('#contact').val(contact);
+                    $('#staticBackdrop').modal('hide');
+                } else {
+                    alert("Please select an owner.");
+                }
+            });
+
+            // Function to fetch available times
+            function fetchAvailableTimes() {
+                var selectedDate = $('#appointmentDate').val();
+
+                if (selectedDate) {
+                    $.ajax({
+                        url: '@Url.Action("GetAvailableTimes", "Appointments")',
+                        type: 'GET',
+                        data: { date: selectedDate },
+                        success: function (data) {
+                            var timeDropdown = $('#timeDropdown');
+                            timeDropdown.empty(); // Clear existing options
+
+                            // Add AM options
+                            var amGroup = $('<optgroup>', { label: 'Morning' });
+                            $.each(data.availableAM, function (index, value) {
+                                amGroup.append($('<option>', {
+                                    value: value,
+                                    text: value + ' am'
+                                }));
+                            });
+                            timeDropdown.append(amGroup);
+
+                            // Add PM options
+                            var pmGroup = $('<optgroup>', { label: 'Afternoon' });
+                            $.each(data.availablePM, function (index, value) {
+                                pmGroup.append($('<option>', {
+                                    value: value,
+                                    text: value 
+                                }));
+                            });
+                            timeDropdown.append(pmGroup);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching available times:', error);
+                        }
+                    });
+                }
             }
-        });
 
-        // Modal select button
-        $('#SelectOwnerButton').click(function () {
-            var selectedOwner = $('input[name="SelectedOwnerId"]:checked');
-            if (selectedOwner.length > 0) {
-                var fname = selectedOwner.data('fname');
-                var lname = selectedOwner.data('lname');
-                var mname = selectedOwner.data('mname');
-                var contact = selectedOwner.data('contact');
-
-                $('#fname').val(fname);
-                $('#lname').val(lname);
-                $('#mname').val(mname);
-                $('#contact').val(contact);
-                $('#staticBackdrop').modal('hide');
-            } else {
-                alert("Please select an owner.");
+            // Trigger the date change event on page load if date is pre-filled
+            if ($('#appointmentDate').val()) {
+                fetchAvailableTimes();
             }
+
+            $('#appointmentDate').change(fetchAvailableTimes);
         });
+    </script>
 
-        // Function to fetch available times
-        function fetchAvailableTimes() {
-            var selectedDate = $('#appointmentDate').val();
-
-            if (selectedDate) {
-                $.ajax({
-                    url: '@Url.Action("GetAvailableTimes", "Appointments")',
-                    type: 'GET',
-                    data: { date: selectedDate },
-                    success: function (data) {
-                        var timeDropdown = $('#timeDropdown');
-                        timeDropdown.empty(); // Clear existing options
-
-                        // Add AM options
-                        var amGroup = $('<optgroup>', { label: 'AM' });
-                        $.each(data.availableAM, function (index, value) {
-                            amGroup.append($('<option>', {
-                                value: value,
-                                text: value + ' AM'
-                            }));
-                        });
-                        timeDropdown.append(amGroup);
-
-                        // Add PM options
-                        var pmGroup = $('<optgroup>', { label: 'PM' });
-                        $.each(data.availablePM, function (index, value) {
-                            pmGroup.append($('<option>', {
-                                value: value,
-                                text: value + ' PM'
-                            }));
-                        });
-                        timeDropdown.append(pmGroup);
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error fetching available times:', error);
-                    }
-                });
-            }
-        }
-
-        // Trigger the date change event on page load if date is pre-filled
-        if ($('#appointmentDate').val()) {
-            fetchAvailableTimes();
-        }
-
-        $('#appointmentDate').change(fetchAvailableTimes);
-    });
-</script>
+}

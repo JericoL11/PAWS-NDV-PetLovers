@@ -1,0 +1,123 @@
+﻿@model PAWS_NDV_PetLovers.ViewModels.TransactionsVm
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="bg-secondary bg-opacity-10 py-2 mb-3">
+    <div class="container">
+        <h1>Update Diagnostics</h1>
+    </div>
+</div>
+
+<div class="container">
+    <form method="post" asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="container">
+            <h3>Pet Information</h3>
+        </div>
+        <div class="row">
+    
+            <div class="form-group col-lg-3 col-md-6">
+                <label asp-for="Diagnostics.diagnostic_Id" class="control-label"></label>
+                <input class="form-control" asp-for="Diagnostics.diagnostic_Id" readonly />
+            </div>
+            <div class="form-group col-lg-3 col-md-6">
+                <label asp-for="Diagnostics.petId" class="control-label"></label>
+                <input asp-for="Diagnostics.petId" class="form-control" readonly />
+            </div>
+
+            <div class="form-group col-lg-3 col-md-6">
+                <label asp-for="Diagnostics.pet.petName" class="control-label"></label>
+                <input asp-for="Diagnostics.pet.petName" class="form-control" readonly />
+            </div>
+
+            <div class="form-group col-lg-3 col-md-6">
+                <label asp-for="Diagnostics.pet.breed" class="control-label"></label>
+                <input asp-for="Diagnostics.pet.breed" class="form-control" readonly />
+            </div>
+
+            <div class="form-group col-lg-3 col-md-6">
+                <label asp-for="Diagnostics.pet.gender" class="control-label"></label>
+                <input asp-for="Diagnostics.pet.gender" class="form-control" readonly />
+            </div>
+
+            <div class="form-group col-lg-3 col-md-6">
+                <label asp-for="Diagnostics.pet.age" class="control-label"></label>
+                <input asp-for="Diagnostics.pet.age" class="form-control" readonly />
+            </div>
+
+            <div class="form-group col-lg-3 col-md-6">
+                <label asp-for="Diagnostics.pet.bdate" class="control-label"></label>
+                <input asp-for="Diagnostics.pet.bdate" class="form-control" readonly />
+            </div>
+
+            <div class="form-group col-lg-3 col-md-6">
+                <label class="control-label">Owner ID - Name</label>
+                <input value="@($"{Model.Diagnostics.pet.owner.id} - {Model.Diagnostics.pet.owner.fname} {Model.Diagnostics.pet.owner.lname}")" class="form-control" readonly />
+            </div>
+        </div>
+
+        <table class="table mt-5">
+            <thead>
+                <tr>
+                    <th>Service Name</th>
+                    <th>Service Price</th>
+                    <th>Diagnosis Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+
+               @*  for controller references *@
+                @for (int i = 0; i < Model.Diagnostics.IdiagnosticDetails.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => Model.Diagnostics.IdiagnosticDetails[i].Services.serviceName)
+                        </td>
+                        <td>
+                            <!-- Display service price formatted as currency -->
+                            @{
+                                double price = (double)Model.Diagnostics.IdiagnosticDetails[i].servicePrice;
+                                var decimalAdded = price.ToString("N2");
+                                var displayPrice = $"P{decimalAdded}";
+                            }
+                            <span>@displayPrice</span>
+                        </td>
+                        <td>
+                            <textarea class="form-control bg-light" rows="10" style="resize: none;"name="Diagnostics.IdiagnosticDetails[@i].diagnosis" required>@Model.Diagnostics.IdiagnosticDetails[i].diagnosis</textarea>
+
+                            @* holds the diagnosticDet_Id*@
+                            <input type="hidden" name="Diagnostics.IdiagnosticDetails[@i].diagnosticDet_Id" value="@Model.Diagnostics.IdiagnosticDetails[i].diagnosticDet_Id" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="fixed-bottom">
+            <div class="form-group fw-bold">
+                <span class="bg-secondary bg-opacity-10 px-2">
+                    Total Payment:
+                    @{
+                        double payment = (double)Model.Diagnostics.totalPayment;
+                        var currency = payment.ToString("N2");
+                        var totalPayment = $"P{currency}";
+                    }
+                    @totalPayment
+                </span>
+            </div>
+        </div>
+
+        <div class="text-end">
+            <a asp-action="DiagnosticBill" class="btn btn-secondary px-3">Cancel</a>
+            <input type="submit" value="Save" class="btn btn-primary px-4" />
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

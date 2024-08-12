@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PAWS_NDV_PetLovers.Models.Appointments
+namespace PAWS_NDV_PetLovers.Models.Records
 {
     public class Services
     {

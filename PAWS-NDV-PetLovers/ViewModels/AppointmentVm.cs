@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using PAWS_NDV_PetLovers.Controllers.Appointments;
-using PAWS_NDV_PetLovers.Models.Appointments;
+﻿using PAWS_NDV_PetLovers.Models.Appointments;
 using PAWS_NDV_PetLovers.Models.Records;
 
 namespace PAWS_NDV_PetLovers.ViewModels
@@ -38,6 +36,8 @@ namespace PAWS_NDV_PetLovers.ViewModels
     public class AppointmentGroup
     {
         public Appointment Appointment { get; set; }
+
+        public Owner Owner { get; set; } // Add this line if Owner is related directly
         public List<AppointmentDetails> Details { get; set; }
     }
 }

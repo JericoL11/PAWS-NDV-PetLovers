@@ -39,15 +39,7 @@ namespace PAWS_NDV_PetLovers.Models.Appointments
 
         public DateTime time { get; set; }
 
-        [ForeignKey("Owner")]
-        public int Owner { get; set; }
-
         //navigation property
-
-        //1 - 1
-        public Owner? Owners { get; set; }
-
-        // 1 - many
 
         //This will serve as parameterless Constructor bc of "?" nullable
         public ICollection<AppointmentDetails>? IAppDetails { get; set; }

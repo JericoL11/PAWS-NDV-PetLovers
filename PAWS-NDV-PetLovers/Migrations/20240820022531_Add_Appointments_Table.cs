@@ -22,18 +22,11 @@ namespace PAWS_NDV_PetLovers.Migrations
                     lname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     contact = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
                     date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    time = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Owner = table.Column<int>(type: "int", nullable: false),
-                    Ownersid = table.Column<int>(type: "int", nullable: true)
+                    time = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Appointments", x => x.AppointId);
-                    table.ForeignKey(
-                        name: "FK_Appointments_Owners_Ownersid",
-                        column: x => x.Ownersid,
-                        principalTable: "Owners",
-                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
@@ -71,11 +64,6 @@ namespace PAWS_NDV_PetLovers.Migrations
                 name: "IX_AppointmentDetails_serviceID",
                 table: "AppointmentDetails",
                 column: "serviceID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Appointments_Ownersid",
-                table: "Appointments",
-                column: "Ownersid");
         }
 
         /// <inheritdoc />

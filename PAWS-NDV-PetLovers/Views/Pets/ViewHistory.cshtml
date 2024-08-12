@@ -1,0 +1,75 @@
+﻿@model PAWS_NDV_PetLovers.ViewModels.TransactionsVm
+@{
+    ViewData["Title"] = "View History";
+}
+
+<div class="bg-secondary bg-opacity-10 py-2 mb-3">
+    <div class="container">
+        <h3> Diagnostic Information</h3>
+    </div>
+</div>
+
+<div class="container">
+    <a asp-action="DiagnosHistory" asp-route-id="@Model.Diagnostics.petId" asp-route-ownerId="@Model.Diagnostics.pet.ownerId" class="btn btn-secondary my-2">Back to History</a>
+    <form> 
+        <div class="form-group">
+            <label asp-for="Diagnostics.diagnostic_Id" class="control-label"></label>
+            <input asp-for="Diagnostics.diagnostic_Id" class ="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="Diagnostics.date" class="control-label"></label>
+            <input asp-for="Diagnostics.date" class="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="Diagnostics.pet.petName" class="control-label"></label>
+            <input asp-for="Diagnostics.pet.petName" class="form-control" readonly />
+        </div>
+              <div class="form-group">
+            <label asp-for="Diagnostics.pet.gender" class="control-label"></label>
+            <input asp-for="Diagnostics.pet.gender" class="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="Diagnostics.pet.age" class="control-label"></label>
+            <input asp-for="Diagnostics.pet.age" class="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="Diagnostics.pet.bdate" class="control-label"></label>
+            <input asp-for="Diagnostics.pet.bdate" class="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="Diagnostics.pet.breed" class="control-label"></label>
+            <input asp-for="Diagnostics.pet.breed" class="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="Diagnostics.pet.color" class="control-label"></label>
+            <input asp-for="Diagnostics.pet.color" class="form-control" readonly />
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Service Name</th>
+                    <th>Diagnosis Result</th>
+                    <th>Service Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Diagnostics.IdiagnosticDetails)
+                {
+                    <tr>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Services.serviceName)
+                        </td>
+
+                        <td>
+                            <textarea  class="form-control bg-light" rows="10" style="resize: none;" readonly>@item.diagnosis</textarea>
+                        </td>
+
+                    </tr>
+                }
+   
+            </tbody>
+        </table>
+    </form>
+</div>

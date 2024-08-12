@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.Models.Records;
+using PAWS_NDV_PetLovers.ViewModels;
 
 
 
@@ -19,6 +20,53 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         public PetsController(PAWS_NDV_PetLoversContext context)
         {
             _context = context;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ViewHistory(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            //Fetched selected diagnostic ID
+            var findDiagnostic = await _context.Diagnostics
+                .Include(d => d.pet)
+                .ThenInclude(d => d.owner)
+                .Include(d => d.IdiagnosticDetails)
+                .ThenInclude(dd => dd.Services)
+                .FirstAsync(d => d.diagnostic_Id == id);
+
+            TransactionsVm tvm = new TransactionsVm
+            {
+                Diagnostics = findDiagnostic
+            };
+
+            return View(tvm);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DiagnosHistory(int? id, int? ownerId)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            //Fetched selected diagnostic ID
+            var findDiagnostic = await _context.Diagnostics
+                .Include(d => d.pet)
+                .ThenInclude(d => d.owner)
+                .Include(d => d.IdiagnosticDetails)
+                .ThenInclude(dd => dd.Services)
+                .Where(d => d.petId == id && !string.IsNullOrEmpty(d.remarks)).ToListAsync();
+
+
+            // Pass ownerId to the view using ViewBag or ViewData
+            ViewBag.OwnerId = ownerId;
+
+            return View(findDiagnostic);
         }
 
         // GET: Pets
@@ -87,8 +135,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             }
 
         
-/*
-            ViewData["ownerId"] = new SelectList(_context.Owners, "id", "address", pet.ownerId);*/
             return View(pet);
         }
 
@@ -122,10 +168,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                     throw;
                 }
             }
-          
-
-            /*ViewData["ownerId"] = new SelectList(_context.Owners, "id", "id", pet.ownerId);*/
-
         }
 
         // GET: Pets/Delete/5

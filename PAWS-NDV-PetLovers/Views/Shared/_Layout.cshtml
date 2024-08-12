@@ -59,8 +59,17 @@
                                 <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Services">Services</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item custom-padding">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Transaction</a>
+                      
+                        <li class="nav-item dropdown custom-padding">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Transactions
+                            </a>
+                            <ul class="dropdown-menu">
+                                @*<li class="px-3 fw-bold text-center">Client</li> *@
+                                <li><a class="dropdown-item text-center" asp-action="DiagnosticBill" asp-controller="C_Diagnostics">Diagnostic Bill</a></li>
+                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Products">Purchase Bill</a></li>
+                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Products">Invoice</a></li>
+                            </ul>
                         </li>
                         <li class="nav-item custom-padding">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Reports</a>

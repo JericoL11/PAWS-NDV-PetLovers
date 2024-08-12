@@ -3,8 +3,6 @@
     ViewData["Title"] = "Edit";
 }
 
-
-
 @* Owner *@
 <div class="bg-secondary bg-opacity-10 py-2 my-3">
     <div class="container">
@@ -148,8 +146,15 @@
                             <td>@Html.DisplayFor(modelItem => item.color)</td>
                             <td>@Html.DisplayFor(modelItem => item.registeredDate)</td>
                             <td>
-                                <a asp-action="Edit" asp-controller="Pets" class="btn btn-success btn-md" asp-route-id="@item.id">Update</a> |
-                                <a asp-action="Details" asp-controller="Pets" class="btn btn-warning btn-md" asp-route-id="@item.id">Details</a>
+                                <a asp-action="Edit" asp-controller="Pets" class="btn btn-success btn-md" asp-route-id="@item.id">Update</a>
+                                <a asp-action="Details" asp-controller="Pets" class="btn btn-info btn-md" asp-route-id="@item.id">Details</a>
+                             
+                                <a asp-controller="C_Diagnostics"
+                                   asp-route-id="@item.id"
+                                   asp-action="Create" class="btn btn-primary"> Diagnosis
+                               </a>
+
+                               <a asp-action="DiagnosHistory" asp-controller="Pets" asp-route-id="@item.id" asp-route-ownerId="@item.ownerId" class="btn btn-warning">History</a>
                                 @*  <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.id">Delete</a> *@
                             </td>
                         </tr>
@@ -259,7 +264,6 @@
     }
 
     @*
-
 
         MODAL AJAX AND JQEURY SCRIPT
         SOURCE : https://chatgpt.com/share/199ab4a7-1b0a-4e32-88d7-3d2a5e0d7d84*@

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PAWS_NDV_PetLovers.Data;
-using PAWS_NDV_PetLovers.Models.Appointments;
+using PAWS_NDV_PetLovers.Models.Records;
 
 namespace PAWS_NDV_PetLovers.Controllers.Appointments
 {
