@@ -10,6 +10,7 @@
 </div>
 
 <div class="container">
+    <a asp-action="Edit" asp-route-id="@Model.Diagnostics.pet.ownerId" asp-controller="Owners" class="btn btn-primary my-2">View Owner</a>
     <a asp-action="DiagnosHistory" asp-route-id="@Model.Diagnostics.petId" asp-route-ownerId="@Model.Diagnostics.pet.ownerId" class="btn btn-secondary my-2">Back to History</a>
     <form> 
         <div class="form-group">
@@ -48,16 +49,17 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th></th>
                     <th>Service Name</th>
                     <th>Diagnosis Result</th>
-                    <th>Service Name</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model.Diagnostics.IdiagnosticDetails)
                 {
                     <tr>
-
+                        <td></td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Services.serviceName)
                         </td>
@@ -65,7 +67,7 @@
                         <td>
                             <textarea  class="form-control bg-light" rows="10" style="resize: none;" readonly>@item.diagnosis</textarea>
                         </td>
-
+                        <td></td>
                     </tr>
                 }
    

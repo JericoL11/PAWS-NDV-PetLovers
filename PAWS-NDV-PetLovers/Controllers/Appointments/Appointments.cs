@@ -22,16 +22,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             return View(appDetails);
         }
 
-        //ang issue ani is nag fk ka then nig create sa appointments kay walay makita nga fk gikan sa owners table
-        
-
-        //SOLUTION: 
-        //Instead of complete button, when complete button is triggered it will go to owners Edit record, then user will select pet and proceed to diagnosis
-
-        //Note:
-       
-
-
         #region == Functions == 
         public async Task<AppointmentVm> GetAllAsync()
         {

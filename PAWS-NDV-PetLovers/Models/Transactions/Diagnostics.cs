@@ -21,7 +21,7 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
         public double? totalPayment { get; set; }
 
         [Required]
-        [Display(Name = "Date")]
+        [Display(Name = "Diagnosis Date")]
         [DataType(DataType.Date)]
         public DateTime? date { get; set; }
         
