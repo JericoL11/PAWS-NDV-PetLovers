@@ -13,9 +13,10 @@
     <a asp-action="Edit" asp-route-id="@Model.Diagnostics.pet.ownerId" asp-controller="Owners" class="btn btn-primary my-2">View Owner</a>
     <a asp-action="DiagnosHistory" asp-route-id="@Model.Diagnostics.petId" asp-route-ownerId="@Model.Diagnostics.pet.ownerId" class="btn btn-secondary my-2">Back to History</a>
     <form> 
+      
         <div class="form-group">
             <label asp-for="Diagnostics.diagnostic_Id" class="control-label"></label>
-            <input asp-for="Diagnostics.diagnostic_Id" class ="form-control" readonly />
+            <input asp-for="Diagnostics.diagnostic_Id" class="form-control" readonly />
         </div>
         <div class="form-group">
             <label asp-for="Diagnostics.date" class="control-label"></label>
@@ -25,7 +26,7 @@
             <label asp-for="Diagnostics.pet.petName" class="control-label"></label>
             <input asp-for="Diagnostics.pet.petName" class="form-control" readonly />
         </div>
-              <div class="form-group">
+        <div class="form-group">
             <label asp-for="Diagnostics.pet.gender" class="control-label"></label>
             <input asp-for="Diagnostics.pet.gender" class="form-control" readonly />
         </div>
@@ -46,6 +47,7 @@
             <input asp-for="Diagnostics.pet.color" class="form-control" readonly />
         </div>
 
+      
         <table class="table">
             <thead>
                 <tr>

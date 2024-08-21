@@ -10,8 +10,11 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
         [Key]
         public int diagnosticDet_Id { get; set; }
 
-        [Required]
+        [Display(Name = "Diagnosis Result")]
         public string? diagnosis { get; set; }
+
+        [Display(Name = "Prescription")]
+        public string? presciption { get; set; }
 
         [ForeignKey("Diagnostics")]
         [Display(Name ="Diagnostic ID")]

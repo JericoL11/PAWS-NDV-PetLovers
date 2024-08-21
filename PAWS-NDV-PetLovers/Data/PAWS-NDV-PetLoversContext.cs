@@ -43,6 +43,9 @@ namespace PAWS_NDV_PetLovers.Data
         public DbSet<PurchaseDetails> PurchaseDetails { get; set; } = default!;
 
 
+        #region == fluent API == 
+
+
         //fluent API for Diagnostics Pet
         /*        protected override void OnModelCreating(ModelBuilder modelBuilder)
                 {
@@ -54,7 +57,6 @@ namespace PAWS_NDV_PetLovers.Data
                 }
 
         */
-        #region == fluent API == 
         /*
          * The Fluent API is a way of configuring your Entity
         Framework model classes using method chaining in the

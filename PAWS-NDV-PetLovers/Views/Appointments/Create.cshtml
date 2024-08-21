@@ -209,7 +209,6 @@
                 }
             });
 
-            // Function to fetch available times
             function fetchAvailableTimes() {
                 var selectedDate = $('#appointmentDate').val();
 
@@ -222,25 +221,43 @@
                             var timeDropdown = $('#timeDropdown');
                             timeDropdown.empty(); // Clear existing options
 
+                            var hasAvailableTimes = false;
+
                             // Add AM options
-                            var amGroup = $('<optgroup>', { label: 'Morning' });
-                            $.each(data.availableAM, function (index, value) {
-                                amGroup.append($('<option>', {
-                                    value: value,
-                                    text: value + ' am'
-                                }));
-                            });
-                            timeDropdown.append(amGroup);
+                            if (data.availableAM && data.availableAM.length > 0) {
+                                var amGroup = $('<optgroup>', { label: 'Morning' });
+                                $.each(data.availableAM, function (index, value) {
+                                    amGroup.append($('<option>', {
+                                        value: value,
+                                        text: value + ' am'
+                                    }));
+                                });
+                                timeDropdown.append(amGroup);
+                                hasAvailableTimes = true;
+                            }
 
                             // Add PM options
-                            var pmGroup = $('<optgroup>', { label: 'Afternoon' });
-                            $.each(data.availablePM, function (index, value) {
-                                pmGroup.append($('<option>', {
-                                    value: value,
-                                    text: value 
+                            if (data.availablePM && data.availablePM.length > 0) {
+                                var pmGroup = $('<optgroup>', { label: 'Afternoon' });
+                                $.each(data.availablePM, function (index, value) {
+                                    pmGroup.append($('<option>', {
+                                        value: value,
+                                        text: value
+                                    }));
+                                });
+                                timeDropdown.append(pmGroup);
+                                hasAvailableTimes = true;
+                            }
+
+                            // If no available times, add "Fully booked" option
+                            if (!hasAvailableTimes) {
+                                timeDropdown.append($('<option>', {
+                                    value: '',
+                                    text: 'Fully booked',
+                                    disabled: true,
+                                    selected: true
                                 }));
-                            });
-                            timeDropdown.append(pmGroup);
+                            }
                         },
                         error: function (xhr, status, error) {
                             console.error('Error fetching available times:', error);
@@ -248,6 +265,7 @@
                     });
                 }
             }
+
 
             // Trigger the date change event on page load if date is pre-filled
             if ($('#appointmentDate').val()) {

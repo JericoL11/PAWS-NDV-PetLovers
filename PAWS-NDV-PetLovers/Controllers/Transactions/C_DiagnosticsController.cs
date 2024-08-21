@@ -50,6 +50,27 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
         }
 
 
+
+        [HttpGet]
+        public async Task<IActionResult> DiagnosAppointment(int? id)
+        {
+            var getOwner = await _context.Owners.Include(o => o.Pets)
+                .FirstOrDefaultAsync(o => o.id == id);
+
+            var services = await _context.Services.ToListAsync();
+
+            TransactionsVm tvm = new TransactionsVm
+            {
+                Owner = getOwner,
+                Services = services
+            };
+
+            return View(tvm);
+        }
+
+
+
+        //Owner Diagnosis
         [HttpPost]
         public async Task<IActionResult> Create([Bind("Diagnostics")] TransactionsVm tvm)
         {
@@ -136,13 +157,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
         }
         #endregion
 
-        [HttpGet]
-        public async Task<IActionResult> DiagnosAppointment()
-        {
-            return View();
-        }
-
-
+    
 
         [HttpGet]
         public async Task<IActionResult> DiagnosticBill()

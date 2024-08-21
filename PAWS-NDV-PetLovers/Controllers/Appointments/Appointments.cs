@@ -30,7 +30,10 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             var appDetails = await _context.AppointmentDetails
                 .Include(a => a.Services)
                 .Include(a => a.Appointment)
+                .Where(a => a.remarks == null)
                 .ToListAsync();
+
+            var owners = await _context.Owners.ToListAsync();
 
             // Group the fetched appointment details by AppointmentId to ensure each appointment is processed only once.
             var groupedAppointments = appDetails
@@ -41,9 +44,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
                     Details = g.ToList()
                 })
                 .ToList();
-
-
-            var owners = await _context.Owners.ToListAsync();
 
             var vm = new AppointmentVm
             {
@@ -256,6 +256,46 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
         }
 
+
+        #region === Default For set Remarks ===
+        /*  [HttpPost]
+          [ValidateAntiForgeryToken]
+          public async Task<IActionResult> SetRemarks(string fname, string lname, string AppDetailsIds)
+          {
+
+              var verifyOwner = _context.Owners.FirstOrDefault(a => a.fname == fname && a.lname == lname);
+
+              if (verifyOwner == null)
+              {
+                  ModelState.AddModelError("", "Registration required");
+                  var vm = await GetAllAsync();
+                  return View("Index", vm);
+              }
+
+              //collect the id and split by comma
+              var ids = AppDetailsIds
+                  .Split(',')
+                  .Select(id => int.Parse(id))  //converting string to int
+                  .ToList();
+
+              //matching via contains the Ids to database
+              var appointmentDetails = await _context.AppointmentDetails
+                  .Where(ad => ids.Contains(ad.AppDetailsId))
+                  .ToListAsync();
+
+              //save to database individually
+              foreach (var appointmentDetail in appointmentDetails)
+              {
+                  appointmentDetail.remarks = "Completed";
+                  _context.Update(appointmentDetail);
+              }
+
+              await _context.SaveChangesAsync();
+
+              return RedirectToAction(nameof(Index));
+          }*/
+        #endregion
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SetRemarks(string fname, string lname, string AppDetailsIds)
@@ -288,9 +328,24 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
                 _context.Update(appointmentDetail);
             }
 
+            //get owner Objects 
+            var owner = await _context.Owners
+                .Where(o => o.fname == fname && o.lname == lname)
+                .Select(o => o).FirstOrDefaultAsync();
+
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            //object instantiation
+
+            TransactionsVm tvm = new TransactionsVm
+            {
+                Owner = owner
+            };
+            //direct to different view and controller
+            /*return RedirectToAction("ActionOrViewName", "ControllerName", route);*/
+
+
+            return RedirectToAction("DiagnosAppointment", "C_Diagnostics", new { id = tvm.Owner.id });
         }
 
         [HttpGet]

@@ -11,7 +11,7 @@ namespace PAWS_NDV_PetLovers.ViewModels
 
         public List<Services>? IlistServices { get; set; }
 
-        //for create CREATE View
+        //for  CREATE View
         public IEnumerable<Owner> IOwner { get; set; }
 
 
@@ -37,7 +37,8 @@ namespace PAWS_NDV_PetLovers.ViewModels
     {
         public Appointment Appointment { get; set; }
 
-        public Owner Owner { get; set; } // Add this line if Owner is related directly
         public List<AppointmentDetails> Details { get; set; }
+
+        public IEnumerable<Owner>? Owner { get; set; } // for related Owners
     }
 }

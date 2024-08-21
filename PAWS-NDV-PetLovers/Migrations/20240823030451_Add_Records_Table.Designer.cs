@@ -12,8 +12,8 @@ using PAWS_NDV_PetLovers.Data;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     [DbContext(typeof(PAWS_NDV_PetLoversContext))]
-    [Migration("20240820022531_Add_Appointments_Table")]
-    partial class Add_Appointments_Table
+    [Migration("20240823030451_Add_Records_Table")]
+    partial class Add_Records_Table
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,67 +24,6 @@ namespace PAWS_NDV_PetLovers.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.Appointment", b =>
-                {
-                    b.Property<int>("AppointId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AppointId"));
-
-                    b.Property<string>("contact")
-                        .IsRequired()
-                        .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)");
-
-                    b.Property<DateTime>("date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("fname")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lname")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("mname")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("time")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("AppointId");
-
-                    b.ToTable("Appointments");
-                });
-
-            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.AppointmentDetails", b =>
-                {
-                    b.Property<int>("AppDetailsId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AppDetailsId"));
-
-                    b.Property<int>("AppointId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("remarks")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("serviceID")
-                        .HasColumnType("int");
-
-                    b.HasKey("AppDetailsId");
-
-                    b.HasIndex("AppointId");
-
-                    b.HasIndex("serviceID");
-
-                    b.ToTable("AppointmentDetails");
-                });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Records.Category", b =>
                 {
@@ -281,23 +220,6 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.ToTable("Services");
                 });
 
-            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.AppointmentDetails", b =>
-                {
-                    b.HasOne("PAWS_NDV_PetLovers.Models.Appointments.Appointment", "Appointment")
-                        .WithMany("IAppDetails")
-                        .HasForeignKey("AppointId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PAWS_NDV_PetLovers.Models.Records.Services", "Services")
-                        .WithMany()
-                        .HasForeignKey("serviceID");
-
-                    b.Navigation("Appointment");
-
-                    b.Navigation("Services");
-                });
-
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Records.Pet", b =>
                 {
                     b.HasOne("PAWS_NDV_PetLovers.Models.Records.Owner", "owner")
@@ -318,11 +240,6 @@ namespace PAWS_NDV_PetLovers.Migrations
                         .IsRequired();
 
                     b.Navigation("category");
-                });
-
-            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.Appointment", b =>
-                {
-                    b.Navigation("IAppDetails");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Records.Category", b =>

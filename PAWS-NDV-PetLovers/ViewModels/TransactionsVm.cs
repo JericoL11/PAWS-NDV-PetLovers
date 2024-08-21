@@ -9,6 +9,8 @@ namespace PAWS_NDV_PetLovers.ViewModels
         public DiagnosticDetails? DiagnosticDetails { get; set; }
         public Pet? Pets { get; set; }
 
+        //for Appointment Diagnostic
+        public Owner? Owner { get; set; }
 
         //View display
         public IEnumerable<Diagnostics>? IDiagnostics { get; set; }

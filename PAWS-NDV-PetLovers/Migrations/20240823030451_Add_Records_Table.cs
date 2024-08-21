@@ -16,7 +16,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "500, 1"),
+                        .Annotation("SqlServer:Identity", "5000, 1"),
                     categoryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     registeredDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -147,3 +147,4 @@ namespace PAWS_NDV_PetLovers.Migrations
         }
     }
 }
+ 
