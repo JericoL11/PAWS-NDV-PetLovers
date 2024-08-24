@@ -175,6 +175,7 @@
                     if (selectedService.includes('check') || selectedType.includes('lab')) {
                         $(this).find('textarea[name$=".diagnosis"]').removeClass('visually-hidden');
                         $(this).find('textarea[name$=".prescription"]').removeClass('visually-hidden');
+                        checkupSelected = true;
                     } else {
                         $(this).find('textarea[name$=".diagnosis"]').addClass('visually-hidden');
                         $(this).find('textarea[name$=".prescription"]').addClass('visually-hidden');
