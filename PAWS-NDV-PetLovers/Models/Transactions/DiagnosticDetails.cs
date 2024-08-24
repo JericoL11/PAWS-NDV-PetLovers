@@ -14,7 +14,7 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
         public string? diagnosis { get; set; }
 
         [Display(Name = "Prescription")]
-        public string? presciption { get; set; }
+        public string? prescription { get; set; }
 
         [ForeignKey("Diagnostics")]
         [Display(Name ="Diagnostic ID")]

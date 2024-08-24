@@ -29,7 +29,7 @@
         <a class="btn btn-primary btn-md mb-4 px-4" asp-action="Index" asp-controller="Pets">View Pet List</a>
     </div>
    
-    <table class="table table-striped table-info" id="OwnerTable">
+    <table class="table table-striped table-info " id="OwnerTable">
     <thead> 
 
         <tr>
@@ -100,4 +100,25 @@
     </tbody>
     </table>
 </div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $('#OwnerTable').DataTable({
+            paging: false,
+            scrollY: 400,
+            responsive: true,
+            searching: true,
+            ordering: true
+       
+        });
+        //just remove this query to set as default again
+
+   
+    </script>
+}
+
 <script src="~/js/RecordsDataTables/OwnerTable.js" defer></script>

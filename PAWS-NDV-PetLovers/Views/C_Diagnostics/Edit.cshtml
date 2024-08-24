@@ -63,12 +63,12 @@
                 <tr>
                     <th>Service Name</th>
                     <th>Service Price</th>
-                    <th>Diagnosis Remarks</th>
+                    <th>Diagnosis Result</th>
+                    <th>Prescription</th>
                 </tr>
             </thead>
             <tbody>
 
-               @*  for controller references *@
                 @for (int i = 0; i < Model.Diagnostics.IdiagnosticDetails.Count; i++)
                 {
                     <tr>
@@ -85,13 +85,33 @@
                             <span>@displayPrice</span>
                         </td>
                         <td>
-                            <textarea class="form-control bg-light" rows="10" style="resize: none;"name="Diagnostics.IdiagnosticDetails[@i].diagnosis" required>@Model.Diagnostics.IdiagnosticDetails[i].diagnosis</textarea>
-
-                            @* holds the diagnosticDet_Id*@
-                            <input type="hidden" name="Diagnostics.IdiagnosticDetails[@i].diagnosticDet_Id" value="@Model.Diagnostics.IdiagnosticDetails[i].diagnosticDet_Id" />
+                            @if (Model.Diagnostics.IdiagnosticDetails[i].Services.serviceName.ToLower().Contains("checkup"))
+                            {
+                                <textarea class="form-control bg-light" rows="10" style="resize: none;" name="Diagnostics.IdiagnosticDetails[@i].diagnosis">@Model.Diagnostics.IdiagnosticDetails[i].diagnosis</textarea>
+                            }
+                            else
+                            {
+                                <span class="opacity-50">No Result</span>
+                            }
                         </td>
+                        <td>
+                            @if (Model.Diagnostics.IdiagnosticDetails[i].Services.serviceName.ToLower().Contains("checkup") || Model.Diagnostics.IdiagnosticDetails[i].Services.serviceName.ToLower().Contains("vaccination") || Model.Diagnostics.IdiagnosticDetails[i].Services.serviceName.ToLower().Contains("deworming"))
+                            {
+                                <textarea class="form-control bg-light" rows="10" name="Diagnostics.IdiagnosticDetails[@i].prescription" style="resize: none;">@Model.Diagnostics.IdiagnosticDetails[i].prescription</textarea>
+                            }
+                            else
+                            {
+                                <span class="opacity-50">No Result</span>
+                            }
+                        </td>
+
+                        @* Holds the diagnosticDet_Id *@
+                        <input type="hidden" name="Diagnostics.IdiagnosticDetails[@i].diagnosticDet_Id" value="@Model.Diagnostics.IdiagnosticDetails[i].diagnosticDet_Id" />
                     </tr>
                 }
+
+                }
+
             </tbody>
         </table>
 

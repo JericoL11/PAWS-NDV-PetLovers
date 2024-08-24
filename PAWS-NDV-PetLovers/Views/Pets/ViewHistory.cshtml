@@ -54,6 +54,7 @@
                     <th></th>
                     <th>Service Name</th>
                     <th>Diagnosis Result</th>
+                    <th>Prescription</th>
                     <th></th>
                 </tr>
             </thead>
@@ -67,7 +68,25 @@
                         </td>
 
                         <td>
-                            <textarea  class="form-control bg-light" rows="10" style="resize: none;" readonly>@item.diagnosis</textarea>
+                            @if (item.Services.serviceName.ToLower().Contains("checkup"))
+                            {
+                                <textarea class="form-control bg-light" rows="10" style="resize: none;" readonly>@item.diagnosis</textarea>
+                            }
+                            else
+                            {
+                                <span class="opacity-50">No Result</span>
+                            }
+                        </td>
+                     
+                        <td>
+                            @if (item.Services.serviceName.ToLower().Contains("checkup") || item.Services.serviceName.ToLower().Contains("vaccination") || item.Services.serviceName.ToLower().Contains("deworming"))
+                            {
+                                <textarea class="form-control bg-light" rows="10" style="resize: none;" readonly>@item.prescription</textarea>
+                            }
+                            else
+                            {
+                                <span class="opacity-50">No Result</span>
+                            }
                         </td>
                         <td></td>
                     </tr>

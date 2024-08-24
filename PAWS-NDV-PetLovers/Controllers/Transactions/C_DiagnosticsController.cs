@@ -125,13 +125,13 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                 {
                     //update the diagnosis remarks
                     existingDetail.diagnosis = detail.diagnosis;
+                    existingDetail.prescription = detail.prescription;
 
                 }
             }
 
             // Attempt to save the changes to the database
-            try
-            {
+            try            {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)

@@ -7,11 +7,14 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PAWS_NDV_PetLovers.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+    <link rel="stylesheet" href="~/DataTables/datatables.css" />
 
     @* embbed-datatables - css*@
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
+@*     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
+ *@
 
+    @*local datatables *@
+ @*    <link href="~/DataTables/datatables.min.css" rel="stylesheet"> *@
    
 </head>
 <body>
@@ -126,13 +129,15 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
-
-    @* add-form-script *@
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/DataTables/datatables.js"></script>
+    1
     @await RenderSectionAsync("Scripts", required: false)
 
-      @* embbed datatables - js *@
-      <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+ 
+
+    @* add-form-script *@
+    @* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      embbed datatables - js 
+      <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script> *@
 </body>
 </html>

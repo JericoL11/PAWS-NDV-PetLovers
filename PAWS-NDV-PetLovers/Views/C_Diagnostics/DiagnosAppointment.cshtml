@@ -154,14 +154,21 @@
                                         <option value="" data-price="0" disabled selected>Select Service</option>
                                         @foreach (var service in Model.Services)
                                         {
-                                            <option value="@service.serviceId" data-price="@service.serviceCharge">@service.serviceName</option>
+                                            <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-name="@service.serviceName">@service.serviceName</option>
                                         }
                                     </select>
 
                                     <input type="hidden" name="Diagnostics.IdiagnosticDetails[0].servicePrice" class="service-charge" value="" />
 
-                                    <label class="control-label">Diagnosis Result</label>
-                                    <textarea name="Diagnostics.IdiagnosticDetails[0].diagnosis" class="form-control bg-light" rows="10" style="resize: none;" required></textarea>
+                                    <div class="diagnosisResult">
+                                        <label name="diagnosisLabel" class="control-label visually-hidden">Diagnosis Result</label>
+                                        <textarea name="Diagnostics.IdiagnosticDetails[0].diagnosis" class="form-control bg-light visually-hidden" rows="10" style="resize: none;"></textarea>
+                                    </div>
+
+                                    <div class="prescription">
+                                        <label name="prescriptionLabel" class="control-label visually-hidden">Prescription</label>
+                                        <textarea name="Diagnostics.IdiagnosticDetails[0].prescription" class="form-control bg-light visually-hidden" rows="10" style="resize: none;"></textarea>
+                                    </div>
                                 </div>
                             </td>
                             <td>
@@ -171,7 +178,6 @@
                     </tbody>
                 </table>
                 <button type="button" class="btn btn-success" id="addRow">Add Service</button>
-
             </div>
 
             <!-- Total Payment -->
@@ -217,7 +223,6 @@
     }
 });
 
-
         $(document).ready(function () {
 
             function updateRowNames() {
@@ -245,11 +250,34 @@
                 $('#totalPayment').val(totalPrice.toFixed(2));
             }
 
+            function toggleFields() {
+                $('#DetailsTable tbody tr').each(function () {
+                    var $select = $(this).find('select.service-select');
+                    var selectedService = $select.find('option:selected').data('service-name');
+
+                    // Toggle Diagnosis Result Field
+                    if (selectedService === 'Checkup') {
+                        $(this).find('label[name="diagnosisLabel"]').removeClass('visually-hidden');
+                        $(this).find('textarea[name$=".diagnosis"]').removeClass('visually-hidden');
+                    } else {
+                        $(this).find('label[name="diagnosisLabel"]').addClass('visually-hidden');
+                        $(this).find('textarea[name$=".diagnosis"]').addClass('visually-hidden');
+                    }
+
+                    // Toggle Prescription Field
+                    if (selectedService === 'Vaccination') {
+                        $(this).find('label[name="prescriptionLabel"]').removeClass('visually-hidden');
+                        $(this).find('textarea[name$=".prescription"]').removeClass('visually-hidden');
+                    } else {
+                        $(this).find('label[name="prescriptionLabel"]').addClass('visually-hidden');
+                        $(this).find('textarea[name$=".prescription"]').addClass('visually-hidden');
+                    }
+                });
+            }
 
             $('#addRow').click(function () {
                 var rowCount = $('#DetailsTable tbody tr').length;
                 var newRow = $('.detailRow').first().clone();
-
 
                 newRow.find('input, select, textarea').each(function () {
                     var name = $(this).attr('name');
@@ -263,23 +291,24 @@
                 newRow.appendTo($('#DetailsTable tbody'));
                 updateRowNames();
                 updateTotalPrice();
+                toggleFields(); // Ensure field visibility is correct for the new row
             });
 
-            //remove row
+            // Remove row
             $(document).on('click', '.removeRow', function () {
                 if ($('#DetailsTable tbody tr').length > 1) {
                     $(this).closest('tr').remove();
                     updateRowNames(); // Update the name attributes of the remaining rows
                     updateTotalPrice(); // Update the total price after removing a row
+                    toggleFields(); // Ensure field visibility is correct after removal
                 }
             });
 
-            $(document).on('change', '.service-select', function () {
+            // Update total price and toggle fields when service is selected
+            $(document).on('change', 'select.service-select', function () {
                 updateTotalPrice();
+                toggleFields(); // Ensure field visibility is correct when changing service
             });
-
-            // Initial calculation
-            updateTotalPrice();
         });
             
     </script>
