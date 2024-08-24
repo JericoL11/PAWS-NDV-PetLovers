@@ -55,7 +55,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                     diagnosticDet_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "160000, 1"),
                     diagnosis = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    presciption = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    prescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     diagnosticsId = table.Column<int>(type: "int", nullable: false),
                     serviceId = table.Column<int>(type: "int", nullable: false),
                     servicePrice = table.Column<double>(type: "float", nullable: false)
