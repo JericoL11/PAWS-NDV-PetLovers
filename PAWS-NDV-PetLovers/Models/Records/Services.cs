@@ -1,4 +1,5 @@
 ﻿using PAWS_NDV_PetLovers.Models.Records;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,8 +18,10 @@ namespace PAWS_NDV_PetLovers.Models.Records
 
         [Required (ErrorMessage = "Please enter a value greater than 0")]
         [Display(Name = "Service Charge")]
-
         public double serviceCharge { get; set; }
+
+        [Display(Name = "Laboratory Test")]
+        public string? serviceType { get; set; }
 
 
     }

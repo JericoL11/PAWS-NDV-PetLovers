@@ -30,7 +30,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("serviceId,serviceName,serviceCharge")] Services service)
+        public async Task<IActionResult> Create([Bind("serviceId,serviceName,serviceType,serviceCharge")] Services service)
 
         {
             if (!ModelState.IsValid)

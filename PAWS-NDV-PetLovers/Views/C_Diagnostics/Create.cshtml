@@ -72,12 +72,23 @@
                                 <div class="form-group mt-2">
                                     <select name="Diagnostics.IdiagnosticDetails[0].serviceId" class="form-control service-select" required>
                                         <option value="" data-price="0" disabled selected>Select Service</option>
-                                        @foreach (var service in Model.Services)
-                                        {
-                                            <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-name="@service.serviceName.ToLower()">@service.serviceName</option>
-                                        }
-                                    </select>
 
+                                        @foreach (var service in Model.Services.Where(s => s.serviceType == "false"))
+                                        {
+                                            <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-type="@service.serviceType.ToLower()" data-service-name="@service.serviceName.ToLower()">
+                                                @service.serviceName
+                                            </option>
+                                        }
+
+                                        <optgroup label="Laboratory test">
+                                            @foreach (var service in Model.Services.Where(s => s.serviceType != "false"))
+                                            {
+                                                <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-type="@service.serviceType.ToLower()" data-service-name="@service.serviceName.ToLower()">
+                                                    @service.serviceName
+                                                </option>
+                                            }
+                                        </optgroup>
+                                    </select>
                                     <input type="hidden" name="Diagnostics.IdiagnosticDetails[0].servicePrice" class="service-charge" value="" />
                                 </div>
                             </td>
@@ -152,22 +163,25 @@
 
                 $('#DetailsTable tbody tr').each(function () {
                     var $select = $(this).find('select.service-select');
-                    var selectedService = $select.find('option:selected').data('service-name').toLowerCase();
+                    var selectedService = $select.find('option:selected').data('service-name') || '';
+                    var selectedType = $select.find('option:selected').data('service-type') || '';
 
-                    // Check if the selected service includes "checkup" OR "Laboratory" or similar terms
-                    if (selectedService.includes('checkup') || selectedService.includes('laboratory') || selectedService.includes('laboratory')) {
-                        checkupSelected = true;
+                    selectedService = selectedService.toLowerCase();
+                    selectedType = selectedType.toLowerCase();
+
+                    // Show both diagnosis and prescription fields if 'Checkup' is selected or it is a laboratory test
+                    if (selectedService.includes('check') || selectedType.includes('lab')) {
                         $(this).find('textarea[name$=".diagnosis"]').removeClass('visually-hidden');
                         $(this).find('textarea[name$=".prescription"]').removeClass('visually-hidden');
+                        checkupSelected = true;
                     } else {
                         $(this).find('textarea[name$=".diagnosis"]').addClass('visually-hidden');
+                        $(this).find('textarea[name$=".prescription"]').addClass('visually-hidden');
+                    }
 
-                        // Toggle Prescription Field
-                        if (selectedService.includes('vaccination') || selectedService.includes('vaccine') || selectedService.includes('deworming')) {
-                            $(this).find('textarea[name$=".prescription"]').removeClass('visually-hidden');
-                        } else {
-                            $(this).find('textarea[name$=".prescription"]').addClass('visually-hidden');
-                        }
+                    // Show prescription field if specific services are selected
+                    if (selectedService.includes('vaccination') || selectedService.includes('vaccine') || selectedService.includes('deworming')) {
+                        $(this).find('textarea[name$=".prescription"]').removeClass('visually-hidden');
                     }
                 });
             }
@@ -212,9 +226,10 @@
                     return;
                 }
 
-                updateTotalPrice();
                 toggleFields(); // Ensure field visibility is correct when changing service
+                updateTotalPrice(); // Update the total price
             });
+
         });
     </script>
 }

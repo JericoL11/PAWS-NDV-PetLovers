@@ -85,7 +85,7 @@
                             <span>@displayPrice</span>
                         </td>
                         <td>
-                            @if (Model.Diagnostics.IdiagnosticDetails[i].Services.serviceName.ToLower().Contains("checkup"))
+                            @if (Model.Diagnostics.IdiagnosticDetails[i].Services.serviceName.ToLower().Contains("check") || Model.Diagnostics.IdiagnosticDetails[i].Services.serviceType.ToLower().Contains("lab"))
                             {
                                 <textarea class="form-control bg-light" rows="10" style="resize: none;" name="Diagnostics.IdiagnosticDetails[@i].diagnosis">@Model.Diagnostics.IdiagnosticDetails[i].diagnosis</textarea>
                             }
@@ -95,7 +95,7 @@
                             }
                         </td>
                         <td>
-                            @if (Model.Diagnostics.IdiagnosticDetails[i].Services.serviceName.ToLower().Contains("checkup") || Model.Diagnostics.IdiagnosticDetails[i].Services.serviceName.ToLower().Contains("vaccination") || Model.Diagnostics.IdiagnosticDetails[i].Services.serviceName.ToLower().Contains("deworming"))
+                            @if (Model.Diagnostics.IdiagnosticDetails[i].Services.serviceName.ToLower().Contains("checkup") || Model.Diagnostics.IdiagnosticDetails[i].Services.serviceName.ToLower().Contains("vaccination") || Model.Diagnostics.IdiagnosticDetails[i].Services.serviceName.ToLower().Contains("deworming") || Model.Diagnostics.IdiagnosticDetails[i].Services.serviceType.ToLower().Contains("lab"))
                             {
                                 <textarea class="form-control bg-light" rows="10" name="Diagnostics.IdiagnosticDetails[@i].prescription" style="resize: none;">@Model.Diagnostics.IdiagnosticDetails[i].prescription</textarea>
                             }

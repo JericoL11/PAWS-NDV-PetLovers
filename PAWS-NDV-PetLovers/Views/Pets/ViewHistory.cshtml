@@ -68,7 +68,7 @@
                         </td>
 
                         <td>
-                            @if (item.Services.serviceName.ToLower().Contains("checkup"))
+                            @if (item.Services.serviceName.ToLower().Contains("checkup")  || item.Services.serviceType.ToLower().Contains("lab"))
                             {
                                 <textarea class="form-control bg-light" rows="10" style="resize: none;" readonly>@item.diagnosis</textarea>
                             }
@@ -79,7 +79,7 @@
                         </td>
                      
                         <td>
-                            @if (item.Services.serviceName.ToLower().Contains("checkup") || item.Services.serviceName.ToLower().Contains("vaccination") || item.Services.serviceName.ToLower().Contains("deworming"))
+                            @if (item.Services.serviceName.ToLower().Contains("checkup") || item.Services.serviceName.ToLower().Contains("vaccination") || item.Services.serviceName.ToLower().Contains("deworming") || item.Services.serviceType.ToLower().Contains("lab"))
                             {
                                 <textarea class="form-control bg-light" rows="10" style="resize: none;" readonly>@item.prescription</textarea>
                             }
