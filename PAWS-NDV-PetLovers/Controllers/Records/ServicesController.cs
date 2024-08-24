@@ -89,7 +89,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
                 _context.Services.Update(service);
                 await _context.SaveChangesAsync();
 
-                return View(service);
+                return RedirectToAction(nameof(Index));
             }
             catch (DbUpdateConcurrencyException)
             {
