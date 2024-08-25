@@ -80,14 +80,28 @@
                                             </option>
                                         }
 
-                                        <optgroup label="Laboratory test">
-                                            @foreach (var service in Model.Services.Where(s => s.serviceType != "false"))
-                                            {
-                                                <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-type="@service.serviceType.ToLower()" data-service-name="@service.serviceName.ToLower()">
-                                                    @service.serviceName
-                                                </option>
-                                            }
-                                        </optgroup>
+                                        @* for display laboratory items *@
+                                        @{
+                                            //check services
+                                            var checkTypes = Model.Services
+                                            .Select(s => s.serviceType)
+                                            .Distinct();
+
+                                            var type = string.Join("," , checkTypes).ToLower();
+
+                                        }
+                                        @if (type.Contains("lab"))
+                                        {
+                                            <optgroup label="Laboratory test">
+                                                @foreach (var service in Model.Services.Where(s => s.serviceType != "false"))
+                                                {
+                                                    <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-type="@service.serviceType.ToLower()" data-service-name="@service.serviceName.ToLower()">
+                                                        @service.serviceName
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                        }
+                                     
                                     </select>
                                     <input type="hidden" name="Diagnostics.IdiagnosticDetails[0].servicePrice" class="service-charge" value="" />
                                 </div>
