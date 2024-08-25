@@ -22,6 +22,13 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
             return View(services);
         }
+        public async Task<IActionResult> VoidServices()
+        {
+
+            var services = await _context.Services.Where(s => !string.IsNullOrEmpty(s.status)).ToListAsync();
+
+            return View(services);
+        }
 
         [HttpGet]
         public IActionResult Create()
