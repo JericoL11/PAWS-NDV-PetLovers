@@ -58,9 +58,30 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
         public async Task GetServices()
         {
-            var services = await _context.Services.ToListAsync();
+            var services = await _context.Services.Where(s => string.IsNullOrEmpty(s.status)).ToListAsync();
 
             ViewBag.Services = new SelectList(services, "serviceId", "serviceName");
+        }
+
+        public async Task<IActionResult> AppointmentHistory()
+        {
+            var AppDetails = await _context.AppointmentDetails.Include(ad => ad.Appointment).Include(ad => ad.Services).ToListAsync();
+
+            var groupById = AppDetails
+                .GroupBy(a => a.Appointment.AppointId)
+                .Select(g => new AppointmentGroup
+                {
+                    Appointment = g.First().Appointment,
+                    Details = g.ToList()
+                })
+                .ToList();
+
+            var vm = new AppointmentVm
+            {
+                AppointmentGrouping = groupById
+            };
+
+            return View(vm);
         }
 
 

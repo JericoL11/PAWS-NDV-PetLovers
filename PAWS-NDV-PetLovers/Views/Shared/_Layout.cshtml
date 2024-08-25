@@ -130,8 +130,22 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/DataTables/datatables.js"></script>
-    
+  
+    @* datatables Options *@
+    <script>
+        $.extend($.fn.dataTable.defaults, {
+
+            paging: false,
+            scrollY: 380,
+            responsive: true,
+            searching: true,
+            ordering: true
+
+        });
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
+  
 
  
     @* add-form-script *@

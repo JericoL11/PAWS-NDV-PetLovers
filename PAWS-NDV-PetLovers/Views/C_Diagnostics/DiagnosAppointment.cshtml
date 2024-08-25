@@ -155,7 +155,7 @@
                                     <select name="Diagnostics.IdiagnosticDetails[0].serviceId" class="form-control service-select" required>
                                         <option value="" data-price="0" disabled selected>Select Service</option>
 
-                                        @foreach (var service in Model.Services.Where(s => s.serviceType == "false"))
+                                        @foreach (var service in Model.Services.Where(s => s.serviceType == "NA"))
                                         {
                                             <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-type="@service.serviceType.ToLower()" data-service-name="@service.serviceName.ToLower()">
                                                 @service.serviceName
@@ -175,7 +175,7 @@
                                         @if (type.Contains("lab"))
                                         {
                                             <optgroup label="Laboratory test">
-                                                @foreach (var service in Model.Services.Where(s => s.serviceType != "false"))
+                                                @foreach (var service in Model.Services.Where(s => s.serviceType != "NA"))
                                                 {
                                                     <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-type="@service.serviceType.ToLower()" data-service-name="@service.serviceName.ToLower()">
                                                         @service.serviceName
@@ -206,6 +206,7 @@
                 </table>
                 <button type="button" class="btn btn-success" id="addRow">Add Service</button>
             </div>
+
 
             <!-- Total Payment -->
             <div class="fixed-right-Payment ps-4" style="margin-right:0">
@@ -254,124 +255,121 @@
                     
             });
 
-            $(document).ready(function () {
-                var checkupSelected = false; // Track if "Checkup" is selected
+        $(document).ready(function () {
+            var checkupSelected = false; // Track if "Checkup" is selected
 
-                function updateRowNames() {
-                    $('#DetailsTable tbody tr').each(function (index) {
-                        $(this).find('input, select').each(function () {
-                            var name = $(this).attr('name');
-                            if (name) {
-                                var newName = name.replace(/\d+/, index);
-                                $(this).attr('name', newName);
-                            }
-                        });
-                    });
-                }
-
-                function updateTotalPrice() {
-                    var totalPrice = 0;
-
-                    $('#DetailsTable tbody tr').each(function () {
-                        var $select = $(this).find('select.service-select');
-                        var price = parseFloat($select.find('option:selected').data('price')) || 0;
-                        $(this).find('input.service-charge').val(price); // Update the hidden input with the price
-                        totalPrice += price;
-                    });
-
-                    $('#totalPayment').val(totalPrice.toFixed(2));
-                }
-
-                function toggleFields() {
-                    var selectedServices = [];
-
-                    $('#DetailsTable tbody tr').each(function () {
-                        var $select = $(this).find('select.service-select');
-                        var selectedService = $select.find('option:selected').data('service-name') || '';
-                        var selectedType = $select.find('option:selected').data('service-type') || '';
-
-                        selectedService = selectedService.toLowerCase();
-                        selectedType = selectedType.toLowerCase();
-
-                        if (selectedService.includes('checkup')) {
-                            selectedServices.push('checkup');
-                        }
-
-                        if (selectedService.includes('check') || selectedType.includes('lab')) {
-                            $(this).find('textarea[name$=".diagnosis"]').removeClass('visually-hidden');
-                            $(this).find('textarea[name$=".prescription"]').removeClass('visually-hidden');
-                            checkupSelected = true;
-                        } else {
-                            $(this).find('textarea[name$=".diagnosis"]').addClass('visually-hidden');
-                            $(this).find('textarea[name$=".prescription"]').addClass('visually-hidden');
-                        }
-
-                        if (selectedService.includes('vaccination') || selectedService.includes('vaccine') || selectedService.includes('deworming')) {
-                            $(this).find('textarea[name$=".prescription"]').removeClass('visually-hidden');
-                        }
-
-                    });
-
-                    // Update the checkupSelected flag
-                    checkupSelected = selectedServices.includes('checkup');
-                }
-
-                $('#addRow').click(function () {
-                    var rowCount = $('#DetailsTable tbody tr').length;
-                    var newRow = $('.detailRow').first().clone();
-
-                    newRow.find('input, select, textarea').each(function () {
+            function updateRowNames() {
+                $('#DetailsTable tbody tr').each(function (index) {
+                    $(this).find('input, select').each(function () {
                         var name = $(this).attr('name');
                         if (name) {
-                            var newName = name.replace(/\d+/, rowCount);
+                            var newName = name.replace(/\d+/, index);
                             $(this).attr('name', newName);
                         }
-                        $(this).val(''); // Clear the value of the input/select
                     });
+                });
+            }
 
-                    newRow.appendTo($('#DetailsTable tbody'));
-                    updateRowNames();
-                    updateTotalPrice();
-                    toggleFields(); // Ensure field visibility is correct for the new row
+            function updateTotalPrice() {
+                var totalPrice = 0;
+
+                $('#DetailsTable tbody tr').each(function () {
+                    var $select = $(this).find('select.service-select');
+                    var price = parseFloat($select.find('option:selected').data('price')) || 0;
+                    $(this).find('input.service-charge').val(price); // Update the hidden input with the price
+                    totalPrice += price;
                 });
 
-                // Remove row
-                $(document).on('click', '.removeRow', function () {
-                    if ($('#DetailsTable tbody tr').length > 1) {
-                        $(this).closest('tr').remove();
-                        updateRowNames(); // Update the name attributes of the remaining rows
-                        updateTotalPrice(); // Update the total price after removing a row
-                        toggleFields(); // Ensure field visibility is correct after removal
-                    }
-                });
+                $('#totalPayment').val(totalPrice.toFixed(2));
+            }
 
-                $(document).on('change', 'select.service-select', function () {
-                    var selectedService = $(this).find('option:selected').data('service-name');
+            function toggleFields() {
+                checkupSelected = false; // Reset flag
+                var selectedServices = [];
 
-                    if (typeof selectedService === 'undefined') {
-                        // Handle the case where data-service-name is missing or undefined
-                        console.error('The selected option does not have a data-service-name attribute.');
-                        return;
-                    }
+                $('#DetailsTable tbody tr').each(function () {
+                    var $select = $(this).find('select.service-select');
+                    var selectedService = $select.find('option:selected').data('service-name') || '';
+                    var selectedType = $select.find('option:selected').data('service-type') || '';
 
                     selectedService = selectedService.toLowerCase();
+                    selectedType = selectedType.toLowerCase();
 
-                    // Check if "Checkup" is included and it's already chosen
-                    if (selectedService.includes('checkup') && checkupSelected) {
-                        alert("Checkup can only be selected once.");
-                        $(this).val('').change(); // Reset the select
-
-                        // Manually trigger the change event after resetting the value
-                        $(this).trigger('change');
-                        $(this).closest('tr').find('textarea').addClass('visually-hidden'); // Hide fields if reset
-
-                        return;
+                    if (selectedService.includes('check')) {
+                        checkupSelected = true;
+                        selectedServices.push('check');
                     }
 
-                    toggleFields(); // Ensure field visibility is correct when changing service
-                    updateTotalPrice(); // Update the total price
+                    if (selectedService.includes('check') || selectedType.includes('lab')) {
+                        $(this).find('textarea[name$=".diagnosis"]').removeClass('visually-hidden');
+                        $(this).find('textarea[name$=".prescription"]').removeClass('visually-hidden');
+                    } else {
+                        $(this).find('textarea[name$=".diagnosis"]').addClass('visually-hidden');
+                        $(this).find('textarea[name$=".prescription"]').addClass('visually-hidden');
+                    }
+
+                    if (selectedService.includes('vaccination') || selectedService.includes('vaccine') || selectedService.includes('deworming')) {
+                        $(this).find('textarea[name$=".prescription"]').removeClass('visually-hidden');
+                    }
                 });
+            }
+
+            $('#addRow').click(function () {
+                var rowCount = $('#DetailsTable tbody tr').length;
+                var newRow = $('.detailRow').first().clone();
+
+                newRow.find('input, select, textarea').each(function () {
+                    var name = $(this).attr('name');
+                    if (name) {
+                        var newName = name.replace(/\d+/, rowCount);
+                        $(this).attr('name', newName);
+                    }
+                    $(this).val(''); // Clear the value of the input/select
+                });
+
+                newRow.appendTo($('#DetailsTable tbody'));
+                updateRowNames();
+                updateTotalPrice();
+                toggleFields(); // Ensure field visibility is correct for the new row
             });
+
+            // Remove row
+            $(document).on('click', '.removeRow', function () {
+                if ($('#DetailsTable tbody tr').length > 1) {
+                    $(this).closest('tr').remove();
+                    updateRowNames(); // Update the name attributes of the remaining rows
+                    updateTotalPrice(); // Update the total price after removing a row
+                    toggleFields(); // Ensure field visibility is correct after removal
+                }
+            });
+
+            $(document).on('change', 'select.service-select', function () {
+                var selectedService = $(this).find('option:selected').data('service-name');
+
+                if (typeof selectedService === 'undefined') {
+                    // Handle the case where data-service-name is missing or undefined
+                    console.error('The selected option does not have a data-service-name attribute.');
+                    return;
+                }
+
+                selectedService = selectedService.toLowerCase();
+
+                // Check if "Checkup" is included and it's already chosen
+                if (selectedService.includes('check') && checkupSelected) {
+                    alert("Checkup can only be selected once.");
+                    $(this).val('').change(); // Reset the select
+
+                    // Manually trigger the change event after resetting the value
+                    $(this).trigger('change');
+                    $(this).closest('tr').find('textarea').addClass('visually-hidden'); // Hide fields if reset
+
+                    return;
+                }
+
+                toggleFields(); // Ensure field visibility is correct when changing service
+                updateTotalPrice(); // Update the total price
+            });
+        });
     </script>
 
 }

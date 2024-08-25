@@ -43,7 +43,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                 Pets = firstPet,
                 //assigning fk column PetId based on routed id
                 Diagnostics = new Diagnostics { petId = (int)id },
-                Services = await _context.Services.ToListAsync()
+                Services = await _context.Services.Where(s=> string.IsNullOrEmpty(s.status)).ToListAsync()
             };
 
             return View(tVm);
@@ -57,12 +57,11 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             var getOwner = await _context.Owners.Include(o => o.Pets)
                 .FirstOrDefaultAsync(o => o.id == id);
 
-            var services = await _context.Services.ToListAsync();
 
             TransactionsVm tvm = new TransactionsVm
             {
                 Owner = getOwner,
-                Services = services
+                Services = await _context.Services.Where(s => string.IsNullOrEmpty(s.status)).ToListAsync()
             };
 
             return View(tvm);

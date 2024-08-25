@@ -30,9 +30,9 @@
                 <tr class="text-center">
                     <td>@Html.DisplayFor(modelItem => item.serviceId)</td>
 
-                    @if(item.serviceType != "false"){
+                    @if(item.serviceType != "NA"){
                         <td>@Html.DisplayFor(modelItem => item.serviceName)
-                            @Html.Raw(' ') 
+                            @Html.Raw('-') 
                             @Html.DisplayFor(modelItem => item.serviceType)
                         </td>
                     }
