@@ -27,6 +27,9 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
         [Display(Name = "Service Price")]
         public double servicePrice { get; set; }
 
+        public string? vaccineName { get; set; }
+
+
         //navigation Property
 
         public Services? Services { get; set; } 

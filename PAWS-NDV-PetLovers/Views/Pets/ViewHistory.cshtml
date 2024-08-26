@@ -13,46 +13,64 @@
     <a asp-action="Edit" asp-route-id="@Model.Diagnostics.pet.ownerId" asp-controller="Owners" class="btn btn-primary my-2">View Owner</a>
     <a asp-action="DiagnosHistory" asp-route-id="@Model.Diagnostics.petId" asp-route-ownerId="@Model.Diagnostics.pet.ownerId" class="btn btn-secondary my-2">Back to History</a>
     <form> 
-      
-        <div class="form-group">
-            <label asp-for="Diagnostics.diagnostic_Id" class="control-label"></label>
-            <input asp-for="Diagnostics.diagnostic_Id" class="form-control" readonly />
-        </div>
-        <div class="form-group">
-            <label asp-for="Diagnostics.date" class="control-label"></label>
-            <input asp-for="Diagnostics.date" class="form-control" readonly />
-        </div>
-        <div class="form-group">
-            <label asp-for="Diagnostics.pet.petName" class="control-label"></label>
-            <input asp-for="Diagnostics.pet.petName" class="form-control" readonly />
-        </div>
-        <div class="form-group">
-            <label asp-for="Diagnostics.pet.gender" class="control-label"></label>
-            <input asp-for="Diagnostics.pet.gender" class="form-control" readonly />
-        </div>
-        <div class="form-group">
-            <label asp-for="Diagnostics.pet.age" class="control-label"></label>
-            <input asp-for="Diagnostics.pet.age" class="form-control" readonly />
-        </div>
-        <div class="form-group">
-            <label asp-for="Diagnostics.pet.bdate" class="control-label"></label>
-            <input asp-for="Diagnostics.pet.bdate" class="form-control" readonly />
-        </div>
-        <div class="form-group">
-            <label asp-for="Diagnostics.pet.breed" class="control-label"></label>
-            <input asp-for="Diagnostics.pet.breed" class="form-control" readonly />
-        </div>
-        <div class="form-group">
-            <label asp-for="Diagnostics.pet.color" class="control-label"></label>
-            <input asp-for="Diagnostics.pet.color" class="form-control" readonly />
+          <div class="row justify-content-between mb-3" >
+                <div class="form-group col-lg-3">
+                    <label asp-for="Diagnostics.diagnostic_Id" class="control-label"></label>
+                    <input asp-for="Diagnostics.diagnostic_Id" class="form-control" readonly />
+                </div>
+         
         </div>
 
-      
+        <div class="row">
+
+
+            <div class="form-group col-lg-3 col-md-4">
+                <label asp-for="Diagnostics.pet.petName" class="control-label"></label>
+                <input asp-for="Diagnostics.pet.petName" class="form-control" readonly />
+            </div>
+            <div class="form-group col-lg-3 col-md-4">
+                <label asp-for="Diagnostics.pet.gender" class="control-label"></label>
+                <input asp-for="Diagnostics.pet.gender" class="form-control" readonly />
+            </div>
+            <div class="form-group col-lg-3 col-md-4">
+                <label asp-for="Diagnostics.pet.age" class="control-label"></label>
+                <input asp-for="Diagnostics.pet.age" class="form-control" readonly />
+            </div>
+            <div class="form-group col-lg-3 col-md-4">
+                <label asp-for="Diagnostics.pet.bdate" class="control-label"></label>
+                <input asp-for="Diagnostics.pet.bdate" class="form-control" readonly />
+            </div>
+            <div class="form-group col-lg-3 col-md-4">
+                <label asp-for="Diagnostics.pet.breed" class="control-label"></label>
+                <input asp-for="Diagnostics.pet.breed" class="form-control" readonly />
+            </div>
+            <div class="form-group col-lg-3 col-md-4">
+                <label asp-for="Diagnostics.pet.color" class="control-label"></label>
+                <input asp-for="Diagnostics.pet.color" class="form-control" readonly />
+            </div>
+            <div class="form-group col-lg-3">
+                <label asp-for="Diagnostics.date" class="control-label"></label>
+                <input asp-for="Diagnostics.date" class="form-control" readonly />
+            </div>
+
+        </div>
+       
         <table class="table">
             <thead>
                 <tr>
                     <th></th>
                     <th>Service Name</th>
+
+                    @{
+                        var details = Model.Diagnostics.IdiagnosticDetails
+                        .Select(d => d.vaccineName);
+                        var vaccineName = string.Join(',', details);
+                    }
+                    @if (vaccineName != null)
+                    {
+                        <th></th>
+                    }
+
                     <th>Diagnosis Result</th>
                     <th>Prescription</th>
                     <th></th>
@@ -66,9 +84,15 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Services.serviceName)
                         </td>
-
                         <td>
-                            @if (item.Services.serviceName.ToLower().Contains("checkup")  || item.Services.serviceType.ToLower().Contains("lab"))
+                            @if (item.vaccineName != null)
+                            {
+                                <span class="fw-bold"> @item.vaccineName</span>
+                            }
+
+                        </td>
+                        <td>
+                            @if (item.Services.serviceName.ToLower().Contains("check") || item.Services.serviceType.ToLower().Contains("lab") || item.Services.serviceName.ToLower().Contains("consult"))
                             {
                                 <textarea class="form-control bg-light" rows="10" style="resize: none;" readonly>@item.diagnosis</textarea>
                             }
@@ -79,7 +103,7 @@
                         </td>
                      
                         <td>
-                            @if (item.Services.serviceName.ToLower().Contains("checkup") || item.Services.serviceName.ToLower().Contains("vaccination") || item.Services.serviceName.ToLower().Contains("deworming") || item.Services.serviceType.ToLower().Contains("lab"))
+                            @if (item.Services.serviceName.ToLower().Contains("check") || item.Services.serviceType.ToLower().Contains("lab") || item.Services.serviceName.ToLower().Contains("consult"))
                             {
                                 <textarea class="form-control bg-light" rows="10" style="resize: none;" readonly>@item.prescription</textarea>
                             }
