@@ -147,7 +147,7 @@
                             <td>@Html.DisplayFor(modelItem => item.registeredDate)</td>
                             <td>
                                 <a asp-action="Edit" asp-controller="Pets" class="btn btn-success btn-md" asp-route-id="@item.id">Update</a>
-                                <a asp-action="Details" asp-controller="Pets" class="btn btn-info btn-md" asp-route-id="@item.id">Details</a>
+                                @* <a asp-action="Details" asp-controller="Pets" class="btn btn-info btn-md" asp-route-id="@item.id">Details</a> *@
                              
                                 <a asp-controller="C_Diagnostics"
                                    asp-route-id="@item.id"

@@ -13,7 +13,7 @@ namespace PAWS_NDV_PetLovers.Models.Records
         public string? productName { get; set; }
 
         [Required]
-        [Display(Name = "Selling Price")]
+        [Display(Name = "Price")]
         public double? sellingPrice { get; set; }
 
         [Required]

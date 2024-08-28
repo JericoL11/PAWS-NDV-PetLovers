@@ -5,15 +5,15 @@
 namespace PAWS_NDV_PetLovers.Migrations
 {
     /// <inheritdoc />
-    public partial class AddCol_Vaccine_DiagnosticDetails : Migration
+    public partial class AddCol_ProductPrice : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "vaccineName",
-                table: "DiagnosticDetails",
-                type: "nvarchar(max)",
+            migrationBuilder.AddColumn<double>(
+                name: "productPrice",
+                table: "Diagnostics",
+                type: "float",
                 nullable: true);
         }
 
@@ -21,8 +21,8 @@ namespace PAWS_NDV_PetLovers.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "vaccineName",
-                table: "DiagnosticDetails");
+                name: "productPrice",
+                table: "Diagnostics");
         }
     }
 }

@@ -9,8 +9,20 @@ namespace PAWS_NDV_PetLovers.ViewModels
         public DiagnosticDetails? DiagnosticDetails { get; set; }
         public Pet? Pets { get; set; }
 
+        public Purchase? Purchase { get; set; }
+
+
+        //selected services from appointment
+        public List<int>? SelectedServices { get; set; }
+
         //for Appointment Diagnostic
         public Owner? Owner { get; set; }
+
+        //FOR EDIT diagnostic Add-On
+        public IEnumerable<PurchaseDetails>? IPurchaseDetails { get; set; }
+
+
+        public IEnumerable<Purchase>? IPurchase { get; set; }
 
         //View display
         public IEnumerable<Diagnostics>? IDiagnostics { get; set; }
@@ -19,6 +31,15 @@ namespace PAWS_NDV_PetLovers.ViewModels
         public IEnumerable<Services> Services { get; set; } // Add this property to hold the services list
 
 
+        //add on Product
+
+        public IEnumerable<Product>? IProducts { get; set; }
+
+
+        //
+
+        public double grandTotal { get; set; }
+        public double totalPurchasePayment { get; set; }
 
     }
 }

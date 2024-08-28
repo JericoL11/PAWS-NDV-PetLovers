@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     /// <inheritdoc />
-    public partial class Add_Appointments_Table : Migration
+    public partial class Appointments_Table : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

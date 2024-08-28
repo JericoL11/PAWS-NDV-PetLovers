@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PAWS_NDV_PetLovers.Data;
 
@@ -11,9 +12,11 @@ using PAWS_NDV_PetLovers.Data;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     [DbContext(typeof(PAWS_NDV_PetLoversContext))]
-    partial class PAWS_NDV_PetLoversContextModelSnapshot : ModelSnapshot
+    [Migration("20240831065106_Add_TemporaryDiagnosisFk_Purchase")]
+    partial class Add_TemporaryDiagnosisFk_Purchase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -321,6 +324,10 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("diagnostic_Id"));
 
+                    b.Property<double?>("GrandTotal")
+                        .IsRequired()
+                        .HasColumnType("float");
+
                     b.Property<int?>("PurchaseNavpurchaseId")
                         .HasColumnType("int");
 
@@ -486,13 +493,11 @@ namespace PAWS_NDV_PetLovers.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Purchase", "Purchase")
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Purchase", null)
                         .WithMany("purchaseDetails")
                         .HasForeignKey("purchaseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Purchase");
 
                     b.Navigation("product");
                 });

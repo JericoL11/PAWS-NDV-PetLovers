@@ -16,21 +16,28 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
         [Display(Name = "Pet ID")]
         public int petId { get; set;}
 
+        [Display(Name ="Weight (kg)")]
+        [StringLength(5)]
+        public string? weight { get; set; }
+
+
+
         [Required]
-        [Display(Name = "Total Payment")]
-        public double? totalPayment { get; set; }
+        [Display(Name = "Service Total")]
+        public double? totalServicePayment { get; set; }
 
         [Required]
         [Display(Name = "Diagnosis Date")]
         [DataType(DataType.Date)]
         public DateTime? date { get; set; }
         
-        public string? remarks { get; set; }
-
+        public string? status { get; set; }
 
         //Navigation Property
         public Pet? pet { get; set; }
         public IList<DiagnosticDetails> IdiagnosticDetails { get; set; }
+
+        public Purchase? PurchaseNav { get; set; }
     }
 }
 

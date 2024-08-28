@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     /// <inheritdoc />
-    public partial class Add_Records_Table : Migration
+    public partial class Records_Table : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -55,7 +55,9 @@ namespace PAWS_NDV_PetLovers.Migrations
                     serviceId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "500, 1"),
                     serviceName = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
-                    serviceCharge = table.Column<double>(type: "float", nullable: false)
+                    serviceCharge = table.Column<double>(type: "float", nullable: false),
+                    serviceType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    status = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

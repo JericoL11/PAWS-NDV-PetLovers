@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PAWS_NDV_PetLovers.Models.Transactions.Diagnostics>
+﻿@model PAWS_NDV_PetLovers.ViewModels.TransactionsVm
 @{
     ViewData["Title"] = "Diagnostic BIll";
 }
@@ -17,13 +17,13 @@
                 <th> Owner ID - Name</th>
                 <th>Pet Id - Name</th>
                 <th>Services</th>
-                <th>Total Payment</th>
-                <th>Invoice</th>
-                <th>Action</th>
+                <th>Grand Total</th>
+                <th>Status</th>
+
             </tr>
         </thead>
         <tbody>
-            @foreach(var item in Model)
+            @foreach(var item in Model.IDiagnostics)
             {
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.diagnostic_Id)</td>
@@ -53,24 +53,44 @@
 
                         @Html.DisplayFor(modelItem => Services)
                     </td>
+
                     @{
-                        double totalPayment = (double)item.totalPayment; //ConvertToDouble
-                        var payment = totalPayment.ToString("N2"); //Add decimal
-                        var paymentDisplay = $"P{payment}"; //add P sign
+                        var grandtotal = item.PurchaseNav?.totalProductPayment + item.totalServicePayment ?? item.totalServicePayment;
+                        double Grandtotal = (double)grandtotal; // Convert to double
+                        var payment = Grandtotal.ToString("N2"); // Add decimal places
+                        var paymentDisplay = $"P{payment}"; // Add P sign
                     }
-                    <td>@Html.DisplayFor(modelItem => paymentDisplay)</td>
-                    <td class="remarks-cell">@Html.DisplayFor(modelItem => item.remarks) </td>
+                    <td>@paymentDisplay</td>
+
+
+
+                    <td class="remarks-cell">@Html.DisplayFor(modelItem => item.status) </td>
+                  
                     <td>
-                      <form method="post" asp-action="SetRemarks">
-                          <input type="hidden" name="diagnosticId"  value="@item.diagnostic_Id"/>
+                          <form method="post" asp-action="SetRemarks">
+                              <input type="hidden" name="diagnosticId"  value="@item.diagnostic_Id"/>
                        
-                            @if (string.IsNullOrEmpty(item.remarks))
-                            {
-                                <button class="btn btn-success">Paid</button>
-                                <a asp-action="Edit" asp-route-id="@item.diagnostic_Id" class="btn btn-primary">Update Result</a>
-                            }
-                      </form>
+                                @if (string.IsNullOrEmpty(item.status))
+                                {
+                                    <button class="btn btn-success">Paid</button>
+                                    <a asp-action="Edit" asp-route-id="@item.diagnostic_Id" asp-route-date="@item.date" class="btn btn-primary">Add On</a>
+
+                              
+                                    var selectPurchase = Model.IPurchase
+                                        .Select(p => p.diagnosisId);
+
+                                    var purchases = string.Join(",", selectPurchase);
+                    
+                                    
+                                    @if (@purchases.Contains(item.diagnostic_Id.ToString()))
+                                    {
+                                        <a asp-action="PurchaseDetailsView" asp-route-id="@item.diagnostic_Id" class="btn btn-warning">View Cart</a>
+                                    }
+
+                                }
+                          </form>
                     </td>
+
                 </tr>
             }
      
@@ -91,6 +111,29 @@
                 }
             });
         });
+
+
+
+        function updateDiagnostics() {
+            $.ajax({
+                url: '@Url.Action("UpdateDiagnostics")',
+                type: 'GET',
+                success: function (data) {
+                    $('#diagnosticTable').html(data);
+                },
+                error: function (xhr, status, error) {
+                    console.error('An error occurred: ' + error);
+                }
+            });
+        }
+
+        // Example of calling updateDiagnostics() after adding a new product
+        $(document).on('click', '#addProductButton', function () {
+            // Code to add product here
+            // Then call updateDiagnostics to refresh the table
+            updateDiagnostics();
+        });
     </script>
+
 }
 

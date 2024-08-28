@@ -10,16 +10,19 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
         [Display(Name = "Purchace ID")]
         public int purchaseId { get; set; }
 
-        [ForeignKey("PurchaseDetails")]
-        public int purchaseDetId { get; set; }
-
-        [Required]
         [Display(Name = "Date")]
         public DateTime? date { get; set; }
 
-        [Required]
+        [Display(Name = "Status")]
+        public string?  status { get; set; }
+
+
         [Display(Name = "Total Payment")]
-        public double? totalPayment { get; set; }
+        public double? totalProductPayment { get; set; }
+
+
+        //temporary Fk for Diagnosis id Holder
+        public int diagnosisId { get; set; }
 
         //Navigation Property
         public ICollection<PurchaseDetails> purchaseDetails { get; set; }

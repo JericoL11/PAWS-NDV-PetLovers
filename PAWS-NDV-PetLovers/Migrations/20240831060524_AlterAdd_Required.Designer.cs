@@ -12,8 +12,8 @@ using PAWS_NDV_PetLovers.Data;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     [DbContext(typeof(PAWS_NDV_PetLoversContext))]
-    [Migration("20240824052901_Add_Transactions_Table")]
-    partial class Add_Transactions_Table
+    [Migration("20240831060524_AlterAdd_Required")]
+    partial class AlterAdd_Required
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -276,6 +276,12 @@ namespace PAWS_NDV_PetLovers.Migrations
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
 
+                    b.Property<string>("serviceType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("status")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("serviceId");
 
                     b.ToTable("Services");
@@ -289,14 +295,11 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("diagnosticDet_Id"));
 
-                    b.Property<string>("diagnosis")
+                    b.Property<string>("details")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("diagnosticsId")
                         .HasColumnType("int");
-
-                    b.Property<string>("prescription")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("serviceId")
                         .HasColumnType("int");
@@ -321,6 +324,13 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("diagnostic_Id"));
 
+                    b.Property<double?>("GrandTotal")
+                        .IsRequired()
+                        .HasColumnType("float");
+
+                    b.Property<int?>("PurchaseNavpurchaseId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("date")
                         .IsRequired()
                         .HasColumnType("datetime2");
@@ -328,14 +338,20 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.Property<int>("petId")
                         .HasColumnType("int");
 
-                    b.Property<string>("remarks")
+                    b.Property<string>("status")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("totalPayment")
+                    b.Property<double?>("totalServicePayment")
                         .IsRequired()
                         .HasColumnType("float");
 
+                    b.Property<string>("weight")
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
+
                     b.HasKey("diagnostic_Id");
+
+                    b.HasIndex("PurchaseNavpurchaseId");
 
                     b.HasIndex("petId");
 
@@ -351,14 +367,12 @@ namespace PAWS_NDV_PetLovers.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("purchaseId"));
 
                     b.Property<DateTime?>("date")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("purchaseDetId")
-                        .HasColumnType("int");
+                    b.Property<string>("status")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("totalPayment")
-                        .IsRequired()
+                    b.Property<double?>("totalProductPayment")
                         .HasColumnType("float");
 
                     b.HasKey("purchaseId");
@@ -377,7 +391,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.Property<int>("productId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("purchaseId")
+                    b.Property<int>("purchaseId")
                         .HasColumnType("int");
 
                     b.Property<int>("quantity")
@@ -453,11 +467,17 @@ namespace PAWS_NDV_PetLovers.Migrations
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Diagnostics", b =>
                 {
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Purchase", "PurchaseNav")
+                        .WithMany()
+                        .HasForeignKey("PurchaseNavpurchaseId");
+
                     b.HasOne("PAWS_NDV_PetLovers.Models.Records.Pet", "pet")
                         .WithMany()
                         .HasForeignKey("petId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("PurchaseNav");
 
                     b.Navigation("pet");
                 });
@@ -472,7 +492,9 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Purchase", null)
                         .WithMany("purchaseDetails")
-                        .HasForeignKey("purchaseId");
+                        .HasForeignKey("purchaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("product");
                 });

@@ -44,10 +44,7 @@
                 <input asp-for="Pets.bdate" class="form-control" readonly />
             </div>
 
-            <!-- Hidden Field for Date -->
-            <div class="form-group visually-hidden">
-                <input asp-for="Diagnostics.date" class="form-control dateInput" />
-            </div>
+    
 
             <!-- Owner Information -->
             <div class="form-group col-lg-3 col-md-6">
@@ -55,16 +52,30 @@
                 <input value="@($"{Model.Pets.ownerId} - {Model.Pets.owner.fname} {Model.Pets.owner.lname}")" class="form-control" readonly />
             </div>
 
+
+            <div class="row mt-3">
+                <div class="form-group col-lg-3">
+                    <!-- Hidden Field for Date -->
+                    <label asp-for="Diagnostics.date" class="control-label"></label>
+                    <input asp-for="Diagnostics.date" class="form-control dateInput" readonly />
+                </div>
+                <div class="form-group col-lg-3">
+                    <!-- Hidden Field for Date -->
+                    <label asp-for="Diagnostics.weight" class="control-label"></label>
+                    <input asp-for="Diagnostics.weight" class="form-control bg-light decimal-input" placeholder="Input weight" required />
+                </div>
+            </div>
+
+
             <!-- Diagnostics Details -->
             <div class="col-12">
                 <table class="table mt-2" id="DetailsTable">
                     <thead>
                         <tr>
-                            <th>Service</th>
-                            <th class="vaccine-header visually-hidden"></th> <!-- New header -->
-                            <th>Diagnosis</th>
-                            <th>Prescription</th>
-                            <th>Action</th>
+
+                            <th>Service Name</th>
+                            <th>Details</th>
+               
                         </tr>
                     </thead>
                     <tbody>
@@ -107,21 +118,13 @@
                                     <input type="hidden" name="Diagnostics.IdiagnosticDetails[0].servicePrice" class="service-charge" value="" />
                                 </div>
                             </td>
-                            <td>
-                                <div class="Vaccination">
-                                    <input name="Diagnostics.IdiagnosticDetails[0].vaccineName" class="form-control bg-light visually-hidden mt-2 w-75" placeholder="Vaccine Name" />
-                                </div>
-                            </td>
-                            <td>
-                                <div class="diagnosisResult">
-                                    <textarea name="Diagnostics.IdiagnosticDetails[0].diagnosis" class="form-control bg-light visually-hidden" rows="10" style="resize: none;" placeholder="(Optional)"></textarea>
-                                </div>
-                            </td>
+  
                             <td>
                                 <div class="prescription">
-                                    <textarea name="Diagnostics.IdiagnosticDetails[0].prescription" class="form-control bg-light visually-hidden" rows="10" style="resize: none;" placeholder="(Optional)"></textarea>
+                                    <textarea name="Diagnostics.IdiagnosticDetails[0].details" class="form-control bg-light" rows="10" style="resize: none;" placeholder="(Optional)"></textarea>
                                 </div>
                             </td>
+
                             <td>
                                 <button type="button" class="btn btn-danger removeRow">Remove</button>
                             </td>
@@ -131,14 +134,12 @@
                 <button type="button" class="btn btn-success" id="addRow">Add Service</button>
             </div>
 
-            <!-- Total Payment -->
-            <div class="fixed-right-Payment ps-4" style="margin-right:0">
-                <div class="form-group">
-                    <label asp-for="Diagnostics.totalPayment" class="control-label fw-bold"></label>
-                    <input asp-for="Diagnostics.totalPayment" id="totalPayment" class="form-control" readonly />
-                    <a asp-action="Edit" asp-controller="Owners" class="btn btn-secondary" asp-route-id="@Model.Pets.ownerId">Cancel</a>
-                    <input type="submit" value="Save" class="btn btn-primary btn-md px-4 my-2" />
-                </div>
+
+            <div class="form-group">
+                <label asp-for="Diagnostics.totalServicePayment" class="control-label visually-hidden fw-bold"></label>
+                <input asp-for="Diagnostics.totalServicePayment" id="totalPayment" class="form-control" readonly />
+                <a asp-action="Edit" asp-controller="Owners" class="btn btn-secondary" asp-route-id="@Model.Pets.ownerId">Cancel</a>
+                <input type="submit" value="Save" class="btn btn-primary btn-md px-4 my-2" />
             </div>
         </div>
     </form>
@@ -151,7 +152,6 @@
   
 <script>
         $(document).ready(function () {
-            var checkupSelected = false; // Flag to track if "Checkup" or "Consult" is selected
 
             // Function to update the name attributes of input/select elements in each row
             function updateRowNames() {
@@ -180,52 +180,10 @@
                 $('#totalPayment').val(totalPrice.toFixed(2)); // Display total payment with 2 decimal places
             }
 
-            // Function to toggle the visibility of fields based on selected service
-            function toggleFields() {
-                checkupSelected = false; // Reset flag for each check
-
-                var vaccineColumnVisible = false; // Flag to track if vaccine column should be shown
-
-                $('#DetailsTable tbody tr').each(function () {
-                    var $select = $(this).find('select.service-select');
-                    var selectedService = $select.find('option:selected').data('service-name') || '';
-                    var selectedType = $select.find('option:selected').data('service-type') || '';
-
-                    selectedService = selectedService.toLowerCase();
-                    selectedType = selectedType.toLowerCase();
-
-                    // Check if "Checkup" or "Consult" is selected
-                    if (selectedService.includes('check') || selectedService.includes('consult')) {
-                        checkupSelected = true;
-                    }
-
-                    // Show/hide fields based on selected service
-                    if (selectedService.includes('check') || selectedType.includes('lab') || selectedService.includes('consult')) {
-                        $(this).find('textarea[name$=".diagnosis"]').removeClass('visually-hidden');
-                        $(this).find('textarea[name$=".prescription"]').removeClass('visually-hidden');
-                    } else {
-                        $(this).find('textarea[name$=".diagnosis"]').addClass('visually-hidden');
-                        $(this).find('textarea[name$=".prescription"]').addClass('visually-hidden');
-                    }
-
-                    // Show prescription field if certain services are selected
-                    if (selectedService.includes('vaccination') || selectedService.includes('vac')) {
-                        $(this).find('input[name$=".vaccineName"]').removeClass('visually-hidden');
-                        vaccineColumnVisible = true; // Show vaccine column
-                    } else {
-                        $(this).find('input[name$=".vaccineName"]').addClass('visually-hidden');
-                    }
-                });
-
-                // Show/hide the vaccine name column based on the flag
-                if (vaccineColumnVisible) {
-                    $('#DetailsTable thead .vaccine-header').removeClass('visually-hidden');
-                    $('#DetailsTable tbody .vaccine-cell').removeClass('visually-hidden');
-                } else {
-                    $('#DetailsTable thead .vaccine-header').addClass('visually-hidden');
-                    $('#DetailsTable tbody .vaccine-cell').addClass('visually-hidden');
-                }
-            }
+            // Event handler for when a service is selected
+            $(document).on('change', 'select.service-select', function () {
+                updateTotalPrice(); // Update total price whenever a service is selected or changed
+            });
 
             // Add a new row to the table when "Add Service" button is clicked
             $('#addRow').click(function () {
@@ -244,7 +202,6 @@
                 newRow.appendTo($('#DetailsTable tbody')); // Append new row to table body
                 updateRowNames(); // Update names for all rows
                 updateTotalPrice(); // Recalculate total price
-                toggleFields(); // Update field visibility for the new row
             });
 
             // Remove a row when "Remove" button is clicked
@@ -253,50 +210,11 @@
                     $(this).closest('tr').remove(); // Remove the closest row
                     updateRowNames(); // Update names for remaining rows
                     updateTotalPrice(); // Recalculate total price
-                    toggleFields(); // Update field visibility after removal
                 }
             });
 
-            // Handle changes in the service selection
-            $(document).on('change', 'select.service-select', function () {
-                var $this = $(this);
-                var selectedService = $this.find('option:selected').data('service-name');
-                var previousService = $this.data('previous-service-name');
-
-                if (typeof selectedService === 'undefined') {
-                    console.error('The selected option does not have a data-service-name attribute.');
-                    return;
-                }
-
-                selectedService = selectedService.toLowerCase();
-
-                // Reset checkupSelected flag if changing from "Checkup" or "Consult"
-                if (previousService && (previousService.includes('check') || previousService.includes('consult'))) {
-                    checkupSelected = false;
-                }
-
-                // Prevent re-selection of "Checkup" or "Consult" if already selected
-                if ((selectedService.includes('check') || selectedService.includes('consult')) && checkupSelected) {
-                    alert("Checkup / Consultation can only be selected once.");
-                    $this.val(previousService); // Revert to previous value
-
-                    $(this).val('').change(); // Reset the select
-                    $this.trigger('change'); // Trigger change event to update UI
-                    $(this).closest('tr').find('textarea').addClass('visually-hidden'); // Hide fields if reset
-                    return;
-                }
-
-                // Store the selected service as the previous service
-                $this.data('previous-service-name', selectedService);
-                toggleFields(); // Update field visibility based on the new selection
-                updateTotalPrice(); // Recalculate total price
-            });
-
-            // Initialize previous-service-name data attribute for each select element
-            $('select.service-select').each(function () {
-                var selectedService = $(this).find('option:selected').data('service-name');
-                $(this).data('previous-service-name', selectedService ? selectedService.toLowerCase() : '');
-            });
+            // Initial total price calculation on page load
+            updateTotalPrice();
         });
 
 </script>

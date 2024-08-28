@@ -10,11 +10,9 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
         [Key]
         public int diagnosticDet_Id { get; set; }
 
-        [Display(Name = "Diagnosis Result")]
-        public string? diagnosis { get; set; }
+        [Display(Name = "Details")]
+        public string? details { get; set; }
 
-        [Display(Name = "Prescription")]
-        public string? prescription { get; set; }
 
         [ForeignKey("Diagnostics")]
         [Display(Name ="Diagnostic ID")]
@@ -27,11 +25,17 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
         [Display(Name = "Service Price")]
         public double servicePrice { get; set; }
 
-        public string? vaccineName { get; set; }
 
+
+
+        /* public string? vaccineName { get; set; }*/
+
+        /* [Display(Name = "Prescription")]
+           public string? prescription { get; set; }*/
 
         //navigation Property
 
         public Services? Services { get; set; } 
+
     }
 }

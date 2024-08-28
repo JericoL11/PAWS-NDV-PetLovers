@@ -9,6 +9,12 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
         [Key]
         public int purchaseDet_Id { get; set; }
 
+
+
+        [ForeignKey("PurchaseFk")]
+        public int purchaseId { get; set; }
+
+
         [ForeignKey("Product")]
         public int productId { get; set; }
 
@@ -23,5 +29,7 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
 
         //Navigation Property
         public Product? product { get; set; } 
+
+        public Purchase? Purchase { get; set; }
     }
 }

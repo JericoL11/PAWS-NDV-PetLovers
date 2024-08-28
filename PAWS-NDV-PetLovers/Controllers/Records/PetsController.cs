@@ -60,7 +60,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 .ThenInclude(d => d.owner)
                 .Include(d => d.IdiagnosticDetails)
                 .ThenInclude(dd => dd.Services)
-                .Where(d => d.petId == id && !string.IsNullOrEmpty(d.remarks)).ToListAsync();
+                .Where(d => d.petId == id && !string.IsNullOrEmpty(d.status)).ToListAsync();
 
 
             // Pass ownerId to the view using ViewBag or ViewData
