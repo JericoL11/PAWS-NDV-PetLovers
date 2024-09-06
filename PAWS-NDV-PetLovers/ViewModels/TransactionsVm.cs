@@ -15,7 +15,7 @@ namespace PAWS_NDV_PetLovers.ViewModels
         //selected services from appointment
         public List<int>? SelectedServices { get; set; }
 
-        //for Appointment Diagnostic
+        //for Appointment Diagnostica
         public Owner? Owner { get; set; }
 
         //FOR EDIT diagnostic Add-On
@@ -35,10 +35,9 @@ namespace PAWS_NDV_PetLovers.ViewModels
 
         public IEnumerable<Product>? IProducts { get; set; }
 
-
-        //
-
         public double grandTotal { get; set; }
+        public double totalServicePayment { get; set; }
+
         public double totalPurchasePayment { get; set; }
 
     }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PAWS_NDV_PetLovers.Models.Transactions
@@ -14,17 +15,16 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
         public DateTime? date { get; set; }
 
         [Display(Name = "Status")]
-        public string?  status { get; set; }
+        public string? status { get; set; }
 
 
         [Display(Name = "Total Payment")]
         public double? totalProductPayment { get; set; }
 
-
-        //temporary Fk for Diagnosis id Holder
         public int diagnosisId { get; set; }
 
         //Navigation Property
         public ICollection<PurchaseDetails> purchaseDetails { get; set; }
+
     }
 }

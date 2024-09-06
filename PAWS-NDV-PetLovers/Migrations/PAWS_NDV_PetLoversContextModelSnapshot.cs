@@ -321,14 +321,17 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("diagnostic_Id"));
 
-                    b.Property<int?>("PurchaseNavpurchaseId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("date")
                         .IsRequired()
                         .HasColumnType("datetime2");
 
+                    b.Property<double>("grandTotal")
+                        .HasColumnType("float");
+
                     b.Property<int>("petId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("purchaseId")
                         .HasColumnType("int");
 
                     b.Property<string>("status")
@@ -344,9 +347,9 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     b.HasKey("diagnostic_Id");
 
-                    b.HasIndex("PurchaseNavpurchaseId");
-
                     b.HasIndex("petId");
+
+                    b.HasIndex("purchaseId");
 
                     b.ToTable("Diagnostics");
                 });
@@ -463,17 +466,17 @@ namespace PAWS_NDV_PetLovers.Migrations
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Diagnostics", b =>
                 {
-                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Purchase", "PurchaseNav")
-                        .WithMany()
-                        .HasForeignKey("PurchaseNavpurchaseId");
-
                     b.HasOne("PAWS_NDV_PetLovers.Models.Records.Pet", "pet")
                         .WithMany()
                         .HasForeignKey("petId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("PurchaseNav");
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Purchase", "Purchase")
+                        .WithMany()
+                        .HasForeignKey("purchaseId");
+
+                    b.Navigation("Purchase");
 
                     b.Navigation("pet");
                 });

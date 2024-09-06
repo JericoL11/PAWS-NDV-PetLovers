@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     /// <inheritdoc />
-    public partial class Diagnostics_Table : Migration
+    public partial class Transactions_Table : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,9 +17,10 @@ namespace PAWS_NDV_PetLovers.Migrations
                 {
                     purchaseId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "60000, 1"),
-                    purchaseDetId = table.Column<int>(type: "int", nullable: false),
-                    date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    totalPayment = table.Column<double>(type: "float", nullable: false)
+                    date = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    totalProductPayment = table.Column<double>(type: "float", nullable: true),
+                    diagnosisId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -34,10 +35,11 @@ namespace PAWS_NDV_PetLovers.Migrations
                         .Annotation("SqlServer:Identity", "30000, 1"),
                     petId = table.Column<int>(type: "int", nullable: false),
                     weight = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true),
-                    totalPayment = table.Column<double>(type: "float", nullable: false),
+                    totalServicePayment = table.Column<double>(type: "float", nullable: false),
+                    grandTotal = table.Column<double>(type: "float", nullable: false),
                     date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Purchase_Id = table.Column<int>(type: "int", nullable: false)
+                    purchaseId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -49,11 +51,10 @@ namespace PAWS_NDV_PetLovers.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Diagnostics_Purchases_Purchase_Id",
-                        column: x => x.Purchase_Id,
+                        name: "FK_Diagnostics_Purchases_purchaseId",
+                        column: x => x.purchaseId,
                         principalTable: "Purchases",
-                        principalColumn: "purchaseId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "purchaseId");
                 });
 
             migrationBuilder.CreateTable(
@@ -62,10 +63,10 @@ namespace PAWS_NDV_PetLovers.Migrations
                 {
                     purchaseDet_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "160000, 1"),
+                    purchaseId = table.Column<int>(type: "int", nullable: false),
                     productId = table.Column<int>(type: "int", nullable: false),
                     quantity = table.Column<int>(type: "int", nullable: false),
-                    sellingPrice = table.Column<double>(type: "float", nullable: false),
-                    purchaseId = table.Column<int>(type: "int", nullable: true)
+                    sellingPrice = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -80,7 +81,8 @@ namespace PAWS_NDV_PetLovers.Migrations
                         name: "FK_PurchaseDetails_Purchases_purchaseId",
                         column: x => x.purchaseId,
                         principalTable: "Purchases",
-                        principalColumn: "purchaseId");
+                        principalColumn: "purchaseId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -127,9 +129,9 @@ namespace PAWS_NDV_PetLovers.Migrations
                 column: "petId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Diagnostics_Purchase_Id",
+                name: "IX_Diagnostics_purchaseId",
                 table: "Diagnostics",
-                column: "Purchase_Id");
+                column: "purchaseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PurchaseDetails_productId",

@@ -26,8 +26,6 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
         public double servicePrice { get; set; }
 
 
-
-
         /* public string? vaccineName { get; set; }*/
 
         /* [Display(Name = "Prescription")]

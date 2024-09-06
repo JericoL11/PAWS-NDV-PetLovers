@@ -45,7 +45,13 @@
                     <td class="text-center">
                         @Html.DisplayFor(modelItem => item.quantity)
                     </td>
+                    <form asp-action="RemoveProductFromPurchase" method="post">
+                        <input type="hidden" value="@item.purchaseId" name="purchaseId" />
+                        <input type="hidden" value="@item.productId" name="productId" />
+                        <input type="hidden" value="@item.quantity" name="quantity" />
+                    <td><button class="btn btn-danger" name="">Remove</button></td>
 
+                    </form>
                 </tr>
 
             }

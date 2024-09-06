@@ -131,13 +131,13 @@
                         </tr>
                     </tbody>
                 </table>
-                <button type="button" class="btn btn-success" id="addRow">Add Service</button>
+                <button type="button" class="btn btn-success mb-3" id="addRow">Add Service</button>
             </div>
 
 
             <div class="form-group">
                 <label asp-for="Diagnostics.totalServicePayment" class="control-label visually-hidden fw-bold"></label>
-                <input asp-for="Diagnostics.totalServicePayment" id="totalPayment" class="form-control" readonly />
+                <input asp-for="Diagnostics.totalServicePayment" id="totalPayment" class="form-control  visually-hidden" readonly />
                 <a asp-action="Edit" asp-controller="Owners" class="btn btn-secondary" asp-route-id="@Model.Pets.ownerId">Cancel</a>
                 <input type="submit" value="Save" class="btn btn-primary btn-md px-4 my-2" />
             </div>
