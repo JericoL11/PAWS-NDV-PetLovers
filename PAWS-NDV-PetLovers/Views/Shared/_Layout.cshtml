@@ -1,13 +1,29 @@
-﻿<!DOCTYPE html>
+﻿ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - PAWS_NDV_PetLovers</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" /> 
     <link rel="stylesheet" href="~/PAWS_NDV_PetLovers.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/DataTables/datatables.css" />
+
+
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sidebars/">
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/all.min.css">
+    <link rel="stylesheet" href="~/css/fontawesome.min.css">
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+
+   
+
+
+
+
 
     @* embbed-datatables - css*@
 @*     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
@@ -18,125 +34,173 @@
    
 </head>
 <body>
-     <header>
-        <nav class="navbar navbar-expand-lg bg-body-primary" style="padding:0; margin:0;">
-            <div class="container-fluid bg-primary py-2">
-                <a class="navbar-brand text-white ps-4 fw-bold" href="#">NDV Pet Lovers</a>
-                <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+
+    <div class="flex-shrink-0" id="sidebar">
+
+        <div class="header-box px-1 pt-1 pb-1 justify-content-between text-center">
+            <h1 class="fs-4">
+                <span class="bg-white text-dark rounded shadow px-2">NDV</span>
+                <span class="text-white"> Pet Lovers</span>
+            </h1>
+        </div>
+
+        <a href="" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+        </a>
+        <div id="accordion">
+            <ul class="list-unstyled ps-0  ">
+
+                <li class="mb-2">
+                    <a class="nav-link  collapsed  d-flex align-items-center p-2" asp-controller="Home" asp-action="Index"> @* data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="true collapse" *@
+                        <i class="fa-solid fa-house" id="icon"></i> <div class="px-3">Home</div>
+                       @*  <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i> *@
+                    </a>
+                   @*  <div class="collapse" id="dashboard-collapse" data-bs-parent="#accordion">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3  small">
+                            <li><a href="#" class="link-l mb-1 px-5">Overview</a></li>
+                            <li><a href="#" class="link-l mb-1 px-5">Updates</a></li>
+                            <li><a href="#" class="link-l mb-1 px-5">Reports</a></li>
+                        </ul>
+                    </div> *@
+                </li>
+
+                <li class="mb-2">
+                    <a class="nav-link  collapsed  d-flex align-items-center p-2" asp-area="" asp-controller="Appointments" asp-action="Index"> @* data-bs-toggle="collapse" data-bs-target="#appointment-collapse" aria-expanded="true collapse" *@
+                        <i class="fa-solid fa-calendar-check" id="icon"></i><div class="px-3">Appointments</div>
+                       @*  <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i> *@
+                    </a>
+                   @*  <div class="collapse" id="appointment-collapse" data-bs-parent="#accordion">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pt-2 pb-3 small">
+                            <li><a href="#" class="link-l mb-1 px-5">Overview</a></li>
+                            <li><a href="#" class="link-l mb-1 px-5">Weekly</a></li>
+                            <li><a href="#" class="link-l mb-1 px-5">Monthly</a></li>
+                            <li><a href="#" class="link-l mb-1 px-5">Annually</a></li>
+                        </ul>
+                    </div> *@
+                </li>
+
+                <li class="mb-2">
+                    <a class="nav-link collapsed  d-flex align-items-center  p-2" data-bs-toggle="collapse" data-bs-target="#recordmanagement-collapse" aria-expanded="true collapse">
+                        <i class="fa-solid fa-file-medical" id="icon"></i><div class="px-3">Record Management</div>
+                        <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i>
+
+                    </a>
+                    <div class="collapse" id="recordmanagement-collapse" data-bs-parent="#accordion">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3 small">
+                            <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Owners">Client</a></li>
+                            <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Products">Product</a></li>
+                            <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Services">Service</a></li>
+                        </ul>
+                    </div>
+                </li>
+
+               
+
+                <li class="mb-2">
+                    <a class="nav-link collapsed  d-flex align-items-center  p-2" data-bs-toggle="collapse" data-bs-target="#transaction-collapse" aria-expanded="true collapse">
+                        <i class="fa-solid fa-file-invoice" id="icon"></i><div class="px-3">Transaction</div>
+                        <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i>
+
+                    </a>
+                    <div class="collapse" id="transaction-collapse" data-bs-parent="#accordion">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3  big">
+                            <li><a class="link-l mb-1 px-5" asp-action="DiagnosticBill" asp-controller="C_Diagnostics">Diagnostic Bill</a></li>
+                            <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Products">Purchase</a></li>
+                            <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Products">Invoice</a></li>
+                           
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="mb-2">
+                    <a class="nav-link collapsed  d-flex align-items-center  p-2" asp-area="" asp-controller="Home" asp-action="Privacy"> @* data-bs-toggle="collapse" data-bs-target="#reports-collapse" aria-expanded="true collapse" *@
+                        <i class="fa-solid fa-flag" id="icon"></i><div class="px-3">Reports</div>
+                      @*   <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i>
+ *@
+                    </a>
+                  @*   <div class="collapse" id="reports-collapse" data-bs-parent="#accordion">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3 small">
+                            <li><a href="#" class="link-l mb-1 px-5">New</a></li>
+                            <li><a href="#" class="link-l mb-1 px-5">Processed</a></li>
+                            <li><a href="#" class="link-l mb-1 px-5">Shipped</a></li>
+                            <li><a href="#" class="link-l mb-1 px-5">Returned</a></li>
+                        </ul>
+                    </div> *@
+                </li>
+
+
+                <li class="border-top my-3"></li>
+                <li class="mb-2">
+                    <a class="nav-link collapsed  d-flex align-items-center" p-2 data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="true collapse">
+                        <i class="fa-solid fa-user" id="icon"></i><div class="px-3">User</div>
+                        <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i>
+
+                    </a>
+                    <div class="collapse" id="account-collapse" data-bs-parent="#accordion">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3 small">
+                            <li><a href="#" class="link-l mb-1 px-5">Profile</a></li>
+                            <li><a href="#" class="link-l mb-1 px-5">Logout</a></li>
+
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container-fluid p-0">
+        <nav class="navbar">
+            <div class="d-flex  d-mb-none">
+                <a class="navbar-brand fs-5" href="#"></a>
+                <button class="btn px-2 py-2 open-btn">
+                    <i class="fa-solid fa-bars" style="color: white;"></i>
                 </button>
-
-                <div class="collapse navbar-collapse row " id="navbarScroll">
-                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll d-flex justify-content-end pe-5">
-                        <li class="nav-item custom-padding">
-                            <a class="nav-link active" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item custom-padding">
-                            <a class="nav-link" asp-area="" asp-controller="Appointments" asp-action="Index"> Appointments</a>
-                        </li>
-                       @*  <li class="nav-item dropdown custom-padding">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Appointments
-                            </a>
-                            <ul class="dropdown-menu">
-                              
-                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Appointment">Register an Owner</a></li>
-                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="AppointmentDetails">Appointments</a></li>
-                            </ul>
-                        </li> *@
-                        <li class="nav-item dropdown custom-padding">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Record Management
-                            </a>
-                            <ul class="dropdown-menu">
-                              @*<li class="px-3 fw-bold text-center">Client</li> *@
-                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Owners">Client Management</a></li>
-                              @*   <li><a class="dropdown-item" asp-action="Index" asp-controller="Pets">Pets</a></li> 
-                                <li><hr class="dropdown-divider"></li>
-                                <li class="px-3 fw-bold text-center">Products</li> 
-                               <li><a class="dropdown-item" asp-action="Index" asp-controller="Categories">Category</a></li> *@
-                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Products">Product Management</a></li>
-                               @*  <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li> *@
-
-                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Services">Services</a></li>
-                            </ul>
-                        </li>
-                      
-                        <li class="nav-item dropdown custom-padding">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Transactions
-                            </a>
-                            <ul class="dropdown-menu">
-                                @*<li class="px-3 fw-bold text-center">Client</li> *@
-                                <li><a class="dropdown-item text-center" asp-action="DiagnosticBill" asp-controller="C_Diagnostics">Diagnostic Bill</a></li>
-                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Products">Purchase Bill</a></li>
-                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Products">Invoice</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item custom-padding">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Reports</a>
-                        </li>
-                 
-                    </ul>
-                @*     <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form> *@
-                </div>
             </div>
         </nav>
-     @*    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand fw-bold ms-5" asp-area="" asp-controller="Home" asp-action="Index">NDV Pet Lovers</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1 d-flex justify-content-end me-5">
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Appointments</a>
-                        </li
-                          <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Client" asp-action="Index">Records</a>
-                        </li>
-                          <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Transaction</a>
-                        </li>
-                          <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav> *@
-    </header> 
-    <div class="container-fluid" style="padding:0">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-@* 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - PAWS_NDV_PetLovers - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+       
+        <div class="container-fluid p-2" style="padding:0">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
         </div>
-    </footer> *@
+
+    </div>
+
+
+
+   
+   
+  
+    <script>
+
+        // Toggle Sidebar Visibility
+        document.querySelector('.open-btn').addEventListener('click', function () {
+            const sidebar = document.getElementById('sidebar');
+
+            //const content = document.querySelector('.content');
+
+            // Toggle classes to hide/show sidebar and expand content area
+            sidebar.classList.toggle('hidden');
+
+            //content.classList.toggle('content-expanded');
+        });
+
+
+
+    </script>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/DataTables/datatables.js"></script>
-    
+    <script src="https://kit.fontawesome.com/55e2f34596.js" crossorigin="anonymous"></script>
+
+
+
     @await RenderSectionAsync("Scripts", required: false)
 
- 
-    @* add-form-script *@
-    @* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      embbed datatables - js 
-      <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script> *@
+
+
+     
 </body>
 </html>
