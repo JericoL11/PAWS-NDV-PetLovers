@@ -39,7 +39,7 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
         public Pet? pet { get; set; }
         public IList<DiagnosticDetails> IdiagnosticDetails { get; set; }
 
-        public Purchase? Purchase { get; set; }
+        public Purchase? Purchase { get; set; } //1 TO 1
 
 
     }

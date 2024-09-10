@@ -12,6 +12,7 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
         public int purchaseId { get; set; }
 
         [Display(Name = "Date")]
+        [DataType(DataType.Date)]
         public DateTime? date { get; set; }
 
         [Display(Name = "Status")]
@@ -21,7 +22,10 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
         [Display(Name = "Total Payment")]
         public double? totalProductPayment { get; set; }
 
-        public int diagnosisId { get; set; }
+        public int? diagnosisId_holder { get; set; } //container sa diagnostics add on
+
+        [Display(Name ="Customer Name")]
+        public string? customerName { get; set; }
 
         //Navigation Property
         public ICollection<PurchaseDetails> purchaseDetails { get; set; }

@@ -34,31 +34,14 @@
                         <li class="nav-item custom-padding">
                             <a class="nav-link" asp-area="" asp-controller="Appointments" asp-action="Index"> Appointments</a>
                         </li>
-                       @*  <li class="nav-item dropdown custom-padding">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Appointments
-                            </a>
-                            <ul class="dropdown-menu">
-                              
-                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Appointment">Register an Owner</a></li>
-                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="AppointmentDetails">Appointments</a></li>
-                            </ul>
-                        </li> *@
+        
                         <li class="nav-item dropdown custom-padding">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Record Management
                             </a>
                             <ul class="dropdown-menu">
-                              @*<li class="px-3 fw-bold text-center">Client</li> *@
                                 <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Owners">Client Management</a></li>
-                              @*   <li><a class="dropdown-item" asp-action="Index" asp-controller="Pets">Pets</a></li> 
-                                <li><hr class="dropdown-divider"></li>
-                                <li class="px-3 fw-bold text-center">Products</li> 
-                               <li><a class="dropdown-item" asp-action="Index" asp-controller="Categories">Category</a></li> *@
                                 <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Products">Product Management</a></li>
-                               @*  <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li> *@
-
                                 <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Services">Services</a></li>
                             </ul>
                         </li>
@@ -68,9 +51,8 @@
                                 Transactions
                             </a>
                             <ul class="dropdown-menu">
-                                @*<li class="px-3 fw-bold text-center">Client</li> *@
                                 <li><a class="dropdown-item text-center" asp-action="DiagnosticBill" asp-controller="C_Diagnostics">Diagnostic Bill</a></li>
-                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Products">Purchase Bill</a></li>
+                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Purchase">Purchase Bill</a></li>
                             </ul>
                         </li>
                         <li class="nav-item custom-padding">
@@ -85,34 +67,7 @@
                 </div>
             </div>
         </nav>
-     @*    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand fw-bold ms-5" asp-area="" asp-controller="Home" asp-action="Index">NDV Pet Lovers</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1 d-flex justify-content-end me-5">
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Appointments</a>
-                        </li
-                          <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Client" asp-action="Index">Records</a>
-                        </li>
-                          <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Transaction</a>
-                        </li>
-                          <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav> *@
+
     </header> 
     <div class="container-fluid" style="padding:0">
         <main role="main" class="pb-3">

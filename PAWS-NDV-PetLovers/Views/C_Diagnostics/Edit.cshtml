@@ -1,4 +1,4 @@
-﻿        @model PAWS_NDV_PetLovers.ViewModels.TransactionsVm
+﻿@model PAWS_NDV_PetLovers.ViewModels.TransactionsVm
 @{
     ViewData["Title"] = "Edit";
 }
@@ -17,7 +17,12 @@
             <h3>Pet Information</h3>
         </div>
         <div class="row">
-    
+            @{
+                var customerName = $"{Model.Diagnostics.pet.owner.fname} {Model.Diagnostics.pet.owner.lname}";
+            }
+            <input type="hidden" name="customerName" value="@customerName" />
+     
+
             <div class="form-group col-lg-3 col-md-6">
                 <label asp-for="Diagnostics.diagnostic_Id" class="control-label"></label>
                 <input class="form-control" asp-for="Diagnostics.diagnostic_Id" readonly />
@@ -95,7 +100,7 @@
                         <td>
                             <!-- Display service price formatted as currency -->
                             @{
-                                double price = (double)Model.Diagnostics.IdiagnosticDetails[i].servicePrice;
+                                double price = (double)Model.Diagnostics.IdiagnosticDetails[i].totalServicePayment;
                                 var decimalAdded = price.ToString("N2");
                                 var displayPrice = $"P{decimalAdded}";
                             }
@@ -158,29 +163,32 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (Model.Diagnostics.Purchase != null && Model.Diagnostics.Purchase.purchaseDetails != null)
+                                   @* DISPLAY SELECTED PURCHASE PRODUCTS FROM DATABASE
+                                    @if (Model.Purchase != null)
                                     {
-                                        for (var x = 0; x < Model.Diagnostics.Purchase.purchaseDetails.Count; x++)
+                                        for (int x =0; x < Model.Purchase.purchaseDetails.Count(); x++)
                                         {
-                                            var purchaseDetail = Model.Diagnostics.Purchase.purchaseDetails.ElementAt(x);
-
-                                            <tr>
-                                                <td class="text-center">
-                                                    <input type="hidden" name="Diagnostics.Purchase.purchaseDetails[@x].ProductId" value="@purchaseDetail.product.id" />
-                                                    @purchaseDetail.product.id
-                                                </td>
-                                                <td class="text-center">@purchaseDetail.product.productName</td>
-                                                <td class="text-center">@purchaseDetail.product.category.categoryName</td>
-                                                <td class="text-center">@purchaseDetail.product.quantity</td>
-                                                <td class="text-center">@purchaseDetail.product.sellingPrice</td>
-                                                <td class="text-center">
-                                                    <input type="number" name="Diagnostics.Purchase.purchaseDetails[@x].quantity" class="form-control w-50 orderItemQty" value="@purchaseDetail.quantity" min="1" max="@purchaseDetail.product.quantity" />
-                                                </td>
-                                                <td><button type="button" class="btn btn-danger removeRow">Remove</button></td>
-                                            </tr>
+                                            foreach (var purchaseDetail in Model.Purchase.purchaseDetails)
+                                            {
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <input type="hidden" name="Diagnostics.Purchase.purchaseDetails.ProductId[@x]" value="@purchaseDetail.product.id" />
+                                                        @purchaseDetail.product.id
+                                                    </td>
+                                                    <td class="text-center">@purchaseDetail.product.productName</td>
+                                                    <td class="text-center">@purchaseDetail.product.category.categoryName</td>
+                                                    <td class="text-center">@purchaseDetail.product.quantity</td>
+                                                    <td class="text-center">@purchaseDetail.product.sellingPrice</td>
+                                                    <td class="text-center">
+                                                        <input type="number" name="Diagnostics.Purchase.purchaseDetails.quantity[@x]" class="form-control w-50 orderItemQty" value="@purchaseDetail.quantity" min="1" max="@purchaseDetail.product.quantity" />
+                                                    </td>
+                                                    <td><button type="button" class="btn btn-danger removeRow">Remove</button></td>
+                                                </tr>
+                                            }
                                         }
-                                    }
-                               
+
+                                    } *@
+                               <!--pRODUCT WILL DISPLAY HERE-->
                                   
                                 </tbody>
 
@@ -189,7 +197,7 @@
                     </div>
                     <div class="modal-footer">
                         <input type="date" name="Diagnostics.Purchase.Date" class="dateInput visually-hidden" />
-                        <input name="Diagnostics.Purchase.diagnosisId" class="visually-hidden" value="@Model.Diagnostics.diagnostic_Id" />
+                        <input name="Diagnostics.Purchase.diagnosisId_Holder" class="visually-hidden" value="@Model.Diagnostics.diagnostic_Id" />
 
 
                         <button type="button" id="AddProductBtn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -249,6 +257,7 @@
                     <div class="modal-footer">
                             <div class="text-danger me-2" id="selectionWarning" style="display:none;">Product is already selected.</div>
                             <button type="button" class="btn btn-secondary bg-opacity-10" id="ViewSelectedProduct">Cancel</button>
+
                             @* <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> *@
                             <button type="button" class="btn btn-primary" id="SelectProductButton">Add</button>
                        </div>

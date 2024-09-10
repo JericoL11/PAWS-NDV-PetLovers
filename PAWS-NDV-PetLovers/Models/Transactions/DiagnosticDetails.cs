@@ -22,8 +22,8 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
         public int serviceId { get; set; }
 
         [Required]
-        [Display(Name = "Service Price")]
-        public double servicePrice { get; set; }
+        [Display(Name = "Total Service Payment")]
+        public double totalServicePayment { get; set; }
 
 
         /* public string? vaccineName { get; set; }*/

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PAWS_NDV_PetLovers.Data;
 
@@ -11,9 +12,11 @@ using PAWS_NDV_PetLovers.Data;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     [DbContext(typeof(PAWS_NDV_PetLoversContext))]
-    partial class PAWS_NDV_PetLoversContextModelSnapshot : ModelSnapshot
+    [Migration("20240909021325_AddCustomerName_Pruchase")]
+    partial class AddCustomerName_Pruchase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -301,7 +304,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.Property<int>("serviceId")
                         .HasColumnType("int");
 
-                    b.Property<double>("totalServicePayment")
+                    b.Property<double>("servicePrice")
                         .HasColumnType("float");
 
                     b.HasKey("diagnosticDet_Id");
@@ -363,12 +366,13 @@ namespace PAWS_NDV_PetLovers.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("purchaseId"));
 
                     b.Property<string>("customerName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("diagnosisId_holder")
+                    b.Property<int>("diagnosisId")
                         .HasColumnType("int");
 
                     b.Property<string>("status")

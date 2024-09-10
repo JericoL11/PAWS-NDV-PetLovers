@@ -28,7 +28,7 @@
                 {
                     var grandPayment = item.totalServicePayment ?? 0; 
                     var grandPurchase = Model.IPurchase
-                    .Where(p => p.diagnosisId != null && p.diagnosisId == item.diagnostic_Id)
+                .Where(p => p.diagnosisId_holder != null && p.diagnosisId_holder == item.diagnostic_Id)
                     .SelectMany(p => p.purchaseDetails)
                     .Sum(pd => pd.sellingPrice * pd.quantity);
 
@@ -76,9 +76,6 @@
 
                                 <a asp-action="PurchaseDetailsView" asp-route-id="@item.diagnostic_Id" class="btn btn-warning">View Cart</a>
 
-                        
-
-
 
                                 // for show and hide of VIEW CART button
                            @*     var selectPurchase = Model.IPurchase.Select(p => p.diagnosisId);
@@ -89,8 +86,6 @@
                                        <a asp-action="PurchaseDetailsView" asp-route-id="@item.diagnostic_Id" class="btn btn-warning">View Cart</a>
                                 } *@
 
-                                
-                               
                             }
                         </form>
                     </td>
