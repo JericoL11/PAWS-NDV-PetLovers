@@ -1,11 +1,11 @@
 ﻿@model PAWS_NDV_PetLovers.ViewModels.TransactionsVm
 @{
-    ViewData["Title"] = "Diagnostic Bill";
+    ViewData["Title"] = "Billing";
 }
 
 <div class="bg-secondary bg-opacity-10 py-2 mb-3">
     <div class="container">
-        <h2>Diagnostic Bill</h2>
+        <h2>BIlling</h2>
     </div>
 </div>
 
@@ -71,11 +71,8 @@
                                 {
                                 <input type="hidden" name="grandtotal" value="@grandTotal" />
 
-                                <button class="btn btn-success">Paid</button>
-                                <a asp-action="Edit" asp-route-id="@item.diagnostic_Id" asp-route-date="@item.date" class="btn btn-primary">Add On</a>
-
-                                <a asp-action="PurchaseDetailsView" asp-route-id="@item.diagnostic_Id" class="btn btn-warning">View Cart</a>
-
+                                <button class="btn btn-success">Complete</button>
+                                <a asp-action="Edit" asp-route-id="@item.diagnostic_Id" asp-route-date="@item.date" class="btn btn-primary">Update | Add Product</a>
 
                                 // for show and hide of VIEW CART button
                            @*     var selectPurchase = Model.IPurchase.Select(p => p.diagnosisId);

@@ -5,7 +5,7 @@
     right: 20px;
     bottom: 0px;
     background-color: rgba(108, 117, 125, 0.1); /* Example color with opacity */
-    width: 18%;
+    width: 14%;
     z-index: 1000; /* Ensure it is above other elements */
     padding: 1rem; /* Optional: Adjust padding as needed */
 }

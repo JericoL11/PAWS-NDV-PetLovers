@@ -41,13 +41,15 @@
 
             <div class="form-group col-lg-4">
                 <label asp-for="date" class="control-label"></label>
-                <input asp-for="date" class="form-control" />
+                <input asp-for="date" class="form-control minDate" id="appointmentDate" type="date" />
                 <span asp-validation-for="date" class="text-danger"></span>
             </div>
 
             <div class="form-group col-lg-4">
                 <label asp-for="time" class="control-label"></label>
-                <input asp-for="time" class="form-control" />
+                <select id="timeDropdown" name="time" class="form-control" required>
+                    <!-- Times will be loaded here -->
+                </select>
                 <span asp-validation-for="time" class="text-danger"></span>
             </div>
 
@@ -72,4 +74,78 @@
             </div>
        </form>
 </div>
-  
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+         
+            function fetchAvailableTimes() {
+                var selectedDate = $('#appointmentDate').val();
+
+                if (selectedDate) {
+                    $.ajax({
+                        url: '@Url.Action("GetAvailableTimes", "Appointments")',
+                        type: 'GET',
+                        data: { date: selectedDate },
+                        success: function (data) {
+                            var timeDropdown = $('#timeDropdown');
+                            timeDropdown.empty(); // Clear existing options
+
+                            var hasAvailableTimes = false;
+
+                            // Add AM options
+                            if (data.availableAM && data.availableAM.length > 0) {
+                                var amGroup = $('<optgroup>', { label: 'Morning' });
+                                $.each(data.availableAM, function (index, value) {
+                                    amGroup.append($('<option>', {
+                                        value: value,
+                                        text: value + ' am'
+                                    }));
+                                });
+                                timeDropdown.append(amGroup);
+                                hasAvailableTimes = true;
+                            }
+
+                            // Add PM options
+                            if (data.availablePM && data.availablePM.length > 0) {
+                                var pmGroup = $('<optgroup>', { label: 'Afternoon' });
+                                $.each(data.availablePM, function (index, value) {
+                                    pmGroup.append($('<option>', {
+                                        value: value,
+                                        text: value
+                                    }));
+                                });
+                                timeDropdown.append(pmGroup);
+                                hasAvailableTimes = true;
+                            }
+
+                            // If no available times, add "Fully booked" option
+                            if (!hasAvailableTimes) {
+                                timeDropdown.append($('<option>', {
+                                    value: '',
+                                    text: 'Fully booked',
+                                    disabled: true,
+                                    selected: true
+                                }));
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching available times:', error);
+                        }
+                    });
+                }
+            }
+
+
+            // Trigger the date change event on page load if date is pre-filled
+            if ($('#appointmentDate').val()) {
+                fetchAvailableTimes();
+            }
+
+            $('#appointmentDate').change(fetchAvailableTimes);
+        });
+    </script>
+
+}
