@@ -95,11 +95,11 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int? id, DateTime date)
+        public async Task<IActionResult> Edit(int? id)
         {
 
             // Extract only the date part (ignoring time)
-            DateTime dateOnly = date.Date;
+      
             if (id == null)
             {
                 return NotFound();
@@ -122,7 +122,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                 .Include(p => p.purchaseDetails)
                 .ThenInclude(p => p.product)
                 .ThenInclude(p => p.category)
-                .FirstOrDefaultAsync(p => p.diagnosisId_holder == id && p.date == dateOnly);
+                .FirstOrDefaultAsync(p => p.diagnosisId_holder == id);
 
             //VIEW Cart
 
@@ -218,6 +218,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             {
                 IDiagnostics = diagnostic,
                 IPurchase = purchase
+
+
             };
 
             return RedirectToAction(nameof(Billing)); // Redirect to a different action after saving
@@ -265,6 +267,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                     IProducts = await _context.Products.Include(p => p.category).ToListAsync(),
                     IPurchaseDetails = purchaseItems,
                     totalPurchasePayment = purchasePayment
+                 
                 };
 
                 // Add an error message to the ViewData to display on the view
@@ -525,6 +528,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveProductFromPurchase(int purchaseId, int productId, int quantity,int diagnosticId)
         {
+ 
+
             var purchaseDetail = await _context.PurchaseDetails
                 .Include(pd => pd.product)
                 .FirstOrDefaultAsync(pd => pd.purchaseId == purchaseId && pd.product.id == productId);
@@ -543,8 +548,26 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             }
 
             // Redirect to the PurchaseDetailsView with the relevant purchase->diagnosticId
-            return RedirectToAction(nameof(Edit), new { id = diagnosticId });
+            return RedirectToAction(nameof(Edit), new { id = diagnosticId});
+        }
+        public async Task<IActionResult> DiagnosticHistory()
+        {
+            var tvm = new TransactionsVm
+            {
+                IDiagnostics = await _context.Diagnostics.Include(p => p.IdiagnosticDetails).ThenInclude(p => p.Services).Include(p => p.pet).ThenInclude(p => p.owner).Where(p => !string.IsNullOrEmpty(p.status)).ToListAsync()
+            };
+
+            return View(tvm);
         }
 
+        public async Task<IActionResult> PurchaseHistory()
+        {
+            var tvm = new TransactionsVm
+            {
+                IPurchase = await _context.Purchases.Include(p => p.purchaseDetails).Where(p => !string.IsNullOrEmpty(p.status)).ToListAsync()
+            };
+
+            return View(tvm);
+        }
     }
 }

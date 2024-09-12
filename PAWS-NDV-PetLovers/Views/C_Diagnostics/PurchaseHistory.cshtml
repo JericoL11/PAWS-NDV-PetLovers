@@ -1,0 +1,61 @@
+﻿@model PAWS_NDV_PetLovers.ViewModels.TransactionsVm
+@{
+    ViewData["Title"] = "Purchase History";
+}
+
+<div class="bg-secondary bg-opacity-10 py-2 mb-3">
+    <div class="container">
+        <h3> Purchase History</h3>
+    </div>
+</div>
+
+<div class="container">
+    @*     <a asp-action="Purchase" class="btn btn-secondary">All Transactions</a> *@
+    <a asp-action="DiagnosticHistory" class="btn btn-secondary">Diagnostics</a>
+  
+
+
+    <table class="table" id="History">
+        <thead>
+            <tr>
+                <th class="text-center">Purchase Id</th>
+                <th class="text-center">Customer Name</th>
+                <th class="text-center">Date</th>
+                <th class="text-center">Total Payment</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var purchase in Model.IPurchase)
+            {
+                <tr>
+                    <td class="text-center">@Html.DisplayFor(modelItem => purchase.purchaseId)</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => purchase.customerName)</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => purchase.date)</td>
+                    <td class="text-center"> @Html.DisplayFor(modelItem=> purchase.totalProductPayment)</td>
+                </tr>
+            }
+
+
+        </tbody>
+    </table>
+</div>
+
+
+<script src="~/js/TransactionsDT/History.js" defer></script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $('#History').DataTable({
+
+            paging: false,
+            scrollY: 400,
+            responsive: true,
+            searching: true,
+            ordering: true,
+
+        });
+    </script>
+}
