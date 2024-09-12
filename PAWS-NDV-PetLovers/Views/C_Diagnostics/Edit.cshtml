@@ -124,7 +124,7 @@
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdropSelectedProduct">
-            Products
+            Buy Products
         </button>
 
               
@@ -149,7 +149,12 @@
 </div>
     <!--vIEW Cart-->
     <div class="container">
-
+        
+        @{
+            var purchase = Model.totalPurchasePayment;
+        }
+    @if (purchase != 0 )
+    {
         <table class="table">
             <thead>
                 <tr>
@@ -160,8 +165,7 @@
                     <th class="text-center">Stock</th>
                     <th class="text-center">Price</th>
                     <th class="text-center">Order Quantity</th>
-                    <th></th>
-                    <th></th>
+              
                 </tr>
             </thead>
             <tbody>
@@ -195,21 +199,19 @@
                             <input type="hidden" value="@item.productId" name="productId" />
                             <input type="hidden" value="@item.quantity" name="quantity" />
                             <input type="hidden" value="@item.Purchase.diagnosisId_holder" name="diagnosticId" />
+                            <input type="hidden" value="@item.Purchase.date" name="date" />
                         <td><button class="btn btn-danger" name="">Remove</button></td>
 
                         </form>
-                        <td>
-
-                        </td>
-                        <td>
-
-                        </td>
+                     
                     </tr>
 
 
                 }
             </tbody>
         </table>
+    }
+    
         </div>
     </div>
 
