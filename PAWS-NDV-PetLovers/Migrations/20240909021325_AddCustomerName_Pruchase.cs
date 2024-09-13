@@ -5,24 +5,25 @@
 namespace PAWS_NDV_PetLovers.Migrations
 {
     /// <inheritdoc />
-    public partial class addColumn_ServiceType : Migration
+    public partial class AddCustomerName_Pruchase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "serviceType",
-                table: "Services",
+                name: "customerName",
+                table: "Purchases",
                 type: "nvarchar(max)",
-                nullable: true);
+                nullable: true,
+                defaultValue: "");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "serviceType",
-                table: "Services");
+                name: "customerName",
+                table: "Purchases");
         }
     }
 }

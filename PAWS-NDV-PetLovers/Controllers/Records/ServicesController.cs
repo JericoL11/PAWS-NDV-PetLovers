@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.Models.Records;
+using System.Runtime.Intrinsics.X86;
 
 namespace PAWS_NDV_PetLovers.Controllers.Appointments
 {
@@ -17,7 +18,14 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
         public async Task<IActionResult> Index()
         {
 
-            var services = await _context.Services.ToListAsync();
+            var services = await _context.Services.Where(s => string.IsNullOrEmpty(s.status)).ToListAsync();
+
+            return View(services);
+        }
+        public async Task<IActionResult> VoidServices()
+        {
+
+            var services = await _context.Services.Where(s => !string.IsNullOrEmpty(s.status)).ToListAsync();
 
             return View(services);
         }
@@ -30,11 +38,14 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("serviceId,serviceName,serviceType,serviceCharge")] Services service)
+        public async Task<IActionResult> Create(bool serviceType,[Bind("serviceId,serviceName,status,serviceCharge")] Services service)
 
         {
-            if (!ModelState.IsValid)
+
+        
+            if(string.IsNullOrEmpty(service.serviceName)|| service.serviceCharge == 0)
             {
+                ModelState.AddModelError("", $"Fill up the input fields completely");
                 return View(service);
             }
 
@@ -44,14 +55,33 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
                 return View(service);
             }
 
+            if(serviceType == true)
+            {
+                service.serviceType = "Laboratory Test";
+            }
+            else
+            {
+                service.serviceType = "NA";
+            }
+
             // Add the service to the database
-            _context.Services.Add(service);
+            _context.Add(service);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index)); // Redirect to the appropriate action
         }
+        #region == Functions ==
+        public bool ServiceNameExist(string serviceName)
+        {
+            return _context.Services.Any(s => s.serviceName == serviceName && string.IsNullOrEmpty(s.status));
+        }
 
+        public bool ServiceIdExist(int id)
+        {
+            return _context.Services.Any(s => s.serviceId == id);
+        }
 
+        #endregion
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -105,18 +135,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             }
         }
 
-        #region == Functions ==
-        public bool ServiceNameExist(string serviceName)
-        {
-            return _context.Services.Any(s => s.serviceName == serviceName);
-        }
-
-        public bool ServiceIdExist(int id)
-        {
-            return _context.Services.Any(s => s.serviceId == id);
-        }
-
-        #endregion
+     
 
 
         [HttpGet]
@@ -138,8 +157,24 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             return View(find);
 
         }
-
         [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var findAsycn = await _context.Services.FindAsync(id);
+
+            if (findAsycn == null)
+            {
+                return NotFound();
+            }
+
+            //update column
+            findAsycn.status = "void";
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+   /*     [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -153,6 +188,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             _context.Services.Remove(findAsycn);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
+        }*/
     }
 }

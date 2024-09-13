@@ -1,0 +1,53 @@
+﻿@model PAWS_NDV_PetLovers.ViewModels.TransactionsVm
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="bg-secondary bg-opacity-10 mb-3 py-2">
+    <div class="container">
+        <h3>Update Purchase Details</h3>
+    </div>
+</div>
+
+<div class="container">
+    <form method="post" asp-action="Edit">
+        <div class="row">
+
+            <div class="form-group col-lg-3 col-md-6">
+                <label asp-for="Purchase.purchaseId" class="control-label"></label>
+                <input asp-for="Purchase.purchaseId" class="form-control" readonly />
+            </div>
+
+            <div class="form-group col-lg-3 col-md-6">
+                <label asp-for="Purchase.customerName" class="control-label"></label>
+                <input asp-for="Purchase.customerName" class="form-control" readonly />
+            </div>
+
+
+            <div class="form-group col-lg-3 col-md-6">
+                <label asp-for="Purchase.date" class="control-label"></label>
+                <input asp-for="Purchase.date" class="form-control" readonly/>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Product ID</th>
+                    <th>Product ID</th>
+                    <th>Product ID</th>
+                    <th>Product ID</th>     
+                </tr>
+            </thead>
+            <tbody>
+           
+                <tr>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </form>
+
+</div>

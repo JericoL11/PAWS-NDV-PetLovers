@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PAWS_NDV_PetLovers.Models.Transactions
@@ -10,18 +11,24 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
         [Display(Name = "Purchace ID")]
         public int purchaseId { get; set; }
 
-        [ForeignKey("PurchaseDetails")]
-        public int purchaseDetId { get; set; }
-
-        [Required]
         [Display(Name = "Date")]
+        [DataType(DataType.Date)]
         public DateTime? date { get; set; }
 
-        [Required]
+        [Display(Name = "Status")]
+        public string? status { get; set; }
+
+
         [Display(Name = "Total Payment")]
-        public double? totalPayment { get; set; }
+        public double? totalProductPayment { get; set; }
+
+        public int? diagnosisId_holder { get; set; } //container sa diagnostics add on
+
+        [Display(Name ="Customer Name")]
+        public string? customerName { get; set; }
 
         //Navigation Property
         public ICollection<PurchaseDetails> purchaseDetails { get; set; }
+
     }
 }

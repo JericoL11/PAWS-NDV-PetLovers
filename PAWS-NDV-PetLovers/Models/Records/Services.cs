@@ -23,6 +23,11 @@ namespace PAWS_NDV_PetLovers.Models.Records
         [Display(Name = "Laboratory Test")]
         public string? serviceType { get; set; }
 
+        public string? status { get; set; }
 
+        internal double Sum(Func<object, object> value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

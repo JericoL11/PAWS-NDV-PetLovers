@@ -1,0 +1,67 @@
+﻿@model PAWS_NDV_PetLovers.ViewModels.AppointmentVm
+@{
+    ViewData["Title"] = "Appointment History";
+}
+<div class="bg-secondary bg-opacity-10 py-2 mb-3" >
+    <div class="container">
+        <h3> Appointment History</h3>
+    </div>
+</div>
+
+<div class="container">
+    <a class="btn btn-primary px-5" asp-action="Index">Back</a>
+    <table class="table  border hover" id="HistoryTable">
+        <thead>
+            <tr>
+                <th>Appoint Id</th>
+                <th>Client Name</th>
+                <th>Date</th>
+                <th>Service</th>
+                <th>Remarks</th>
+            </tr>
+        </thead>
+       
+     
+        <tbody>
+            @foreach (var item in Model.AppointmentGrouping)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Appointment.AppointId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Appointment.fname) 
+                        @Html.Raw(' ')
+                        @Html.DisplayFor(modelItem => item.Appointment.lname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Appointment.date)
+                    </td>
+                    <td>
+                        @{
+                            var services = item.Details
+                                .Select(s => s.Services.serviceName)
+                                .Distinct();
+
+                            var serviceName = string.Join(",", services);
+                        }
+                        <span> @serviceName</span>
+                        
+                    </td>
+                    <td>
+                        @{
+                            var remarks = item.Details
+                           .Select(r => r.remarks)
+                           .Distinct();
+
+                            var remark = string.Join(",", remarks);
+                        }
+                        <span> @remark</span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script src="~/js/AppointmentDataTables/HistoryTable.js" defer></script>

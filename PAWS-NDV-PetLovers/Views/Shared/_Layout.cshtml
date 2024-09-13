@@ -16,7 +16,8 @@
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/all.min.css">
     <link rel="stylesheet" href="~/css/fontawesome.min.css">
-    <link rel="stylesheet" href="~/css/site.css" />
+    @* <link rel="stylesheet" href="~/css/site.css" /> *@
+    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
 
    
@@ -50,7 +51,7 @@
             <ul class="list-unstyled ps-0  ">
 
                 <li class="mb-2">
-                    <a class="nav-link  collapsed  d-flex align-items-center p-2" asp-controller="Home" asp-action="Index"> @* data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="true collapse" *@
+                    <a class="nav-link  collapsed  d-flex align-items-center p-2" asp-controller="Home" asp-action="Index" id="ihome"> @* data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="true collapse" *@
                         <i class="fa-solid fa-house" id="icon"></i> <div class="px-3">Home</div>
                        @*  <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i> *@
                     </a>
@@ -64,7 +65,7 @@
                 </li>
 
                 <li class="mb-2">
-                    <a class="nav-link  collapsed  d-flex align-items-center p-2" asp-area="" asp-controller="Appointments" asp-action="Index"> @* data-bs-toggle="collapse" data-bs-target="#appointment-collapse" aria-expanded="true collapse" *@
+                    <a class="nav-link  collapsed  d-flex align-items-center p-2" asp-area="" asp-controller="Appointments" asp-action="Index" id="iappointments"> @* data-bs-toggle="collapse" data-bs-target="#appointment-collapse" aria-expanded="true collapse" *@
                         <i class="fa-solid fa-calendar-check" id="icon"></i><div class="px-3">Appointments</div>
                        @*  <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i> *@
                     </a>
@@ -154,15 +155,66 @@
                 <button class="btn px-2 py-2 open-btn">
                     <i class="fa-solid fa-bars" style="color: white;"></i>
                 </button>
+
+
+                <div class="collapse navbar-collapse row " id="navbarScroll">
+                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll d-flex justify-content-end pe-5">
+                        <li class="nav-item custom-padding">
+                            <a class="nav-link active" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item custom-padding">
+                            <a class="nav-link" asp-area="" asp-controller="Appointments" asp-action="Index"> Appointments</a>
+                        </li>
+        
+                        <li class="nav-item dropdown custom-padding">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Record Management
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Owners">Client Management</a></li>
+                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Products">Product Management</a></li>
+                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Services">Services</a></li>
+                            </ul>
+                        </li>
+                      
+                        <li class="nav-item dropdown custom-padding">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Transactions
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item text-center" asp-action="Billing" asp-controller="C_Diagnostics">Billing</a></li>
+@*                                 <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Purchase">Purchase Bill</a></li>
+                                *@
+                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Home">History</a></li>
+
+                            </ul>
+                        </li>
+                        <li class="nav-item custom-padding">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Reports</a>
+                        </li>
+                 
+                    </ul>
+                @*     <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form> *@
+                </div>
             </div>
         </nav>
 
-       
-        <div class="container-fluid p-2" style="padding:0">
-            <main role="main" class="pb-3">
-                @RenderBody()
-            </main>
-        </div>
+    </header> 
+    <div class="container-fluid" style="padding:0">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2024 - PAWS_NDV_PetLovers - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+            </div>
+        </footer>
 
     </div>
 
@@ -193,14 +245,30 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/DataTables/datatables.js"></script>
-    <script src="https://kit.fontawesome.com/55e2f34596.js" crossorigin="anonymous"></script>
 
-
+  
+    @*datatables Options *@
+   
 
     @await RenderSectionAsync("Scripts", required: false)
 
+  @*   <script>
+        $.extend($.fn.dataTable.defaults, {
+
+            paging: false,
+            scrollY: 400,
+            responsive: true,
+            searching: true,
+            ordering: true,
 
 
-     
+        });
+    </script> *@
+ 
+    @* add-form-script *@
+    @* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      embbed datatables - js 
+      <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script> *@
+
 </body>
 </html>

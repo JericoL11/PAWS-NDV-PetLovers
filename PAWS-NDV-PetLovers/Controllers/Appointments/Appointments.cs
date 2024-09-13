@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.Models.Appointments;
+using PAWS_NDV_PetLovers.Models.Records;
 using PAWS_NDV_PetLovers.ViewModels;
 
 namespace PAWS_NDV_PetLovers.Controllers.Appointments
@@ -58,9 +59,30 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
         public async Task GetServices()
         {
-            var services = await _context.Services.ToListAsync();
+            var services = await _context.Services.Where(s => string.IsNullOrEmpty(s.status)).ToListAsync();
 
             ViewBag.Services = new SelectList(services, "serviceId", "serviceName");
+        }
+
+        public async Task<IActionResult> AppointmentHistory()
+        {
+            var AppDetails = await _context.AppointmentDetails.Include(ad => ad.Appointment).Include(ad => ad.Services).ToListAsync();
+
+            var groupById = AppDetails
+                .GroupBy(a => a.Appointment.AppointId)
+                .Select(g => new AppointmentGroup
+                {
+                    Appointment = g.First().Appointment,
+                    Details = g.ToList()
+                })
+                .ToList();
+
+            var vm = new AppointmentVm
+            {
+                AppointmentGrouping = groupById
+            };
+
+            return View(vm);
         }
 
 
@@ -298,7 +320,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SetRemarks(string fname, string lname, string AppDetailsIds)
+        public async Task<IActionResult> SetRemarks(string fname, string lname, string AppDetailsIds, List<int>serviceId)
         {
 
             var verifyOwner = _context.Owners.FirstOrDefault(a => a.fname == fname && a.lname == lname);
@@ -345,7 +367,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             /*return RedirectToAction("ActionOrViewName", "ControllerName", route);*/
 
 
-            return RedirectToAction("DiagnosAppointment", "C_Diagnostics", new { id = tvm.Owner.id });
+            return RedirectToAction("DiagnosAppointment", "C_Diagnostics", new { id = tvm.Owner.id, serviceId = serviceId});
         }
 
         [HttpGet]
