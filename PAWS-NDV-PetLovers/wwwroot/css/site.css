@@ -202,21 +202,21 @@ html {
 
 .btn-toggle-nav :hover {
     color: black;
-    background-color: #ffffff;
+    background-color: #efc65de8;
     transition: 0.1s;
 }
 
 .link-l[aria-expanded="true"],
 .link-l:active,
 .link-l:focus {
-    background-color: #ffffff;
+    background-color: #efc65de8;
     color: black;
-
 }
 
 
 .nav-link:hover {
     background-color: #efc65de8;
+    color:black;
     border-radius: 10px;
     transition: 0.2s;
 }
@@ -304,6 +304,12 @@ html {
     border-right: 1px solid #ffffff;
     /* height: 100vh;*/
     /*overflow: auto;*/
+}
+
+#cfbody {
+    margin: 2px;
+    padding:1px;
+    border: 2px solid #469387;
 }
 
 /*END ID AREA*/
