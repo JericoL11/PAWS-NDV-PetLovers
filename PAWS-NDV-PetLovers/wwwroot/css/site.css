@@ -1,4 +1,20 @@
 
+
+/* Buttons - EDIT */
+
+.button-container {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: white; /* Optional: Background to make sure it doesn’t overlap */
+    padding: 10px; /* Adjust padding as needed */
+    text-align: right;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* Optional: To give it a shadow effect */
+}
+
+
+
 /* FOR ADDING Total Payment - Diagnostics */
 .fixed-right-Payment {
     position: fixed;

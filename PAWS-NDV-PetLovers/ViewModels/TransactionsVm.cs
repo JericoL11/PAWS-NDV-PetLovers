@@ -35,12 +35,24 @@ namespace PAWS_NDV_PetLovers.ViewModels
 
         public IEnumerable<Product>? IProducts { get; set; }
 
-        public double grandTotal { get; set; }
-        public double totalServicePayment { get; set; }
+        public double? grandTotal { get; set; }
 
-        public double totalPurchasePayment { get; set; }
+        public double? totalServicePayment { get; set; }
+
+        public double? totalPurchasePayment { get; set; }
+
+
+        //for view Components
+        public Tab activeTab { get; set; }
 
     }
+
+        public enum Tab
+        {
+            Diagnostics,
+            Purchase,
+            Billing
+        };
 }
 
 

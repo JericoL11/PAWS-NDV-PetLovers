@@ -4,12 +4,6 @@ using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.ViewModels;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using PAWS_NDV_PetLovers.Models.Records;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.VisualBasic;
-using System.Linq;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 
 namespace PAWS_NDV_PetLovers.Controllers.Transactions
 {
@@ -218,11 +212,9 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             {
                 IDiagnostics = diagnostic,
                 IPurchase = purchase
-
-
             };
 
-            return RedirectToAction(nameof(Billing)); // Redirect to a different action after saving
+            return RedirectToAction("Index" , "BillingDashboard"); // Redirect to a different action after saving
         }
 
         [HttpPost]
