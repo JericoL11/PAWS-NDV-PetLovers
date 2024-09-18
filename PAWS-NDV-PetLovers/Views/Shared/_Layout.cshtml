@@ -182,10 +182,10 @@
                                 Transactions
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item text-center" asp-action="Billing" asp-controller="C_Diagnostics">Billing</a></li>
+                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="BillingDashboard">Billing</a></li>
 @*                                 <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Purchase">Purchase Bill</a></li>
                                 *@
-                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Home">History</a></li>
+                                <li><a class="dropdown-item text-center" asp-action="DiagnosticHistory" asp-controller="C_Diagnostics">History</a></li>
 
                             </ul>
                         </li>
@@ -263,6 +263,17 @@
 
 
         });
+
+            $('#History').DataTable({
+
+            paging: false,
+            scrollY: 400,
+            responsive: true,
+            searching: true,
+            ordering: true,
+
+            });
+
     </script> *@
  
     @* add-form-script *@

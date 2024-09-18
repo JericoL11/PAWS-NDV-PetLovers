@@ -4,12 +4,6 @@ using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.ViewModels;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using PAWS_NDV_PetLovers.Models.Records;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.VisualBasic;
-using System.Linq;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 
 namespace PAWS_NDV_PetLovers.Controllers.Transactions
 {
@@ -218,11 +212,9 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             {
                 IDiagnostics = diagnostic,
                 IPurchase = purchase
-
-
             };
 
-            return RedirectToAction(nameof(Billing)); // Redirect to a different action after saving
+            return RedirectToAction("Index" , "BillingDashboard"); // Redirect to a different action after saving
         }
 
         [HttpPost]
@@ -550,6 +542,24 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             // Redirect to the PurchaseDetailsView with the relevant purchase->diagnosticId
             return RedirectToAction(nameof(Edit), new { id = diagnosticId});
         }
+        public async Task<IActionResult> DiagnosticHistory()
+        {
+            var tvm = new TransactionsVm
+            {
+                IDiagnostics = await _context.Diagnostics.Include(p => p.IdiagnosticDetails).ThenInclude(p => p.Services).Include(p => p.pet).ThenInclude(p => p.owner).Where(p => !string.IsNullOrEmpty(p.status)).ToListAsync()
+            };
 
+            return View(tvm);
+        }
+
+        public async Task<IActionResult> PurchaseHistory()
+        {
+            var tvm = new TransactionsVm
+            {
+                IPurchase = await _context.Purchases.Include(p => p.purchaseDetails).Where(p => !string.IsNullOrEmpty(p.status)).ToListAsync()
+            };
+
+            return View(tvm);
+        }
     }
 }

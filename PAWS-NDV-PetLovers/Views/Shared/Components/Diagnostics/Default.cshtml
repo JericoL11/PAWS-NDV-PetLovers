@@ -1,0 +1,77 @@
+﻿@model PAWS_NDV_PetLovers.ViewModels.TransactionsVm
+@{
+    ViewData["Title"] = "Diagnostic VC";
+}
+<div class="container">
+    <table class="table table-striped" id="diagnosticTable">
+        <thead>
+            <tr>
+                <th>Diagnostic Id</th>
+                <th>Owner ID - Name</th>
+                <th>Pet Id - Name</th>
+                <th>Services</th>
+                <th>Products (Added)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.IDiagnostics)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.diagnostic_Id)</td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.petId)
+                        @Html.Raw(" - ")
+                        @Html.DisplayFor(modelItem => item.pet.owner.fname)
+                        @Html.Raw(' ')
+                        @Html.DisplayFor(modelItem => item.pet.owner.lname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.petId)
+                        @Html.Raw(" - ")
+                        @Html.DisplayFor(modelItem => item.pet.petName)
+                    </td>
+                    <td>
+                        @{
+                            var diagnosticDetails = item.IdiagnosticDetails
+                            .Select(d => d.Services.serviceName)
+                            .Distinct();
+                            var Services = string.Join(" , ", diagnosticDetails);
+                        }
+                        @Html.Raw(Services.Replace(",", "<br>"))
+                    </td>
+
+                    <td>
+                        @{
+                            var totalQuantities = Model.IPurchase
+                            .Where(p => p.diagnosisId_holder == item.diagnostic_Id)  // Filter by diagnosis ID
+                            .SelectMany(p => p.purchaseDetails)  // Flatten the purchase details
+                            .GroupBy(pd => new { pd.productId, pd.product.productName })  // Group by product ID and name
+                            .Select(g => new
+                            {
+                                ProductId = g.Key.productId,
+                                ProductName = g.Key.productName,
+                                TotalQuantity = g.Sum(pd => pd.quantity)  // Sum quantities for each product
+                            })
+                            .ToList();  // Convert to a list for further use in the view
+                        }
+
+                        @foreach (var quantity in totalQuantities)
+                        {
+                            <div>
+                                <strong>Product ID:</strong> @quantity.ProductName <br />
+                                <strong>Total Quantity:</strong> @quantity.TotalQuantity <br />
+                                <hr />
+                            </div>
+                        }
+                    </td>
+
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.diagnostic_Id" asp-controller="C_Diagnostics" asp-route-date="@item.date" class="btn btn-primary">Add-On</a>
+                        <button class="btn btn-success">Proceed to Bill</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
