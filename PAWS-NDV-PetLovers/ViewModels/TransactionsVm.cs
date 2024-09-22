@@ -42,17 +42,28 @@ namespace PAWS_NDV_PetLovers.ViewModels
         public double? totalPurchasePayment { get; set; }
 
 
-        //for view Components
-        public Tab activeTab { get; set; }
+        //View Components ENUMS and Properties
+        public DBoardTab? activeBoardTab { get; set; }
+        public BillingTab? activeBillingTab { get; set; }
+
+        public bool? errorMessage { get; set;  }
+
 
     }
+    public enum BillingTab
+    {
+        Diagnosis,
+        Purchase,
+        Billing
+    };
 
-        public enum Tab
-        {
-            Diagnostics,
-            Purchase,
-            Billing
-        };
+
+    public enum DBoardTab
+    {
+        DBoard_Diagnostics,
+        DBoard_Purchase
+    };
+
 }
 
 

@@ -1,0 +1,49 @@
+﻿@model PAWS_NDV_PetLovers.ViewModels.TransactionsVm
+@{
+    ViewData["Title"] = "DBoard Diagnostics VC";
+}
+<div class="container">
+    <table class="table table-striped" id="diagnosticTable">
+        <thead>
+            <tr>
+                <th>Diagnostic Id</th>
+                <th>Owner ID - Name</th>
+                <th>Pet Id - Name</th>
+                <th>Services</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.IDiagnostics)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.diagnostic_Id)</td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.pet.owner.fname)
+                        @Html.Raw(' ')
+                        @Html.DisplayFor(modelItem => item.pet.owner.lname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.pet.petName)
+                    </td>
+                    <td>
+                        @{
+                            var diagnosticDetails = item.IdiagnosticDetails
+                            .Select(d => d.Services.serviceName)
+                            .Distinct();
+                            var Services = string.Join(" , ", diagnosticDetails);
+                        }
+                        @Html.Raw(Services.Replace(",", "<br>"))
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.date)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.diagnostic_Id" asp-controller="Billing" class="btn btn-primary">Modify</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
