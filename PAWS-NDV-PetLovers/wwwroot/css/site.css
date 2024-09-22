@@ -120,7 +120,7 @@ html {
 
 .navbar {
     border-left: 1px solid #ffffff; 
-    border-bottom: 1px solid #ffffff;
+    margin-block-end: 5px;
     display: flex;
     background-color: #469387;
 }

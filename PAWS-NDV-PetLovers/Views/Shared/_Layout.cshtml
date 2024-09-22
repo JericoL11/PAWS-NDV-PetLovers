@@ -36,7 +36,7 @@
 </head>
 <body>
 
-    <div class="flex-shrink-0" id="sidebar">
+    <div class="flex-shrink-0 d-" id="sidebar">
 
         <div class="header-box px-1 pt-1 pb-1 justify-content-between text-center">
             <h1 class="fs-4">
@@ -104,8 +104,8 @@
                     </a>
                     <div class="collapse" id="transaction-collapse" data-bs-parent="#accordion">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3  big">
-                            <li><a class="link-l mb-1 px-5" asp-action="DiagnosticBill" asp-controller="C_Diagnostics">Diagnostic Bill</a></li>
-                            <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Products">Purchase</a></li>
+                            <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="BillingDashboard">Billing</a></li>
+                            <li><a class="dropdown-item text-center" asp-action="DiagnosticHistory" asp-controller="C_Diagnostics">History</a></li>
                             <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Products">Invoice</a></li>
                            
                         </ul>
@@ -148,7 +148,7 @@
         </div>
     </div>
 
-    <div class="container-fluid p-0">
+    <div class="container-fluid px-1">
         <nav class="navbar">
             <div class="d-flex  d-mb-none">
                 <a class="navbar-brand fs-5" href="#"></a>
@@ -156,54 +156,9 @@
                     <i class="fa-solid fa-bars" style="color: white;"></i>
                 </button>
 
-
-                <div class="collapse navbar-collapse row " id="navbarScroll">
-                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll d-flex justify-content-end pe-5">
-                        <li class="nav-item custom-padding">
-                            <a class="nav-link active" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item custom-padding">
-                            <a class="nav-link" asp-area="" asp-controller="Appointments" asp-action="Index"> Appointments</a>
-                        </li>
-        
-                        <li class="nav-item dropdown custom-padding">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Record Management
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Owners">Client Management</a></li>
-                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Products">Product Management</a></li>
-                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Services">Services</a></li>
-                            </ul>
-                        </li>
-                      
-                        <li class="nav-item dropdown custom-padding">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Transactions
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="BillingDashboard">Billing</a></li>
-@*                                 <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Purchase">Purchase Bill</a></li>
-                                *@
-                                <li><a class="dropdown-item text-center" asp-action="DiagnosticHistory" asp-controller="C_Diagnostics">History</a></li>
-
-                            </ul>
-                        </li>
-                        <li class="nav-item custom-padding">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Reports</a>
-                        </li>
-                 
-                    </ul>
-                @*     <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form> *@
-                </div>
-            </div>
         </nav>
 
-    </header> 
-    <div class="container-fluid" id="cfbody">
+        <div class="container-fluid flex" id="cfbody">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
