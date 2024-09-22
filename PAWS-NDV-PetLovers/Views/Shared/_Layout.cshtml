@@ -104,9 +104,8 @@
                     </a>
                     <div class="collapse" id="transaction-collapse" data-bs-parent="#accordion">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3  big">
-                            <li><a class="link-l mb-1 px-5" asp-action="DiagnosticBill" asp-controller="C_Diagnostics">Diagnostic Bill</a></li>
-                            <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Products">Purchase</a></li>
-                            <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Products">Invoice</a></li>
+                            <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Billing">Billing</a></li>
+                            <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Products">History</a></li>
                            
                         </ul>
                     </div>
@@ -208,20 +207,16 @@
             @RenderBody()
         </main>
     </div>
-
+@* 
         <footer class="border-top footer text-muted">
             <div class="container">
                 &copy; 2024 - PAWS_NDV_PetLovers - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
 
             </div>
-        </footer>
+        </footer> *@
 
     </div>
 
-
-
-   
-   
   
     <script>
 
@@ -277,8 +272,8 @@
     </script> *@
  
     @* add-form-script *@
-    @* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      embbed datatables - js 
+    @* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> *@
+ @*      embbed datatables - js 
       <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script> *@
 
 </body>

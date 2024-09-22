@@ -13,7 +13,7 @@ namespace PAWS_NDV_PetLovers.Components
         }
 
 
-        public async Task <IViewComponentResult> InvokeAsync()
+        public async Task <IViewComponentResult> InvokeAsync(int? id)
         {
             return View();
         }

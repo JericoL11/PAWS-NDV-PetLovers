@@ -13,7 +13,7 @@ namespace PAWS_NDV_PetLovers.Component
         {
             _context = context;
         }
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(int? id)
         {
 
             var diagnostics = await _context.Diagnostics
@@ -24,14 +24,13 @@ namespace PAWS_NDV_PetLovers.Component
                             .ThenInclude(p => p.owner)
                             .Include(d => d.IdiagnosticDetails)
                             .ThenInclude(dd => dd.Services)
-                            .Where(d => string.IsNullOrEmpty(d.status))
-                            .ToListAsync();
-            // Optionally, fetch all purchases if needed for other purposes
-            var purchases = await _context.Purchases.Include(p => p.purchaseDetails).ThenInclude(p => p.product ).ToListAsync();
+                            .FirstOrDefaultAsync(d => string.IsNullOrEmpty(d.status) && id == d.diagnostic_Id);
+       
+
             var vm = new TransactionsVm
             {
-                IDiagnostics = diagnostics,
-                IPurchase = purchases
+                Diagnostics = diagnostics,
+
             };
 
             return View(vm);

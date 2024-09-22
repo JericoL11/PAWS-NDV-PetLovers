@@ -1,102 +1,86 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PAWS_NDV_PetLovers.Models.Transactions;
-using PAWS_NDV_PetLovers.Data;
-using PAWS_NDV_PetLovers.ViewModels;
-using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using PAWS_NDV_PetLovers.Data;
+using PAWS_NDV_PetLovers.Models.Transactions;
+using PAWS_NDV_PetLovers.ViewModels;
 
 namespace PAWS_NDV_PetLovers.Controllers.Transactions
 {
-
-    public class C_DiagnosticsController : Controller
+    public class BillingController : Controller
     {
-
-
-        private readonly PAWS_NDV_PetLoversContext _context;
-
-        public C_DiagnosticsController(PAWS_NDV_PetLoversContext context)
+        private PAWS_NDV_PetLoversContext _context;
+        public BillingController(PAWS_NDV_PetLoversContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
+        public IActionResult Index(TransactionsVm vcm)
 
-        [HttpGet]
-        public async Task<IActionResult> Create(int? id)
         {
-
-            //id handling if null
-            if (id == null)
+            if (vcm.activeBoardTab == null)
             {
-                return NotFound();
+                vcm.activeBoardTab = DBoardTab.DBoard_Diagnostics;
+            }
+            return View(vcm);
+        }
+
+        
+        public  IActionResult SwitchToDboardTab(string? tabName)
+        {
+            var vm = new TransactionsVm();
+
+            switch (tabName)
+            {
+                case "DBoard_Diagnostics":
+                    vm.activeBoardTab = DBoardTab.DBoard_Diagnostics;
+                    break;
+
+
+                case "DBoard_Purchase":
+                    vm.activeBoardTab = DBoardTab.DBoard_Purchase;
+                    break;
+
+                default:
+                    vm.activeBoardTab = DBoardTab.DBoard_Diagnostics;
+                    break;
+            }
+            return RedirectToAction(nameof(Index), vm);
+        }
+
+        public IActionResult SwitchToTab(string? tabName)
+        {
+            var vm = new TransactionsVm();
+
+            switch (tabName)
+            {
+                case "Diagnostics":
+                    vm.activeBillingTab = BillingTab.Diagnosis;
+                    break;
+
+                case "Purchase":
+                    vm.activeBillingTab = BillingTab.Purchase;
+                    break;
+
+                case "Billing":
+                    vm.activeBillingTab = BillingTab.Billing;
+                    break;
+
+                default:
+                    vm.activeBillingTab = BillingTab.Diagnosis;
+                    break;
             }
 
-            var firstPet = await _context.Pets.Include(p => p.owner).FirstOrDefaultAsync(p => p.id == id);
-
-            if (firstPet == null)
-            {
-                return NotFound();
-            }
-
-            //vm instantiationn
-            TransactionsVm tVm = new TransactionsVm
-            {
-                Pets = firstPet,
-                //assigning fk column PetId based on routed id
-                Diagnostics = new Diagnostics { petId = (int)id },
-                Services = await _context.Services.Where(s => string.IsNullOrEmpty(s.status)).ToListAsync()
-            };
-
-            return View(tVm);
+            return RedirectToAction(nameof(Index), vm);
         }
-
-
-
         [HttpGet]
-        public async Task<IActionResult> DiagnosAppointment(int? id, List<int> serviceId)
+        public async Task<IActionResult> Edit(int? id, bool? errorMessage, TransactionsVm tvm)
         {
-            var getOwner = await _context.Owners.Include(o => o.Pets)
-                .FirstOrDefaultAsync(o => o.id == id);
-
-
-            TransactionsVm tvm = new TransactionsVm
-            {
-                Owner = getOwner,
-                SelectedServices = serviceId,
-                Services = await _context.Services.Where(s => string.IsNullOrEmpty(s.status)).ToListAsync() //status can be updated when service is deleted
-            };
-
-            return View(tvm);
-        }
-
-        //Owner Diagnosis
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Diagnostics")] TransactionsVm tvm)
-        {
-
-            //update granda
-            if(tvm.Diagnostics != null)
-            {
-                tvm.Diagnostics.grandTotal = (double)tvm.Diagnostics.totalServicePayment;
-            }
-     
-            _context.Add(tvm.Diagnostics);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "Billing");
-
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Edit(int? id)
-        {
-
             // Extract only the date part (ignoring time)
-      
+
             if (id == null)
             {
                 return NotFound();
             }
-
 
             //fetched the data in database
             var firstAsync = await _context.Diagnostics
@@ -104,60 +88,61 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                 .ThenInclude(d => d.owner)
                 .Include(d => d.IdiagnosticDetails)
                 .ThenInclude(dd => dd.Services)
-                .Include(d => d.Purchase)
-                .ThenInclude(d => d.purchaseDetails)
-                .ThenInclude(d => d.product)
-                .ThenInclude(d => d.category)
                 .FirstOrDefaultAsync(d => d.diagnostic_Id == id);
 
-            var Purchase = await _context.Purchases
-                .Include(p => p.purchaseDetails)
-                .ThenInclude(p => p.product)
-                .ThenInclude(p => p.category)
-                .FirstOrDefaultAsync(p => p.diagnosisId_holder == id);
 
-            //VIEW Cart
+            if (tvm.activeBillingTab == null)
+            {
+                tvm.activeBillingTab = BillingTab.Diagnosis;
+            }
 
-            var PurchaseItems = await _context.PurchaseDetails
-                .Include(p => p.product)
-                .ThenInclude(p => p.category)
-                .Include(p => p.Purchase)
-                .Where(p => p.Purchase.diagnosisId_holder == id && string.IsNullOrEmpty(p.Purchase.status))
-                .ToListAsync();
-
-            // Calculate total price
-            double purchasePayment = PurchaseItems.Sum(item => (double)item.product.sellingPrice * (int)item.quantity);
-
-           
-
-            TransactionsVm tvm = new TransactionsVm
+            TransactionsVm vm = new TransactionsVm
             {
                 Diagnostics = firstAsync,
-
-                Purchase = Purchase,
-
-                Services = await _context.Services.ToListAsync(),
-
-                IProducts = await _context.Products.Include(p => p.category).ToListAsync(),
-
-                IPurchaseDetails = PurchaseItems,
-                totalPurchasePayment = purchasePayment
-
+                activeBillingTab = tvm.activeBillingTab,
+                errorMessage = errorMessage
             };
 
-            return View(tvm);
+            return View(vm);
 
         }
 
+
+        //billing switch Tabs
+         public IActionResult SwitchToBillingTab(int? id, string? tabName)
+        {
+
+            //object instantiation
+            var vm = new TransactionsVm();
+
+            switch (tabName)
+            {
+                case "Diagnosis":
+                    vm.activeBillingTab = BillingTab.Diagnosis;
+                break;
+
+                case "Purchase":
+                    vm.activeBillingTab = BillingTab.Purchase;
+                    break;
+
+                case "Billing":
+                    vm.activeBillingTab = BillingTab.Billing;
+                    break;
+            }
+
+            return RedirectToAction(nameof(Edit), new { id = id, vm.activeBillingTab});
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit( [Bind("Diagnostics")] TransactionsVm tvm)
+        public async Task<IActionResult> Edit([Bind("Diagnostics")] TransactionsVm tvm)
         {
             double totalPurchase = 0;
 
             // Extract the Diagnostics object from the view model
             var diagnostics = tvm.Diagnostics;
-  
+
 
             // Referenced from view for Update detail Results
             foreach (var detail in diagnostics.IdiagnosticDetails)
@@ -169,7 +154,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                 if (existingDetail != null)
                 {
                     existingDetail.details = detail.details;
-                    
                 }
             }
 
@@ -212,12 +196,25 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                 IPurchase = purchase
             };
 
-            return RedirectToAction("Index" , "BillingDashboard"); // Redirect to a different action after saving
+            return RedirectToAction("Index", "BillingDashboard"); // Redirect to a different action after saving
         }
+
+        #region == Functions == 
+        private bool DiagnosticExists(int id)
+        {
+            return _context.Diagnostics.Any(e => e.diagnostic_Id == id);
+        }
+
+        private bool PurchaseExists(int? id)
+        {
+            return _context.Purchases.Any(p => p.purchaseId == id);
+        }
+        #endregion
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePurchase(Purchase purchase)
+        public async Task<IActionResult> CreatePurchase(int? id,Purchase purchase)
         {
             // Check if the purchase object or purchase details are null or empty
             if (purchase == null || purchase.purchaseDetails == null || !purchase.purchaseDetails.Any())
@@ -232,13 +229,13 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                     .ThenInclude(d => d.purchaseDetails)
                     .ThenInclude(pd => pd.product)
                     .ThenInclude(p => p.category)
-                    .FirstOrDefaultAsync(d => d.diagnostic_Id == purchase.diagnosisId_holder);
+                    .FirstOrDefaultAsync(d => d.diagnostic_Id == id);
 
                 var purchaseItems = await _context.PurchaseDetails
                     .Include(p => p.product)
                     .ThenInclude(p => p.category)
                     .Include(p => p.Purchase)
-                    .Where(p => p.Purchase.diagnosisId_holder == purchase.diagnosisId_holder && string.IsNullOrEmpty(p.Purchase.status))
+                    .Where(p => p.Purchase.diagnosisId_holder == id && string.IsNullOrEmpty(p.Purchase.status))
                     .ToListAsync();
 
                 // Calculate the total price again
@@ -252,19 +249,21 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                         .Include(p => p.purchaseDetails)
                         .ThenInclude(p => p.product)
                         .ThenInclude(p => p.category)
-                        .FirstOrDefaultAsync(p => p.diagnosisId_holder == purchase.diagnosisId_holder),
+                        .FirstOrDefaultAsync(p => p.diagnosisId_holder == id),
                     Services = await _context.Services.ToListAsync(),
                     IProducts = await _context.Products.Include(p => p.category).ToListAsync(),
                     IPurchaseDetails = purchaseItems,
-                    totalPurchasePayment = purchasePayment
-                 
+                    totalPurchasePayment = purchasePayment,
+                    activeBillingTab = BillingTab.Purchase
+
                 };
 
                 // Add an error message to the ViewData to display on the view
                 ViewData["ErrorMessage"] = "No products were selected. Please select at least one product to proceed.";
 
+
                 // Return the Edit view with the original data and error message
-                return View("Edit", viewModel);
+                return RedirectToAction("Edit", new { id = id,  errorMessage = true , viewModel.activeBillingTab } );
             }
 
             // Storage for calculated totals
@@ -327,13 +326,13 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                         .ThenInclude(d => d.purchaseDetails)
                         .ThenInclude(pd => pd.product)
                         .ThenInclude(p => p.category)
-                        .FirstOrDefaultAsync(d => d.diagnostic_Id == purchase.diagnosisId_holder);
+                        .FirstOrDefaultAsync(d => d.diagnostic_Id == id);
 
                     var purchaseItems = await _context.PurchaseDetails
                         .Include(p => p.product)
                         .ThenInclude(p => p.category)
                         .Include(p => p.Purchase)
-                        .Where(p => p.Purchase.diagnosisId_holder == purchase.diagnosisId_holder && string.IsNullOrEmpty(p.Purchase.status))
+                        .Where(p => p.Purchase.diagnosisId_holder == id && string.IsNullOrEmpty(p.Purchase.status))
                         .ToListAsync();
 
                     // Calculate the total price again
@@ -347,15 +346,16 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                             .Include(p => p.purchaseDetails)
                             .ThenInclude(p => p.product)
                             .ThenInclude(p => p.category)
-                            .FirstOrDefaultAsync(p => p.diagnosisId_holder == purchase.diagnosisId_holder),
+                            .FirstOrDefaultAsync(p => p.diagnosisId_holder == id),
                         Services = await _context.Services.ToListAsync(),
                         IProducts = await _context.Products.Include(p => p.category).ToListAsync(),
                         IPurchaseDetails = purchaseItems,
-                        totalPurchasePayment = purchasePayment
+                        totalPurchasePayment = purchasePayment,
+                        activeBillingTab = BillingTab.Purchase
                     };
 
                     ViewData["ErrorMessage"] = "The purchase does not exist.";
-                    return View("Edit", viewModel);
+                    return RedirectToAction("Edit", new { id = id, viewModel.activeBillingTab });
                 }
                 else
                 {
@@ -363,138 +363,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                 }
             }
 
-            // Fetch the updated diagnostic data and purchase details for the Edit view
-            var updatedDiagnostics = await _context.Diagnostics
-                .Include(d => d.pet)
-                .ThenInclude(p => p.owner)
-                .Include(d => d.IdiagnosticDetails)
-                .ThenInclude(dd => dd.Services)
-                .Include(d => d.Purchase)
-                .ThenInclude(d => d.purchaseDetails)
-                .ThenInclude(pd => pd.product)
-                .ThenInclude(p => p.category)
-                .FirstOrDefaultAsync(d => d.diagnostic_Id == purchase.diagnosisId_holder);
-
+     
             var updatedPurchaseItems = await _context.PurchaseDetails
-                .Include(p => p.product)
-                .ThenInclude(p => p.category)
-                .Include(p => p.Purchase)
-                .Where(p => p.Purchase.diagnosisId_holder == purchase.diagnosisId_holder && string.IsNullOrEmpty(p.Purchase.status))
-                .ToListAsync();
-
-            // Calculate the total price again
-            double updatedPurchasePayment = updatedPurchaseItems.Sum(item => (double)item.product.sellingPrice * (int)item.quantity);
-
-            // Reload the view model with the updated data
-            var updatedTvm = new TransactionsVm
-            {
-                Diagnostics = updatedDiagnostics,
-                Purchase = await _context.Purchases
-                    .Include(p => p.purchaseDetails)
-                    .ThenInclude(p => p.product)
-                    .ThenInclude(p => p.category)
-                    .FirstOrDefaultAsync(p => p.diagnosisId_holder == purchase.diagnosisId_holder),
-                Services = await _context.Services.ToListAsync(),
-                IProducts = await _context.Products.Include(p => p.category).ToListAsync(),
-                IPurchaseDetails = updatedPurchaseItems,
-                totalPurchasePayment = updatedPurchasePayment
-            };
-
-            // Return the updated Edit view with the current data
-            return View("Edit", updatedTvm);
-        }
-
-
-
-        #region == Functions == 
-        private bool DiagnosticExists(int id)
-        {
-            return _context.Diagnostics.Any(e => e.diagnostic_Id == id);
-        }
-
-        private bool PurchaseExists(int? id)
-        {
-            return _context.Purchases.Any(p => p.purchaseId == id);
-        }
-        #endregion
-
-        /*public async Task<IActionResult> Billing()
-        {
-            // Load diagnostics including related entities
-            var diagnostics = await _context.Diagnostics
-                .Include(d => d.Purchase)
-                .ThenInclude(p => p.purchaseDetails)
-                .ThenInclude(p => p.product)
-                .Include(d => d.pet)
-                .ThenInclude(p => p.owner)
-                .Include(d => d.IdiagnosticDetails)
-                .ThenInclude(dd => dd.Services)
-                .Where(d => string.IsNullOrEmpty(d.status))
-                .ToListAsync();
-
-
-
-            // Optionally, fetch all purchases if needed for other purposes
-            var purchases = await _context.Purchases.Include(p => p.purchaseDetails).ToListAsync();
-            
-            
-
-            var tvm = new TransactionsVm
-            {
-                IDiagnostics = diagnostics,
-                IPurchase = purchases,
-            };
-
-            return View(tvm);
-        }
-*/
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SetRemarks(int diagnosticId, double? grandtotal)
-        {
-            var diagnostic = await _context.Diagnostics.FindAsync(diagnosticId);
-
-            if (diagnostic == null)
-            {
-                return NotFound();
-            }
-
-            var purchases = await _context.Purchases
-                .Include(p => p.purchaseDetails) // Include purchase details
-                .ThenInclude(pd => pd.product) // Include product
-                .Where(p => p.diagnosisId_holder == diagnosticId)
-                .ToListAsync();
-
-            var successful = "Completed";
-            var purchasePaymentSuccess = "Paid";
-
-            // Update diagnostic status
-            diagnostic.status = successful;
-            diagnostic.grandTotal = (double)grandtotal;
-            _context.Update(diagnostic);
-
-            // Update purchase status
-            if (purchases != null && purchases.Any())
-            {
-                foreach (var purchase in purchases)
-                {
-                    purchase.status = purchasePaymentSuccess;
-                }
-           
-            }
-
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("Index", "Billing");
-        }
-
-
-        [HttpGet]
-        public async Task<IActionResult>PurchaseDetailsView(int? id)
-        {
-            var PurchaseItems = await _context.PurchaseDetails
                 .Include(p => p.product)
                 .ThenInclude(p => p.category)
                 .Include(p => p.Purchase)
@@ -503,22 +373,30 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
 
 
 
-            // Calculate total price
-            double purchasePayment = PurchaseItems.Sum(item => (double)item.product.sellingPrice * (int)item.quantity);
-
-            TransactionsVm tvm = new TransactionsVm
+            // Reload the view model with the updated data
+            var updatedTvm = new TransactionsVm
             {
-                IPurchaseDetails = PurchaseItems,
-                totalPurchasePayment = purchasePayment
-            };  
-            return View(tvm);
+                Diagnostics = await _context.Diagnostics.FirstOrDefaultAsync(d => d.diagnostic_Id == id),
+                Purchase = await _context.Purchases
+                    .Include(p => p.purchaseDetails)
+                    .ThenInclude(p => p.product)
+                    .ThenInclude(p => p.category)
+                    .FirstOrDefaultAsync(p => p.diagnosisId_holder == purchase.diagnosisId_holder),
+                Services = await _context.Services.ToListAsync(),
+                IProducts = await _context.Products.Include(p => p.category).ToListAsync(),
+                activeBillingTab = BillingTab.Purchase
+       
+            };
+
+            // Return the updated Edit view with the current data
+            return RedirectToAction("Edit", new { id = id, updatedTvm.activeBillingTab });
         }
 
-        [HttpPost]
+     /*   [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RemoveProductFromPurchase(int purchaseId, int productId, int quantity,int diagnosticId)
+        public async Task<IActionResult> RemoveProductFromPurchase(int purchaseId, int productId, int quantity, int diagnosticId)
         {
- 
+
 
             var purchaseDetail = await _context.PurchaseDetails
                 .Include(pd => pd.product)
@@ -538,26 +416,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             }
 
             // Redirect to the PurchaseDetailsView with the relevant purchase->diagnosticId
-            return RedirectToAction(nameof(Edit), new { id = diagnosticId});
+            return RedirectToAction(nameof(Edit), new { id = diagnosticId });
         }
-        public async Task<IActionResult> DiagnosticHistory()
-        {
-            var tvm = new TransactionsVm
-            {
-                IDiagnostics = await _context.Diagnostics.Include(p => p.IdiagnosticDetails).ThenInclude(p => p.Services).Include(p => p.pet).ThenInclude(p => p.owner).Where(p => !string.IsNullOrEmpty(p.status)).ToListAsync()
-            };
-
-            return View(tvm);
-        }
-
-        public async Task<IActionResult> PurchaseHistory()
-        {
-            var tvm = new TransactionsVm
-            {
-                IPurchase = await _context.Purchases.Include(p => p.purchaseDetails).Where(p => !string.IsNullOrEmpty(p.status)).ToListAsync()
-            };
-
-            return View(tvm);
-        }
+*/
     }
 }
