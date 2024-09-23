@@ -47,7 +47,7 @@
 
         <a href="" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
         </a>
-        <div id="accordion">
+      @*   <div id="accordion"> *@
             <ul class="list-unstyled ps-0  ">
 
                 <li class="mb-2">
@@ -104,9 +104,8 @@
                     </a>
                     <div class="collapse" id="transaction-collapse" data-bs-parent="#accordion">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3  big">
-                            <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="BillingDashboard">Billing</a></li>
-                            <li><a class="dropdown-item text-center" asp-action="DiagnosticHistory" asp-controller="C_Diagnostics">History</a></li>
-                            <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Products">Invoice</a></li>
+                            <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Billing">Billing</a></li>
+                            <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Products">History</a></li>
                            
                         </ul>
                     </div>
@@ -146,37 +145,37 @@
                 </li>
             </ul>
         </div>
-    </div>
+   @*  </div> *@
 
-    <div class="container-fluid px-1">
-        <nav class="navbar">
-            <div class="d-flex  d-mb-none">
-                <a class="navbar-brand fs-5" href="#"></a>
-                <button class="btn px-2 py-2 open-btn">
-                    <i class="fa-solid fa-bars" style="color: white;"></i>
-                </button>
+        <div class="container-fluid p-0"  id="bn">
+            <nav class="navbar">
+                <div class="d-flex  d-mb-none">
+                    <a class="navbar-brand fs-5" href="#"></a>
+                    <button class="btn px-2 py-2 open-btn">
+                        <i class="fa-solid fa-bars" style="color: white;"></i>
+                    </button>
+                </div>
+            </nav>
 
-        </nav>
+        <div class="container-fluid" id="cfbody">
+                    <main role="main" class="" id="renderbody">
+                        @RenderBody()
+                    </main>
+                </div>
+          
+        </div>
 
-        <div class="container-fluid flex" id="cfbody">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-        <footer class="border-top footer text-muted">
+   
+    @*
+    <footer class="border-top footer text-muted">
             <div class="container">
                 &copy; 2024 - PAWS_NDV_PetLovers - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
 
             </div>
-        </footer>
+        </footer> *@
 
     </div>
 
-
-
-   
-   
   
     <script>
 
@@ -232,8 +231,8 @@
     </script> *@
  
     @* add-form-script *@
-    @* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      embbed datatables - js 
+    @* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> *@
+ @*      embbed datatables - js 
       <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script> *@
 
 </body>

@@ -119,10 +119,11 @@ html {
 /*CLASS AREA*/
 
 .navbar {
-    border-left: 1px solid #ffffff; 
+    border-bottom:3px solid #ffffff;
     margin-block-end: 5px;
     display: flex;
     background-color: #469387;
+
 }
 
 .fa-bars {
@@ -317,16 +318,26 @@ html {
 /*SIDEBAR BORDER & BG COLOR*/
 #sidebar {
     background: #469387;
-    border-right: 1px solid #ffffff;
+    border-right: 3px solid #ffffff;
     /* height: 100vh;*/
     /*overflow: auto;*/
 }
 
-#cfbody {
-    margin: 2px;
-    padding:1px;
-    border: 2px solid #469387;
+#renderbody {
+
+
 }
+
+#bn{
+   
+    background-color: #469387;
+    
+}
+#CAppf {
+    background-color: rgba(70, 147, 135, 0.4); /* 0.5 represents 50% opacity */
+    
+}
+
 
 /*END ID AREA*/
 

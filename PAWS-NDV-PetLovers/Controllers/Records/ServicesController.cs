@@ -103,27 +103,32 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("serviceId,serviceName,serviceCharge")] Services service)
+        public async Task<IActionResult> Edit(int id, [Bind("serviceId,serviceName,serviceCharge")] Services updatedService)
         {
-
-            //matching the id
-
-            if (id != service.serviceId)
+            if (id != updatedService.serviceId)
             {
                 return NotFound();
             }
 
+            var existingService = await _context.Services.FindAsync(id);
+
+            if (existingService == null)
+            {
+                return NotFound();
+            }
+
+            // Update only the desired fields
+            existingService.serviceName = updatedService.serviceName;
+            existingService.serviceCharge = updatedService.serviceCharge;
 
             try
             {
-                _context.Services.Update(service);
                 await _context.SaveChangesAsync();
-
                 return RedirectToAction(nameof(Index));
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ServiceIdExist(service.serviceId))
+                if (!ServiceIdExist(updatedService.serviceId))
                 {
                     return NotFound();
                 }
@@ -131,11 +136,10 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
                 {
                     throw;
                 }
-
             }
         }
 
-     
+
 
 
         [HttpGet]

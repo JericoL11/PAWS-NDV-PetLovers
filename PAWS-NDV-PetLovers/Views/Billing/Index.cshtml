@@ -1,0 +1,47 @@
+﻿@model PAWS_NDV_PetLovers.ViewModels.TransactionsVm
+@{
+    ViewData["Title"] = "Billing Dashboard";
+}
+
+<div class="bg-secondary bg-opacity-10 mb-3 py-2">
+    <div class="container">
+        <h3>Billing Dashboard</h3>
+    </div>
+</div>
+
+<div class="container">
+
+    <ul class="nav nab-bar">
+        <li >
+            <a role="presentation" asp-action="SwitchToDboardTab" asp-route-tabName="DBoard_Diagnostics" asp-controller="Billing" class="@(Model.activeBoardTab == PAWS_NDV_PetLovers.ViewModels.DBoardTab.DBoard_Diagnostics ? "active" : string.Empty) btn btn-outline-primary">Diagnostics Billing</a>
+        </li>
+         
+        <li>
+            <a role="presentation" asp-action="SwitchToDboardTab" asp-route-tabName="DBoard_Purchase" asp-controller="Billing" class="@(Model.activeBoardTab == PAWS_NDV_PetLovers.ViewModels.DBoardTab.DBoard_Purchase ? "active" : string.Empty) btn btn-outline-primary">Purchase Billing</a>
+
+        </li>
+  
+     
+    </ul>
+
+
+    @switch (Model.activeBoardTab)
+    {
+        case PAWS_NDV_PetLovers.ViewModels.DBoardTab.DBoard_Diagnostics:
+            @await Component.InvokeAsync("DBoard_Diagnostics")
+        break;
+
+        case PAWS_NDV_PetLovers.ViewModels.DBoardTab.DBoard_Purchase:
+            @await Component.InvokeAsync("DBoard_Purchase")
+        break;
+
+        default:
+            @await Component.InvokeAsync("DBoard_Diagnostics")
+        break;
+    }
+
+    
+</div>
+
+
+
