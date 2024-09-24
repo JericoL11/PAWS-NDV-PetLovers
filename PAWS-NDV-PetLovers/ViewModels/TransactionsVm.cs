@@ -48,7 +48,6 @@ namespace PAWS_NDV_PetLovers.ViewModels
 
         public bool? errorMessage { get; set;  }
 
-
     }
     public enum BillingTab
     {

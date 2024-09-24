@@ -9,13 +9,22 @@
         <thead>
             <tr>
                 <th>Services</th>
+                <th>Details</th>
+                <th class="text-end"> 
+                    <a asp-action="EditDetails" name="" asp-route-id="@Model.Diagnostics.diagnostic_Id" asp-controller="Billing" class="btn btn-outline-primary px-3">Edit Details</a>
+                 </th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.Diagnostics.IdiagnosticDetails)
             {
                 <tr>
-                 <td>@item.Services.serviceName</td>
+                    <td>@item.Services.serviceName</td>
+
+                    <td> 
+                        <textarea class="form-control bg-light" rows="5" style="resize: none;" readonly>@item.details</textarea>
+                    </td>
+                    
                 </tr>
             }
         </tbody>
