@@ -13,7 +13,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
         {
             _context = context;
         }
-
+        
         public IActionResult Index(TransactionsVm vcm)
 
         {
@@ -392,32 +392,113 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             return RedirectToAction("Edit", new { id = id, updatedTvm.activeBillingTab });
         }
 
-     /*   [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RemoveProductFromPurchase(int purchaseId, int productId, int quantity, int diagnosticId)
+        /*   [HttpPost]
+           [ValidateAntiForgeryToken]
+           public async Task<IActionResult> RemoveProductFromPurchase(int purchaseId, int productId, int quantity, int diagnosticId)
+           {
+
+
+               var purchaseDetail = await _context.PurchaseDetails
+                   .Include(pd => pd.product)
+                   .FirstOrDefaultAsync(pd => pd.purchaseId == purchaseId && pd.product.id == productId);
+
+               if (purchaseDetail != null)
+               {
+                   // Restore product quantity
+                   var product = purchaseDetail.product;
+                   product.quantity += quantity;
+                   _context.Update(product);
+
+                   // Remove the purchase detail entry
+                   _context.PurchaseDetails.Remove(purchaseDetail);
+
+                   await _context.SaveChangesAsync();
+               }
+
+               // Redirect to the PurchaseDetailsView with the relevant purchase->diagnosticId
+               return RedirectToAction(nameof(Edit), new { id = diagnosticId });
+           }
+   */
+
+        [HttpGet]
+        public async Task<IActionResult> EditDetails(int? id)
         {
-
-
-            var purchaseDetail = await _context.PurchaseDetails
-                .Include(pd => pd.product)
-                .FirstOrDefaultAsync(pd => pd.purchaseId == purchaseId && pd.product.id == productId);
-
-            if (purchaseDetail != null)
+            if(id == null)
             {
-                // Restore product quantity
-                var product = purchaseDetail.product;
-                product.quantity += quantity;
-                _context.Update(product);
-
-                // Remove the purchase detail entry
-                _context.PurchaseDetails.Remove(purchaseDetail);
-
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
 
-            // Redirect to the PurchaseDetailsView with the relevant purchase->diagnosticId
-            return RedirectToAction(nameof(Edit), new { id = diagnosticId });
+         
+            var Diagnostics = await _context.Diagnostics
+                .Include( p=> p.IdiagnosticDetails)
+                .ThenInclude(p => p.Services)
+                .FirstOrDefaultAsync( p => p.diagnostic_Id == id);
+
+                var tvm = new TransactionsVm
+                {
+                    Diagnostics = Diagnostics,
+                    activeBillingTab= BillingTab.Diagnosis
+          
+                };
+                return View(tvm);
         }
-*/
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditDetails(int? id,[Bind("Diagnostics")] TransactionsVm tvm)
+        {
+            // Extract the Diagnostics object from the view model
+            var diagnostics = tvm.Diagnostics;
+
+
+            // Referenced from view for Update detail Results
+            foreach (var detail in diagnostics.IdiagnosticDetails)
+            {
+                // FindAsync the DetailID
+                var existingDetail = await _context.DiagnosticDetails.FindAsync(id);
+
+                // Update the diagnosis details
+                if (existingDetail != null)
+                {
+                    existingDetail.details = detail.details;
+
+                }
+            }
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!DiagnosticExists(diagnostics.diagnostic_Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+               //fetched the data in database
+            var diagnostic = await _context.Diagnostics
+                .Include(d => d.pet)
+                .ThenInclude(d => d.owner)
+                .Include(d => d.IdiagnosticDetails)
+                .ThenInclude(dd => dd.Services)
+                .FirstOrDefaultAsync(d => d.diagnostic_Id == id);
+
+            var vm = new TransactionsVm
+            {
+               Diagnostics = diagnostic,
+              activeBillingTab = BillingTab.Diagnosis
+            };
+
+            return RedirectToAction("Edit", new { id = vm.Diagnostics.diagnostic_Id, vm.activeBillingTab}); // Redirect to a different action after saving
+
+
+            //details cant pass data from edit view..
+
+        }
     }
 }

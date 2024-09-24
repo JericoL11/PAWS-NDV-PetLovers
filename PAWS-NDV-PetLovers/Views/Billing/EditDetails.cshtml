@@ -1,0 +1,50 @@
+﻿@model PAWS_NDV_PetLovers.ViewModels.TransactionsVm
+
+@{
+    ViewData["Title"] = "EditDetails";
+}
+
+<div class="bg-secondary bg-opacity-10 mb-3 py-2">
+    <div class="container">
+        <h3>
+            Edit Details
+        </h3>
+    </div>
+</div>
+
+<div class="container">
+    <form method="post" asp-action="EditDetails">
+         <table class="table">
+             <thead>
+                 <tr>
+                     <th>
+                        Service Name 
+                     </th>
+                    <th>
+                        Details
+                    </th>
+                 </tr>
+             </thead>
+             <tbody>
+                @for (int i = 0; i < Model.Diagnostics.IdiagnosticDetails.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => Model.Diagnostics.IdiagnosticDetails[i].Services.serviceName)
+                        </td>
+                        <td>
+                            <textarea class="form-control bg-light" rows="5" style="resize: none;" name="Diagnostics.IdiagnosticDetails[@i].details">@Model.Diagnostics.IdiagnosticDetails[i].details</textarea>
+                        </td>
+                     
+                    </tr>
+                }
+          
+             </tbody>
+         </table>
+         <div>
+            <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.Diagnostics.diagnostic_Id" asp-route-tabName="Diagnostics">Cancel</a>
+            <input type="hidden" name="id" value="@Model.Diagnostics.diagnostic_Id" />
+            <input type="submit" class="btn btn-primary px-3" value="Save"/>
+         </div>
+    </form>
+</div>
