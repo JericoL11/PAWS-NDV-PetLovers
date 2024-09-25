@@ -21,11 +21,11 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
 
 
 
-        [Required]
+        /*[Required]
         [Display(Name = "Service Total")]
-        public double? totalServicePayment { get; set; }
+        public double? totalServicePayment { get; set; }*/
 
-        public double grandTotal { get; set; }
+        /*public double? grandTotal { get; set; }*/
 
         [Required]
         [Display(Name = "Diagnosis Date")]

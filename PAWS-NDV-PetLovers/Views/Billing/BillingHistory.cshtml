@@ -1,0 +1,52 @@
+﻿@model PAWS_NDV_PetLovers.ViewModels.TransactionsVm
+@{
+    ViewData["Title"] = "Billing History";
+}
+<div class="bg-secondary bg-opacity-10 mb-3 py-2">
+    <div class="container">
+        <h3>Billing History</h3>
+    </div>
+</div>
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th> Billing Id</th>
+                <th> Name </th>
+                <th> Date</th>
+                <th>Total Payment</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model.IBilling)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.billingId)
+                    </td>
+                    <td>
+                        @($"{item.diagnostics.pet.owner.fname} {item.diagnostics.pet.owner.lname}")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.date)
+                    </td>
+                    <td>
+                        @{
+                            var total = item.grandTotal;
+                            var totalV1 = (double) total;
+                            var grandTotal = totalV1.ToString("C");
+                        }
+                        @Html.DisplayFor(modelItem => grandTotal)
+                    </td>
+
+                    <td>
+                        <a asp-action="BillingHistoryView" asp-route-billingId="@item.billingId" class="btn btn-outline-warning">View Details</a>
+                    </td>
+                </tr>
+            }
+         
+        </tbody>
+    </table>
+</div>

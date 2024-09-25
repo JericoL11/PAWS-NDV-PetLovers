@@ -11,6 +11,8 @@ namespace PAWS_NDV_PetLovers.ViewModels
 
         public Purchase? Purchase { get; set; }
 
+        public Billing? Billing { get; set; }
+
 
         //selected services from appointment
         public List<int>? SelectedServices { get; set; }
@@ -28,8 +30,10 @@ namespace PAWS_NDV_PetLovers.ViewModels
         public IEnumerable<Diagnostics>? IDiagnostics { get; set; }
 
         //payment part
-        public IEnumerable<Services> Services { get; set; } // Add this property to hold the services list
+        public IEnumerable<Services>? Services { get; set; } // Add this property to hold the services list
 
+        //billing display
+        public IEnumerable<Billing>? IBilling { get; set; }
 
         //add on Product
 
@@ -47,6 +51,9 @@ namespace PAWS_NDV_PetLovers.ViewModels
         public BillingTab? activeBillingTab { get; set; }
 
         public bool? errorMessage { get; set;  }
+        public bool? RemoveErrorMessage { get; set; }
+
+        public bool? PaymentErrorMessage { get; set; }
 
     }
     public enum BillingTab

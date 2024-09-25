@@ -75,11 +75,11 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
         {
 
             //update granda
-            if(tvm.Diagnostics != null)
+        /*    if(tvm.Diagnostics != null)
             {
                 tvm.Diagnostics.grandTotal = (double)tvm.Diagnostics.totalServicePayment;
             }
-     
+     */
             _context.Add(tvm.Diagnostics);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Billing");
@@ -302,7 +302,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             }
 
             // Sum all the product totals and update the purchase
-            purchase.totalProductPayment = Purchased.Sum();
+            /*purchase.totalProductPayment = Purchased.Sum();*/
 
             // Add the purchase and update the products in the database
             _context.Add(purchase);
@@ -472,7 +472,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
 
             // Update diagnostic status
             diagnostic.status = successful;
-            diagnostic.grandTotal = (double)grandtotal;
+            /*diagnostic.grandTotal = (double)grandtotal;*/
             _context.Update(diagnostic);
 
             // Update purchase status
@@ -519,7 +519,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
         public async Task<IActionResult> RemoveProductFromPurchase(int purchaseId, int productId, int quantity,int diagnosticId)
         {
  
-
             var purchaseDetail = await _context.PurchaseDetails
                 .Include(pd => pd.product)
                 .FirstOrDefaultAsync(pd => pd.purchaseId == purchaseId && pd.product.id == productId);

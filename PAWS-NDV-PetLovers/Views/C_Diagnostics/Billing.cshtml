@@ -28,14 +28,14 @@ this index view is abandoned *@
         <tbody>
                 @foreach (var item in Model.IDiagnostics)
                 {
-                    var grandPayment = item.totalServicePayment ?? 0; 
+                    @* var grandPayment = item.totalServicePayment ?? 0;  *@
                     var grandPurchase = Model.IPurchase
                 .Where(p => p.diagnosisId_holder != null && p.diagnosisId_holder == item.diagnostic_Id)
                     .SelectMany(p => p.purchaseDetails)
                     .Sum(pd => pd.sellingPrice * pd.quantity);
 
-                    var grandTotal = grandPayment + grandPurchase;
-                    var displayTotal = grandTotal.ToString("N2");
+                    @* var grandTotal = grandPayment + grandPurchase;
+                    var displayTotal = grandTotal.ToString("N2"); *@
 
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.diagnostic_Id)</td>
@@ -61,7 +61,7 @@ this index view is abandoned *@
                             @Services
                     </td>
                     <td>
-                        <span>@displayTotal</span>
+                      @*   <span>@displayTotal</span> *@
                     </td>
                     <td class="remarks-cell">
                             @Html.DisplayFor(modelItem => item.status)
@@ -71,7 +71,7 @@ this index view is abandoned *@
                             <input type="hidden" name="diagnosticId" value="@item.diagnostic_Id" />
                                 @if (string.IsNullOrEmpty(item.status))
                                 {
-                                <input type="hidden" name="grandtotal" value="@grandTotal" />
+                                @* <input type="hidden" name="grandtotal" value="@grandTotal" /> *@
 
                                 <button class="btn btn-success">Complete</button>
                                 <a asp-action="Edit" asp-route-id="@item.diagnostic_Id" asp-route-date="@item.date" class="btn btn-primary">Add-On</a>

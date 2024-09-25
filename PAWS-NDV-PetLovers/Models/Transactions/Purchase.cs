@@ -19,8 +19,8 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
         public string? status { get; set; }
 
 
-        [Display(Name = "Total Payment")]
-        public double? totalProductPayment { get; set; }
+        /*[Display(Name = "Total Payment")]
+        public double? totalProductPayment { get; set; }*/
 
         public int? diagnosisId_holder { get; set; } //container sa diagnostics add on
 

@@ -119,13 +119,13 @@
             <div class="form-group fw-bold">
                 <span class="bg-secondary bg-opacity-10 px-2">
                     Total Payment:
-                    @{
+                  @*   @{
                         double payment = (double)Model.Diagnostics.totalServicePayment;
                         var currency = payment.ToString("N2");
                         var totalPayment = $"P{currency}";
                     }
                     @totalPayment
-                </span>
+                </span> *@
             </div>
         </div>
 
