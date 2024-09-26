@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PAWS_NDV_PetLovers.Data;
+using PAWS_NDV_PetLovers.ViewModels;
 
 namespace PAWS_NDV_PetLovers.Components
 {
@@ -12,10 +14,37 @@ namespace PAWS_NDV_PetLovers.Components
             _context = context;
         }
 
-
-        public async Task <IViewComponentResult> InvokeAsync(int? id)
+        public async Task <IViewComponentResult> InvokeAsync(int? id, bool? PaymentErrorMessage)
         {
-            return View();
+
+            var diagnostics = await _context.Diagnostics
+                .Include(d => d.IdiagnosticDetails)
+                .ThenInclude(dd => dd.Services)
+                .FirstOrDefaultAsync(d => d.diagnostic_Id == id);
+             
+
+
+            var purchase = await _context.PurchaseDetails
+                .Include(p => p.Purchase)
+                .Include(p => p.product)
+                .Where(p => p.Purchase.diagnosisId_holder == id)
+                .ToListAsync();
+
+
+          /*  if (PaymentErrorMessage == true)
+            {
+                ViewData["PaymentErrorMessage"] = "Insufficient payment. Please tender an amount greater than or equal to the total payment.";
+
+            }*/
+
+            var tvm = new TransactionsVm
+            {
+                Diagnostics = diagnostics,
+                IPurchaseDetails = purchase,
+                PaymentErrorMessage = PaymentErrorMessage
+            };
+
+            return View(tvm);
         }
     }
 }

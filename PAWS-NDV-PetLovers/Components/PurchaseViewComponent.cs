@@ -15,7 +15,7 @@ namespace PAWS_NDV_PetLovers.Components
             _context = context;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(int? id, bool? errorMessage)
+        public async Task<IViewComponentResult> InvokeAsync(int? id, bool? errorMessage, bool? RemoveErrorMessage)
         {
 
             if (errorMessage == true)
@@ -23,6 +23,11 @@ namespace PAWS_NDV_PetLovers.Components
                 // Add an error message to the ViewData to display on the view
                 ViewData["ErrorMessage"] = "No products were selected. Please select at least one product to proceed.";
 
+            }
+
+            if(RemoveErrorMessage == true)
+            {
+                ViewData["RemoveErrorMessage"] = "Please enter tht total number of decrement";
             }
 
             var Purchase = await _context.Purchases

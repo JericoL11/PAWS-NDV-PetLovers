@@ -92,10 +92,6 @@
         </ul>
     </div>
 
-
-
-
-
     @switch (Model.activeBillingTab)
     {
         case PAWS_NDV_PetLovers.ViewModels.BillingTab.Diagnosis:
@@ -103,16 +99,16 @@
         break;
 
         case PAWS_NDV_PetLovers.ViewModels.BillingTab.Purchase:
-            @await Component.InvokeAsync("Purchase", new { id = Model.Diagnostics.diagnostic_Id, errorMessage = Model.errorMessage})
+            @await Component.InvokeAsync("Purchase", new { id = Model.Diagnostics.diagnostic_Id, errorMessage = Model.errorMessage, RemoveErrorMessage = Model.RemoveErrorMessage})
          break;
 
         case PAWS_NDV_PetLovers.ViewModels.BillingTab.Billing:
-            @await Component.InvokeAsync("Billing")
+            @await Component.InvokeAsync("Billing", new { id = Model.Diagnostics.diagnostic_Id, PaymentErrorMessage = Model.PaymentErrorMessage})
         break;
 
-         default:
-            @await Component.InvokeAsync("Diagnosis")
-         break;
+        default:
+        @await Component.InvokeAsync("Diagnosis", new { id = Model.Diagnostics.diagnostic_Id })
+        break;
     }
 
 </div>

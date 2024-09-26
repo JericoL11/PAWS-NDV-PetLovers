@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PAWS_NDV_PetLovers.Data;
 
@@ -11,9 +12,11 @@ using PAWS_NDV_PetLovers.Data;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     [DbContext(typeof(PAWS_NDV_PetLoversContext))]
-    partial class PAWS_NDV_PetLoversContextModelSnapshot : ModelSnapshot
+    [Migration("20240925071517_AddBilling")]
+    partial class AddBilling
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -292,10 +295,10 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("billingId"));
 
-                    b.Property<int?>("DiagnosticsId")
+                    b.Property<int?>("Diagnostics")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PurchaseId")
+                    b.Property<int?>("Purchases")
                         .HasColumnType("int");
 
                     b.Property<double?>("cashReceive")
@@ -311,6 +314,10 @@ namespace PAWS_NDV_PetLovers.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("billingId");
+
+                    b.HasIndex("Diagnostics");
+
+                    b.HasIndex("Purchases");
 
                     b.ToTable("Billings");
                 });
@@ -469,6 +476,21 @@ namespace PAWS_NDV_PetLovers.Migrations
                         .IsRequired();
 
                     b.Navigation("category");
+                });
+
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Billing", b =>
+                {
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Diagnostics", "DiagnosticsId")
+                        .WithMany()
+                        .HasForeignKey("Diagnostics");
+
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Purchase", "PurchaseId")
+                        .WithMany()
+                        .HasForeignKey("Purchases");
+
+                    b.Navigation("DiagnosticsId");
+
+                    b.Navigation("PurchaseId");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.DiagnosticDetails", b =>

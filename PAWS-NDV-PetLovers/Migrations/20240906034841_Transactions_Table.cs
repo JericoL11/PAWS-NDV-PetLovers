@@ -36,7 +36,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                     petId = table.Column<int>(type: "int", nullable: false),
                     weight = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true),
                     totalServicePayment = table.Column<double>(type: "float", nullable: false),
-                    grandTotal = table.Column<double>(type: "float", nullable: false),
+                    grandTotal = table.Column<double>(type: "float", nullable: true),
                     date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     purchaseId = table.Column<int>(type: "int", nullable: true)

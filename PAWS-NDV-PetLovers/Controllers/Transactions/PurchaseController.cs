@@ -90,7 +90,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             }
 
             // Set total payment
-            tvm.Purchase.totalProductPayment = purchasedTotals.Sum();
+           /* tvm.Purchase.totalProductPayment = purchasedTotals.Sum();*/
 
             // Add the purchase to context
             _context.Purchases.Add(tvm.Purchase);

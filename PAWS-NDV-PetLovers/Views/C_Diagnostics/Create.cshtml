@@ -137,8 +137,8 @@
 
 
             <div class="form-group text-end">
-                <label asp-for="Diagnostics.totalServicePayment" class="control-label visually-hidden fw-bold"></label>
-                <input asp-for="Diagnostics.totalServicePayment" id="totalPayment" class="form-control  visually-hidden" readonly />
+             @*    <label asp-for="Diagnostics.totalServicePayment" class="control-label visually-hidden fw-bold"></label>
+                <input asp-for="Diagnostics.totalServicePayment" id="totalPayment" class="form-control  visually-hidden" readonly /> *@
                 <a asp-action="Edit" asp-controller="Owners" class="btn btn-secondary" asp-route-id="@Model.Pets.ownerId">Cancel</a>
                 <input type="submit" value="Save" class="btn btn-primary btn-md px-4 my-2" />
             </div>

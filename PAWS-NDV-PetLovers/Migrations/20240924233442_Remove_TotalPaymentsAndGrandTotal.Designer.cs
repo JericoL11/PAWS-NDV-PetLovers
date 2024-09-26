@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PAWS_NDV_PetLovers.Data;
 
@@ -11,9 +12,11 @@ using PAWS_NDV_PetLovers.Data;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     [DbContext(typeof(PAWS_NDV_PetLoversContext))]
-    partial class PAWS_NDV_PetLoversContextModelSnapshot : ModelSnapshot
+    [Migration("20240924233442_Remove_TotalPaymentsAndGrandTotal")]
+    partial class Remove_TotalPaymentsAndGrandTotal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -282,37 +285,6 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.HasKey("serviceId");
 
                     b.ToTable("Services");
-                });
-
-            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Billing", b =>
-                {
-                    b.Property<int>("billingId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("billingId"));
-
-                    b.Property<int?>("DiagnosticsId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PurchaseId")
-                        .HasColumnType("int");
-
-                    b.Property<double?>("cashReceive")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("changeAmount")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double?>("grandTotal")
-                        .HasColumnType("float");
-
-                    b.HasKey("billingId");
-
-                    b.ToTable("Billings");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.DiagnosticDetails", b =>
