@@ -12,8 +12,8 @@ using PAWS_NDV_PetLovers.Data;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     [DbContext(typeof(PAWS_NDV_PetLoversContext))]
-    [Migration("20240909140702_AlterServicePrice")]
-    partial class AlterServicePrice
+    [Migration("20240928073220_Transactions_Table")]
+    partial class Transactions_Table
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -287,6 +287,41 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.ToTable("Services");
                 });
 
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Billing", b =>
+                {
+                    b.Property<int>("billingId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("billingId"));
+
+                    b.Property<int?>("DiagnosticsId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PurchaseId")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("cashReceive")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("changeAmount")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double?>("grandTotal")
+                        .HasColumnType("float");
+
+                    b.HasKey("billingId");
+
+                    b.HasIndex("DiagnosticsId");
+
+                    b.HasIndex("PurchaseId");
+
+                    b.ToTable("Billings");
+                });
+
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.DiagnosticDetails", b =>
                 {
                     b.Property<int>("diagnosticDet_Id")
@@ -328,9 +363,6 @@ namespace PAWS_NDV_PetLovers.Migrations
                         .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("grandTotal")
-                        .HasColumnType("float");
-
                     b.Property<int>("petId")
                         .HasColumnType("int");
 
@@ -339,10 +371,6 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     b.Property<string>("status")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("totalServicePayment")
-                        .IsRequired()
-                        .HasColumnType("float");
 
                     b.Property<string>("weight")
                         .HasMaxLength(5)
@@ -371,14 +399,11 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.Property<DateTime?>("date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("diagnosisId")
+                    b.Property<int?>("diagnosisId_holder")
                         .HasColumnType("int");
 
                     b.Property<string>("status")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("totalProductPayment")
-                        .HasColumnType("float");
 
                     b.HasKey("purchaseId");
 
@@ -451,6 +476,21 @@ namespace PAWS_NDV_PetLovers.Migrations
                         .IsRequired();
 
                     b.Navigation("category");
+                });
+
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Billing", b =>
+                {
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Diagnostics", "diagnostics")
+                        .WithMany()
+                        .HasForeignKey("DiagnosticsId");
+
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Purchase", "purchase")
+                        .WithMany()
+                        .HasForeignKey("PurchaseId");
+
+                    b.Navigation("diagnostics");
+
+                    b.Navigation("purchase");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.DiagnosticDetails", b =>

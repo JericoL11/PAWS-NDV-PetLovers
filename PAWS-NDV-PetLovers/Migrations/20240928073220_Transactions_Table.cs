@@ -16,11 +16,11 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     purchaseId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "60000, 1"),
+                        .Annotation("SqlServer:Identity", "30000, 1"),
                     date = table.Column<DateTime>(type: "datetime2", nullable: true),
                     status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    totalProductPayment = table.Column<double>(type: "float", nullable: true),
-                    diagnosisId = table.Column<int>(type: "int", nullable: false)
+                    diagnosisId_holder = table.Column<int>(type: "int", nullable: true),
+                    customerName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -32,11 +32,9 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     diagnostic_Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "30000, 1"),
+                        .Annotation("SqlServer:Identity", "60000, 1"),
                     petId = table.Column<int>(type: "int", nullable: false),
                     weight = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true),
-                    totalServicePayment = table.Column<double>(type: "float", nullable: false),
-                    grandTotal = table.Column<double>(type: "float", nullable: true),
                     date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     purchaseId = table.Column<int>(type: "int", nullable: true)
@@ -62,7 +60,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     purchaseDet_Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "160000, 1"),
+                        .Annotation("SqlServer:Identity", "300000, 1"),
                     purchaseId = table.Column<int>(type: "int", nullable: false),
                     productId = table.Column<int>(type: "int", nullable: false),
                     quantity = table.Column<int>(type: "int", nullable: false),
@@ -86,15 +84,43 @@ namespace PAWS_NDV_PetLovers.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Billings",
+                columns: table => new
+                {
+                    billingId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "80000, 1"),
+                    DiagnosticsId = table.Column<int>(type: "int", nullable: true),
+                    PurchaseId = table.Column<int>(type: "int", nullable: true),
+                    date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    grandTotal = table.Column<double>(type: "float", nullable: true),
+                    cashReceive = table.Column<double>(type: "float", nullable: true),
+                    changeAmount = table.Column<double>(type: "float", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Billings", x => x.billingId);
+                    table.ForeignKey(
+                        name: "FK_Billings_Diagnostics_DiagnosticsId",
+                        column: x => x.DiagnosticsId,
+                        principalTable: "Diagnostics",
+                        principalColumn: "diagnostic_Id");
+                    table.ForeignKey(
+                        name: "FK_Billings_Purchases_PurchaseId",
+                        column: x => x.PurchaseId,
+                        principalTable: "Purchases",
+                        principalColumn: "purchaseId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DiagnosticDetails",
                 columns: table => new
                 {
                     diagnosticDet_Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "300000, 1"),
+                        .Annotation("SqlServer:Identity", "160000, 1"),
                     details = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     diagnosticsId = table.Column<int>(type: "int", nullable: false),
                     serviceId = table.Column<int>(type: "int", nullable: false),
-                    servicePrice = table.Column<double>(type: "float", nullable: false)
+                    totalServicePayment = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -112,6 +138,16 @@ namespace PAWS_NDV_PetLovers.Migrations
                         principalColumn: "serviceId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Billings_DiagnosticsId",
+                table: "Billings",
+                column: "DiagnosticsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Billings_PurchaseId",
+                table: "Billings",
+                column: "PurchaseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DiagnosticDetails_diagnosticsId",
@@ -147,6 +183,9 @@ namespace PAWS_NDV_PetLovers.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Billings");
+
             migrationBuilder.DropTable(
                 name: "DiagnosticDetails");
 

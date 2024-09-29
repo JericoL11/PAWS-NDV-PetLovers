@@ -27,7 +27,7 @@
                         @Html.DisplayFor(modelItem => item.billingId)
                     </td>
                     <td>
-                        @($"{item.diagnostics.pet.owner.fname} {item.diagnostics.pet.owner.lname}")
+                        @Html.DisplayFor(modelItem => item.purchase.customerName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.date)

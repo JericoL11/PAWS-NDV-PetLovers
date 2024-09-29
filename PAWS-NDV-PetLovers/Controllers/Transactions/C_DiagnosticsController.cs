@@ -75,11 +75,11 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
         {
 
             //update granda
-        /*    if(tvm.Diagnostics != null)
-            {
-                tvm.Diagnostics.grandTotal = (double)tvm.Diagnostics.totalServicePayment;
-            }
-     */
+            /*    if(tvm.Diagnostics != null)
+                {
+                    tvm.Diagnostics.grandTotal = (double)tvm.Diagnostics.totalServicePayment;
+                }
+         */
             _context.Add(tvm.Diagnostics);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Billing");
@@ -91,7 +91,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
         {
 
             // Extract only the date part (ignoring time)
-      
+
             if (id == null)
             {
                 return NotFound();
@@ -128,7 +128,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             // Calculate total price
             double purchasePayment = PurchaseItems.Sum(item => (double)item.product.sellingPrice * (int)item.quantity);
 
-           
+
 
             TransactionsVm tvm = new TransactionsVm
             {
@@ -151,13 +151,13 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit( [Bind("Diagnostics")] TransactionsVm tvm)
+        public async Task<IActionResult> Edit([Bind("Diagnostics")] TransactionsVm tvm)
         {
             double totalPurchase = 0;
 
             // Extract the Diagnostics object from the view model
             var diagnostics = tvm.Diagnostics;
-  
+
 
             // Referenced from view for Update detail Results
             foreach (var detail in diagnostics.IdiagnosticDetails)
@@ -169,7 +169,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                 if (existingDetail != null)
                 {
                     existingDetail.details = detail.details;
-                    
+
                 }
             }
 
@@ -212,7 +212,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                 IPurchase = purchase
             };
 
-            return RedirectToAction("Index" , "BillingDashboard"); // Redirect to a different action after saving
+            return RedirectToAction("Index", "BillingDashboard"); // Redirect to a different action after saving
         }
 
         [HttpPost]
@@ -257,7 +257,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                     IProducts = await _context.Products.Include(p => p.category).ToListAsync(),
                     IPurchaseDetails = purchaseItems,
                     totalPurchasePayment = purchasePayment
-                 
+
                 };
 
                 // Add an error message to the ViewData to display on the view
@@ -448,115 +448,117 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             return View(tvm);
         }
 */
+        /*
 
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SetRemarks(int diagnosticId, double? grandtotal)
-        {
-            var diagnostic = await _context.Diagnostics.FindAsync(diagnosticId);
-
-            if (diagnostic == null)
-            {
-                return NotFound();
-            }
-
-            var purchases = await _context.Purchases
-                .Include(p => p.purchaseDetails) // Include purchase details
-                .ThenInclude(pd => pd.product) // Include product
-                .Where(p => p.diagnosisId_holder == diagnosticId)
-                .ToListAsync();
-
-            var successful = "Completed";
-            var purchasePaymentSuccess = "Paid";
-
-            // Update diagnostic status
-            diagnostic.status = successful;
-            /*diagnostic.grandTotal = (double)grandtotal;*/
-            _context.Update(diagnostic);
-
-            // Update purchase status
-            if (purchases != null && purchases.Any())
-            {
-                foreach (var purchase in purchases)
+                [HttpPost]
+                [ValidateAntiForgeryToken]
+                public async Task<IActionResult> SetRemarks(int diagnosticId, double? grandtotal)
                 {
-                    purchase.status = purchasePaymentSuccess;
+                    var diagnostic = await _context.Diagnostics.FindAsync(diagnosticId);
+
+                    if (diagnostic == null)
+                    {
+                        return NotFound();
+                    }
+
+                    var purchases = await _context.Purchases
+                        .Include(p => p.purchaseDetails) // Include purchase details
+                        .ThenInclude(pd => pd.product) // Include product
+                        .Where(p => p.diagnosisId_holder == diagnosticId)
+                        .ToListAsync();
+
+                    var successful = "Completed";
+                    var purchasePaymentSuccess = "Paid";
+
+                    // Update diagnostic status
+                    diagnostic.status = successful;
+                    *//*diagnostic.grandTotal = (double)grandtotal;*//*
+                    _context.Update(diagnostic);
+
+                    // Update purchase status
+                    if (purchases != null && purchases.Any())
+                    {
+                        foreach (var purchase in purchases)
+                        {
+                            purchase.status = purchasePaymentSuccess;
+                        }
+
+                    }
+
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction("Index", "Billing");
                 }
-           
-            }
 
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("Index", "Billing");
-        }
-
-
-        [HttpGet]
-        public async Task<IActionResult>PurchaseDetailsView(int? id)
-        {
-            var PurchaseItems = await _context.PurchaseDetails
-                .Include(p => p.product)
-                .ThenInclude(p => p.category)
-                .Include(p => p.Purchase)
-                .Where(p => p.Purchase.diagnosisId_holder == id && string.IsNullOrEmpty(p.Purchase.status))
-                .ToListAsync();
+        */
+        /*  [HttpGet]
+          public async Task<IActionResult>PurchaseDetailsView(int? id)
+          {
+              var PurchaseItems = await _context.PurchaseDetails
+                  .Include(p => p.product)
+                  .ThenInclude(p => p.category)
+                  .Include(p => p.Purchase)
+                  .Where(p => p.Purchase.diagnosisId_holder == id && string.IsNullOrEmpty(p.Purchase.status))
+                  .ToListAsync();
 
 
 
-            // Calculate total price
-            double purchasePayment = PurchaseItems.Sum(item => (double)item.product.sellingPrice * (int)item.quantity);
+              // Calculate total price
+              double purchasePayment = PurchaseItems.Sum(item => (double)item.product.sellingPrice * (int)item.quantity);
 
-            TransactionsVm tvm = new TransactionsVm
-            {
-                IPurchaseDetails = PurchaseItems,
-                totalPurchasePayment = purchasePayment
-            };  
-            return View(tvm);
-        }
+              TransactionsVm tvm = new TransactionsVm
+              {
+                  IPurchaseDetails = PurchaseItems,
+                  totalPurchasePayment = purchasePayment
+              };  
+              return View(tvm);
+          }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RemoveProductFromPurchase(int purchaseId, int productId, int quantity,int diagnosticId)
-        {
- 
-            var purchaseDetail = await _context.PurchaseDetails
-                .Include(pd => pd.product)
-                .FirstOrDefaultAsync(pd => pd.purchaseId == purchaseId && pd.product.id == productId);
+          [HttpPost]
+          [ValidateAntiForgeryToken]
+          public async Task<IActionResult> RemoveProductFromPurchase(int purchaseId, int productId, int quantity,int diagnosticId)
+          {
 
-            if (purchaseDetail != null)
-            {
-                // Restore product quantity
-                var product = purchaseDetail.product;
-                product.quantity += quantity;
-                _context.Update(product);
+              var purchaseDetail = await _context.PurchaseDetails
+                  .Include(pd => pd.product)
+                  .FirstOrDefaultAsync(pd => pd.purchaseId == purchaseId && pd.product.id == productId);
 
-                // Remove the purchase detail entry
-                _context.PurchaseDetails.Remove(purchaseDetail);
+              if (purchaseDetail != null)
+              {
+                  // Restore product quantity
+                  var product = purchaseDetail.product;
+                  product.quantity += quantity;
+                  _context.Update(product);
 
-                await _context.SaveChangesAsync();
-            }
+                  // Remove the purchase detail entry
+                  _context.PurchaseDetails.Remove(purchaseDetail);
 
-            // Redirect to the PurchaseDetailsView with the relevant purchase->diagnosticId
-            return RedirectToAction(nameof(Edit), new { id = diagnosticId});
-        }
-        public async Task<IActionResult> DiagnosticHistory()
-        {
-            var tvm = new TransactionsVm
-            {
-                IDiagnostics = await _context.Diagnostics.Include(p => p.IdiagnosticDetails).ThenInclude(p => p.Services).Include(p => p.pet).ThenInclude(p => p.owner).Where(p => !string.IsNullOrEmpty(p.status)).ToListAsync()
-            };
+                  await _context.SaveChangesAsync();
+              }
 
-            return View(tvm);
-        }
+              // Redirect to the PurchaseDetailsView with the relevant purchase->diagnosticId
+              return RedirectToAction(nameof(Edit), new { id = diagnosticId});
+          }
+          public async Task<IActionResult> DiagnosticHistory()
+          {
+              var tvm = new TransactionsVm
+              {
+                  IDiagnostics = await _context.Diagnostics.Include(p => p.IdiagnosticDetails).ThenInclude(p => p.Services).Include(p => p.pet).ThenInclude(p => p.owner).Where(p => !string.IsNullOrEmpty(p.status)).ToListAsync()
+              };
 
-        public async Task<IActionResult> PurchaseHistory()
-        {
-            var tvm = new TransactionsVm
-            {
-                IPurchase = await _context.Purchases.Include(p => p.purchaseDetails).Where(p => !string.IsNullOrEmpty(p.status)).ToListAsync()
-            };
+              return View(tvm);
+          }
 
-            return View(tvm);
-        }
+          public async Task<IActionResult> PurchaseHistory()
+          {
+              var tvm = new TransactionsVm
+              {
+                  IPurchase = await _context.Purchases.Include(p => p.purchaseDetails).Where(p => !string.IsNullOrEmpty(p.status)).ToListAsync()
+              };
+
+              return View(tvm);
+          }
+      }
+  }*/
     }
 }

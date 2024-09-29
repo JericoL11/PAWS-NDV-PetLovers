@@ -312,6 +312,10 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     b.HasKey("billingId");
 
+                    b.HasIndex("DiagnosticsId");
+
+                    b.HasIndex("PurchaseId");
+
                     b.ToTable("Billings");
                 });
 
@@ -469,6 +473,21 @@ namespace PAWS_NDV_PetLovers.Migrations
                         .IsRequired();
 
                     b.Navigation("category");
+                });
+
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Billing", b =>
+                {
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Diagnostics", "diagnostics")
+                        .WithMany()
+                        .HasForeignKey("DiagnosticsId");
+
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Purchase", "purchase")
+                        .WithMany()
+                        .HasForeignKey("PurchaseId");
+
+                    b.Navigation("diagnostics");
+
+                    b.Navigation("purchase");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.DiagnosticDetails", b =>

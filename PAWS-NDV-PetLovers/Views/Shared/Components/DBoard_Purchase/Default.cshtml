@@ -1,5 +1,52 @@
-﻿@* 
+﻿@model PAWS_NDV_PetLovers.ViewModels.TransactionsVm
 @{
     ViewData["Title"] = "DBoard Purchase VC";
 }
- *@
+
+<div class="container">
+    <div class="text-end py-2">
+        <a class="btn btn-primary" asp-action="CreatePurchase">Create Purchase</a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Purchase ID</th>
+                <th>Customer Name</th>
+                <th>Date</th>
+                <th>Total Payment</th>
+                <th></th>
+                <th></th>
+          
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.IPurchase)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.purchaseId)</td>
+                    <td>@Html.DisplayFor(modelItem =>item.customerName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.date)</td>
+                    <td>
+                        @{
+                            // Calculate the total payment for the purchase
+                            var totalPayment = item.purchaseDetails.Sum(pd => pd.sellingPrice * pd.quantity);
+                        }
+                        @totalPayment.ToString("C") 
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-primary px-3" asp-action="EditPurchase" asp-route-purchaseId="@item.purchaseId">Modify</a>
+                    </td>
+                    <td>
+                            @if (totalPayment == 0)
+                            {
+                                <form method="post" asp-action="DeletePurchase">
+                                    <input class="visually-hidden" name="purchaseId" value="@item.purchaseId" />
+                                    <input type="submit" value="Delete" class="btn btn-outline-danger" />
+                                </form>
+                            }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
