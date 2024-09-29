@@ -15,32 +15,49 @@
 
       
        <thead>
-        <th>Diagnostics</th>
+  
            <tr>
-               <th>Services</th>
+               <th></th>
                <th>Price</th>
                <th>Quantity</th>
            </tr>
        </thead>
        <tbody>
-           @foreach(var service in Model.Billing.diagnostics.IdiagnosticDetails)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(s => service.Services.serviceName)</td>
-                    <td>@Html.DisplayFor(s => service.Services.serviceCharge)</td>
-                </tr>
-            }
+           <div class="mt-3">
+                  @if (Model.Billing.diagnostics != null)
+                { 
+                    <th>Diagnostics</th>
+          
+                    @foreach(var service in Model.Billing.diagnostics.IdiagnosticDetails)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(s => service.Services.serviceName)</td>
+                            <td>@Html.DisplayFor(s => service.Services.serviceCharge)</td>
+                        </tr>
+                    }
+                }
+  
+            </div>
 
-        <th>Purchase</th>
-            @* Purchase *@
-            @foreach (var purchase in Model.Billing.purchase.purchaseDetails)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(s => purchase.product.productName)</td>
-                    <td>@Html.DisplayFor(s => purchase.product.sellingPrice)</td>
-                    <td>@Html.DisplayFor(s => purchase.quantity)</td>
-                </tr>
-            }
+              @* Purchase *@
+           
+            <div class="my-3">
+                  @if (Model.Billing.purchase != null)
+                  {
+                     <th>Purchase</th>
+                         
+                    @foreach (var purchase in Model.Billing.purchase.purchaseDetails)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(s => purchase.product.productName)</td>
+                            <td>@Html.DisplayFor(s => purchase.product.sellingPrice)</td>
+                            <td>@Html.DisplayFor(s => purchase.quantity)</td>
+                        </tr>
+                    }
+                }
+            </div>
+              
+    
        </tbody>
    </table>
    <div>

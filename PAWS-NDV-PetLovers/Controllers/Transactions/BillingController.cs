@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using PAWS_NDV_PetLovers.Data;
+using PAWS_NDV_PetLovers.Models.Records;
 using PAWS_NDV_PetLovers.Models.Transactions;
 using PAWS_NDV_PetLovers.ViewModels;
 
@@ -216,7 +216,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePurchase(int? diagnosticid, Purchase purchase)
+        public async Task<IActionResult> CreatePurchaseDiagnostics(int? diagnosticid, Purchase purchase)
         {
             if (purchase == null || purchase.purchaseDetails == null || !purchase.purchaseDetails.Any())
             {
@@ -432,6 +432,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
         {
             if (quantity == 0 || quantity == null)
             {
+
+                //for passing tvm object to  edit
                 var vm = new TransactionsVm
                 {
                     activeBillingTab = BillingTab.Purchase,
@@ -555,6 +557,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
 
             // Redirect to the index view after successful payment
             return RedirectToAction("Index");
+
         }
 
         public async Task<IActionResult> BillingHistory()
@@ -562,8 +565,11 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
 
             var Ibillings = await _context.Billings
                 .Include(b => b.diagnostics)
-                .ThenInclude(d => d.pet)
-                .ThenInclude(p => p.owner)
+                .ThenInclude(d => d.IdiagnosticDetails)
+                .ThenInclude(dd => dd.Services)
+                .Include(b => b.purchase)
+                .ThenInclude(p => p.purchaseDetails)
+                .ThenInclude(p => p.product)
                 .ToListAsync();
 
             var tvm = new TransactionsVm
@@ -572,6 +578,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             };
             return View(tvm);
         }
+
+
 
         [HttpGet]
         public async Task<IActionResult> BillingHistoryView(int? billingId)
@@ -591,6 +599,409 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             };
 
             return View(tvm);
+        }
+
+
+        //View Model method for CreatePurchaseOnly - noted
+        private async Task<TransactionsVm> GetPurchaseTransactionViewModel()
+        {
+            var purchaseDetails = await _context.PurchaseDetails
+                .Include(p => p.product)
+                .ThenInclude(p => p.category)
+                .Include(p => p.Purchase)
+                .ToListAsync();
+
+            var products = await _context.Products.Include(p => p.category).Where(p => p.quantity > 0).ToListAsync();
+
+            return new TransactionsVm
+            {
+                IPurchaseDetails = purchaseDetails,
+                IProducts = products
+            };
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CreatePurchase()
+        {
+            //get from method
+            var vm = await GetPurchaseTransactionViewModel();
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreatePurchase(Purchase purchase)
+        {
+            if (purchase.purchaseDetails == null || !purchase.purchaseDetails.Any())
+            {
+                ModelState.AddModelError("", "No products were selected. Please select at least one product to proceed.");
+
+                var vm = await GetPurchaseTransactionViewModel();
+
+                return View("CreatePurchase", vm);
+             
+            }
+
+            // Check if the entire model is valid
+            if (!ModelState.IsValid)
+            {
+                var vm = await GetPurchaseTransactionViewModel();
+
+                return View("CreatePurchase", vm);
+            }
+
+            if (string.IsNullOrWhiteSpace(purchase.customerName))
+            {
+                purchase.customerName = "NA";
+            }
+
+         
+            //Product Process
+            //get from view
+            var ProductIds = purchase.purchaseDetails.Select(p => p.productId).Distinct().ToList();
+
+
+            // fetched the selected Products only via ID
+            var Products = await _context.Products
+                .Where(p => ProductIds.Contains(p.id))
+                .ToListAsync();
+
+
+            //Convert to dictionary
+            var ProductDictionary = Products.ToDictionary(p => p.id);
+
+            // looping
+            foreach(var details in purchase.purchaseDetails)
+            {
+                //get specific quantity
+                var quantity = details.quantity;
+
+                //matched the id to the dictionary
+                if(ProductDictionary.TryGetValue(details.productId, out var Product))
+                {
+                    //update
+                    Product.quantity -= quantity;
+                }
+            }
+
+
+            _context.Add(purchase);
+            _context.UpdateRange(Products);
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", new  TransactionsVm{ activeBoardTab = DBoardTab.DBoard_Purchase});
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditPurchase(int purchaseId, bool? RemoveErrorMessage, bool? errorMessage, bool? PaymentErrorMessage)
+        {
+
+            var Purchase = await _context.Purchases
+                .Include(p => p.purchaseDetails)
+                .ThenInclude(p => p.product)
+                .ThenInclude(p => p.category)
+                .FirstOrDefaultAsync(p => p.purchaseId == purchaseId);
+
+            //VIEW Cart
+
+            var PurchaseItems = await _context.PurchaseDetails
+                .Include(p => p.product)
+                .ThenInclude(p => p.category)
+                .Include(p => p.Purchase)
+                .Where(p => p.Purchase.purchaseId == purchaseId && string.IsNullOrEmpty(p.Purchase.status))
+                .ToListAsync();
+            
+            if (RemoveErrorMessage == true)
+            {
+                ViewData["RemoveErrorMessage"] = "Please enter tht total number of decrement";
+            }
+
+
+            if (errorMessage == true)
+            {
+                // Add an error message to the ViewData to display on the view
+                ViewData["ErrorMessage"] = "No products were selected. Please select at least one product to proceed.";
+
+            }
+
+
+            var vm = new TransactionsVm
+            {
+             
+                Purchase = Purchase,
+                IProducts = await _context.Products.Include(p => p.category).ToListAsync(),
+                IPurchaseDetails = PurchaseItems,
+
+            };
+
+            return View(vm);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditPurchase(int? purchaseId,[Bind("Purchase")]TransactionsVm vm)
+        {
+            var PurchaseView = vm.Purchase;
+
+            var Purchase = await _context.Purchases.FirstOrDefaultAsync(p => p.purchaseId == purchaseId);
+
+
+            if (string.IsNullOrWhiteSpace(PurchaseView.customerName))
+            {
+                Purchase.customerName = "NA";
+            }
+              Purchase.customerName = PurchaseView.customerName;
+                _context.Update(Purchase);
+                await _context.SaveChangesAsync();
+
+            return RedirectToAction("EditPurchase", new { purchaseId = purchaseId });
+          /*  return RedirectToAction("Index", new TransactionsVm { activeBoardTab = DBoardTab.DBoard_Purchase });*/
+        }
+
+
+
+        //for remove purchase Only
+        [HttpGet]
+        public async Task<IActionResult> RemoveProductFromPurchaseOnly(int? purchaseId)
+        {
+
+            var PurchaseItems = await _context.PurchaseDetails
+              .Include(p => p.product)
+              .ThenInclude(p => p.category)
+              .Include(p => p.Purchase)
+              .Where(p => p.Purchase.purchaseId == purchaseId && string.IsNullOrEmpty(p.Purchase.status))
+              .ToListAsync();
+
+
+            TransactionsVm vm = new TransactionsVm
+            {
+                IPurchaseDetails = PurchaseItems
+            };
+            return View(vm);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveProductFromPurchaseOnly(int? purchaseId, int? productId, int? quantity)
+        {
+            if (quantity == 0 || quantity == null)
+            {
+
+                return RedirectToAction("EditPurchase", new { purchaseId = purchaseId,  RemoveErrorMessage = true });
+            }
+
+            // Find the purchase detail that matches the purchase and product
+            var purchaseDetails = await _context.PurchaseDetails
+                .Include(p => p.product)
+                .FirstOrDefaultAsync(pd => pd.purchaseId == purchaseId && pd.product.id == productId);
+
+            // Find the corresponding purchase for delete if details is 0
+            var purchase = await _context.Purchases
+                .Include(p => p.purchaseDetails) // Include details to check remaining items
+                .FirstOrDefaultAsync(p => p.purchaseId == purchaseId);
+
+            if (purchaseDetails != null && quantity > 0)
+            {
+                // Restore product quantity
+                var product = purchaseDetails.product; //naka ref na sa product table.
+                product.quantity += quantity;
+                _context.Update(product);
+
+                // Reduce the quantity of the product in the purchase details
+                if (purchaseDetails.quantity > quantity)
+                {
+                    purchaseDetails.quantity -= quantity ?? 0;
+                    _context.Update(purchaseDetails); // Update the purchase details with new quantity
+                }
+                else
+                {
+           
+                    _context.PurchaseDetails.Remove(purchaseDetails);
+                }
+
+                if (!purchase.purchaseDetails.Any())
+                {
+                    _context.Purchases.Remove(purchase);
+                }
+
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("EditPurchase", new { purchaseId = purchaseId});
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditPurchaseAdd(int? purchaseId, Purchase purchase)
+        {
+            if (purchase == null || purchase.purchaseDetails == null || !purchase.purchaseDetails.Any())
+            {
+                 var purchaseItems = await _context.PurchaseDetails
+                    .Include(p => p.product)
+                    .ThenInclude(p => p.category)
+                    .Include(p => p.Purchase)
+                    .Where(p => p.Purchase.purchaseId == purchaseId && string.IsNullOrEmpty(p.Purchase.status))
+                    .ToListAsync();
+
+                var viewModel = new TransactionsVm
+                {
+
+                    Purchase = await _context.Purchases
+                        .Include(p => p.purchaseDetails)
+                        .ThenInclude(p => p.product)
+                        .ThenInclude(p => p.category)
+                        .FirstOrDefaultAsync(p => p.purchaseId == purchaseId),
+                    IProducts = await _context.Products.Include(p => p.category).ToListAsync(),
+                    IPurchaseDetails = purchaseItems,
+                };
+
+
+
+                return RedirectToAction("EditPurchase", new { purchaseId = purchaseId, errorMessage = true });
+            }
+
+            var existingPurchase = await _context.Purchases
+                .Include(p => p.purchaseDetails)
+                .ThenInclude(pd => pd.product)
+                .FirstOrDefaultAsync(p => p.purchaseId == purchaseId);
+
+            if (existingPurchase == null)
+            {
+                _context.Add(purchase);
+            }
+            else
+            {
+                foreach (var details in purchase.purchaseDetails)
+                {
+                    // Check if the product already exists in the purchase details
+                    var existingDetail = existingPurchase.purchaseDetails
+                        .FirstOrDefault(pd => pd.productId == details.productId);
+
+                    if (existingDetail != null)
+                    {
+                        // Update the quantity
+                        existingDetail.quantity += details.quantity;
+
+                        // Update product quantity in the database
+                        var product = await _context.Products.FirstOrDefaultAsync(p => p.id == details.productId);
+                        if (product != null)
+                        {
+                            product.quantity -= details.quantity;
+                        }
+                    }
+                    else
+                    {
+                        // Add new product detail
+                        existingPurchase.purchaseDetails.Add(details);
+
+                        // Update product quantity in the database
+                        var product = await _context.Products.FirstOrDefaultAsync(p => p.id == details.productId);
+                        if (product != null)
+                        {
+                            product.quantity -= details.quantity;
+                        }
+                    }
+                }
+
+                _context.Update(existingPurchase);
+            }
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+
+            var updatedPurchaseItems = await _context.PurchaseDetails
+                .Include(p => p.product)
+                .ThenInclude(p => p.category)
+                .Where(p => p.Purchase.purchaseId == purchaseId && string.IsNullOrEmpty(p.Purchase.status))
+                .ToListAsync();
+
+            var updatedTvm = new TransactionsVm
+            {
+                Purchase = existingPurchase,
+                IProducts = await _context.Products.Include(p => p.category).ToListAsync()
+            };
+
+            return RedirectToAction("EditPurchase", new { purchaseId = purchaseId});
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeletePurchase(int? purchaseId)
+        {
+            if (purchaseId == null)
+            {
+                return NotFound();
+            }
+
+            var Purchase = await _context.Purchases.FirstOrDefaultAsync(p => p.purchaseId == purchaseId);
+
+            if(Purchase != null)
+            {
+                _context.Remove(Purchase);
+            }
+
+             await _context.SaveChangesAsync();
+            return RedirectToAction("Index", new TransactionsVm { activeBoardTab = DBoardTab.DBoard_Purchase });
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BillPaymentPurchase(int? purchaseId,string? customerName, [Bind("Billing")] TransactionsVm tvm)
+        {
+            // Extract the Billing object from the ViewModel
+            var Billing = tvm.Billing;
+
+            // Get the related purchase
+            var purchase = await _context.Purchases
+                .FirstOrDefaultAsync(p => p.purchaseId == purchaseId && string.IsNullOrEmpty(p.status));
+
+            // Define the complete status
+            const string complete = "Complete";
+
+            // Update the status of the purchase if it exists
+            if (purchase != null)
+            {
+
+                purchase.status = complete;
+        
+            }
+
+            if (string.IsNullOrWhiteSpace(customerName))
+            {
+                purchase.customerName = "NA";
+            }
+            else
+            {
+                purchase.customerName = customerName;
+            }
+         
+            _context.Update(purchase);
+            await _context.SaveChangesAsync();
+
+
+            // Create a new billing entry
+            var billingEntry = new Billing
+            {
+                // Assign the properties based on your model
+                date = DateTime.UtcNow, // Set the date to now or customize as needed
+                grandTotal = Billing.grandTotal,
+                cashReceive = Billing.cashReceive,
+                changeAmount = Billing.cashReceive - Billing.grandTotal,
+                PurchaseId = purchase?.purchaseId // Assigning the foreign key to Purchases (ensure you have this property in Purchase model)
+            };
+
+
+            // Add the new billing entry to the context
+            _context.Billings.Add(billingEntry);
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+
+            // Redirect to the index view after successful payment
+            return RedirectToAction("Index" , new TransactionsVm { activeBoardTab =DBoardTab.DBoard_Purchase});
+
         }
     }
 }

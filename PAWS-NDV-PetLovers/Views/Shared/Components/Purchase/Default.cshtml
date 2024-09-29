@@ -19,7 +19,6 @@
                 @if(Model.IPurchaseDetails.Count() > 0)
                 {
                 <th>
-                        
                     <form method="get" asp-action="RemoveProduct" asp-controller="Billing">
 
                             <!-- Button trigger modal -->
@@ -34,7 +33,6 @@
             </tr>
         </thead>
         <tbody>
-
 
             @{
                 var Products = Model.IPurchaseDetails
@@ -144,7 +142,7 @@
     <div class="modal fade" id="staticBackdropSelectedProduct" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
-                <form method="post" asp-action="CreatePurchase">
+                <form method="post" asp-action="CreatePurchaseDiagnostics">
                     <div class="modal-header bg-primary">
                         <h1 class="modal-title fs-5 text-white" id="staticBackdropLabel">Selected Product List</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

@@ -43,7 +43,9 @@ namespace PAWS_NDV_PetLovers.Data
         public DbSet<PurchaseDetails> PurchaseDetails { get; set; } = default!;
 
         //Billing
-        public DbSet<Billing>Billings { get; set; } = default!; 
+        public DbSet<Billing> Billings { get; set; } = default!;
+
+
 
         #region == fluent API == 
 

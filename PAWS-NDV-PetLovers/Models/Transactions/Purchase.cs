@@ -28,7 +28,7 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
         public string? customerName { get; set; }
 
         //Navigation Property
-        public ICollection<PurchaseDetails> purchaseDetails { get; set; }
+        public IList<PurchaseDetails> purchaseDetails { get; set; }
 
     }
 }

@@ -31,12 +31,6 @@ namespace PAWS_NDV_PetLovers.Components
                 .ToListAsync();
 
 
-          /*  if (PaymentErrorMessage == true)
-            {
-                ViewData["PaymentErrorMessage"] = "Insufficient payment. Please tender an amount greater than or equal to the total payment.";
-
-            }*/
-
             var tvm = new TransactionsVm
             {
                 Diagnostics = diagnostics,

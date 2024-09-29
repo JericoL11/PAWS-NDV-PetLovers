@@ -12,7 +12,7 @@ using PAWS_NDV_PetLovers.Data;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     [DbContext(typeof(PAWS_NDV_PetLoversContext))]
-    [Migration("20240906034458_Records_Table")]
+    [Migration("20240928072714_Records_Table")]
     partial class Records_Table
     {
         /// <inheritdoc />
