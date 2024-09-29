@@ -95,6 +95,16 @@ html {
 
 /*NJ CSS SIDEBAR*/
 
+/* <div class="container p-0 bg-white container-appointments"> MAIN CONTAINER */
+    .container-appointments {
+        margin-top: 20px;
+        border-radius: 5px;
+        border: 1px solid #469387;
+        padding: 10px;
+    }
+
+
+
 /*TAG ALL AREA*/
 button {
     border-color: transparent;
@@ -342,3 +352,47 @@ html {
 /*END ID AREA*/
 
 
+
+/* APPOINTMENTS AREA*/
+    .form-control{
+        border:1.8px solid #469387;
+    }
+
+    #appad{
+        padding-top:10px;
+    }
+
+    
+    .btn-addrow,
+    .btn-addrow:hover,
+    .btn-addrow:active,
+    .btn-addrow:focus {
+        background-color: #efc65de8;
+        border-color: #000000b8;
+        color:black;
+    }
+
+    .row-appointments{
+        margin-left:5px;
+        margin-right:5px;
+    }
+
+    #headapp{
+        background: #c0d1ce;
+        border-bottom: 1px solid #469387;
+    }
+
+    .bg{
+        background-color: rgba(70, 147, 135, 0.2);
+        border-bottom: 2px solid #469387;
+    }
+
+   
+
+    #btnsc{
+        margin-right:20px;
+    }
+
+/* APPOINTMENTS AREA*/
+
+    

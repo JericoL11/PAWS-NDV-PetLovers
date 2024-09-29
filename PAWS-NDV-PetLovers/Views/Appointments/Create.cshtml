@@ -3,103 +3,112 @@
     ViewData["Title"] = "Create";
 }
 
-<div class="bg-secondary bg-opacity-10 py-2 mb-3">
-    <div class="container">
-        <h1>Set Appointments</h1>
-    </div>
-</div>
 
 <div class="container">
-    <div class="mb-4">
-        <a class="btn btn-primary" asp-action="Create" asp-controller="Owners">Register</a>
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Existing Record
-        </button>
-    </div>
+    <div class="container bg-white p-0 container-appointments">
 
-    <form asp-action="Create" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-        <div class="row">
-            <!-- Owner fields -->
-            <div class="form-group col-lg-4">
-                <label asp-for="Appointment.fname" class="control-label"></label>
-                <input id="fname" asp-for="Appointment.fname" class="form-control" />
-                <span asp-validation-for="Appointment.fname" class="text-danger"></span>
-            </div>
-
-            <div class="form-group col-lg-4">
-                <label asp-for="Appointment.lname" class="control-label"></label>
-                <input id="lname" asp-for="Appointment.lname" class="form-control" />
-                <span asp-validation-for="Appointment.lname" class="text-danger"></span>
-            </div>
-
-            <div class="form-group col-lg-4">
-                <label asp-for="Appointment.mname" class="control-label"></label>
-                <input id="mname" asp-for="Appointment.mname" class="form-control" />
-                <span asp-validation-for="Appointment.mname" class="text-danger"></span>
-            </div>
-
-            <div class="form-group col-lg-4">
-                <label asp-for="Appointment.contact" class="control-label"></label>
-                <input id="contact" asp-for="Appointment.contact" class="form-control" />
-                <span asp-validation-for="Appointment.contact" class="text-danger"></span>
-            </div>
-
-            <div class="form-group col-lg-4">
-                <label asp-for="Appointment.date" class="control-label"></label>
-                <input asp-for="Appointment.date" class="form-control minDate" id="appointmentDate" type="date" />
-                <span asp-validation-for="Appointment.date" class="text-danger"></span>
-            </div>
-
-            <div class="form-group col-lg-4">
-                <label asp-for="Appointment.time" class="control-label"></label>
-                <select id="timeDropdown" name="Appointment.time" class="form-control" required>
-                    <!-- Times will be loaded here -->
-                </select>
-                <span asp-validation-for="Appointment.time" class="text-danger"></span>
-            </div>
-
-            <!-- Services Table -->
-            <div class="col-8">
-                <table class="table mt-2" id="DetailsTable">
-                    <thead>
-                        <tr>
-                            <th>Service</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="detailRow">
-                            <td>
-                                <div class="form-group">
-                                    <select name="Appointment.IAppDetails[0].serviceId" asp-items="@ViewBag.Services" class="form-control" required></select>
-                                </div>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-danger removeRow">Remove</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <button type="button" class="btn btn-success" id="addRow">Add Row</button>
-            </div>
-
-            <!-- Submit and Cancel buttons -->
-            <div class="form-group mt-3 text-end">
-                <a asp-action="Index" class="btn btn-secondary px-4">Cancel</a>
-                <input type="submit" value="Create" class="btn btn-primary px-4" />
+        <div>
+            <div class="container bg p-2">
+                <h1>Set Appointments</h1>
             </div>
         </div>
-    </form>
+
+
+        <div class="mb-2 my-3 p-3">
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="background-color: #808080; border-color: #808080; color:white;">
+                Existing Record
+            </button>
+            <a class="btn btn-primary" asp-action="Create" asp-controller="Owners">Register</a>
+           
+        </div>
+
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="row row-appointments">
+                <!-- Owner fields -->
+                <div class="form-group col-lg-4 col-12 col-md-6" id="appad" >
+                    <label asp-for="Appointment.fname" class="control-label"></label>
+                    <input id="fname" asp-for="Appointment.fname" class="form-control" />
+                    <span asp-validation-for="Appointment.fname" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-lg-4 col-12 col-md-6" id="appad">
+                    <label asp-for="Appointment.lname" class="control-label"></label>
+                    <input id="lname" asp-for="Appointment.lname" class="form-control" />
+                    <span asp-validation-for="Appointment.lname" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-lg-4 col-12 col-md-6" id="appad">
+                    <label asp-for="Appointment.mname" class="control-label"></label>
+                    <input id="mname" asp-for="Appointment.mname" class="form-control" />
+                    <span asp-validation-for="Appointment.mname" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-lg-4 col-12 col-md-6" id="appad">
+                    <label asp-for="Appointment.contact" class="control-label"></label>
+                    <input id="contact" asp-for="Appointment.contact" class="form-control" />
+                    <span asp-validation-for="Appointment.contact" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-lg-4 col-12 col-md-6" id="appad">
+                    <label asp-for="Appointment.date" class="control-label"></label>
+                    <input asp-for="Appointment.date" class="form-control minDate" id="appointmentDate" type="date" />
+                    <span asp-validation-for="Appointment.date" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-lg-4 col-12 col-md-6" id="appad">
+                    <label asp-for="Appointment.time" class="control-label"></label>
+                    <select id="timeDropdown" name="Appointment.time" class="form-control" required>
+                        <!-- Times will be loaded here -->
+                    </select>
+                    <span asp-validation-for="Appointment.time" class="text-danger"></span>
+                </div>
+
+                <!-- Services Table -->
+                <div class="col-12 p-3">
+                    <table class="table mt-2" id="DetailsTable">
+                        <thead>
+                            <tr class="p-0">
+                                <th>Service</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="detailRow p-0">
+                                <td>
+                                    <div class="form-group align-middle p-0">
+                                        <select name="Appointment.IAppDetails[0].serviceId" asp-items="@ViewBag.Services" class="form-control" required></select>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <button type="button" class="btn btn-danger removeRow">Remove</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-success btn-addrow" id="addRow">Add Row</button>
+                </div>
+
+                <!-- Submit and Cancel buttons -->
+
+                <div class="form-group mb-3 text-end">
+                    <a asp-action="Index" class="btn btn-secondary px-4" style="background-color: #808080; border-color: #808080;">Cancel</a>
+                    <input type="submit" value="Create" class="btn btn-primary px-4" style="background-color: #469387; border-color: #469387;" />
+                </div>
+
+            </div>
+        </form>
+    </div>
 </div>
 
 <!-- Modal for selecting existing records -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
+        <div class="modal-content" id="modalapp">
+            <div class="modal-header" id="headapp">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Select Record</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -118,7 +127,7 @@
                         <tbody>
                             @foreach (var owner in Model.IOwner)
                             {
-                                <tr>
+                                <tr style="background-color: #90bb9a6c;">
                                     <td class="text-center">
                                         <input type="radio" name="SelectedOwnerId"
                                                value="@owner.id"
@@ -136,8 +145,8 @@
                         </tbody>
                     </table>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="SelectOwnerButton">Select</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #808080; border-color: #808080;">Back</button>
+                        <button type="button" class="btn btn-primary" id="SelectOwnerButton" style="background-color: #469387; border-color: #469387;">Select</button>
                     </div>
                 </form>
             </div>
