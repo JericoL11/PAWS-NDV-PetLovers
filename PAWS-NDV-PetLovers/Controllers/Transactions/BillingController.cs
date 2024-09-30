@@ -73,6 +73,38 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
 
             return RedirectToAction(nameof(Index), vm);
         }
+
+
+        public IActionResult SwitchToHistoryTab(string? tabName)
+        {
+            var vm = new TransactionsVm();
+
+            switch (tabName)
+            {
+                case "All":
+                    vm.activeHistoryTab = BillingHistoryTab.All;
+                    break;
+
+                case "Diagnostics":
+                    vm.activeHistoryTab = BillingHistoryTab.Diagnostics;
+                    break;
+
+                case "Purchase":
+                    vm.activeHistoryTab = BillingHistoryTab.Purchase;
+                    break;
+
+            default:
+                vm.activeHistoryTab = BillingHistoryTab.All;
+                break;
+            }
+
+            return RedirectToAction(nameof(BillingHistory), vm);
+        }
+
+
+
+
+
         [HttpGet]
         public async Task<IActionResult> Edit(int? id, bool? errorMessage, bool? RemoveErrorMessage, bool? PaymentErrorMessage, TransactionsVm tvm)
         {
@@ -520,6 +552,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             var purchase = await _context.Purchases
                 .FirstOrDefaultAsync(p => p.diagnosisId_holder == diagnosticId && string.IsNullOrEmpty(p.status));
 
+
+
             // Define the complete status
             const string complete = "Complete";
 
@@ -527,6 +561,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             if (purchase != null)
             {
                 purchase.status = complete;
+
                 _context.Update(purchase);
             }
 
@@ -560,23 +595,15 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
 
         }
 
-        public async Task<IActionResult> BillingHistory()
+        //Billing Index
+        public async Task<IActionResult> BillingHistory(TransactionsVm vcm)
         {
-
-            var Ibillings = await _context.Billings
-                .Include(b => b.diagnostics)
-                .ThenInclude(d => d.IdiagnosticDetails)
-                .ThenInclude(dd => dd.Services)
-                .Include(b => b.purchase)
-                .ThenInclude(p => p.purchaseDetails)
-                .ThenInclude(p => p.product)
-                .ToListAsync();
-
-            var tvm = new TransactionsVm
+            if (vcm.activeHistoryTab == null)
             {
-                IBilling = Ibillings
-            };
-            return View(tvm);
+                vcm.activeHistoryTab = BillingHistoryTab.All;
+            }
+            return View(vcm);
+      
         }
 
 
@@ -586,11 +613,12 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
         {
             var Billing = await _context.Billings
                 .Include(b => b.diagnostics)
-                .ThenInclude(d => d.IdiagnosticDetails)
-                .ThenInclude(dd => dd.Services)
+                    .ThenInclude(d => d.IdiagnosticDetails)
+                    .ThenInclude(dd => dd.Services)
+                .Include(b => b.diagnostics.pet.owner)
                 .Include(b => b.purchase)
-                .ThenInclude(p => p.purchaseDetails)
-                .ThenInclude(p => p.product)
+                    .ThenInclude(p => p.purchaseDetails)
+                    .ThenInclude(p => p.product)
                 .FirstOrDefaultAsync(b => b.billingId == billingId);
 
             var tvm = new TransactionsVm

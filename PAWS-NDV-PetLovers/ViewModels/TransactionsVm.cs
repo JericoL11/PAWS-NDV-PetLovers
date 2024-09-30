@@ -50,6 +50,8 @@ namespace PAWS_NDV_PetLovers.ViewModels
         public DBoardTab? activeBoardTab { get; set; }
         public BillingTab? activeBillingTab { get; set; }
 
+        public BillingHistoryTab? activeHistoryTab { get; set; }
+
         public bool? errorMessage { get; set;  }
         public bool? RemoveErrorMessage { get; set; }
 
@@ -68,6 +70,14 @@ namespace PAWS_NDV_PetLovers.ViewModels
     {
         DBoard_Diagnostics,
         DBoard_Purchase
+    };
+
+
+    public enum BillingHistoryTab
+    {
+       All,
+       Diagnostics,
+       Purchase
     };
 
 }

@@ -9,13 +9,25 @@
 </div>
 
 <div class="container">
+  
+    <div>
+        @if (Model.Billing.purchase == null)
+        {
+            var custmerName = $"{Model.Billing.diagnostics.pet.owner.fname} {Model.Billing.diagnostics.pet.owner.lname}";
+            <span><strong> Customer Name: </strong>@custmerName  &nbsp;  &nbsp; &nbsp;</span>
+            <strong>Date:</strong> <span>@Html.DisplayFor(model => model.Billing.diagnostics.date)</span>
+        }
+        else
+        {
+            <span><strong> Customer Name: </strong>@Model.Billing.purchase.customerName  &nbsp;  &nbsp; &nbsp;</span>
+            <strong>Date:</strong> <span>@Html.DisplayFor(model => model.Billing.purchase.date)</span>
+        }
+
+    </div>
 
    <table class="table">
        @* diagnostic *@
-
-      
        <thead>
-  
            <tr>
                <th></th>
                <th>Price</th>
@@ -60,7 +72,7 @@
     
        </tbody>
    </table>
-   <div>
+   <div class="mt-5">
         @{
             var total = @Model.Billing.grandTotal;
             var grandTotal = (double)total;
