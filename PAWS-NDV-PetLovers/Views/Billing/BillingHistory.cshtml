@@ -9,44 +9,32 @@
 </div>
 
 <div class="container">
-    <table class="table">
-        <thead>
-            <tr>
-                <th> Billing Id</th>
-                <th> Name </th>
-                <th> Date</th>
-                <th>Total Payment</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(var item in Model.IBilling)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.billingId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.purchase.customerName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.date)
-                    </td>
-                    <td>
-                        @{
-                            var total = item.grandTotal;
-                            var totalV1 = (double) total;
-                            var grandTotal = totalV1.ToString("C");
-                        }
-                        @Html.DisplayFor(modelItem => grandTotal)
-                    </td>
+   <ul class="nav">
+        <li><a role="presentation" asp-action="SwitchToHistoryTab" asp-route-tabName="All" class="@(Model.activeHistoryTab == PAWS_NDV_PetLovers.ViewModels.BillingHistoryTab.All ? "active" : string.Empty) btn btn-outline-primary">All History</a></li>
+        <li><a role="presentation" asp-action="SwitchToHistoryTab" asp-route-tabName="Diagnostics" class="@(Model.activeHistoryTab == PAWS_NDV_PetLovers.ViewModels.BillingHistoryTab.Diagnostics ? "active" : string.Empty) btn btn-outline-primary">Diagnostics</a></li>
+        <li><a role="presentation" asp-action="SwitchToHistoryTab" asp-route-tabName="Purchase" class="@(Model.activeHistoryTab == PAWS_NDV_PetLovers.ViewModels.BillingHistoryTab.Purchase ? "active" : string.Empty) btn btn-outline-primary">Purchase</a></li>
+    </ul>
+</div>
 
-                    <td>
-                        <a asp-action="BillingHistoryView" asp-route-billingId="@item.billingId" class="btn btn-outline-warning">View Details</a>
-                    </td>
-                </tr>
-            }
-         
-        </tbody>
-    </table>
+
+<div class="container">
+
+    @switch (Model.activeHistoryTab)
+    {
+        case PAWS_NDV_PetLovers.ViewModels.BillingHistoryTab.All:
+            @await Component.InvokeAsync("AllBillingHistory")
+            break;
+
+        case PAWS_NDV_PetLovers.ViewModels.BillingHistoryTab.Diagnostics:
+            @await Component.InvokeAsync("DiagnosticBillingHistory")
+            break;
+
+        case PAWS_NDV_PetLovers.ViewModels.BillingHistoryTab.Purchase:
+            @await Component.InvokeAsync("PurchaseBillingHistory")
+            break;
+        
+        default:
+            @await Component.InvokeAsync("AllBillingHistory")
+            break;
+    }
 </div>
