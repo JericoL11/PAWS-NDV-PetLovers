@@ -39,6 +39,10 @@ namespace PAWS_NDV_PetLovers.Models.Appointments
 
         public DateTime time { get; set; }
 
+
+        [Display(Name = "Remarks")]
+        public string? remarks { get; set; }
+
         //navigation property
 
         //This will serve as parameterless Constructor bc of "?" nullable

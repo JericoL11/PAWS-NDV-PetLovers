@@ -76,7 +76,7 @@
                                                 <td class="text-center">@Html.DisplayFor(modelItem => pet.breed) </td>
                                                 <td class="text-center">@Html.DisplayFor(modelItem => pet.gender)</td>
                                                 <td class="text-center">@Html.DisplayFor(modelItem => pet.age)</td>
-                                                <td class="text-center">@Html.DisplayFor(modelItem =>@pet.bdate)</td>
+                                                <td class="text-center">@Html.DisplayFor(modelItem => pet.bdate)</td>
                                             </tr>
                                         }
                                     </tbody>
@@ -120,17 +120,17 @@
                 <label class="control-label">Gender</label>
                 <input id="gender" class="form-control" readonly />
             </div>
-
+@* 
             <div class="form-group col-lg-3 col-md-6">
                 <label class="control-label">Age</label>
                 <input id="age" class="form-control" readonly />
             </div>
-
+          
             <div class="form-group col-lg-3 col-md-6">
                 <label class="control-label">Birth Date</label>
+                <input id="bdate" class="form-control" readonly />
+            </div> *@
 
-                <input  id="bdate" class="form-control" readonly />
-            </div>
 
 
            <div class="row mt-3">
@@ -284,14 +284,14 @@
                     var breed = selectedPet.data('breed');
                     var gender = selectedPet.data('gender');
                     var age = selectedPet.data('age');
-                    var bdate = selectedPet.data('bdate');
+                   // var bdate = selectedPet.data('bdate');
 
                     $('.petId').val(petId);
                     $('#petName').val(petName);
                     $('#breed').val(breed);
                     $('#gender').val(gender);
-                    $('#age').val(age);
-                    $('#bdate').val(bdate);
+                  //  $('#age').val(age);
+                 //   $('#bdate').val(bdate);
 
                     $('#staticBackdrop').modal('hide');
                 } 

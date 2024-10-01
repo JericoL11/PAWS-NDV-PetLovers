@@ -42,14 +42,14 @@
             </dd>
 
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.AppointmentDetails.remarks)
+                @*    @Html.DisplayNameFor(model => model.AppointmentDetails.remarks)*@
             </dt>
 
             <dd class="col-sm-10 remarks-cell">
              
                 @{
                     var remarks = Model.IAppDetails
-                    .Select(S => S.remarks)
+                   // .Select(S => S.remarks)
                     .Distinct()
                     .ToList();
                 }

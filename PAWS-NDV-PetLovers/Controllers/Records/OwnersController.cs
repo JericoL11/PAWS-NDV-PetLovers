@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.Models.Records;
 using PAWS_NDV_PetLovers.ViewModels;
@@ -151,6 +152,19 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
                 _context.Add(owner);
                 await _context.SaveChangesAsync();
+
+
+                //if registration is came from appointments
+                var OwnerExistAppointment = await _context.Appointments
+                    .FirstOrDefaultAsync(x => !string.IsNullOrEmpty(x.AppointId.ToString()) && x.fname == owner.fname && x.lname == owner.lname && string.IsNullOrEmpty(x.remarks));
+
+                if(OwnerExistAppointment != null)
+                {
+
+                    return RedirectToAction("Index", "Appointments");  // Redirect to another controller
+
+                }
+
 
                 TempData["SuccessMessage"] = "Created Successfully";
 

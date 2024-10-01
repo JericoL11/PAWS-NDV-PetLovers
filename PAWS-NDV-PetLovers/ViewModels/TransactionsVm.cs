@@ -39,9 +39,9 @@ namespace PAWS_NDV_PetLovers.ViewModels
 
         public IEnumerable<Product>? IProducts { get; set; }
 
-        public double? grandTotal { get; set; }
+       /* public double? grandTotal { get; set; }
 
-        public double? totalServicePayment { get; set; }
+        public double? totalServicePayment { get; set; }*/
 
         public double? totalPurchasePayment { get; set; }
 

@@ -81,7 +81,7 @@
 
         <ul class="nav navbars">
             <li>
-                <a role="presentation" asp-action="SwitchToBillingTab" asp-route-tabName="Diagnosis" asp-route-id="@Model.Diagnostics.diagnostic_Id" class="@(Model.activeBillingTab == PAWS_NDV_PetLovers.ViewModels.BillingTab.Diagnosis ? "active" : string.Empty) btn btn-outline-primary">Diagnosis</a>
+                <a role="presentation" asp-action="SwitchToBillingTab" asp-route-tabName="Diagnosis" asp-route-id="@Model.Diagnostics.diagnostic_Id" class="@(Model.activeBillingTab == PAWS_NDV_PetLovers.ViewModels.BillingTab.Diagnosis ? "active" : string.Empty) btn btn-outline-primary">Service</a>
             </li>
             <li>
                 <a role="presentation" asp-action="SwitchToBillingTab" asp-route-tabName="Purchase" asp-route-id="@Model.Diagnostics.diagnostic_Id" class="@(Model.activeBillingTab == PAWS_NDV_PetLovers.ViewModels.BillingTab.Purchase ? "active" : string.Empty) btn btn-outline-primary">Purchase</a>

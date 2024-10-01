@@ -28,13 +28,37 @@
                         @Html.DisplayFor(modelItem => item.pet.petName)
                     </td>
                     <td>
-                        @{
+
+                        @*For New Line every new service Name*@
+                        @* @{
                             var diagnosticDetails = item.IdiagnosticDetails
                             .Select(d => d.Services.serviceName)
                             .Distinct();
                             var Services = string.Join(" , ", diagnosticDetails);
                         }
-                        @Html.Raw(Services.Replace(",", "<br>"))
+                        @Html.Raw(Services.Replace(",", "<br>")) *@
+
+                        @{
+                            var diagnosticDetails = item.IdiagnosticDetails
+                                .Select(d => d.Services.serviceName)
+                                .Distinct();
+
+                            var service = diagnosticDetails.Take(2);
+                            var remainingService = diagnosticDetails.Skip(2);
+        
+                        }
+                      <span>
+                            @string.Join(", ", service) <!-- Display first 2 services -->
+                            @if (diagnosticDetails.Count() > 2)
+                            {
+                                <strong>
+                                    <!-- Display ellipsis and remaining services as a tooltip -->
+                                    <span title="@string.Join(", ", remainingService)">
+                                        ...
+                                    </span>
+                                </strong>
+                            }
+                      </span>
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.date)

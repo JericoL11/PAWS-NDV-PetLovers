@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.Models.Appointments;
 using PAWS_NDV_PetLovers.Models.Records;
@@ -18,6 +19,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
         }
         public async Task<IActionResult> Index()
         {
+
             var appDetails = await GetAllAsync();
 
             return View(appDetails);
@@ -26,36 +28,24 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
         #region == Functions == 
         public async Task<AppointmentVm> GetAllAsync()
         {
-
             // Fetch appointment details from the database, including related Services and Appointment entities.
-            var appDetails = await _context.AppointmentDetails
-                .Include(a => a.Services)
-                .Include(a => a.Appointment)
+            var Appointments = await _context.Appointments
+                .Include(a => a.IAppDetails)
+                .ThenInclude(ad => ad.Services)
                 .Where(a => a.remarks == null)
                 .ToListAsync();
 
             var owners = await _context.Owners.ToListAsync();
 
-            // Group the fetched appointment details by AppointmentId to ensure each appointment is processed only once.
-            var groupedAppointments = appDetails
-                .GroupBy(ad => ad.Appointment.AppointId)   // Group by the AppointmentId property
-                .Select(g => new AppointmentGroup          // Project each group into a new AppointmentGroup object
-                {
-                    Appointment = g.First().Appointment,   // Use the first AppointmentDetail in the group to get the AppointmentX
-                    Details = g.ToList()
-                })
-                .ToList();
-
+        
             var vm = new AppointmentVm
             {
-                AppointmentGrouping = groupedAppointments,
+                IAppointments = Appointments,
                 IOwner = owners
             };
 
             return vm;
-
         }
-
 
         public async Task GetServices()
         {
@@ -109,7 +99,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
         {
             var appDetails = _context.AppointmentDetails.Include(a => a.Appointment);
 
-            return appDetails.Any(a => a.Appointment.fname == fname && a.Appointment.lname == lname && a.remarks == null);
+            return appDetails.Any(a => a.Appointment.fname == fname && a.Appointment.lname == lname /*&& a.remarks == null*/);
         }
 
 
@@ -320,7 +310,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SetRemarks(string fname, string lname, string AppDetailsIds, List<int>serviceId)
+        public async Task<IActionResult> SetRemarks(string fname, string lname, int appointmentId)
         {
 
             var verifyOwner = _context.Owners.FirstOrDefault(a => a.fname == fname && a.lname == lname);
@@ -332,23 +322,9 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
                 return View("Index", vm);
             }
 
-            //collect the id and split by comma
-            var ids = AppDetailsIds
-                .Split(',')
-                .Select(id => int.Parse(id))  //converting string to int
-                .ToList();
-
-            //matching via contains the Ids to database
-            var appointmentDetails = await _context.AppointmentDetails
-                .Where(ad => ids.Contains(ad.AppDetailsId))
-                .ToListAsync();
-
-            //save to database individually
-            foreach (var appointmentDetail in appointmentDetails)
-            {
-                appointmentDetail.remarks = "Completed";
-                _context.Update(appointmentDetail);
-            }
+    
+  
+          
 
             //get owner Objects 
             var owner = await _context.Owners
@@ -367,7 +343,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             /*return RedirectToAction("ActionOrViewName", "ControllerName", route);*/
 
 
-            return RedirectToAction("DiagnosAppointment", "C_Diagnostics", new { id = tvm.Owner.id, serviceId = serviceId});
+            return RedirectToAction("DiagnosAppointment", "C_Diagnostics", new { id = tvm.Owner.id });
         }
 
         [HttpGet]

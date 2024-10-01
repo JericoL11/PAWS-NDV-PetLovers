@@ -247,8 +247,23 @@
 
     @await RenderSectionAsync("Scripts", required: false)
 
-  @*   <script>
+  <script>
         $.extend($.fn.dataTable.defaults, {
+            paging: true,
+            scrollY: 400,
+            responsive: true,
+            searching: true,
+            ordering: true,
+            order: [[0, 'desc']] ,// Default order by the first column (index 0) in descending order
+            autoWidth: false,
+            stateSave: false,
+            pageLength: 10
+        });
+
+
+
+
+        @*    $.extend($.fn.dataTable.defaults, {
 
             paging: false,
             scrollY: 400,
@@ -268,8 +283,8 @@
             ordering: true,
 
             });
-
-    </script> *@
+            *@
+    </script> 
  
     @* add-form-script *@
     @* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> *@
