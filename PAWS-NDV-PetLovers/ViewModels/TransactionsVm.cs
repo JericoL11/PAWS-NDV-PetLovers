@@ -1,4 +1,6 @@
-﻿using PAWS_NDV_PetLovers.Models.Records;
+﻿
+using PAWS_NDV_PetLovers.Models.Appointments;
+using PAWS_NDV_PetLovers.Models.Records;
 using PAWS_NDV_PetLovers.Models.Transactions;
 
 namespace PAWS_NDV_PetLovers.ViewModels
@@ -13,6 +15,10 @@ namespace PAWS_NDV_PetLovers.ViewModels
 
         public Billing? Billing { get; set; }
 
+
+        //For displaying name in diagnostic Appointments
+        public Appointment? Appointment { get; set; }
+        public AppointmentDetails? AppointmentDetails { get; set; }
 
         //selected services from appointment
         public List<int>? SelectedServices { get; set; }

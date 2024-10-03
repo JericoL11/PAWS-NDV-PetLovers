@@ -52,7 +52,7 @@
                 </div>
                 <div class="form-group col-lg-3 col-md-6">
                     <label asp-for="Owner.gender" class="control-label"></label>
-                    <input asp-for="Owner.gender" class="form-control" />
+                    <input asp-for="Owner.gender" class="form-control" readonly />
                     <span asp-validation-for="Owner.gender" class="text-danger"></span>
                 </div>
                 <div class="form-group  col-lg-3 col-md-6">
@@ -150,7 +150,7 @@
                                 @* <a asp-action="Details" asp-controller="Pets" class="btn btn-info btn-md" asp-route-id="@item.id">Details</a> *@
                              
                                 <a asp-controller="C_Diagnostics"
-                                   asp-route-id="@item.id"
+                                   asp-route-petId="@item.id"
                                    asp-action="Create" class="btn btn-primary"> Diagnosis
                                </a>
 

@@ -11,7 +11,7 @@
 
 <div class="container">
     <div class="mb-4">
-        <a class="btn btn-primary" asp-action="Create" asp-controller="Owners">Register</a>
+        <a class="btn btn-primary" asp-action="Create" asp-controller="Owners">Register New Owner</a>
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             Existing Record
@@ -23,6 +23,12 @@
 
         <div class="row">
             <!-- Owner fields -->
+            <div class="form-group col-lg-4 visually-hidden">
+                <label asp-for="Appointment.ownerId_holder" class="control-label"></label>
+                <input id="ownerId" asp-for="Appointment.ownerId_holder" class="form-control" readonly />
+                <span asp-validation-for="Appointment.ownerId_holder" class="text-danger"></span>
+            </div>
+
             <div class="form-group col-lg-4">
                 <label asp-for="Appointment.fname" class="control-label"></label>
                 <input id="fname" asp-for="Appointment.fname" class="form-control" />
@@ -122,11 +128,13 @@
                                     <td class="text-center">
                                         <input type="radio" name="SelectedOwnerId"
                                                value="@owner.id"
+                                               data-ownerId="@owner.id"
                                                data-fname="@owner.fname"
                                                data-lname="@owner.lname"
                                                data-mname="@owner.mname"
-                                               data-contact="@owner.contact" />
+                                               data-contact="@owner.contact"/>
                                     </td>
+
                                     <td class="text-center">@Html.DisplayFor(modelItem => owner.id)</td>
                                     <td class="text-center">@Html.DisplayFor(modelItem => owner.fname) @Html.Raw(" ") @Html.DisplayFor(modelItem => owner.lname)</td>
                                     <td class="text-center">@Html.DisplayFor(modelItem => owner.address)</td>
@@ -191,24 +199,29 @@
                 }
             });
 
-            // Modal select button
             $('#SelectOwnerButton').click(function () {
                 var selectedOwner = $('input[name="SelectedOwnerId"]:checked');
                 if (selectedOwner.length > 0) {
+                    var ownerId = selectedOwner.data('ownerid');  // Ensure this matches the data attribute used
                     var fname = selectedOwner.data('fname');
                     var lname = selectedOwner.data('lname');
                     var mname = selectedOwner.data('mname');
                     var contact = selectedOwner.data('contact');
 
+                    // Populate the form fields
+                    $('#ownerId').val(ownerId);
                     $('#fname').val(fname);
                     $('#lname').val(lname);
                     $('#mname').val(mname);
                     $('#contact').val(contact);
+
+                    // Hide the modal
                     $('#staticBackdrop').modal('hide');
                 } else {
                     alert("Please select an owner.");
                 }
             });
+
 
             function fetchAvailableTimes() {
                 var selectedDate = $('#appointmentDate').val();
@@ -275,6 +288,8 @@
 
             $('#appointmentDate').change(fetchAvailableTimes);
         });
+        console.log('Selected Owner ID:', ownerId);
+
     </script>
 
 }

@@ -212,7 +212,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             //for Diagnostic Bill Display
 
             var diagnostic = await _context.Diagnostics
-               .Include(d => d.Purchase)
+               .Include(d => d.PurchaseNav)
                    .ThenInclude(p => p.purchaseDetails)
                    .ThenInclude(p => p.product)
                .Include(d => d.pet)
@@ -258,7 +258,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                     .ThenInclude(p => p.owner)
                     .Include(d => d.IdiagnosticDetails)
                     .ThenInclude(dd => dd.Services)
-                    .Include(d => d.Purchase)
+                    .Include(d => d.PurchaseNav)
                     .ThenInclude(d => d.purchaseDetails)
                     .ThenInclude(pd => pd.product)
                     .ThenInclude(p => p.category)

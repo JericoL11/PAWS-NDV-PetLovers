@@ -91,6 +91,12 @@
                 @for (int i = 0; i < Model.Diagnostics.IdiagnosticDetails.Count; i++)
                 {
                     <tr>
+                        @if(Model.Appointment.IAppDetails.Count > 0)
+                        {
+                            <td>
+                                @Html.DisplayFor(model => Model.Appointment.IAppDetails[i].Services.serviceName)
+                            </td>
+                        }
                         <td>
                             @Html.DisplayFor(model => Model.Diagnostics.IdiagnosticDetails[i].Services.serviceName)
                         </td>
@@ -142,200 +148,207 @@
      
     </form>
 
-    <!--vIEW Cart-->
-    <div class="container">
+
+@{
+   #region == source for purchase == 
+   /*
+        *
+        <!-- Modal for selecting Products  / Select Product - INDEX-->
+        *
+        <!--vIEW Cart-->
+        <div class="container">
 
         @{
-            var purchase = Model.totalPurchasePayment;
+        var purchase = Model.totalPurchasePayment;
         }
 
         @if (purchase != 0)
         {
 
-            <div class="bg-secondary bg-opacity-10 py-2">
-                <h3 class="ps-3">Selected Products</h3>
-            </div>
-            <table class="table border">
-                <thead>
-                    <tr>
+        <div class="bg-secondary bg-opacity-10 py-2">
+        <h3 class="ps-3">Selected Products</h3>
+        </div>
+        <table class="table border">
+        <thead>
+        <tr>
 
-                        <th class="text-center">Id</th>
-                        <th class="text-center">Name</th>
-                        <th class="text-center">Category</th>
-                        <th class="text-center">Stock</th>
-                        <th class="text-center">Price</th>
-                        <th class="text-center">Order Quantity</th>
+        <th class="text-center">Id</th>
+        <th class="text-center">Name</th>
+        <th class="text-center">Category</th>
+        <th class="text-center">Stock</th>
+        <th class="text-center">Price</th>
+        <th class="text-center">Order Quantity</th>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.IPurchaseDetails)
-                    {
-                        <tr>
-                            <td class="text-center">
-                                @Html.DisplayFor(modelItem => item.purchaseId)
-                            </td>
-                            <td class="text-center">
-                                @Html.DisplayFor(modelItem => item.product.productName)
-                            </td>
-                            <td class="text-center">
-                                @Html.DisplayFor(modelItem => item.product.category.categoryName)
-                            </td>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.IPurchaseDetails)
+        {
+        <tr>
+        <td class="text-center">
+        @Html.DisplayFor(modelItem => item.purchaseId)
+        </td>
+        <td class="text-center">
+        @Html.DisplayFor(modelItem => item.product.productName)
+        </td>
+        <td class="text-center">
+        @Html.DisplayFor(modelItem => item.product.category.categoryName)
+        </td>
 
-                            <td class="text-center">
-                                @Html.DisplayFor(modelItem => item.product.quantity)
-                            </td>
+        <td class="text-center">
+        @Html.DisplayFor(modelItem => item.product.quantity)
+        </td>
 
-                            <td class="text-center">
-                                @Html.DisplayFor(modelItem => item.product.sellingPrice)
+        <td class="text-center">
+        @Html.DisplayFor(modelItem => item.product.sellingPrice)
 
-                            </td>
+        </td>
 
-                            <td class="text-center">
-                                @Html.DisplayFor(modelItem => item.quantity)
-                            </td>
-                            <form asp-action="RemoveProductFromPurchase" method="post">
-                                <input type="hidden" value="@item.purchaseId" name="purchaseId" />
-                                <input type="hidden" value="@item.productId" name="productId" />
-                                <input type="hidden" value="@item.quantity" name="quantity" />
-                                <input type="hidden" value="@item.Purchase.diagnosisId_holder" name="diagnosticId" />
-                                <input type="hidden" value="@item.Purchase.date" name="date" />
-                            <td><button class="btn btn-danger" name="">Remove</button></td>
+        <td class="text-center">
+        @Html.DisplayFor(modelItem => item.quantity)
+        </td>
+        <form asp-action="RemoveProductFromPurchase" method="post">
+        <input type="hidden" value="@item.purchaseId" name="purchaseId" />
+        <input type="hidden" value="@item.productId" name="productId" />
+        <input type="hidden" value="@item.quantity" name="quantity" />
+        <input type="hidden" value="@item.Purchase.diagnosisId_holder" name="diagnosticId" />
+        <input type="hidden" value="@item.Purchase.date" name="date" />
+        <td><button class="btn btn-danger" name="">Remove</button></td>
 
-                            </form>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+        </form>
+        </tr>
+        }
+        </tbody>
+        </table>
         }
 
 
 
-    </div>
-   
-
- 
-
-<!-- Modal for View Selected Product / Create -->
-<div class="modal fade" id="staticBackdropSelectedProduct" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <form method="post" asp-action="CreatePurchase">
-                    <div class="modal-header bg-primary">
-                        <h1 class="modal-title fs-5 text-white" id="staticBackdropLabel">Selected Product List</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-              
-                    <div class="modal-body">
-                            @if (ViewData["ErrorMessage"] != null)
-                            {
-                                <div class="alert alert-danger">
-                                    @ViewData["ErrorMessage"]
-                                </div>
-                            }
-                        @* Display Selected Product*@
-                        <div class="row justify-content-center">
-                            <table class="table border w-75" id="purchaseTable">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">Id</th>
-                                        <th class="text-center">Name</th>
-                                        <th class="text-center">Category</th>
-                                        <th class="text-center">Stock</th>
-                                        <th class="text-center">Price</th>
-                                        <th>Order Quantity</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-
-                                    <!--pRODUCT WILL DISPLAY HERE-->
-
-                                </tbody>
-
-                            </table>
-                        </div>
-
-                    </div>
-
-                   
-                    <div class="modal-footer">
-                        <input type="date" name="Purchase.Date" class="dateInput visually-hidden" />
-                        <input name="Purchase.diagnosisId_Holder" class="visually-hidden" value="@Model.Diagnostics.diagnostic_Id" />
-                        @{
-                            var customerName = $"{Model.Diagnostics.pet.owner.fname} {Model.Diagnostics.pet.owner.lname}";
-                        }
-                        <input class="visually-hidden" name="Purchase.customerName" value="@customerName" />
-
-
-                        <button type="button" id="AddProductBtn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                            Select Product
-                        </button>
-
-                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
-                    </div>
-                 </form>
-            </div>
-         </div>
-</div>
-
-
-
-<!-- Modal for selecting Products  / Select Product - INDEX-->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header bg-primary">
-                @* <h1 class="modal-title fs-5" id="staticBackdropLabel">Select Product</h1>  *@
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <table class="table hover" id="modalProductTbl">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Select</th>
-                                <th class="text-center">Id</th>
-                                <th class="text-center">Name</th>
-                                <th class="text-center">Category</th>
-                                <th class="text-center">Stock</th>
-                                <th class="text-center">Price</th>
-                                <th class="text-center">Order Quantity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            @{
-                                var Iproducts = Model.IProducts.Where(p => p.quantity > 0).Select(p => p);
-                            }
-                            @foreach (var product in @Iproducts)
-                            {
-                                <tr>
-                                    <td class="text-center"><input type="checkbox" class="selectProduct form-check-input" data-id="@product.id" data-name="@product.productName" data-category="@product.category.categoryName" data-qty="@product.quantity" data-price="@product.sellingPrice" /></td>
-                                    <td class="text-center">@product.id</td>
-                                    <td class="text-center">@product.productName</td>
-                                    <td class="text-center">@product.category.categoryName</td>
-                                    <td class="text-center">@product.quantity</td>
-                                    <td class="text-center">@product.sellingPrice</td>
-                                    <td><input type="number" class="form-control orderQtyInput orderItemQty" min="1" max="@product.quantity" value="1" /></td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-
-              
-                    <div class="modal-footer">
-                            <div class="text-danger me-2" id="selectionWarning" style="display:none;">Product is already selected.</div>
-                            <button type="button" class="btn btn-secondary bg-opacity-10" id="ViewSelectedProduct">Cancel</button>
-
-                            @* <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> *@
-                            <button type="button" class="btn btn-primary" id="SelectProductButton">Add</button>
-                       </div>
-                </form>
-            </div>
         </div>
-    </div>
-</div>
+
+
+
+        <!-- Modal for View Selected Product / Create -->
+        <div class="modal fade" id="staticBackdropSelectedProduct" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+        <form method="post" asp-action="CreatePurchase">
+        <div class="modal-header bg-primary">
+        <h1 class="modal-title fs-5 text-white" id="staticBackdropLabel">Selected Product List</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+        @if (ViewData["ErrorMessage"] != null)
+        {
+        <div class="alert alert-danger">
+        @ViewData["ErrorMessage"]
+        </div>
+        }
+        @* Display Selected Product*@
+        <div class="row justify-content-center">
+        <table class="table border w-75" id="purchaseTable">
+        <thead>
+        <tr>
+        <th class="text-center">Id</th>
+        <th class="text-center">Name</th>
+        <th class="text-center">Category</th>
+        <th class="text-center">Stock</th>
+        <th class="text-center">Price</th>
+        <th>Order Quantity</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <!--pRODUCT WILL DISPLAY HERE-->
+
+        </tbody>
+
+        </table>
+        </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+        <input type="date" name="Purchase.Date" class="dateInput visually-hidden" />
+        <input name="Purchase.diagnosisId_Holder" class="visually-hidden" value="@Model.Diagnostics.diagnostic_Id" />
+        @{
+        var customerName = $"{Model.Diagnostics.pet.owner.fname} {Model.Diagnostics.pet.owner.lname}";
+        }
+        <input class="visually-hidden" name="Purchase.customerName" value="@customerName" />
+
+
+        <button type="button" id="AddProductBtn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Select Product
+        </button>
+
+        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+        </div>
+        </form>
+        </div>
+        </div>
+        </div>
+
+
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+        <div class="modal-header bg-primary">
+        @* <h1 class="modal-title fs-5" id="staticBackdropLabel">Select Product</h1>  *@
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        <form>
+        <table class="table hover" id="modalProductTbl">
+        <thead>
+        <tr>
+        <th class="text-center">Select</th>
+        <th class="text-center">Id</th>
+        <th class="text-center">Name</th>
+        <th class="text-center">Category</th>
+        <th class="text-center">Stock</th>
+        <th class="text-center">Price</th>
+        <th class="text-center">Order Quantity</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        @{
+        var Iproducts = Model.IProducts.Where(p => p.quantity > 0).Select(p => p);
+        }
+        @foreach (var product in @Iproducts)
+        {
+        <tr>
+        <td class="text-center"><input type="checkbox" class="selectProduct form-check-input" data-id="@product.id" data-name="@product.productName" data-category="@product.category.categoryName" data-qty="@product.quantity" data-price="@product.sellingPrice" /></td>
+        <td class="text-center">@product.id</td>
+        <td class="text-center">@product.productName</td>
+        <td class="text-center">@product.category.categoryName</td>
+        <td class="text-center">@product.quantity</td>
+        <td class="text-center">@product.sellingPrice</td>
+        <td><input type="number" class="form-control orderQtyInput orderItemQty" min="1" max="@product.quantity" value="1" /></td>
+        </tr>
+        }
+        </tbody>
+        </table>
+
+
+        <div class="modal-footer">
+        <div class="text-danger me-2" id="selectionWarning" style="display:none;">Product is already selected.</div>
+        <button type="button" class="btn btn-secondary bg-opacity-10" id="ViewSelectedProduct">Cancel</button>
+
+        @* <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> *@
+        <button type="button" class="btn btn-primary" id="SelectProductButton">Add</button>
+        </div>
+        </form>
+        </div>
+        </div>
+        </div>
+        </div>
+        */
+#endregion
+}
 
 
 <script src="~/js/TransactionsDT/modalProductTable.js" defer></script>

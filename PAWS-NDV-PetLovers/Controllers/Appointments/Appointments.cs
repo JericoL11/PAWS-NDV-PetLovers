@@ -95,13 +95,15 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
         }
 
 
-        public bool AppointmentExist(string fname, string lname)
+        public bool AppointmentExist(string fname, string lname,string mname)
         {
             var appDetails = _context.AppointmentDetails.Include(a => a.Appointment);
 
-            return appDetails.Any(a => a.Appointment.fname == fname && a.Appointment.lname == lname /*&& a.remarks == null*/);
+            return appDetails.Any(a => a.Appointment.fname == fname
+            && a.Appointment.lname == lname 
+            && a.Appointment.mname == mname 
+            &&  string.IsNullOrEmpty(a.Appointment.remarks));
         }
-
 
         #endregion
 
@@ -147,7 +149,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             // Return the available times as JSON
             return Json(new { availableAM = am, availablePM = pm });
         }
-
+        [HttpGet]
         public async Task<IActionResult> Create(DateTime date)
         {
             // Populate ViewBag.Services or other necessary data
@@ -248,7 +250,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
                 return View("Create", vm);
             }
 
-            if (AppointmentExist(appointment.fname, appointment.lname))
+            if (AppointmentExist(appointment.fname, appointment.lname, appointment.mname))
             {
                 ModelState.AddModelError("", $"Invalid \'{appointment.fname} {appointment.lname}\' is on pending");
 
@@ -267,46 +269,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             return View("Index", appDetails);
 
         }
-
-
-        #region === Default For set Remarks ===
-        /*  [HttpPost]
-          [ValidateAntiForgeryToken]
-          public async Task<IActionResult> SetRemarks(string fname, string lname, string AppDetailsIds)
-          {
-
-              var verifyOwner = _context.Owners.FirstOrDefault(a => a.fname == fname && a.lname == lname);
-
-              if (verifyOwner == null)
-              {
-                  ModelState.AddModelError("", "Registration required");
-                  var vm = await GetAllAsync();
-                  return View("Index", vm);
-              }
-
-              //collect the id and split by comma
-              var ids = AppDetailsIds
-                  .Split(',')
-                  .Select(id => int.Parse(id))  //converting string to int
-                  .ToList();
-
-              //matching via contains the Ids to database
-              var appointmentDetails = await _context.AppointmentDetails
-                  .Where(ad => ids.Contains(ad.AppDetailsId))
-                  .ToListAsync();
-
-              //save to database individually
-              foreach (var appointmentDetail in appointmentDetails)
-              {
-                  appointmentDetail.remarks = "Completed";
-                  _context.Update(appointmentDetail);
-              }
-
-              await _context.SaveChangesAsync();
-
-              return RedirectToAction(nameof(Index));
-          }*/
-        #endregion
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -347,7 +309,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, DateTime date)
         {
 
             await GetServices();

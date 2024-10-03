@@ -40,8 +40,8 @@
 
                         @{
                             var diagnosticDetails = item.IdiagnosticDetails
-                                .Select(d => d.Services.serviceName)
-                                .Distinct();
+                        .Select(d => d.Services.serviceName);
+
 
                             var service = diagnosticDetails.Take(2);
                             var remainingService = diagnosticDetails.Skip(2);

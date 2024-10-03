@@ -16,6 +16,9 @@ namespace PAWS_NDV_PetLovers.ViewModels
         public IEnumerable<Owner> IOwner { get; set; }
 
 
+        //selected services from appointment
+        public IEnumerable<Services>? Services { get; set; } // Add this property to hold the services list
+        public List<int>? SelectedServices { get; set; }
 
 
         //List for index View

@@ -17,7 +17,7 @@ namespace PAWS_NDV_PetLovers.Component
         {
 
             var diagnostics = await _context.Diagnostics
-                            .Include(d => d.Purchase)
+                            .Include(d => d.PurchaseNav)
                             .ThenInclude(p => p.purchaseDetails)
                             .ThenInclude(p => p.product)
                             .Include(d => d.pet)

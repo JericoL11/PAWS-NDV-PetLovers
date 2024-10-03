@@ -10,6 +10,9 @@ namespace PAWS_NDV_PetLovers.Models.Appointments
         [Key]
         public int AppointId { get; set; }
 
+        
+        public int? ownerId_holder { get; set; }
+
         [Required]
         [Display(Name = "First name")]
         public string? fname { get; set; }
@@ -46,7 +49,8 @@ namespace PAWS_NDV_PetLovers.Models.Appointments
         //navigation property
 
         //This will serve as parameterless Constructor bc of "?" nullable
-        public ICollection<AppointmentDetails>? IAppDetails { get; set; }
+        public IList<AppointmentDetails>? IAppDetails { get; set; }
+    
    
     }
 }

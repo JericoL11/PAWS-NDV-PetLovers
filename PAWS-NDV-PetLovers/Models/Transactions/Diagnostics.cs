@@ -40,7 +40,8 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
 
         public IList<DiagnosticDetails> IdiagnosticDetails { get; set; }
 
-        public Purchase? Purchase { get; set; } //1 TO 1
+
+        public Purchase? PurchaseNav { get; set; } //1 TO 1
 
 
     }

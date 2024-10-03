@@ -1,4 +1,5 @@
-﻿using PAWS_NDV_PetLovers.Models.Records;
+﻿using PAWS_NDV_PetLovers.Models.Appointments;
+using PAWS_NDV_PetLovers.Models.Records;
 using System.Collections;
 
 namespace PAWS_NDV_PetLovers.ViewModels
@@ -20,6 +21,7 @@ namespace PAWS_NDV_PetLovers.ViewModels
         public Product Product { get; set; }
 
         public IEnumerable<Product> IProducts { get; set; }
-     
+
+        public Appointment? Appointment { get; set; }
     }
 }

@@ -68,78 +68,171 @@
 
 
             <!-- Diagnostics Details -->
-            <div class="col-12 ">
-                <table class="table mt-2" id="DetailsTable">
-                    <thead>
-                        <tr>
+<div class="col-12 ">
+    <table class="table mt-2" id="DetailsTable">
+        <thead>
+            <tr>
+                <th>Service Name</th>
+                <th>Details</th>
+                <th class="text-end">
+                    <button type="button" class="btn btn-success px-2" id="addRow">Add Service</button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Loop through existing services if any -->
+            @if (Model.Appointment != null && Model.Appointment.IAppDetails != null)
+            {
+                for (int i = 0; i < Model.Appointment.IAppDetails.Count(); i++)
+                {
+                    var detail = Model.Appointment.IAppDetails.ElementAt(i).serviceID;
 
-                            <th>Service Name</th>
-                            <th>Details</th>
-                            <th class="text-end"><button type="button" class="btn btn-success px-2" id="addRow">Add Service</button></th>
-               
-                        </tr>
-                    </thead>
-                    <tbody>
-           
-                        <tr class="detailRow">
-                            <td> 
-                                <div class="form-group mt-2">
-                                    <select name="Diagnostics.IdiagnosticDetails[0].serviceId" class="form-control service-select" required>
-                                        <option value="" data-price="0" disabled selected>Select Service</option>
+                    <tr class="detailRow">
+                        <td> 
+                            <div class="form-group mt-2">
+                                <select name="Diagnostics.IdiagnosticDetails[@i].serviceId" class="form-control service-select" required>
+                                    <option value="" data-price="0" disabled>Select Service</option>
 
-                                        @foreach (var service in Model.Services.Where(s => s.serviceType =="NA"))
+                                    <!-- Loop through NA-type services and set the selected service -->
+                                    @foreach (var service in Model.Services.Where(s => s.serviceType == "NA"))
+                                    {
+                                        if (service.serviceId == detail)
+                                        {
+                                            <option value="@service.serviceId"
+                                                    data-price="@service.serviceCharge"
+                                                    data-service-type="@service.serviceType.ToLower()"
+                                                    data-service-name="@service.serviceName.ToLower()"
+                                                    selected="selected">
+                                                @service.serviceName
+                                            </option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@service.serviceId"
+                                                    data-price="@service.serviceCharge"
+                                                    data-service-type="@service.serviceType.ToLower()"
+                                                    data-service-name="@service.serviceName.ToLower()">
+                                                @service.serviceName
+                                            </option>
+                                        }
+                                    }
+
+                                    @* Laboratory services grouped under "Laboratory test" optgroup *@
+                                    @{
+                                        // Get all distinct service types for conditional rendering
+                                        var checkTypes = Model.Services
+                                        .Select(s => s.serviceType)
+                                        .Distinct();
+
+                                        // Convert types to lowercase for easier comparison
+                                        var type = string.Join(",", checkTypes).ToLower();
+                                    }
+
+                                    @if (type.Contains("lab"))
+                                    {
+                                        <optgroup label="Laboratory test">
+                                            @foreach (var service in Model.Services.Where(s => s.serviceType != "NA"))
+                                            {
+                                                if (service.serviceId == detail)
+                                                {
+                                                    <option value="@service.serviceId"
+                                                            data-price="@service.serviceCharge"
+                                                            data-service-type="@service.serviceType.ToLower()"
+                                                            data-service-name="@service.serviceName.ToLower()"
+                                                            selected="selected">
+                                                        @service.serviceName
+                                                    </option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@service.serviceId"
+                                                            data-price="@service.serviceCharge"
+                                                            data-service-type="@service.serviceType.ToLower()"
+                                                            data-service-name="@service.serviceName.ToLower()">
+                                                        @service.serviceName
+                                                    </option>
+                                                }
+                                            }
+                                        </optgroup>
+                                    }
+                                </select>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="prescription">
+                                <textarea name="Diagnostics.IdiagnosticDetails[@i].details" class="form-control bg-light" rows="7" style="resize: none;" placeholder="(Optional)"></textarea>
+                            </div>
+                        </td>
+
+                        <td>
+                            <button type="button" class="btn btn-danger removeRow">Remove</button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr class="detailRow">
+                    <td>
+                        <div class="form-group mt-2">
+                            <select name="Diagnostics.IdiagnosticDetails[0].serviceId" class="form-control service-select" required>
+                                <option value="" data-price="0" disabled selected>Select Service</option>
+
+                                @foreach (var service in Model.Services.Where(s => s.serviceType == "NA"))
+                                {
+                                    <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-type="@service.serviceType.ToLower()" data-service-name="@service.serviceName.ToLower()">
+                                        @service.serviceName
+                                    </option>
+                                }
+
+                                @* for display laboratory items *@
+                                @{
+                                    //check services
+                                    var checkTypes = Model.Services
+                                    .Select(s => s.serviceType)
+                                    .Distinct();
+
+                                    var type = string.Join(",", checkTypes).ToLower();
+
+                                }
+                                @if (type.Contains("lab"))
+                                {
+                                    <optgroup label="Laboratory test">
+                                        @foreach (var service in Model.Services.Where(s => s.serviceType != "NA"))
                                         {
                                             <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-type="@service.serviceType.ToLower()" data-service-name="@service.serviceName.ToLower()">
                                                 @service.serviceName
                                             </option>
                                         }
+                                    </optgroup>
+                                }
 
-                                        @* for display laboratory items *@
-                                        @{
-                                            //check services
-                                            var checkTypes = Model.Services
-                                            .Select(s => s.serviceType)
-                                            .Distinct();
+                            </select>
+                            <input type="hidden" name="Diagnostics.IdiagnosticDetails[0].totalServicePayment" class="service-charge" value="" />
+                        </div>
+                    </td>
 
-                                            var type = string.Join(",", checkTypes).ToLower();
+                    <td>
+                        <div class="prescription">
+                            <textarea name="Diagnostics.IdiagnosticDetails[0].details" class="form-control bg-light" rows="7" style="resize: none;" placeholder="(Optional)"></textarea>
+                        </div>
+                    </td>
 
-                                        }
-                                        @if (type.Contains("lab"))
-                                        {
-                                            <optgroup label="Laboratory test">
-                                                @foreach (var service in Model.Services.Where(s => s.serviceType != "NA"))
-                                                {
-                                                    <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-type="@service.serviceType.ToLower()" data-service-name="@service.serviceName.ToLower()">
-                                                        @service.serviceName
-                                                    </option>
-                                                }
-                                            </optgroup>
-                                        }
-
-                                    </select>
-                                    <input type="hidden" name="Diagnostics.IdiagnosticDetails[0].totalServicePayment" class="service-charge" value="" />
-                                </div>
-                            </td>
-  
-                            <td>
-                                <div class="prescription">
-                                    <textarea name="Diagnostics.IdiagnosticDetails[0].details" class="form-control bg-light" rows="7" style="resize: none;" placeholder="(Optional)"></textarea>
-                                </div>
-                            </td>
-
-                            <td>
-                                <button type="button" class="btn btn-danger removeRow">Remove</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-
+                    <td>
+                        <button type="button" class="btn btn-danger removeRow">Remove</button>
+                    </td>
+                </tr>
+            }
+           
+        </tbody>
+    </table>
+</div>
             <div class="form-group text-end">
              @*    <label asp-for="Diagnostics.totalServicePayment" class="control-label visually-hidden fw-bold"></label>
                 <input asp-for="Diagnostics.totalServicePayment" id="totalPayment" class="form-control  visually-hidden" readonly /> *@
                 <a asp-action="Edit" asp-controller="Owners" class="btn btn-secondary" asp-route-id="@Model.Pets.ownerId">Cancel</a>
+                <input type="hidden" name="ownerId" value="@Model.Pets.ownerId" />
                 <input type="submit" value="Save" class="btn btn-primary btn-md px-4 my-2" />
             </div>
         </div>
@@ -150,17 +243,16 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-  
-<script>
+    <script>
         $(document).ready(function () {
-
             // Function to update the name attributes of input/select elements in each row
             function updateRowNames() {
                 $('#DetailsTable tbody tr').each(function (index) {
-                    $(this).find('input, select').each(function () {
+                    $(this).find('input, select, textarea').each(function () {
                         var name = $(this).attr('name');
                         if (name) {
-                            var newName = name.replace(/\d+/, index); // Update index for each element
+                            // Replace only the index inside the square brackets
+                            var newName = name.replace(/\[\d+\]/, '[' + index + ']');
                             $(this).attr('name', newName);
                         }
                     });
@@ -194,7 +286,7 @@
                 newRow.find('input, select, textarea').each(function () {
                     var name = $(this).attr('name');
                     if (name) {
-                        var newName = name.replace(/\d+/, rowCount); // Update name attribute for the new row
+                        var newName = name.replace(/\[\d+\]/, '[' + rowCount + ']'); // Update name attribute for the new row
                         $(this).attr('name', newName);
                     }
                     $(this).val(''); // Clear the value of the input/select
@@ -217,7 +309,7 @@
             // Initial total price calculation on page load
             updateTotalPrice();
         });
+    </script>
 
-</script>
 
 }
