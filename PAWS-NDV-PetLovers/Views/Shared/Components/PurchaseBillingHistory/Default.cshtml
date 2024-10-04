@@ -24,9 +24,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.purchase.customerName)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.date)
-                    </td>
+                    <td> @item.date.ToString("MMM. dd, yyyy")</td>
                     <td>
                         @{
                             var total = item.grandTotal;

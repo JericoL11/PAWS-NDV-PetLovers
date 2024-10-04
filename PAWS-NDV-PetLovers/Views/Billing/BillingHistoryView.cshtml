@@ -15,12 +15,12 @@
         {
             var custmerName = $"{Model.Billing.diagnostics.pet.owner.fname} {Model.Billing.diagnostics.pet.owner.lname}";
             <span><strong> Customer Name: </strong>@custmerName  &nbsp;  &nbsp; &nbsp;</span>
-            <strong>Date:</strong> <span>@Html.DisplayFor(model => model.Billing.diagnostics.date)</span>
+            <strong>Date:</strong> <span>@Model.Billing.diagnostics.date?.ToString("MMM. dd, yyyy")</span>
         }
         else
         {
             <span><strong> Customer Name: </strong>@Model.Billing.purchase.customerName  &nbsp;  &nbsp; &nbsp;</span>
-            <strong>Date:</strong> <span>@Html.DisplayFor(model => model.Billing.purchase.date)</span>
+            <strong>Date:</strong> <span>@Model.Billing.diagnostics.date?.ToString("MMM. dd, yyyy")</span>
         }
 
     </div>

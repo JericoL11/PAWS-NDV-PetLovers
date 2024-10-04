@@ -89,12 +89,14 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                 .Include(a => a.IAppDetails) // Include appointment details for comparison
                 .FirstOrDefaultAsync(a => a.ownerId_holder == ownerId && string.IsNullOrEmpty(a.remarks));
 
-
-            // Update remarks and save changes
-            appointment.remarks = "Completed";
-            _context.Update(appointment);
+            if (appointment != null)
+            {
+                // Update remarks and save changes
+                appointment.remarks = "Completed";
+                _context.Update(appointment);
+            }
+       
             
-
             // Add the new Diagnostics entity
             _context.Add(diagnostics);
             await _context.SaveChangesAsync();
@@ -109,7 +111,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
 
         //Functions
 
-        [HttpGet]
+        /*[HttpGet]
         public async Task<IActionResult> DiagnosAppointment(int Appointmentid, string fname, string lname, string contact, List<int> serviceId)
         {
 
@@ -125,7 +127,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             };
 
             return View(tvm);
-        }
+        }*/
         /// <summary>
 
         /// </summary>
@@ -133,7 +135,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
         /// <param name="tvm"></param>
         /// <returns></returns>
         //Owner Diagnosis
-        [HttpGet]
+        /*[HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
 
@@ -194,9 +196,9 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
 
             return View(tvm);
 
-        }
+        }*/
 
-        [HttpPost]
+        /*[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([Bind("Diagnostics")] TransactionsVm tvm)
         {
@@ -260,9 +262,9 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             };
 
             return RedirectToAction("Index", "BillingDashboard"); // Redirect to a different action after saving
-        }
+        }*/
 
-        [HttpPost]
+       /* [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreatePurchase(Purchase purchase)
         {
@@ -349,7 +351,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             }
 
             // Sum all the product totals and update the purchase
-          /*  purchase.totalProductPayment = Purchased.Sum();*/
+          *//*  purchase.totalProductPayment = Purchased.Sum();*//*
 
             // Add the purchase and update the products in the database
             _context.Add(purchase);
@@ -461,7 +463,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
         {
             return _context.Purchases.Any(p => p.purchaseId == id);
         }
-
+*/
         #endregion
     }
 }

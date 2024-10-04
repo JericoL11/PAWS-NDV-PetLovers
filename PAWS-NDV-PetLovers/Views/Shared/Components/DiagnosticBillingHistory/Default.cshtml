@@ -26,9 +26,7 @@
                         @Html.Raw(' ')
                         @Html.DisplayFor(modelItem => item.diagnostics.pet.owner.lname)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.date)
-                    </td>
+                    <td> @item.date.ToString("MMM. dd, yyyy")</td>
                     <td>
                         @{
                             var total = item.grandTotal;

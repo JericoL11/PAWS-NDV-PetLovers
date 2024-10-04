@@ -85,9 +85,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.address)
             </td>
-             <td>
-            @Html.DisplayFor(modelItem => item.registeredDate)
-            </td>   
+
+            <td>
+                @item.registeredDate?.ToString("MMM. dd, yyyy")
+            </td>
+
             <td>
 
                 <a asp-action="Edit" class="btn btn-success btn-sm px-3" asp-route-id="@item.id">View</a>

@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.Models.Appointments;
 using PAWS_NDV_PetLovers.Models.Records;
+using PAWS_NDV_PetLovers.Models.Transactions;
 using PAWS_NDV_PetLovers.ViewModels;
 
 namespace PAWS_NDV_PetLovers.Controllers.Appointments
@@ -309,10 +310,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int? id, DateTime date)
+        public async Task<IActionResult> Edit(int? id)
         {
-
-            await GetServices();
 
             if (id == null)
             {
@@ -330,16 +329,24 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
                 return NotFound();
             }
 
-            return View(appointment);
+            //vm instantiationn
+            AppointmentVm vm = new AppointmentVm
+            {
+                Appointment = appointment,
+                Services = await _context.Services.Where(s => string.IsNullOrEmpty(s.status)).ToListAsync()
+             
+            };
+
+            return View("Edit", vm);
+
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AppointId,fname,mname,lname,contact,date,time,ownerId,IAppDetails")] Appointment appointments)
+        public async Task<IActionResult> Edit(int id, AppointmentVm appoint)
         {
-            await GetServices();
-
+            var appointments = appoint.Appointment;
 
             if (id != appointments.AppointId)
             {
@@ -350,18 +357,60 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             {
                 ModelState.AddModelError("", $"Contact number below 11 is not valid");
 
-                var appointment = await _context.Appointments
-              .Include(a => a.IAppDetails)
-              .ThenInclude(a => a.Services)
-              .FirstOrDefaultAsync(a => a.AppointId == id);
+                var app = await _context.Appointments
+                  .Include(a => a.IAppDetails)
+                  .ThenInclude(a => a.Services)
+                  .FirstOrDefaultAsync(a => a.AppointId == id);
 
+                // VM instantiation
+                AppointmentVm vm = new AppointmentVm
+                {
+                    Appointment = app,
+                    Services = await _context.Services.Where(s => string.IsNullOrEmpty(s.status)).ToListAsync()
+                };
 
-                return View("Edit", appointment);
+                return View("Edit", vm);
             }
 
             try
             {
-                _context.Appointments.Update(appointments);
+                // Get the existing appointment to update
+                var existingAppointment = await _context.Appointments
+                    .Include(a => a.IAppDetails)
+                    .FirstOrDefaultAsync(a => a.AppointId == id);
+
+                if (existingAppointment == null)
+                {
+                    return NotFound();
+                }
+
+                // Remove existing services
+                _context.AppointmentDetails.RemoveRange(existingAppointment.IAppDetails);
+
+                // Update appointment details
+                existingAppointment.fname = appointments.fname;
+                existingAppointment.mname = appointments.mname;
+                existingAppointment.lname = appointments.lname;
+                existingAppointment.contact = appointments.contact;
+                existingAppointment.date = appointments.date;
+                existingAppointment.time = appointments.time;
+               // existingAppointment.remarks = appointments.remarks;
+
+                // Add new appointment details from the ViewModel
+                foreach (var detail in appoint.Appointment.IAppDetails)
+                {
+                    // Only add if a new service ID is provided
+                    if (detail.serviceID.HasValue)
+                    {
+                        existingAppointment.IAppDetails.Add(new AppointmentDetails
+                        {
+                            AppointId = existingAppointment.AppointId,
+                            serviceID = detail.serviceID
+                        });
+                    }
+                }
+
+                // Save changes
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

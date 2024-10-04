@@ -41,7 +41,8 @@
             </div>
             <div class="form-group col-lg-3 col-md-6">
                 <label asp-for="Pets.bdate" class="control-label"></label>
-                <input asp-for="Pets.bdate" class="form-control" readonly />
+                <input type="hidden" asp-for="Pets.bdate" class="form-control" readonly />
+                <input value="@Model.Pets.bdate?.ToString("MMM. dd, yyyy")" class="form-control" readonly />
             </div>
 
     
@@ -54,10 +55,11 @@
 
 
             <div class="row mt-3">
-                <div class="form-group col-lg-3">
+                <div class="form-group col-lg-3 visually-hidden">
                     <!-- Hidden Field for Date -->
                     <label asp-for="Diagnostics.date" class="control-label"></label>
                     <input asp-for="Diagnostics.date" class="form-control dateInput" readonly />
+
                 </div>
                 <div class="form-group col-lg-3">
                     <!-- Hidden Field for Date -->
