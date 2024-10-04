@@ -89,47 +89,11 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                 .Include(a => a.IAppDetails) // Include appointment details for comparison
                 .FirstOrDefaultAsync(a => a.ownerId_holder == ownerId && string.IsNullOrEmpty(a.remarks));
 
-            if (appointment != null)
-            {
-                // Get the list of service IDs from the form (new services)
-                var updatedServiceIds = tvm.Diagnostics.IdiagnosticDetails.Select(s => s.serviceId).ToList();
 
-                // Remove services that no longer match the new services
-                var servicesToRemove = appointment.IAppDetails
-                    .Where(a => !updatedServiceIds.Contains((int)a.serviceID)) // Existing services not in the new list
-                    .ToList();
-
-                foreach (var service in servicesToRemove)
-                {
-                    appointment.IAppDetails.Remove(service); // Remove unmatched services
-                }
-
-                // Update or add services from the new list
-                foreach (var updatedService in tvm.Diagnostics.IdiagnosticDetails)
-                {
-                    var appointmentService = appointment.IAppDetails.FirstOrDefault(a => a.serviceID == updatedService.serviceId);
-
-                    if (appointmentService != null)
-                    {
-                        // Update the service details if it exists
-                        appointmentService.serviceID = updatedService.serviceId;
-                        /* appointmentService.details = updatedService.details; */
-                    }
-                    else
-                    {
-                        // Add new service if it doesn't exist
-                        appointment.IAppDetails.Add(new AppointmentDetails
-                        {
-                            serviceID = updatedService.serviceId,
-                        
-                        });
-                    }
-                }
-
-                // Update remarks and save changes
-                appointment.remarks = "Completed"; // For example, update remarks/status
-                _context.Update(appointment); // Mark the appointment as updated
-            }
+            // Update remarks and save changes
+            appointment.remarks = "Completed";
+            _context.Update(appointment);
+            
 
             // Add the new Diagnostics entity
             _context.Add(diagnostics);

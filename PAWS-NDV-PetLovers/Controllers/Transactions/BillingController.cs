@@ -293,6 +293,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                 return RedirectToAction("Edit", new { id = diagnosticid, errorMessage = true, viewModel.activeBillingTab });
             }
 
+            //if purchase not null in the View
             var existingPurchase = await _context.Purchases
                 .Include(p => p.purchaseDetails)
                 .ThenInclude(pd => pd.product)
@@ -300,7 +301,18 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
 
             if (existingPurchase == null)
             {
+                foreach (var details in purchase.purchaseDetails)
+                {
+                    // Update product quantity in the database
+                    var product = await _context.Products.FirstOrDefaultAsync(p => p.id == details.productId);
+                    if (product != null)
+                    {
+                        product.quantity -= details.quantity;
+                    }
+                    _context.UpdateRange(product);
+                }
                 _context.Add(purchase);
+        
             }
             else
             {
