@@ -15,12 +15,12 @@
         {
             var custmerName = $"{Model.Billing.diagnostics.pet.owner.fname} {Model.Billing.diagnostics.pet.owner.lname}";
             <span><strong> Customer Name: </strong>@custmerName  &nbsp;  &nbsp; &nbsp;</span>
-            <strong>Date:</strong> <span>@Model.Billing.diagnostics.date?.ToString("MMM. dd, yyyy")</span>
+             <strong>Date:</strong> <span>@Model.Billing.date.ToString("MMM. dd, yyyy")</span>
         }
         else
         {
             <span><strong> Customer Name: </strong>@Model.Billing.purchase.customerName  &nbsp;  &nbsp; &nbsp;</span>
-            <strong>Date:</strong> <span>@Model.Billing.diagnostics.date?.ToString("MMM. dd, yyyy")</span>
+            <strong>Date:</strong> <span>@Model.Billing.date.ToString("MMM. dd, yyyy")</span>
         }
 
     </div>
@@ -38,7 +38,7 @@
            <div class="mt-3">
                   @if (Model.Billing.diagnostics != null)
                 { 
-                    <th>Diagnostics</th>
+                    <th>Service</th>
           
                     @foreach(var service in Model.Billing.diagnostics.IdiagnosticDetails)
                     {
@@ -77,8 +77,16 @@
             var total = @Model.Billing.grandTotal;
             var grandTotal = (double)total;
 
+             var cash = @Model.Billing.cashReceive;
+            var tendered = (double)cash;
+
+             var change = @Model.Billing.changeAmount;
+            var totalChange = (double)change;
+
         }
-        <strong>Grand Total : <span class=" fw-bold">@grandTotal.ToString("C")</span></strong>
+        <strong>Grand Total : <span class="text-danger fw-bold">@grandTotal.ToString("C")</span></strong> <br />
+        <strong>Cash Tendered : <span class=" fw-bold">@tendered.ToString("C")</span></strong><br />
+        <strong>Change : <span class=" fw-bold">@totalChange.ToString("C")</span></strong>
    </div>
 
    

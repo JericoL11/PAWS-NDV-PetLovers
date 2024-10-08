@@ -10,7 +10,7 @@ namespace PAWS_NDV_PetLovers.Models.Appointments
         [Key]
         public int AppointId { get; set; }
 
-        
+        [ForeignKey("Owners")]
         public int? ownerId_holder { get; set; }
 
         [Required]
