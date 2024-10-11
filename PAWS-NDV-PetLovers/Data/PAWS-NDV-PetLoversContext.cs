@@ -32,6 +32,7 @@ namespace PAWS_NDV_PetLovers.Data
 
         public DbSet<AppointmentDetails> AppointmentDetails { get; set; } = default!;
 
+        public DbSet<PetFollowUps> PetFollowUps { get; set; } = default!;
         //Transaction
 
         public DbSet<Diagnostics> Diagnostics { get; set; } = default!;

@@ -46,7 +46,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             var appointment = await _context.Appointments
                  .Include(a => a.IAppDetails)
                  .ThenInclude(a => a.Services)
-                 .FirstOrDefaultAsync(a => a.ownerId_holder == firstPet.ownerId && string.IsNullOrEmpty(a.remarks));
+                 .FirstOrDefaultAsync(a => a.ownerId== firstPet.ownerId && string.IsNullOrEmpty(a.remarks));
 
             if (appointment != null)
             {
@@ -55,7 +55,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                 {
                     Pets = firstPet,
                     //assigning fk column PetId based on routed id
-                    Diagnostics = new Diagnostics { petId = (int)petId },
+                    Diagnostics =  new Diagnostics { petId = (int)petId } ,
                     Services = await _context.Services.Where(s => string.IsNullOrEmpty(s.status)).ToListAsync(),
                     Appointment = appointment
                 };
@@ -79,7 +79,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? ownerId, [Bind("Diagnostics")] TransactionsVm tvm)
+        public async Task<IActionResult> Create(int? ownerId, [Bind("Diagnostics, SelectedServiceId")] TransactionsVm tvm)
         {
             var diagnostics = tvm.Diagnostics;
 
@@ -87,7 +87,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             var owner = await _context.Owners.FindAsync(ownerId);
             var appointment = await _context.Appointments
                 .Include(a => a.IAppDetails) // Include appointment details for comparison
-                .FirstOrDefaultAsync(a => a.ownerId_holder == ownerId && string.IsNullOrEmpty(a.remarks));
+                .FirstOrDefaultAsync(a => a.ownerId == ownerId && string.IsNullOrEmpty(a.remarks));
 
             if (appointment != null)
             {
@@ -95,15 +95,27 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                 appointment.remarks = "Completed";
                 _context.Update(appointment);
             }
-       
-            
-            // Add the new Diagnostics entity
+
+            // Filter out diagnostics follow-up entries where the date is null or the date is uninitialized (DateTime.MinValue)
+            diagnostics.IPetFollowUps = diagnostics.IPetFollowUps
+                .Where(f => f.date != DateTime.MinValue)
+                .ToList();
+
+            // Assign the selected service to the follow-up (if applicable)
+            foreach (var followUp in diagnostics.IPetFollowUps)
+            {
+                followUp.serviceId = tvm.SelectedServiceId;  // Link the follow-up to the selected service
+            }
+
+            // Add the new Diagnostics entity and save to get the generated ID
             _context.Add(diagnostics);
             await _context.SaveChangesAsync();
 
             // Redirect to the Billing page
             return RedirectToAction("Index", "Billing");
         }
+
+
 
 
         /*ownerfk must not be fk to avoid duplicate insertion of OWNER FK*/
@@ -264,206 +276,206 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             return RedirectToAction("Index", "BillingDashboard"); // Redirect to a different action after saving
         }*/
 
-       /* [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePurchase(Purchase purchase)
-        {
-            // Check if the purchase object or purchase details are null or empty
-            if (purchase == null || purchase.purchaseDetails == null || !purchase.purchaseDetails.Any())
-            {
-                // Fetch the original data for the view
-                var diagnostics = await _context.Diagnostics
-                    .Include(d => d.pet)
-                    .ThenInclude(p => p.owner)
-                    .Include(d => d.IdiagnosticDetails)
-                    .ThenInclude(dd => dd.Services)
-                    .Include(d => d.PurchaseNav)
-                    .ThenInclude(d => d.purchaseDetails)
-                    .ThenInclude(pd => pd.product)
-                    .ThenInclude(p => p.category)
-                    .FirstOrDefaultAsync(d => d.diagnostic_Id == purchase.diagnosisId_holder);
+        /* [HttpPost]
+         [ValidateAntiForgeryToken]
+         public async Task<IActionResult> CreatePurchase(Purchase purchase)
+         {
+             // Check if the purchase object or purchase details are null or empty
+             if (purchase == null || purchase.purchaseDetails == null || !purchase.purchaseDetails.Any())
+             {
+                 // Fetch the original data for the view
+                 var diagnostics = await _context.Diagnostics
+                     .Include(d => d.pet)
+                     .ThenInclude(p => p.owner)
+                     .Include(d => d.IdiagnosticDetails)
+                     .ThenInclude(dd => dd.Services)
+                     .Include(d => d.PurchaseNav)
+                     .ThenInclude(d => d.purchaseDetails)
+                     .ThenInclude(pd => pd.product)
+                     .ThenInclude(p => p.category)
+                     .FirstOrDefaultAsync(d => d.diagnostic_Id == purchase.diagnosisId_holder);
 
-                var purchaseItems = await _context.PurchaseDetails
-                    .Include(p => p.product)
-                    .ThenInclude(p => p.category)
-                    .Include(p => p.Purchase)
-                    .Where(p => p.Purchase.diagnosisId_holder == purchase.diagnosisId_holder && string.IsNullOrEmpty(p.Purchase.status))
-                    .ToListAsync();
+                 var purchaseItems = await _context.PurchaseDetails
+                     .Include(p => p.product)
+                     .ThenInclude(p => p.category)
+                     .Include(p => p.Purchase)
+                     .Where(p => p.Purchase.diagnosisId_holder == purchase.diagnosisId_holder && string.IsNullOrEmpty(p.Purchase.status))
+                     .ToListAsync();
 
-                // Calculate the total price again
-                double purchasePayment = purchaseItems.Sum(item => (double)item.product.sellingPrice * (int)item.quantity);
+                 // Calculate the total price again
+                 double purchasePayment = purchaseItems.Sum(item => (double)item.product.sellingPrice * (int)item.quantity);
 
-                // Reload the view model with the original data and an error message
-                var viewModel = new TransactionsVm
-                {
-                    Diagnostics = diagnostics,
-                    Purchase = await _context.Purchases
-                        .Include(p => p.purchaseDetails)
-                        .ThenInclude(p => p.product)
-                        .ThenInclude(p => p.category)
-                        .FirstOrDefaultAsync(p => p.diagnosisId_holder == purchase.diagnosisId_holder),
-                    Services = await _context.Services.ToListAsync(),
-                    IProducts = await _context.Products.Include(p => p.category).ToListAsync(),
-                    IPurchaseDetails = purchaseItems,
-                    totalPurchasePayment = purchasePayment
+                 // Reload the view model with the original data and an error message
+                 var viewModel = new TransactionsVm
+                 {
+                     Diagnostics = diagnostics,
+                     Purchase = await _context.Purchases
+                         .Include(p => p.purchaseDetails)
+                         .ThenInclude(p => p.product)
+                         .ThenInclude(p => p.category)
+                         .FirstOrDefaultAsync(p => p.diagnosisId_holder == purchase.diagnosisId_holder),
+                     Services = await _context.Services.ToListAsync(),
+                     IProducts = await _context.Products.Include(p => p.category).ToListAsync(),
+                     IPurchaseDetails = purchaseItems,
+                     totalPurchasePayment = purchasePayment
 
-                };
+                 };
 
-                // Add an error message to the ViewData to display on the view
-                ViewData["ErrorMessage"] = "No products were selected. Please select at least one product to proceed.";
+                 // Add an error message to the ViewData to display on the view
+                 ViewData["ErrorMessage"] = "No products were selected. Please select at least one product to proceed.";
 
-                // Return the Edit view with the original data and error message
-                return View("Edit", viewModel);
-            }
+                 // Return the Edit view with the original data and error message
+                 return View("Edit", viewModel);
+             }
 
-            // Storage for calculated totals
-            var Purchased = new List<double>();
+             // Storage for calculated totals
+             var Purchased = new List<double>();
 
-            // Selected Product Ids
-            var ProductIds = purchase.purchaseDetails
-                .Select(P => P.productId)
-                .Distinct()
-                .ToList();
+             // Selected Product Ids
+             var ProductIds = purchase.purchaseDetails
+                 .Select(P => P.productId)
+                 .Distinct()
+                 .ToList();
 
-            // Get products from the database based on selected product Ids
-            var Products = await _context.Products.Where(p => ProductIds.Contains(p.id)).ToListAsync();
+             // Get products from the database based on selected product Ids
+             var Products = await _context.Products.Where(p => ProductIds.Contains(p.id)).ToListAsync();
 
-            // Convert the list of products to a dictionary for easy lookup
-            var ProductDictionary = Products.ToDictionary(p => p.id);
+             // Convert the list of products to a dictionary for easy lookup
+             var ProductDictionary = Products.ToDictionary(p => p.id);
 
-            // Process each purchase detail and update total price
-            foreach (var details in purchase.purchaseDetails)
-            {
-                var price = details.sellingPrice;
-                var quantity = details.quantity;
+             // Process each purchase detail and update total price
+             foreach (var details in purchase.purchaseDetails)
+             {
+                 var price = details.sellingPrice;
+                 var quantity = details.quantity;
 
-                // Calculate total price (if quantity is 0, it defaults to 1)
-                var total = price * (quantity > 0 ? quantity : 1);
+                 // Calculate total price (if quantity is 0, it defaults to 1)
+                 var total = price * (quantity > 0 ? quantity : 1);
 
-                // Add total to the list of totals
-                Purchased.Add(total);
+                 // Add total to the list of totals
+                 Purchased.Add(total);
 
-                // Update product quantity in the database
-                if (ProductDictionary.TryGetValue(details.productId, out var product))
-                {
-                    product.quantity -= quantity;
-                }
-            }
+                 // Update product quantity in the database
+                 if (ProductDictionary.TryGetValue(details.productId, out var product))
+                 {
+                     product.quantity -= quantity;
+                 }
+             }
 
-            // Sum all the product totals and update the purchase
-          *//*  purchase.totalProductPayment = Purchased.Sum();*//*
+             // Sum all the product totals and update the purchase
+           *//*  purchase.totalProductPayment = Purchased.Sum();*//*
 
-            // Add the purchase and update the products in the database
-            _context.Add(purchase);
-            _context.UpdateRange(Products);
+             // Add the purchase and update the products in the database
+             _context.Add(purchase);
+             _context.UpdateRange(Products);
 
-            // Attempt to save changes
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PurchaseExists(purchase.diagnosisId_holder))
-                {
-                    // Fetch the original data for the view
-                    var diagnostics = await _context.Diagnostics
-                        .Include(d => d.pet)
-                        .ThenInclude(p => p.owner)
-                        .Include(d => d.IdiagnosticDetails)
-                        .ThenInclude(dd => dd.Services)
-                        .Include(d => d.PurchaseNav)
-                        .ThenInclude(d => d.purchaseDetails)
-                        .ThenInclude(pd => pd.product)
-                        .ThenInclude(p => p.category)
-                        .FirstOrDefaultAsync(d => d.diagnostic_Id == purchase.diagnosisId_holder);
+             // Attempt to save changes
+             try
+             {
+                 await _context.SaveChangesAsync();
+             }
+             catch (DbUpdateConcurrencyException)
+             {
+                 if (!PurchaseExists(purchase.diagnosisId_holder))
+                 {
+                     // Fetch the original data for the view
+                     var diagnostics = await _context.Diagnostics
+                         .Include(d => d.pet)
+                         .ThenInclude(p => p.owner)
+                         .Include(d => d.IdiagnosticDetails)
+                         .ThenInclude(dd => dd.Services)
+                         .Include(d => d.PurchaseNav)
+                         .ThenInclude(d => d.purchaseDetails)
+                         .ThenInclude(pd => pd.product)
+                         .ThenInclude(p => p.category)
+                         .FirstOrDefaultAsync(d => d.diagnostic_Id == purchase.diagnosisId_holder);
 
-                    var purchaseItems = await _context.PurchaseDetails
-                        .Include(p => p.product)
-                        .ThenInclude(p => p.category)
-                        .Include(p => p.Purchase)
-                        .Where(p => p.Purchase.diagnosisId_holder == purchase.diagnosisId_holder && string.IsNullOrEmpty(p.Purchase.status))
-                        .ToListAsync();
+                     var purchaseItems = await _context.PurchaseDetails
+                         .Include(p => p.product)
+                         .ThenInclude(p => p.category)
+                         .Include(p => p.Purchase)
+                         .Where(p => p.Purchase.diagnosisId_holder == purchase.diagnosisId_holder && string.IsNullOrEmpty(p.Purchase.status))
+                         .ToListAsync();
 
-                    // Calculate the total price again
-                    double purchasePayment = purchaseItems.Sum(item => (double)item.product.sellingPrice * (int)item.quantity);
+                     // Calculate the total price again
+                     double purchasePayment = purchaseItems.Sum(item => (double)item.product.sellingPrice * (int)item.quantity);
 
-                    // Reload the view model with the original data
-                    var viewModel = new TransactionsVm
-                    {
-                        Diagnostics = diagnostics,
-                        Purchase = await _context.Purchases
-                            .Include(p => p.purchaseDetails)
-                            .ThenInclude(p => p.product)
-                            .ThenInclude(p => p.category)
-                            .FirstOrDefaultAsync(p => p.diagnosisId_holder == purchase.diagnosisId_holder),
-                        Services = await _context.Services.ToListAsync(),
-                        IProducts = await _context.Products.Include(p => p.category).ToListAsync(),
-                        IPurchaseDetails = purchaseItems,
-                        totalPurchasePayment = purchasePayment
-                    };
+                     // Reload the view model with the original data
+                     var viewModel = new TransactionsVm
+                     {
+                         Diagnostics = diagnostics,
+                         Purchase = await _context.Purchases
+                             .Include(p => p.purchaseDetails)
+                             .ThenInclude(p => p.product)
+                             .ThenInclude(p => p.category)
+                             .FirstOrDefaultAsync(p => p.diagnosisId_holder == purchase.diagnosisId_holder),
+                         Services = await _context.Services.ToListAsync(),
+                         IProducts = await _context.Products.Include(p => p.category).ToListAsync(),
+                         IPurchaseDetails = purchaseItems,
+                         totalPurchasePayment = purchasePayment
+                     };
 
-                    ViewData["ErrorMessage"] = "The purchase does not exist.";
-                    return View("Edit", viewModel);
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                     ViewData["ErrorMessage"] = "The purchase does not exist.";
+                     return View("Edit", viewModel);
+                 }
+                 else
+                 {
+                     throw;
+                 }
+             }
 
-            // Fetch the updated diagnostic data and purchase details for the Edit view
-            var updatedDiagnostics = await _context.Diagnostics
-                .Include(d => d.pet)
-                .ThenInclude(p => p.owner)
-                .Include(d => d.IdiagnosticDetails)
-                .ThenInclude(dd => dd.Services)
-                .Include(d => d.PurchaseNav)
-                .ThenInclude(d => d.purchaseDetails)
-                .ThenInclude(pd => pd.product)
-                .ThenInclude(p => p.category)
-                .FirstOrDefaultAsync(d => d.diagnostic_Id == purchase.diagnosisId_holder);
+             // Fetch the updated diagnostic data and purchase details for the Edit view
+             var updatedDiagnostics = await _context.Diagnostics
+                 .Include(d => d.pet)
+                 .ThenInclude(p => p.owner)
+                 .Include(d => d.IdiagnosticDetails)
+                 .ThenInclude(dd => dd.Services)
+                 .Include(d => d.PurchaseNav)
+                 .ThenInclude(d => d.purchaseDetails)
+                 .ThenInclude(pd => pd.product)
+                 .ThenInclude(p => p.category)
+                 .FirstOrDefaultAsync(d => d.diagnostic_Id == purchase.diagnosisId_holder);
 
-            var updatedPurchaseItems = await _context.PurchaseDetails
-                .Include(p => p.product)
-                .ThenInclude(p => p.category)
-                .Include(p => p.Purchase)
-                .Where(p => p.Purchase.diagnosisId_holder == purchase.diagnosisId_holder && string.IsNullOrEmpty(p.Purchase.status))
-                .ToListAsync();
+             var updatedPurchaseItems = await _context.PurchaseDetails
+                 .Include(p => p.product)
+                 .ThenInclude(p => p.category)
+                 .Include(p => p.Purchase)
+                 .Where(p => p.Purchase.diagnosisId_holder == purchase.diagnosisId_holder && string.IsNullOrEmpty(p.Purchase.status))
+                 .ToListAsync();
 
-            // Calculate the total price again
-            double updatedPurchasePayment = updatedPurchaseItems.Sum(item => (double)item.product.sellingPrice * (int)item.quantity);
+             // Calculate the total price again
+             double updatedPurchasePayment = updatedPurchaseItems.Sum(item => (double)item.product.sellingPrice * (int)item.quantity);
 
-            // Reload the view model with the updated data
-            var updatedTvm = new TransactionsVm
-            {
-                Diagnostics = updatedDiagnostics,
-                Purchase = await _context.Purchases
-                    .Include(p => p.purchaseDetails)
-                    .ThenInclude(p => p.product)
-                    .ThenInclude(p => p.category)
-                    .FirstOrDefaultAsync(p => p.diagnosisId_holder == purchase.diagnosisId_holder),
-                Services = await _context.Services.ToListAsync(),
-                IProducts = await _context.Products.Include(p => p.category).ToListAsync(),
-                IPurchaseDetails = updatedPurchaseItems,
-                totalPurchasePayment = updatedPurchasePayment
-            };
+             // Reload the view model with the updated data
+             var updatedTvm = new TransactionsVm
+             {
+                 Diagnostics = updatedDiagnostics,
+                 Purchase = await _context.Purchases
+                     .Include(p => p.purchaseDetails)
+                     .ThenInclude(p => p.product)
+                     .ThenInclude(p => p.category)
+                     .FirstOrDefaultAsync(p => p.diagnosisId_holder == purchase.diagnosisId_holder),
+                 Services = await _context.Services.ToListAsync(),
+                 IProducts = await _context.Products.Include(p => p.category).ToListAsync(),
+                 IPurchaseDetails = updatedPurchaseItems,
+                 totalPurchasePayment = updatedPurchasePayment
+             };
 
-            // Return the updated Edit view with the current data
-            return View("Edit", updatedTvm);
+             // Return the updated Edit view with the current data
+             return View("Edit", updatedTvm);
 
-         
-        }
-        private bool DiagnosticExists(int id)
-        {
-            return _context.Diagnostics.Any(e => e.diagnostic_Id == id);
-        }
 
-        private bool PurchaseExists(int? id)
-        {
-            return _context.Purchases.Any(p => p.purchaseId == id);
-        }
-*/
+         }
+         private bool DiagnosticExists(int id)
+         {
+             return _context.Diagnostics.Any(e => e.diagnostic_Id == id);
+         }
+
+         private bool PurchaseExists(int? id)
+         {
+             return _context.Purchases.Any(p => p.purchaseId == id);
+         }
+ */
         #endregion
     }
 }

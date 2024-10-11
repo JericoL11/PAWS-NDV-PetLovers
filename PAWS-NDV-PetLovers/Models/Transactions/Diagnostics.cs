@@ -1,4 +1,5 @@
-﻿using PAWS_NDV_PetLovers.Models.Records;
+﻿using PAWS_NDV_PetLovers.Models.Appointments;
+using PAWS_NDV_PetLovers.Models.Records;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -40,9 +41,8 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
 
         public IList<DiagnosticDetails> IdiagnosticDetails { get; set; }
 
-
         public Purchase? PurchaseNav { get; set; } //1 TO 1
 
-
+        public IList<PetFollowUps>?  IPetFollowUps { get; set;}
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PAWS_NDV_PetLovers.Data;
 
@@ -11,9 +12,11 @@ using PAWS_NDV_PetLovers.Data;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     [DbContext(typeof(PAWS_NDV_PetLoversContext))]
-    partial class PAWS_NDV_PetLoversContextModelSnapshot : ModelSnapshot
+    [Migration("20241008093138_AlterOwnerId_Appointments")]
+    partial class AlterOwnerId_Appointments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,7 +63,7 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     b.HasKey("AppointId");
 
-                    b.ToTable("Appointments", (string)null);
+                    b.ToTable("Appointments");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.AppointmentDetails", b =>
@@ -83,31 +86,7 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     b.HasIndex("serviceID");
 
-                    b.ToTable("AppointmentDetails", (string)null);
-                });
-
-            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.PetFollowUps", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("Diagnostics")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Diagnostics");
-
-                    b.ToTable("PetFollowUps", (string)null);
+                    b.ToTable("AppointmentDetails");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Records.Category", b =>
@@ -135,7 +114,7 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Records.Owner", b =>
@@ -183,7 +162,7 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("Owners", (string)null);
+                    b.ToTable("Owners");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Records.Pet", b =>
@@ -237,7 +216,7 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     b.HasIndex("ownerId");
 
-                    b.ToTable("Pets", (string)null);
+                    b.ToTable("Pets");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Records.Product", b =>
@@ -281,7 +260,7 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Records.Services", b =>
@@ -308,7 +287,7 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     b.HasKey("serviceId");
 
-                    b.ToTable("Services", (string)null);
+                    b.ToTable("Services");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Billing", b =>
@@ -343,7 +322,7 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     b.HasIndex("PurchaseId");
 
-                    b.ToTable("Billings", (string)null);
+                    b.ToTable("Billings");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.DiagnosticDetails", b =>
@@ -372,7 +351,7 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     b.HasIndex("serviceId");
 
-                    b.ToTable("DiagnosticDetails", (string)null);
+                    b.ToTable("DiagnosticDetails");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Diagnostics", b =>
@@ -406,7 +385,7 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     b.HasIndex("petId");
 
-                    b.ToTable("Diagnostics", (string)null);
+                    b.ToTable("Diagnostics");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Purchase", b =>
@@ -431,7 +410,7 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     b.HasKey("purchaseId");
 
-                    b.ToTable("Purchases", (string)null);
+                    b.ToTable("Purchases");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.PurchaseDetails", b =>
@@ -460,7 +439,7 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     b.HasIndex("purchaseId");
 
-                    b.ToTable("PurchaseDetails", (string)null);
+                    b.ToTable("PurchaseDetails");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.AppointmentDetails", b =>
@@ -478,15 +457,6 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.Navigation("Appointment");
 
                     b.Navigation("Services");
-                });
-
-            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.PetFollowUps", b =>
-                {
-                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Diagnostics", "diagnostic_Id")
-                        .WithMany("IPetFollowUps")
-                        .HasForeignKey("Diagnostics");
-
-                    b.Navigation("diagnostic_Id");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Records.Pet", b =>
@@ -596,8 +566,6 @@ namespace PAWS_NDV_PetLovers.Migrations
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Diagnostics", b =>
                 {
-                    b.Navigation("IPetFollowUps");
-
                     b.Navigation("IdiagnosticDetails");
                 });
 

@@ -161,14 +161,17 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             var services = await _context.Services.ToListAsync();
             var appointments = await _context.Appointments.ToListAsync();
 
-
             // Retrieve appointments on the selected date
             var appointmentsOnDate = await _context.Appointments
                 .Where(a => a.date == date)
                 .Select(a => a.time)
                 .ToListAsync();
 
-            //get data is read and stored individually
+            // Get current date and time for comparison
+            var currentDate = DateTime.Now.Date;
+            var currentTime = DateTime.Now.TimeOfDay;
+
+            // Convert appointments times to string
             var convertedToString = string.Join(" ", appointmentsOnDate);
             var am = new List<string>();
             var pm = new List<string>();
@@ -180,6 +183,12 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
                 // Determine AM or PM
                 if (hour >= 8 && hour <= 11) // AM Times
                 {
+                    if (date == currentDate && new TimeSpan(hour, 0, 0) < currentTime)
+                    {
+                        // Skip past times for the current day
+                        continue;
+                    }
+
                     if (!convertedToString.Contains(time))
                     {
                         am.Add(time);
@@ -187,8 +196,14 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
                 }
                 else if (hour >= 1 && hour <= 4) // PM Times
                 {
-
                     time = $"{hour + 12}:00"; // Convert to 24-hour format for PM
+
+                    if (date == currentDate && new TimeSpan(hour + 12, 0, 0) < currentTime)
+                    {
+                        // Skip past PM times for the current day
+                        continue;
+                    }
+
                     if (!convertedToString.Contains(time))
                     {
                         pm.Add(time);
@@ -205,11 +220,11 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
                 AvailableAM = am,
                 AvailablePM = pm,
                 Appointment = new Appointment { date = date } // Set input field date by default (this is routed from index)
-
             };
 
             return View(viewModel);
         }
+
 
 
 

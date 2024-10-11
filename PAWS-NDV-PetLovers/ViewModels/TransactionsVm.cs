@@ -11,6 +11,8 @@ namespace PAWS_NDV_PetLovers.ViewModels
         public DiagnosticDetails? DiagnosticDetails { get; set; }
         public Pet? Pets { get; set; }
 
+        // Add a SelectedServiceId field to track the selected service
+        public int? SelectedServiceId { get; set; }
         public Purchase? Purchase { get; set; }
 
         public Billing? Billing { get; set; }

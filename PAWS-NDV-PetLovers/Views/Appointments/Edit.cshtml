@@ -221,6 +221,9 @@
 
             function fetchAvailableTimes() {
                 var selectedDate = $('#appointmentDate').val();
+                var preselectedTime = '@Model.Appointment.time'; // Get the preselected time from the model
+                console.log('Selected Date:', selectedDate);
+                console.log('Preselected Time:', preselectedTime); // Debug log
 
                 if (selectedDate) {
                     $.ajax({
@@ -237,10 +240,17 @@
                             if (data.availableAM && data.availableAM.length > 0) {
                                 var amGroup = $('<optgroup>', { label: 'Morning' });
                                 $.each(data.availableAM, function (index, value) {
-                                    amGroup.append($('<option>', {
+                                    var option = $('<option>', {
                                         value: value,
                                         text: value + ' am'
-                                    }));
+                                    });
+
+                                    // Check if this value matches the preselected time
+                                    if (preselectedTime && preselectedTime.trim() === value.trim()) {
+                                        option.prop('selected', true);
+                                    }
+
+                                    amGroup.append(option);
                                 });
                                 timeDropdown.append(amGroup);
                                 hasAvailableTimes = true;
@@ -250,10 +260,17 @@
                             if (data.availablePM && data.availablePM.length > 0) {
                                 var pmGroup = $('<optgroup>', { label: 'Afternoon' });
                                 $.each(data.availablePM, function (index, value) {
-                                    pmGroup.append($('<option>', {
+                                    var option = $('<option>', {
                                         value: value,
                                         text: value
-                                    }));
+                                    });
+
+                                    // Check if this value matches the preselected time
+                                    if (preselectedTime && preselectedTime.trim() === value.trim()) {
+                                        option.prop('selected', true);
+                                    }
+
+                                    pmGroup.append(option);
                                 });
                                 timeDropdown.append(pmGroup);
                                 hasAvailableTimes = true;
@@ -284,6 +301,7 @@
             $('#appointmentDate').change(fetchAvailableTimes);
 
         });
+
 
             $(document).ready(function () {
             // Function to update the name attributes of input/select elements in each row

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<PAWS_NDV_PetLovers.Models.Appointments.PetFollowUps>
+@{
+    ViewData["Title"] = "Index Pet FollowUp";
+}
+<div class="bg-secondary bg-opacity-10 mb-3 py-2">
+    <div class="container">
+        <h3>Follow Up Visit</h3>
+    </div>
+</div>
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Pet Name</th>
+                <th>Owner Name</th>
+                <th>Service</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Diagnostics.pet.petName)</td>
+                        
+                    @{
+                        var ownerName = $"{item.Diagnostics.pet.owner.fname} {item.Diagnostics.pet.owner.lname}";
+                    }
+                    <td>@ownerName</td>
+                    @{
+                        var services = item.Diagnostics.IdiagnosticDetails
+                        .Where(d => d.Services.serviceName.ToLower().Contains("con")
+                        || d.Services.serviceName.ToLower().Contains("check")
+                        || d.Services.serviceName.ToLower().Contains("vac"))
+                        .Select(d => d.Services.serviceName) // Select the serviceName directly
+                        .ToList();
+
+                        var service = string.Join(", ", services);
+                    }
+                    <td>@service</td>
+
+                   <td>
+                       @Html.DisplayFor(modelItem => item.date)
+                   </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

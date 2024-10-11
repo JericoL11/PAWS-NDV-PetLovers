@@ -168,7 +168,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 if (ownerExistAppointment != null)
                 {
                     // Update the appointment's ownerId
-                    ownerExistAppointment.ownerId_holder = newOwnerId;
+                    ownerExistAppointment.ownerId = newOwnerId;
                     _context.Update(ownerExistAppointment);
                     await _context.SaveChangesAsync(); // Save changes to the appointment
 

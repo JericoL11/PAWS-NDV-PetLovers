@@ -668,6 +668,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             return View(vm);
         }
 
+        //PurchaseOnly
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreatePurchase(Purchase purchase)

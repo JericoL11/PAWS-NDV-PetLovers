@@ -80,6 +80,15 @@
                 </li>
 
                 <li class="mb-2">
+                    <a class="nav-link  collapsed  d-flex align-items-center p-2" asp-controller="PetFollowUp" asp-action="Index" id="ihome">
+                        @* data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="true collapse" *@
+                        <i class="fa-solid fa-angles-right"></i><div class="px-3">Follow-up Visit</div>
+                        @*  <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i> *@
+                    </a>
+                  
+                </li>
+
+                <li class="mb-2">
                     <a class="nav-link collapsed  d-flex align-items-center  p-2" data-bs-toggle="collapse" data-bs-target="#recordmanagement-collapse" aria-expanded="true collapse">
                         <i class="fa-solid fa-file-medical" id="icon"></i><div class="px-3">Record Management</div>
                         <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i>
@@ -148,7 +157,10 @@
         </div>
     </div>
 
-    <div class="container-fluid p-0">
+    @{
+        #region == Default Navbar == 
+        /* 
+         *  <div class="container-fluid p-0">
         <nav class="navbar">
             <div class="d-flex  d-mb-none">
                 <a class="navbar-brand fs-5" href="#"></a>
@@ -201,7 +213,11 @@
                     </form> *@
                 </div>
             </div>
-        </nav>
+        </nav> 
+         */
+        #endregion
+    }
+   
 
     </header> 
     <div class="container-fluid" style="padding:0">
@@ -241,7 +257,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/DataTables/datatables.js"></script>
+    <script src="~/DataTables/datatables.js" defer></script>
 
   
     @*datatables Options *@
@@ -257,7 +273,7 @@
             searching: true,
             ordering: true,
             order: [[0, 'desc']] ,// Default order by the first column (index 0) in descending order
-            autoWidth: false,
+            autoWidth: true,
             stateSave: false,
             pageLength: 10
         });
