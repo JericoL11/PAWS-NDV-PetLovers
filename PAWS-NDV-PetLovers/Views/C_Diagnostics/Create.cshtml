@@ -76,7 +76,7 @@
             <tr>
                 <th>Service Name</th>
                 <th>Details</th>
-                <th class="followUp visually-hidden">Next Visit</th>
+                <th </th>
                 <th class="text-end">
                     <button type="button" class="btn btn-success px-2" id="addRow">Add Service</button>
                 </th>
@@ -176,8 +176,10 @@
 
                         <td>
                             <div class="followUp visually-hidden">
-                                <label>Next Visit</label>
-                                            <input type="date" name="Diagnostics.IPetFollowUps[@i].date" class="form-control bg-light minDate" placeholder="(Optional)" />
+                                <label>Next Visit (Optional)</label>
+                                    <input type="date" name="Diagnostics.IPetFollowUps[@i].date" class="form-control bg-light minDate" placeholder="(Optional)" />
+                                     <input type="number" name="Diagnostics.IPetFollowUps[@i].serviceId" value="@detail"  class="visually-hidden"/>
+
                             </div>
                         </td>
 
@@ -238,8 +240,10 @@
 
                     <td>
                         <div class="followUp visually-hidden">
-                            <label>Next Visit</label>
-                                        <input type="date" name="Diagnostics.IPetFollowUps[0].date" class="form-control bg-light minDate" placeholder="(Optional)" />
+                            <label>Next Visit (Optional)</label>
+                            <input type="date" name="Diagnostics.IPetFollowUps[0].date" class="form-control bg-light minDate" placeholder="(Optional)" />
+                            <input type="number" name="Diagnostics.IPetFollowUps[0].serviceId" value="" class="visually-hidden" />
+
                         </div>
                     </td>
 
@@ -292,10 +296,17 @@
                 }
             }
 
+            // Function to update the service ID field based on selected option
+            function updateServiceId(row) {
+                var selectedServiceId = row.find('.service-select option:selected').val(); // Get selected service ID
+                row.find('input[name*="serviceId"]').val(selectedServiceId); // Set the hidden service ID input field
+            }
+
             // Event listener for when service selection changes
             $(document).on('change', '.service-select', function () {
                 var row = $(this).closest('tr');
                 updateFollowUp(row); // Update follow-up display based on selected service
+                updateServiceId(row); // Update the hidden service ID field when service is selected
             });
 
             // Initial check for services loaded from model on page load
@@ -319,6 +330,9 @@
                     $(this).val(''); // Clear the value of the input/select
                 });
 
+                // Reset the hidden service ID field for the new row
+                newRow.find('input[name*="serviceId"]').val('');
+
                 // Append the new row and hide follow-up by default
                 newRow.appendTo($('#DetailsTable tbody')); // Append new row to table body
                 newRow.find('.followUp').addClass('visually-hidden'); // Ensure follow-up is hidden initially
@@ -332,9 +346,19 @@
                     updateRowNames(); // Update names for remaining rows
                 }
             });
+
+            // Event listener for when service selection changes
+            $(document).on('change', '.service-select', function () {
+                var row = $(this).closest('tr');
+                var selectedServiceId = $(this).val(); // Get selected service ID
+
+                // Update the ServiceId input field within the same row
+                row.find('input[name*="serviceId"]').val(selectedServiceId);
+            });
         });
 
     </script>
+
 
 
 }

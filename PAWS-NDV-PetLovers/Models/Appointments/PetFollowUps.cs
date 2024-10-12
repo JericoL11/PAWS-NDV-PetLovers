@@ -3,6 +3,7 @@ using PAWS_NDV_PetLovers.Models.Records;
 using PAWS_NDV_PetLovers.Models.Transactions;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.Contracts;
 
 namespace PAWS_NDV_PetLovers.Models.Appointments
 {
@@ -12,17 +13,21 @@ namespace PAWS_NDV_PetLovers.Models.Appointments
         public int Id { get; set; }
 
         [ForeignKey("Diagnostics")]
-        public int DiagnosticsId { get; set; }  // Use int instead of Diagnostics? to make the ID required
-        public Diagnostics Diagnostics { get; set; }  // Navigation property for Diagnostics
+        public int diagnosticsId { get; set; } 
 
-        [ForeignKey("Service")]  // Reference to the specific service
-        public int? serviceId { get; set; }  // Nullable in case no service is selected
-        public Services? Service { get; set; }  // Navigation property to the Service
-
+        [ForeignKey("Services")]
+        public int serviceId { get; set; }
+    
         [DataType(DataType.Date)]
         [Display(Name = "Date")]
         public DateTime date { get; set; }
 
         public string? status { get; set; }
+
+
+        //navigation Property
+
+        public Diagnostics? Diagnostics { get; set; }
+        public Services? Services { get; set; }
     }
 }

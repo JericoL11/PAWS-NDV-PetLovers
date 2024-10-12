@@ -76,10 +76,9 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             return View(tVm);
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? ownerId, [Bind("Diagnostics, SelectedServiceId")] TransactionsVm tvm)
+        public async Task<IActionResult> Create(int? ownerId, [Bind("Diagnostics")] TransactionsVm tvm)
         {
             var diagnostics = tvm.Diagnostics;
 
@@ -96,28 +95,38 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                 _context.Update(appointment);
             }
 
-            // Filter out diagnostics follow-up entries where the date is null or the date is uninitialized (DateTime.MinValue)
+            // Filter out diagnostics follow-up entries where the date is null or uninitialized
             diagnostics.IPetFollowUps = diagnostics.IPetFollowUps
                 .Where(f => f.date != DateTime.MinValue)
                 .ToList();
 
-            // Assign the selected service to the follow-up (if applicable)
-            foreach (var followUp in diagnostics.IPetFollowUps)
+            if (diagnostics.IPetFollowUps.Count > 0)
             {
-                followUp.serviceId = tvm.SelectedServiceId;  // Link the follow-up to the selected service
+                // Assign the diagnosticsId and validate serviceId for each follow-up entry
+                foreach (var followUp in diagnostics.IPetFollowUps)
+                {
+
+                    // Check if serviceId is valid before proceeding
+                    var service = await _context.Services.FindAsync(followUp.serviceId);
+                   
+                    if (service == null)
+                    {
+                        ModelState.AddModelError(string.Empty, "Invalid Service ID selected for the follow-up.");
+                        //need viewmodel here for incase
+                        return View(tvm); // Return the view if there's an error with serviceId
+                    }
+
+                    _context.Update(followUp); // Update the follow-up entry with the IDs
+                }
             }
 
-            // Add the new Diagnostics entity and save to get the generated ID
+            // Add the new Diagnostics entity and save changes
             _context.Add(diagnostics);
             await _context.SaveChangesAsync();
 
             // Redirect to the Billing page
             return RedirectToAction("Index", "Billing");
         }
-
-
-
-
         /*ownerfk must not be fk to avoid duplicate insertion of OWNER FK*/
         #region == Abandoned methods (for source) ==
 

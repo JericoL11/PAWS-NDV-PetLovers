@@ -67,33 +67,67 @@
                 <span asp-validation-for="Appointment.time" class="text-danger"></span>
             </div>
 
+           
             <!-- Services Table -->
-            <div class="col-8">
-                <table class="table mt-2" id="DetailsTable">
-                    <thead>
-                        <tr>
-                            <th>Service</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="detailRow">
-                            <td>
-                                <div class="form-group">
-                                    <select name="Appointment.IAppDetails[0].serviceId" asp-items="@ViewBag.Services" class="form-control" required></select>
-                                </div>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-danger removeRow">Remove</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <button type="button" class="btn btn-success" id="addRow">Add Row</button>
-            </div>
+            <div class="row mt-4">
+                <div class="col-8">
+                    <h4>Select Service</h4>
+                        <table class="table mt-2" id="DetailsTable">
+                            <thead>
+                                <tr>
+                                    <th>Service</th>
+                                    <th colspan="1">Actions</th>
+                                    <th class="text-end"><button type="button" class="btn btn-success" id="addRow">Add Row</button> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="detailRow">
+                                    <td>
+                                        <select name="Appointment.IAppDetails[0].serviceId" class="form-control service-select" required>
+                                            <option value="" data-price="0" disabled selected>Select Service</option>
+
+                                            @foreach (var service in Model.IlistServices.Where(s => s.serviceType == "NA"))
+                                            {
+                                                <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-type="@service.serviceType.ToLower()" data-service-name="@service.serviceName.ToLower()">
+                                                    @service.serviceName
+                                                </option>
+                                            }
+
+                                            @* for display laboratory items *@
+                                            @{
+                                                //check services
+                                                var checkTypes = Model.IlistServices
+                                                .Select(s => s.serviceType)
+                                                .Distinct();
+
+                                                var type = string.Join(",", checkTypes).ToLower();
+
+                                            }
+                                            @if (type.Contains("lab"))
+                                            {
+                                                <optgroup label="Laboratory test">
+                                                    @foreach (var service in Model.IlistServices.Where(s => s.serviceType != "NA"))
+                                                    {
+                                                        <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-type="@service.serviceType.ToLower()" data-service-name="@service.serviceName.ToLower()">
+                                                            @service.serviceName
+                                                        </option>
+                                                    }
+                                                </optgroup>
+                                            }
+
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-danger removeRow">Remove</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
             <!-- Submit and Cancel buttons -->
-            <div class="form-group mt-3 text-end">
+            <div class="form-group mt-3">
                 <a asp-action="Index" class="btn btn-secondary px-4">Cancel</a>
                 <input type="submit" value="Create" class="btn btn-primary px-4" />
             </div>

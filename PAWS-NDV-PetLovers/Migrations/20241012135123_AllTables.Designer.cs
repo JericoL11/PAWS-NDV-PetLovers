@@ -12,8 +12,8 @@ using PAWS_NDV_PetLovers.Data;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     [DbContext(typeof(PAWS_NDV_PetLoversContext))]
-    [Migration("20241002234634_AddNAvAppointments_Owners")]
-    partial class AddNAvAppointments_Owners
+    [Migration("20241012135123_AllTables")]
+    partial class AllTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,10 +63,6 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     b.HasKey("AppointId");
 
-                    b.HasIndex("ownerId")
-                        .IsUnique()
-                        .HasFilter("[ownerId] IS NOT NULL");
-
                     b.ToTable("Appointments");
                 });
 
@@ -91,6 +87,35 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.HasIndex("serviceID");
 
                     b.ToTable("AppointmentDetails");
+                });
+
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.PetFollowUps", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("diagnosticsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("serviceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("diagnosticsId");
+
+                    b.HasIndex("serviceId");
+
+                    b.ToTable("PetFollowUps");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Records.Category", b =>
@@ -366,14 +391,14 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("diagnostic_Id"));
 
+                    b.Property<int?>("PurchaseNavpurchaseId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("date")
                         .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<int>("petId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("purchaseId")
                         .HasColumnType("int");
 
                     b.Property<string>("status")
@@ -385,9 +410,9 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     b.HasKey("diagnostic_Id");
 
-                    b.HasIndex("petId");
+                    b.HasIndex("PurchaseNavpurchaseId");
 
-                    b.HasIndex("purchaseId");
+                    b.HasIndex("petId");
 
                     b.ToTable("Diagnostics");
                 });
@@ -446,15 +471,6 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.ToTable("PurchaseDetails");
                 });
 
-            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.Appointment", b =>
-                {
-                    b.HasOne("PAWS_NDV_PetLovers.Models.Records.Owner", "Owner")
-                        .WithOne("Appointment")
-                        .HasForeignKey("PAWS_NDV_PetLovers.Models.Appointments.Appointment", "ownerId");
-
-                    b.Navigation("Owner");
-                });
-
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.AppointmentDetails", b =>
                 {
                     b.HasOne("PAWS_NDV_PetLovers.Models.Appointments.Appointment", "Appointment")
@@ -468,6 +484,25 @@ namespace PAWS_NDV_PetLovers.Migrations
                         .HasForeignKey("serviceID");
 
                     b.Navigation("Appointment");
+
+                    b.Navigation("Services");
+                });
+
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.PetFollowUps", b =>
+                {
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Diagnostics", "Diagnostics")
+                        .WithMany("IPetFollowUps")
+                        .HasForeignKey("diagnosticsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Records.Services", "Services")
+                        .WithMany()
+                        .HasForeignKey("serviceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Diagnostics");
 
                     b.Navigation("Services");
                 });
@@ -528,17 +563,17 @@ namespace PAWS_NDV_PetLovers.Migrations
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Diagnostics", b =>
                 {
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Purchase", "PurchaseNav")
+                        .WithMany()
+                        .HasForeignKey("PurchaseNavpurchaseId");
+
                     b.HasOne("PAWS_NDV_PetLovers.Models.Records.Pet", "pet")
                         .WithMany()
                         .HasForeignKey("petId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Purchase", "Purchase")
-                        .WithMany()
-                        .HasForeignKey("purchaseId");
-
-                    b.Navigation("Purchase");
+                    b.Navigation("PurchaseNav");
 
                     b.Navigation("pet");
                 });
@@ -574,13 +609,13 @@ namespace PAWS_NDV_PetLovers.Migrations
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Records.Owner", b =>
                 {
-                    b.Navigation("Appointment");
-
                     b.Navigation("Pets");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Diagnostics", b =>
                 {
+                    b.Navigation("IPetFollowUps");
+
                     b.Navigation("IdiagnosticDetails");
                 });
 

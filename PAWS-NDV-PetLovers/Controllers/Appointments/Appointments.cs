@@ -489,7 +489,9 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
              
             if (appointment != null)
             {
-                _context.Appointments.Remove(appointment);
+                appointment.remarks = "Cancelled";
+                _context.Appointments.Update(appointment);
+                /*_context.Appointments.Remove(appointment);*/
                 await _context.SaveChangesAsync();
             }
 

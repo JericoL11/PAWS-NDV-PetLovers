@@ -20,14 +20,6 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
         [StringLength(5)]
         public string? weight { get; set; }
 
-
-
-        /*[Required]
-        [Display(Name = "Service Total")]
-        public double? totalServicePayment { get; set; }*/
-
-        /*public double? grandTotal { get; set; }*/
-
         [Required]
         [Display(Name = "Diagnosis Date")]
         [DataType(DataType.Date)]

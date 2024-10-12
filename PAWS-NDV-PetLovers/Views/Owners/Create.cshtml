@@ -87,7 +87,7 @@
                         <th><p style="margin:0;">Birth date</p></th>
                         <th><p style="margin:0;">Age</p></th>
                         <th><p style="margin:0;">Color</p></th>
-                        <th></th>
+                        <th colspan="2"><button type="button" class="btn btn-success" id="addRow">Add Row</button></th>
                     </tr>
                 </thead>
 
@@ -129,7 +129,7 @@
                             <input type="date" name="Pets[0].registeredDate" class="form-control bg-light maxDate" id="dateInput" hidden readonly />
                             </td>
                             <td class="col-1">
-                                <button type="button" class="btn btn-danger removeRow">Remove</button>
+                                <button type="button" class="btn btn-outline-danger removeRow">Remove</button>
                             </td>   
                         </div>
                     </tr>
@@ -137,17 +137,12 @@
      
             </table>
 
-            <div class="p-2">
-                <button type="button" class="btn btn-success" id="addRow">Add Row</button>
-
-            </div>
-
         </div>
 
 
-        <div class="form-group row d-flex justify-content-end mt-4">
-            <input type="submit" value="Create" class="btn btn-primary col-3" />
-            <a asp-action="Index" class="btn btn-secondary ms-3 col-2">Cancel</a>
+        <div class="form-group mt-4 text-end">
+         <a asp-action="Index" class="btn btn-secondary ms-3 ">Cancel</a>
+         <input type="submit" value="Create" class="btn btn-primary " />
         </div>
     </form>
 </div>

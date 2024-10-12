@@ -257,29 +257,25 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/DataTables/datatables.js" defer></script>
+    <script src="~/DataTables/datatables.js"></script>
 
-  
-    @*datatables Options *@
-   
+
 
     @await RenderSectionAsync("Scripts", required: false)
 
   <script>
+
         $.extend($.fn.dataTable.defaults, {
             paging: true,
             scrollY: 400,
             responsive: true,
             searching: true,
             ordering: true,
-            order: [[0, 'desc']] ,// Default order by the first column (index 0) in descending order
+            order: [[0, 'desc']],// Default order by the first column (index 0) in descending order
             autoWidth: true,
             stateSave: false,
             pageLength: 10
         });
-
-
-
 
         @*    $.extend($.fn.dataTable.defaults, {
 
