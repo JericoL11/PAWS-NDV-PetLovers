@@ -1,110 +1,67 @@
-﻿@model PAWS_NDV_PetLovers.ViewModels.RecordsVm
+﻿@model PAWS_NDV_PetLovers.Models.Records.Category
+
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Details";
 }
 
-@if (TempData["SuccessMessage"] != null)
-{
-    //bootstrap not for modal
-    <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
-        @TempData["SuccessMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
 
 <div class="bg-secondary bg-opacity-10 py-2 mb-3">
     <div class="container">
-        <h1>Update Category</h1>
+        <h1> Category Details </h1>
     </div>
-</div>  
-
-@*  since it is edit, it needs a form *@
-<div class="container">
-    <div class="row">
-        <div class="card">
-            <div class="card-header">
-              @*   <p class="fw-bold"> </p> *@
-            </div>
-
-            <div class="card-body">
-                <form method="post" asp-action="Edit">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input asp-for="Category.id" class="visually visually-hidden"/>
-
-                    <div class="form-group">
-                        <label asp-for="Category.categoryName" class="control-label"></label>
-                        <input asp-for="Category.categoryName" class="form-control bg-light" />
-                        <span asp-validation-for="Category.categoryName" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="Category.description" class="control-label"></label>
-                        <textarea asp-for="Category.description" class="form-control bg-light" rows="5" style="resize: none;"></textarea>
-                        <span asp-validation-for="Category.description" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="Category.registeredDate" class="control-label"></label>
-                        <input asp-for="Category.registeredDate" class="form-control bg-light" readonly />
-                    </div>
-
-                    @if (Model.Category.lastUpdate.HasValue)
-                    {
-                        <div class="form-group">
-                            <label asp-for="Category.lastUpdate" class="control-label"></label>
-                            <input asp-for="Category.lastUpdate" class="form-control bg-light" readonly />
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="form-group visually-hidden">
-                            <label asp-for="Category.lastUpdate" class="control-label"></label>
-                            <input asp-for="Category.lastUpdate" class="form-control bg-light dateInput" readonly />
-                        </div>
-                    }
-
-                    <div class="card-footer mt-3 text-end">
-                        <input type="submit" class="btn btn-primary btn-md px-4" value="Save" />
-                        <a class="btn btn-secondary px-3" asp-action="Index">Cancel</a>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    @* Products Table *@
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.Product.id)</th>
-                <th>@Html.DisplayNameFor(model => model.Product.productName)</th>
-                <th>@Html.DisplayNameFor(model => model.Product.supplierPrice)</th>
-                <th>@Html.DisplayNameFor(model => model.Product.sellingPrice)</th>
-                <th>@Html.DisplayNameFor(model => model.Product.quantity)</th>
-                <th>@Html.DisplayNameFor(model => model.Product.expiryDate)</th>
-                <th></th>
-
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var Item in Model.IProducts)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => Item.id)</td>
-                    <td>@Html.DisplayFor(modelItem => Item.productName)</td>
-                    <td>@Html.DisplayFor(modelitem => Item.supplierPrice)</td>
-                    <td>@Html.DisplayFor(modelitem => Item.sellingPrice)</td>
-                    <td>@Html.DisplayFor(modelitem => Item.quantity)</td>
-                    <td>@Html.DisplayFor(modelitem => Item.expiryDate)</td>
-                    <td>
-                        <a asp-action="Edit" asp-controller="Products" class="btn btn-success btn-md" asp-route-id="@Item.id">Update</a> |
-                        <a asp-action="Details" asp-controller="Products" class="btn btn-warning btn-md" asp-route-id="@Item.id">Details</a>
-                        @*  <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.id">Delete</a> *@
-                    </td>
-                </tr>
-            }
-
-        </tbody>
-    </table>
 </div>
+
+
+<div class="main container">
+    <div>
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.id)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.id)
+            </dd>
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.categoryName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.categoryName)
+            </dd>
+
+              <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.description)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.description)
+            </dd>
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.registeredDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.registeredDate)
+            </dd>
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.lastUpdate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.lastUpdate)
+            </dd>
+
+          @*   <dt class="col-sm-2">
+                <p style="margin:0;">Number Of Products</p>
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.lastUpdate)
+            </dd> *@
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model?.id" class="btn btn-success">Update</a> |
+        <a asp-action="Index" class="btn btn-secondary">Category List</a>
+    </div>
+</div>
+
 
