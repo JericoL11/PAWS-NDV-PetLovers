@@ -51,7 +51,7 @@
             <ul class="list-unstyled ps-0  ">
 
                 <li class="mb-2">
-                    <a class="nav-link  collapsed  d-flex align-items-center p-2" asp-controller="Home" asp-action="Index" id="ihome"> @* data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="true collapse" *@
+                    <a class="nav-link  collapsed  d-flex align-items-center p-2 solo-link" asp-controller="Home" asp-action="Index" id="ihome"> @* data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="true collapse" *@
                         <i class="fa-solid fa-house" id="icon"></i> <div class="px-3">Home</div>
                        @*  <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i> *@
                     </a>
@@ -65,7 +65,7 @@
                 </li>
 
                 <li class="mb-2">
-                    <a class="nav-link  collapsed  d-flex align-items-center p-2" asp-area="" asp-controller="Appointments" asp-action="Index" id="iappointments"> @* data-bs-toggle="collapse" data-bs-target="#appointment-collapse" aria-expanded="true collapse" *@
+                    <a class="nav-link  collapsed  d-flex align-items-center p-2 solo-link" asp-area="" asp-controller="Appointments" asp-action="Index" id="iappointments"> @* data-bs-toggle="collapse" data-bs-target="#appointment-collapse" aria-expanded="true collapse" *@
                         <i class="fa-solid fa-calendar-check" id="icon"></i><div class="px-3">Appointments</div>
                        @*  <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i> *@
                     </a>
@@ -80,7 +80,7 @@
                 </li>
 
                 <li class="mb-2">
-                    <a class="nav-link  collapsed  d-flex align-items-center p-2" asp-controller="PetFollowUp" asp-action="Index" id="ihome">
+                    <a class="nav-link  collapsed  d-flex align-items-center p-2 solo-link" asp-controller="PetFollowUp" asp-action="Index" id="ihome">
                         @* data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="true collapse" *@
                         <i class="fa-solid fa-angles-right"></i><div class="px-3">Follow-up Visit</div>
                         @*  <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i> *@
@@ -122,7 +122,7 @@
                 </li>
 
                 <li class="mb-2">
-                    <a class="nav-link collapsed  d-flex align-items-center  p-2" asp-area="" asp-controller="Home" asp-action="Privacy"> @* data-bs-toggle="collapse" data-bs-target="#reports-collapse" aria-expanded="true collapse" *@
+                    <a class="nav-link collapsed  d-flex align-items-center  p-2 solo-link" asp-area="" asp-controller="Home" asp-action="Privacy"> @* data-bs-toggle="collapse" data-bs-target="#reports-collapse" aria-expanded="true collapse" *@
                         <i class="fa-solid fa-flag" id="icon"></i><div class="px-3">Reports</div>
                       @*   <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i>
  *@
@@ -139,20 +139,7 @@
 
 
                 <li class="border-top my-3"></li>
-                <li class="mb-2">
-                    <a class="nav-link collapsed  d-flex align-items-center" p-2 data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="true collapse">
-                        <i class="fa-solid fa-user" id="icon"></i><div class="px-3">User</div>
-                        <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i>
-
-                    </a>
-                    <div class="collapse" id="account-collapse" data-bs-parent="#accordion">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3 small">
-                            <li><a href="#" class="link-l mb-1 px-5">Profile</a></li>
-                            <li><a href="#" class="link-l mb-1 px-5">Logout</a></li>
-
-                        </ul>
-                    </div>
-                </li>
+                
             </ul>
         </div>
         @*  </div> *@
@@ -218,14 +205,46 @@
         #endregion
     }
    
+    <div class="container-fluid p-0" id="subbody">
+        <nav class="navbar">
+            <div class="d-flex w-100 align-items-center">
+                <a class="navbar-brand fs-5"></a>
+                    <button class="btn px-2 py-2 open-btn d-md-none">
+                        <i class="fa-solid fa-bars" style="color: white;"></i>
+                    </button>
 
-        <div class="container-fluid">
-                    <main role="main" class="" id="renderbody">
+
+                    <div class="dropdown ms-auto">
+                        <a class="d-flex align-items-center justify-content-center p-3 link-light tex-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
+
+                        <i class="fa-solid fa-user" id="icon"></i>
+                        </a>
+                           
+                        <ul class="dropdown-menu dropdown-menu-end text-small shadow"  aria-labelledby="dropdownUser3">
+
+                            <li><a class="dropdown-item">Profile</a></li>
+                            <li><a class="dropdown-item">Account</a></li>
+
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item">Logout</a></li>
+
+                        </ul>
+
+                    </div>
+            </div>
+
+        </nav>
+
+        <div class="container">
+                <div>
+                    <main role="main" class="container" id="renderbody">
                         @RenderBody()
                     </main>
                 </div>
           
         </div>
+
+    </div>
 
    
     @*
@@ -244,16 +263,17 @@
         // Toggle Sidebar Visibility
         document.querySelector('.open-btn').addEventListener('click', function () {
             const sidebar = document.getElementById('sidebar');
-
-            //const content = document.querySelector('.content');
-
-            // Toggle classes to hide/show sidebar and expand content area
-            sidebar.classList.toggle('hidden');
-
-            //content.classList.toggle('content-expanded');
+            sidebar.style.display = sidebar.style.display === 'none' ? 'block' : 'none';
         });
 
-
+        document.querySelector('.solo-link').forEach(function (link) {
+            link.addEventListener('click', function () {
+                document.querySelectorAll('.solo-link').forEach(function (link) {
+                    link.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
 
     </script>
 

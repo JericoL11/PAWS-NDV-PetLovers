@@ -73,6 +73,7 @@
             </div>
         </div>
 
+   
             @* Pets *@
             <div class="bg-secondary bg-opacity-10 py-2 my-3">
                 <div class="container">
@@ -140,15 +141,18 @@
      
             </table>
 
+    <div class="form-group mt-4 text-end">
+        <a asp-action="Index" class="btn btn-secondary ms-3 ">Cancel</a>
+        <input type="submit" value="Create" class="btn btn-primary " />
+    </div>
+ </form>
         </div>
 
 
-        <div class="form-group mt-4 text-end">
-         <a asp-action="Index" class="btn btn-secondary ms-3 ">Cancel</a>
-         <input type="submit" value="Create" class="btn btn-primary " />
-        </div>
-    </form>
+
 </div>
+
+
 
 @section Scripts {
     @{

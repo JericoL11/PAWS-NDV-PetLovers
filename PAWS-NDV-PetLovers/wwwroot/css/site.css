@@ -79,10 +79,10 @@ html {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-html {
+/*html {
   position: relative;
   min-height: 100%;
-}
+}*/
 
 /*body {
   margin-bottom: 60px;
@@ -94,16 +94,6 @@ html {
 
 
 /*NJ CSS SIDEBAR*/
-
-/* <div class="container p-0 bg-white container-appointments"> MAIN CONTAINER */
-    .container-appointments {
-        margin-top: 20px;
-        border-radius: 5px;
-        border: 1px solid #469387;
-        padding: 10px;
-    }
-
-
 
 /*TAG ALL AREA*/
 button {
@@ -117,23 +107,25 @@ body {
     min-height: 100vh;
 }
 
-
+/*6/10/24*/
 html {
-    height: -webkit-fill-available;
+    margin: 0;
+    overflow: hidden;
+    overflow-y: auto;
 }
-
 
 
 /*END TAG ALL AREA*/
 
+
 /*CLASS AREA*/
 
+
+
 .navbar {
-    border-bottom:3px solid #ffffff;
-    margin-block-end: 5px;
+    border-bottom: 1px solid #ffffff;
     display: flex;
     background-color: #469387;
-
 }
 
 .fa-bars {
@@ -204,15 +196,6 @@ html {
 }
 
 
-.btn-toggle::after {
-    width: 1.25em;
-    position: absolute;
-    padding-left: 100px;
-    line-height: 0;
-    transition: transform .35s ease;
-    transform-origin: .5em 50%;
-}
-
 
 .btn-toggle[aria-expanded="true"]::before {
     transform: rotate(90deg);
@@ -221,10 +204,11 @@ html {
 /*FOR SUB MENU */
 .btn-toggle-nav a {
     padding: .1875rem .5rem;
+    text-align: center;
     text-decoration: none;
     color: white;
     font-size: 15px;
-    display: flex;
+    display: block;
 }
 
 .btn-toggle-nav :hover {
@@ -249,13 +233,22 @@ html {
 }
 
 
-.nav-link:active,
-.nav-link:focus,
+
 .nav-link[aria-expanded="true"] {
     background-color: #efc65de8;
     color: black;
     border-radius: 10px 10px 0 0;
 }
+
+
+/*FOR SOLO MENU*/
+.solo-link.active {
+    background-color: #efc65de8;
+    color: black;
+    border-radius: 10px;
+}
+
+
 
 
 .content {
@@ -265,6 +258,7 @@ html {
 .content-expanded {
     margin-left: 1px;
 }
+
 
 
 
@@ -279,6 +273,114 @@ html {
     transform: rotate(90deg);
 }
 /*END Rotate Icon when Expanded */
+
+/* Custom styles */
+
+.nav {
+    display: flex;
+}
+
+.card-title {
+    font-size: 1.5rem;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #469387;
+}
+
+.tab-pane {
+    border: 1px solid #469387;
+    border-radius: 5px;
+}
+
+.card {
+    border-color: transparent;
+}
+
+
+
+.dropdown-item:hover {
+    background: #ebc25ce8;
+    color: black;
+}
+
+.dropdown-menu {
+    background: #469387;
+    border: 1px solid #ffffff;
+}
+
+.dropdown-divider {
+    border: 0.5px solid #ffffff;
+}
+
+.dropdown-item {
+    color: #ffffff;
+}
+
+
+.header-box {
+    margin-top: 10px;
+}
+
+/*APPOINTMENTS AREA*/
+
+/*feild color*/
+.form-control {
+    border: 1px solid #469387;
+}
+
+/*padding of field*/
+#apppad {
+    padding-top: 20px;
+}
+
+.btn-addrow,
+.btn-addrow.active,
+.btn-addrow.focus {
+    background-color: #efc65de8;
+    border-color: black;
+}
+
+    .btn-addrow:hover {
+        background-color: #ebc25ce8;
+    }
+
+.row-appointments {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#headapp {
+    background: #c0d1ce;
+    border-bottom: 1px solid #469387;
+}
+
+#exrecord {
+    background-color: rgba(70, 147, 135, 0.575);
+}
+
+.bg {
+    background-color: rgba(70, 147, 135, 0.2); /* 70% opacity */
+    border-bottom: 1px solid #469387;
+}
+
+.bg-pets {
+    border-top: 1px solid #469387;
+    background-color: rgba(70, 147, 135, 0.2);
+}
+
+.container-appointments {
+    margin-top: 20px;
+    border-radius: 5px;
+    border: 1px solid #469387;
+    padding: 10px;
+}
+
+
+/*APPOINTMENTS AREA END*/
+
+
 
 /*END CLASS AREA*/
 
@@ -309,12 +411,13 @@ html {
 #sidebar {
     width: 270px;
     padding: 15px;
-   /* transition: 0.3s ease;*/
+    overflow-y: auto;
 }
 
     #sidebar.hidden {
         width: 0px;
         padding: 0;
+        border-right: 0;
         overflow: hidden;
     }
 /*END Sidebar Styling & Transistion */
@@ -328,71 +431,68 @@ html {
 /*SIDEBAR BORDER & BG COLOR*/
 #sidebar {
     background: #469387;
-    border-right: 3px solid #ffffff;
+    border-right: 1px solid #ffffff;
     /* height: 100vh;*/
     /*overflow: auto;*/
 }
 
-#renderbody {
 
-
-}
-
-#bn{
-   
+#subbody {
+    border-left: 2px solid white;
     background-color: #469387;
-    
 }
-#CAppf {
-    background-color: rgba(70, 147, 135, 0.4); /* 0.5 represents 50% opacity */
-    
+
+
+/* Hover state */
+#diagnostics-tab,
+#purchase-tab,
+#billing-tab {
+    background-color: #469387; /* Slightly darker gray on hover */
+    color: white; /* Darker text color */
+    margin-right: 5px;
+    border-radius: 10px;
+}
+
+    #diagnostics-tab.active,
+    #purchase-tab.active,
+    #billing-tab.active {
+        background-color: #efc65de8 !important; /* Bootstrap's primary blue color */
+        color: black !important; /* White text on active */
+        border-color: #efc65de8 !important; /* Same blue border */
+        border-radius: 10px 10px 0 0;
+    }
+
+
+#serviceTabs {
+    border-bottom: 1px solid #469387;
+}
+
+#cardgt {
+    border: 1px solid #469387;
+    background-color: aqua;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+#bordertop {
+    margin-top: 35px;
 }
 
 
 /*END ID AREA*/
 
 
-
-/* APPOINTMENTS AREA*/
-    .form-control{
-        border:1.8px solid #469387;
+/* Mobile styles */
+@media (max-width: 768px) {
+    #sidebar {
+        display: none; /* Hide sidebar on mobile */
     }
+}
 
-    #appad{
-        padding-top:10px;
+
+/* Tablet and larger styles */
+@media (min-width: 769px) {
+    #sidebar {
+        display: block; /* Show sidebar on larger screens */
     }
-
-    
-    .btn-addrow,
-    .btn-addrow:hover,
-    .btn-addrow:active,
-    .btn-addrow:focus {
-        background-color: #efc65de8;
-        border-color: #000000b8;
-        color:black;
-    }
-
-    .row-appointments{
-        margin-left:5px;
-        margin-right:5px;
-    }
-
-    #headapp{
-        background: #c0d1ce;
-        border-bottom: 1px solid #469387;
-    }
-
-    .bg{
-        background-color: rgba(70, 147, 135, 0.2);
-        border-bottom: 2px solid #469387;
-    }
-
-   
-
-    #btnsc{
-        margin-right:20px;
-    }
-
-/* APPOINTMENTS AREA*/
-
-    
+}

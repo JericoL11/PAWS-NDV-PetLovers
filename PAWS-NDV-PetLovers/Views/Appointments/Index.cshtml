@@ -3,9 +3,8 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="container-fluid">
+<div class="container-fluid pb-3">
     <div class="container p-0 bg-white container-appointments">
-    
         <div class="row">
             <div class="col-12">
                 <div class="container bg p-2">
@@ -13,188 +12,144 @@
                 </div>
             </div>
         </div>
-   
 
-        <div class=" mb-2 my-3 p-3 ">
+        <div class="mb-2 my-3 p-3">
+            <!-- Set current date as default -->
+            <a asp-action="Create" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")" class="btn btn-primary px-4" style="background-color:#469387; border-color:#469387; color:white; font-weight:bold;font-size:15px;">
+                Set Appointment
+            </a>
+            <!-- <a asp-action="AppointmentHistory" class="btn btn-success px-4">History</a> -->
+        </div>
 
-       
-      
-        @* set current date as default *@
-        <a asp-action="Create" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")" class="btn btn-primary">
-            Set Appointment
-        </a>
-        @* <a asp-action="AppointmentHistory" class="btn btn-success px-4">History</a> *@
-    </div>
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <table class="table table-striped" style="width:100%" id="AppointmentsTable">
-        <thead>
-            <tr>
-                <th class="text-center">Appointment ID</th>
-                <th class="text-center">Name</th>
-                <th class="text-center">Service</th>
-                <th class="text-center">Contact #</th>
-                <th class="text-center">Date</th>
-                <th class="text-center">Time</th>
-                <th class="text-center">Remarks</th>
-                <th class="text-center">Actions</th>
-
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.IAppointments)
-            {
-                <tr>
-                    <td class="text-center">@Html.DisplayFor(modelItem => item.AppointId)</td>
-
-                    <td class="text-center">@Html.DisplayFor(modelItem => item.fname) @Html.Raw(" ") @Html.DisplayFor(modelItem => item.lname)</td>
-                    <td>
-                        @{
-                            // Get distinct service names
-                            var services = item.IAppDetails
-                            .Select(d => d.Services.serviceName)
-                            .Distinct()
-                            .ToList();
-
-                            // Take the first 2 services for display
-                            var serviceDisplay = services.Take(2);
-
-                            // Get the remaining services (if more than 2)
-                            var remainingServices = services.Skip(2);
-                        }
-
-                        <span>
-                            @string.Join(", ", serviceDisplay) <!-- Display first 2 services -->
-                            @if (services.Count > 2)
-                            {
-                                <strong>
-                                    <!-- Display ellipsis and remaining services as a tooltip -->
-                                    <span title="@string.Join(", ", remainingServices)">
-                                        ...
-                                    </span>
-                                </strong>
-                            }
-                        </span>
-                    </td>
-
-                    <td>@Html.DisplayFor(modelItem => item.contact)</td>
-                    <td> @item.date.ToString("MMM. dd, yyyy")</td>
-                    <td>@Html.DisplayFor(modelItem => item.time)</td>
-               
-                    <td class="remarks-cell">
-           
-                    </td>
-     
-                    <td class="text-center">
-                
-                        <form asp-action="DiagnosAppointment" asp-controller="C_Diagnostics" method="get">
-                            <div class="btn-group" role="group">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="card p-3">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered text-center" style="border-color:#469387;" id="AppointmentsTable">
+                <thead>
+                    <tr>
+                        <th class="text-center">Appointment ID</th>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Service</th>
+                        <th class="text-center">Contact #</th>
+                        <th class="text-center">Date</th>
+                        <th class="text-center">Time</th>
+                        <th class="text-center">Remarks</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.IAppointments)
+                    {
+                        <tr>
+                            <td class="text-center">@Html.DisplayFor(modelItem => item.AppointId)</td>
+                            <td class="text-center">
+                                @Html.DisplayFor(modelItem => item.fname) @Html.Raw(" ") @Html.DisplayFor(modelItem => item.lname)
+                            </td>
+                            <td>
                                 @{
-                                    // Check if owner exists and matches appointment details
-                                    var ownerExists = Model.IOwner
-                                    .FirstOrDefault(o => o.fname == item.fname
-                                    && o.lname == item.lname
-                                    && o.mname == item.mname);
+                                    // Get distinct service names
+                                    var services = item.IAppDetails
+                                    .Select(d => d.Services.serviceName)
+                                    .Distinct()
+                                    .ToList();
+
+                                    // Take the first 2 services for display
+                                    var serviceDisplay = services.Take(2);
+
+                                    // Get the remaining services (if more than 2)
+                                    var remainingServices = services.Skip(2);
                                 }
 
-
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-secondary me-1" data-id="@item.AppointId" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                    Cancel
-                                </button>
-
-                       
-
-                                @if (ownerExists == null )
-                                {
-                                    //storing the necessary fields
-                                    //asp-route-fname and etc, will be pass to craete params
-                                    <a class="btn btn-primary me-1" asp-action="Edit" asp-route-id="@item.AppointId"> Update</a>
-
-                                    <a class="btn btn-info me-1" asp-action="Create" asp-controller="Owners"
-                                        asp-route-fname="@item.fname" 
-                                        asp-route-lname="@item.lname"
-                                        asp-route-mname="@item.mname"
-                                        asp-route-contact="@item.contact"> Register</a>
-                                }
-
-
-                                @if (item.remarks == null)
-                                {
-                                   @*  <input type="hidden" name="fname" value="@item.fname" />
-                                    <input type="hidden" name="lname" value="@item.lname" /> *@
-
-                                    if(ownerExists != null)
+                                <span>
+                                    @string.Join(", ", serviceDisplay) <!-- Display first 2 services -->
+                                    @if (services.Count > 2)
                                     {
-                                        <input type="hidden" name="appointmentId" value="@item.AppointId"  />
-                                        <input type="hidden" name="fname" value="@item.fname" />
-                                        <input type ="hidden" name="lname" value="@item.lname" />
-                                        <input type="hidden" name="contact" value="@item.contact" />
-
-
-                                        //storage for id
-                                        @*  List<int> ServiceIds = new List<int>(); *@
-
-                                        //get the selected Services
-                                        var selectedServices = item.IAppDetails
-                                        .Select(d => d.Services.serviceId);
-
-                                 
-
-                                        foreach (var service in selectedServices)
-                                        {
-                                            <input type="hidden" name="serviceId" value="@service" />
+                                        <strong>
+                                            <!-- Display ellipsis and remaining services as a tooltip -->
+                                            <span title="@string.Join(", ", remainingServices)">...</span>
+                                        </strong>
+                                    }
+                                </span>
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.contact)</td>
+                            <td>@item.date.ToString("MMM. dd, yyyy")</td>
+                            <td>@Html.DisplayFor(modelItem => item.time)</td>
+                            <td class="remarks-cell"></td>
+                            <td class="text-center">
+                                <form asp-action="DiagnosAppointment" asp-controller="C_Diagnostics" method="get">
+                                    <div class="btn-group" role="group">
+                                        @{
+                                            // Check if owner exists and matches appointment details
+                                            var ownerExists = Model.IOwner
+                                            .FirstOrDefault(o => o.fname == item.fname
+                                            && o.lname == item.lname
+                                            && o.mname == item.mname);
                                         }
 
-                                        @*<input type="hidden" name="Appointmentid" value="@item.AppointId" />
-                                        <button class="btn btn-success">Complete</button> *@
+                                        <!-- Cancel Button with Modal -->
+                                            <button type="button" class="btn btn-secondary me-1" style="background-color:transparent;border-color:lightgray;color:black;font-weight:bold;font-size:15px;" data-id="@item.AppointId" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                            Cancel
+                                        </button>
 
+                                        @if (ownerExists == null)
+                                        {
 
-                                    @* <a asp-action="Edit" asp-controller="Owners" asp-route-appointId="@item.AppointId"
-                                        Complete</a> *@
+                                       
+                                            <!-- Update Button -->
+                                                <a class="btn btn-primary me-1" style="background-color:#efc65de8;border-color:#efc65de8;color:black; font-weight:bold;font-size:15px;" asp-action="Edit" asp-route-id="@item.AppointId">Update</a>
 
-                                    <a asp-action="Edit" asp-controller="Owners" asp-route-id="@item.ownerId" class="btn btn-success me-1">
-                                        Complete
-                                    </a> 
+                                                <!-- Register Button -->
+                                                <a class="btn btn-info me-1" style="background-color: #469387; border-color:#469387;color:white; font-weight:bold;font-size:15px;" asp-action="Create" asp-controller="Owners"
+                                                   asp-route-fname="@item.fname"
+                                                   asp-route-lname="@item.lname"
+                                                   asp-route-mname="@item.mname"
+                                                   asp-route-contact="@item.contact">
+                                                    Register
+                                                </a>
+                                        }
 
+                                        @if (item.remarks == null)
+                                        {
+                                            @if (ownerExists != null)
+                                            {
+                                                <!-- Complete Button for owners -->
+                                                <a asp-action="Edit" asp-controller="Owners" asp-route-id="@item.ownerId" class="btn btn-success me-1">
+                                                    Complete
+                                                </a>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <!-- Get the selected services -->
+                                            IList<int> selectedIds = new List<int>();
+                                            var selectedServices = item.IAppDetails
+                                            .Select(d => d.Services.serviceId);
 
-                                    }
-                                }
+                                            // Generate hidden inputs for each selected service ID
+                                            foreach (var service in selectedServices)
+                                            {
+                                                selectedIds.Add(service);
+                                            }
 
-                                else
-                                {
+                                            var selectedId = string.Join(",", selectedIds);
+                                            var date = item.date.ToString("MM-dd-yyyy");
 
-                                    @* Get the selected Services *@
-
-                                    IList<int> selectedIds = new List<int>();
-
-
-                                    //get the selected Services
-                                    var selectedServices = item.IAppDetails
-                                    .Select(d => d.Services.serviceId);
-
-                                    // Generate hidden inputs for each selected service ID
-                                    foreach (var service in selectedServices)
-                                    {
-                                        selectedIds.Add(@service);
-
-                                    }
-
-                                    var selectedId = string.Join(",", selectedIds);
-
-                                    var date = item.date.ToString("MM-dd-yyyy");
-                                    <a class="btn btn-primary me-1" asp-action="Edit" asp-route-id="@item.AppointId" asp-route-date="@date" asp-route-serviceId="@selectedId">Update</a>
-
-                                }
-                                </div>
-                          
-                            @* <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Appointment.AppointId">Delete</a> *@
-                           </form>
-                      
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                                            <!-- Update Button -->
+                                            <a class="btn btn-primary me-1" asp-action="Edit" asp-route-id="@item.AppointId"
+                                               asp-route-date="@date" asp-route-serviceId="@selectedId">
+                                                Update
+                                            </a>
+                                        }
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
 </div>
 
 
