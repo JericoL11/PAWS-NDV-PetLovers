@@ -38,11 +38,9 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(bool serviceType,[Bind("serviceId,serviceName,status,serviceCharge")] Services service)
-
+        public async Task<IActionResult> Create(bool serviceType,[Bind("serviceId,serviceName,status,serviceCharge, followUp")] Services service)
         {
-
-        
+            
             if(string.IsNullOrEmpty(service.serviceName)|| service.serviceCharge == 0)
             {
                 ModelState.AddModelError("", $"Fill up the input fields completely");
@@ -103,7 +101,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("serviceId,serviceName,serviceCharge")] Services updatedService)
+        public async Task<IActionResult> Edit(int id, [Bind("serviceId,serviceName,serviceCharge,followUp")] Services updatedService)
         {
             if (id != updatedService.serviceId)
             {
@@ -120,7 +118,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             // Update only the desired fields
             existingService.serviceName = updatedService.serviceName;
             existingService.serviceCharge = updatedService.serviceCharge;
-
+            existingService.followUp = updatedService.followUp;
             try
             {
                 await _context.SaveChangesAsync();

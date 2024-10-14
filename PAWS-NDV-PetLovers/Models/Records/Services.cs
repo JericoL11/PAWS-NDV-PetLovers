@@ -1,5 +1,4 @@
 ﻿using PAWS_NDV_PetLovers.Models.Records;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,6 +21,9 @@ namespace PAWS_NDV_PetLovers.Models.Records
 
         [Display(Name = "Laboratory Test")]
         public string? serviceType { get; set; }
+
+        [Display(Name = "Available for Follow-up visit?")]
+        public bool followUp { get; set; }
 
         public string? status { get; set; }
 
