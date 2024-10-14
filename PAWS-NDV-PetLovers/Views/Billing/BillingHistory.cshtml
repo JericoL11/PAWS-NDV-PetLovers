@@ -1,16 +1,16 @@
 ﻿@model PAWS_NDV_PetLovers.ViewModels.TransactionsVm
 @{
-    ViewData["Title"] = "Billing History";
+    ViewData["Title"] = "Billing History -> ALL TRANSACTION HISTORY";
 }
 <div class="bg-secondary bg-opacity-10 mb-3 py-2">
     <div class="container">
-        <h3>Billing History</h3>
+        <h3>Transaction History</h3>
     </div>
 </div>
 
 <div class="container">
    <ul class="nav">
-        <li><a role="presentation" asp-action="SwitchToHistoryTab" asp-route-tabName="All" class="@(Model.activeHistoryTab == PAWS_NDV_PetLovers.ViewModels.BillingHistoryTab.All ? "active" : string.Empty) btn btn-outline-primary">All History</a></li>
+        <li><a role="presentation" asp-action="SwitchToHistoryTab" asp-route-tabName="All" class="@(Model.activeHistoryTab == PAWS_NDV_PetLovers.ViewModels.BillingHistoryTab.All ? "active" : string.Empty) btn btn-outline-primary">All</a></li>
         <li><a role="presentation" asp-action="SwitchToHistoryTab" asp-route-tabName="Diagnostics" class="@(Model.activeHistoryTab == PAWS_NDV_PetLovers.ViewModels.BillingHistoryTab.Diagnostics ? "active" : string.Empty) btn btn-outline-primary">Diagnostics</a></li>
         <li><a role="presentation" asp-action="SwitchToHistoryTab" asp-route-tabName="Purchase" class="@(Model.activeHistoryTab == PAWS_NDV_PetLovers.ViewModels.BillingHistoryTab.Purchase ? "active" : string.Empty) btn btn-outline-primary">Purchase</a></li>
     </ul>

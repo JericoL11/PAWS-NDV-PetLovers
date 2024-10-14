@@ -1,13 +1,13 @@
 ﻿@model PAWS_NDV_PetLovers.ViewModels.TransactionsVm
 @{
-    ViewData["Title"] = "DBoard Purchase VC";
+    ViewData["Title"] = "DBoard Purchase VC  -> Invoice Purchase";
 }
 
 <div class="container">
-    <div class="text-end py-2">
+ @*    <div class="text-end py-2">
         <a class="btn btn-primary" asp-action="CreatePurchase">Create Purchase</a>
-    </div>
-    <table class="table">
+    </div> *@
+    <table class="table ComponentTable">
         <thead>
             <tr>
                 <th>Purchase ID</th>
@@ -25,7 +25,7 @@
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.purchaseId)</td>
                     <td>@Html.DisplayFor(modelItem =>item.customerName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.date)</td>
+                    <td>@item.date?.ToString("MMM. dd, yyyy")</td>
                     <td>
                         @{
                             // Calculate the total payment for the purchase
@@ -50,3 +50,5 @@
         </tbody>
     </table>
 </div>
+
+<script src="~/js/ComponentsTable/ComponentsTable.js" defer></script>

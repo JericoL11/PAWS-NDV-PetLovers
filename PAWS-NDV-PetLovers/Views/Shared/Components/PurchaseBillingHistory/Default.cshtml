@@ -24,9 +24,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.purchase.customerName)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.date)
-                    </td>
+                    <td> @item.date.ToString("MMM. dd, yyyy")</td>
                     <td>
                         @{
                             var total = item.grandTotal;
@@ -37,7 +35,7 @@
                     </td>
 
                     <td>
-                        <a asp-action="BillingHistoryView" asp-route-billingId="@item.billingId" asp-asp-controller="Billing" class="btn btn-outline-warning">View Details</a>
+                        <a asp-action="BillingHistoryView" asp-route-billingId="@item.billingId" asp-asp-controller="Billing" class="btn btn-outline-warning">View Receipt</a>
                     </td>
                 </tr>
             }

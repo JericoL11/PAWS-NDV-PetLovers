@@ -80,6 +80,15 @@
                 </li>
 
                 <li class="mb-2">
+                    <a class="nav-link  collapsed  d-flex align-items-center p-2" asp-controller="PetFollowUp" asp-action="Index" id="ihome">
+                        @* data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="true collapse" *@
+                        <i class="fa-solid fa-angles-right"></i><div class="px-3">Follow-up Visit</div>
+                        @*  <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i> *@
+                    </a>
+                  
+                </li>
+
+                <li class="mb-2">
                     <a class="nav-link collapsed  d-flex align-items-center  p-2" data-bs-toggle="collapse" data-bs-target="#recordmanagement-collapse" aria-expanded="true collapse">
                         <i class="fa-solid fa-file-medical" id="icon"></i><div class="px-3">Record Management</div>
                         <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i>
@@ -104,7 +113,8 @@
                     </a>
                     <div class="collapse" id="transaction-collapse" data-bs-parent="#accordion">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3  big">
-                            <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Billing">Billing</a></li>
+                            <li><a class="link-l mb-1 px-5" asp-action="CreatePurchase" asp-controller="Billing">Purchasing</a></li>
+                            <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Billing">Invoice</a></li>
                             <li><a class="link-l mb-1 px-5" asp-action="BillingHistory" asp-controller="Billing">History</a></li>
                            
                         </ul>
@@ -147,15 +157,67 @@
         </div>
         @*  </div> *@
 
-        <div class="container-fluid p-0"  id="bn">
-            <nav class="navbar">
-                <div class="d-flex  d-mb-none">
-                    <a class="navbar-brand fs-5" href="#"></a>
-                    <button class="btn px-2 py-2 open-btn">
-                        <i class="fa-solid fa-bars" style="color: white;"></i>
-                    </button>
+    @{
+        #region == Default Navbar == 
+        /* 
+         *  <div class="container-fluid p-0">
+        <nav class="navbar">
+            <div class="d-flex  d-mb-none">
+                <a class="navbar-brand fs-5" href="#"></a>
+                <button class="btn px-2 py-2 open-btn">
+                    <i class="fa-solid fa-bars" style="color: white;"></i>
+                </button>
+
+
+                <div class="collapse navbar-collapse row " id="navbarScroll">
+                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll d-flex justify-content-end pe-5">
+                        <li class="nav-item custom-padding">
+                            <a class="nav-link active" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item custom-padding">
+                            <a class="nav-link" asp-area="" asp-controller="Appointments" asp-action="Index"> Appointments</a>
+                        </li>
+        
+                        <li class="nav-item dropdown custom-padding">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Record Management
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Owners">Client Management</a></li>
+                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Products">Product Management</a></li>
+                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Services">Services</a></li>
+                            </ul>
+                        </li>
+                      
+                        <li class="nav-item dropdown custom-padding">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Transactions
+                            </a>
+                            <ul class="dropdown-menu">
+                                
+                                <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="BillingDashboard">Invoice</a></li>
+@*                                 <li><a class="dropdown-item text-center" asp-action="Index" asp-controller="Purchase">Purchase Bill</a></li>
+                                *@
+                                <li><a class="dropdown-item text-center" asp-action="DiagnosticHistory" asp-controller="C_Diagnostics">History</a></li>
+
+                            </ul>
+                        </li>
+                        <li class="nav-item custom-padding">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Reports</a>
+                        </li>
+                 
+                    </ul>
+                @*     <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form> *@
                 </div>
-            </nav>
+            </div>
+        </nav> 
+         */
+        #endregion
+    }
+   
 
         <div class="container-fluid">
                     <main role="main" class="" id="renderbody">
@@ -200,14 +262,25 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/DataTables/datatables.js"></script>
 
-  
-    @*datatables Options *@
-   
+
 
     @await RenderSectionAsync("Scripts", required: false)
 
-  @*   <script>
+  <script>
+
         $.extend($.fn.dataTable.defaults, {
+            paging: true,
+            scrollY: 400,
+            responsive: true,
+            searching: true,
+            ordering: true,
+            order: [[0, 'desc']],// Default order by the first column (index 0) in descending order
+            autoWidth: true,
+            stateSave: false,
+            pageLength: 10
+        });
+
+        @*    $.extend($.fn.dataTable.defaults, {
 
             paging: false,
             scrollY: 400,
@@ -227,8 +300,8 @@
             ordering: true,
 
             });
-
-    </script> *@
+            *@
+    </script> 
  
     @* add-form-script *@
     @* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> *@

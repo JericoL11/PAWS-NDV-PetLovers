@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PAWS_NDV_PetLovers.Models.Appointments;
+using System.ComponentModel.DataAnnotations;
 
 namespace PAWS_NDV_PetLovers.Models.Records
 {
@@ -49,6 +50,5 @@ namespace PAWS_NDV_PetLovers.Models.Records
 
         //Navigation Property - used to tell entity framework that 2 entities have relationship
         public ICollection<Pet> Pets { get; set; } // Navigation property for related pets
-
     }
 }

@@ -10,9 +10,7 @@ namespace PAWS_NDV_PetLovers.Data
     {
         public PAWS_NDV_PetLoversContext(DbContextOptions<PAWS_NDV_PetLoversContext> options) 
             :base (options)
-        {
-            
-        }
+        { }
 
         //dbset -  represents a collection of entities of a specific type
 
@@ -32,6 +30,7 @@ namespace PAWS_NDV_PetLovers.Data
 
         public DbSet<AppointmentDetails> AppointmentDetails { get; set; } = default!;
 
+        public DbSet<PetFollowUps> PetFollowUps { get; set; } = default!;
         //Transaction
 
         public DbSet<Diagnostics> Diagnostics { get; set; } = default!;
@@ -42,7 +41,6 @@ namespace PAWS_NDV_PetLovers.Data
 
         public DbSet<PurchaseDetails> PurchaseDetails { get; set; } = default!;
 
-        //Billing
         public DbSet<Billing> Billings { get; set; } = default!;
 
 

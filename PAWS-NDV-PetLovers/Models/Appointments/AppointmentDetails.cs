@@ -17,9 +17,6 @@ namespace PAWS_NDV_PetLovers.Models.Appointments
         [ForeignKey("Services")]
         public int? serviceID { get; set; }
 
-        [Display(Name = "Remarks")]
-        public string? remarks { get; set; }
-
         // Navigation Property
         public Appointment? Appointment { get; set; }
         public Services? Services { get; set; } // Corrected to single object

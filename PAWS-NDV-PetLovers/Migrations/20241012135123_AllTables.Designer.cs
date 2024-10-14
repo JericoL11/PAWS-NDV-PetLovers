@@ -12,8 +12,8 @@ using PAWS_NDV_PetLovers.Data;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     [DbContext(typeof(PAWS_NDV_PetLoversContext))]
-    [Migration("20240928073019_Appointments_Table")]
-    partial class Appointments_Table
+    [Migration("20241012135123_AllTables")]
+    partial class AllTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,6 +52,12 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.Property<string>("mname")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ownerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("remarks")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("time")
                         .HasColumnType("datetime2");
 
@@ -71,9 +77,6 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.Property<int>("AppointId")
                         .HasColumnType("int");
 
-                    b.Property<string>("remarks")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("serviceID")
                         .HasColumnType("int");
 
@@ -84,6 +87,35 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.HasIndex("serviceID");
 
                     b.ToTable("AppointmentDetails");
+                });
+
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.PetFollowUps", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("diagnosticsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("serviceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("diagnosticsId");
+
+                    b.HasIndex("serviceId");
+
+                    b.ToTable("PetFollowUps");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Records.Category", b =>
@@ -287,6 +319,158 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.ToTable("Services");
                 });
 
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Billing", b =>
+                {
+                    b.Property<int>("billingId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("billingId"));
+
+                    b.Property<int?>("DiagnosticsId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PurchaseId")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("cashReceive")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("changeAmount")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double?>("grandTotal")
+                        .HasColumnType("float");
+
+                    b.HasKey("billingId");
+
+                    b.HasIndex("DiagnosticsId");
+
+                    b.HasIndex("PurchaseId");
+
+                    b.ToTable("Billings");
+                });
+
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.DiagnosticDetails", b =>
+                {
+                    b.Property<int>("diagnosticDet_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("diagnosticDet_Id"));
+
+                    b.Property<string>("details")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("diagnosticsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("serviceId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("totalServicePayment")
+                        .HasColumnType("float");
+
+                    b.HasKey("diagnosticDet_Id");
+
+                    b.HasIndex("diagnosticsId");
+
+                    b.HasIndex("serviceId");
+
+                    b.ToTable("DiagnosticDetails");
+                });
+
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Diagnostics", b =>
+                {
+                    b.Property<int>("diagnostic_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("diagnostic_Id"));
+
+                    b.Property<int?>("PurchaseNavpurchaseId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("date")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("petId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("weight")
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
+
+                    b.HasKey("diagnostic_Id");
+
+                    b.HasIndex("PurchaseNavpurchaseId");
+
+                    b.HasIndex("petId");
+
+                    b.ToTable("Diagnostics");
+                });
+
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Purchase", b =>
+                {
+                    b.Property<int>("purchaseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("purchaseId"));
+
+                    b.Property<string>("customerName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("diagnosisId_holder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("purchaseId");
+
+                    b.ToTable("Purchases");
+                });
+
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.PurchaseDetails", b =>
+                {
+                    b.Property<int>("purchaseDet_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("purchaseDet_Id"));
+
+                    b.Property<int>("productId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("purchaseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("quantity")
+                        .HasColumnType("int");
+
+                    b.Property<double>("sellingPrice")
+                        .HasColumnType("float");
+
+                    b.HasKey("purchaseDet_Id");
+
+                    b.HasIndex("productId");
+
+                    b.HasIndex("purchaseId");
+
+                    b.ToTable("PurchaseDetails");
+                });
+
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.AppointmentDetails", b =>
                 {
                     b.HasOne("PAWS_NDV_PetLovers.Models.Appointments.Appointment", "Appointment")
@@ -300,6 +484,25 @@ namespace PAWS_NDV_PetLovers.Migrations
                         .HasForeignKey("serviceID");
 
                     b.Navigation("Appointment");
+
+                    b.Navigation("Services");
+                });
+
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.PetFollowUps", b =>
+                {
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Diagnostics", "Diagnostics")
+                        .WithMany("IPetFollowUps")
+                        .HasForeignKey("diagnosticsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Records.Services", "Services")
+                        .WithMany()
+                        .HasForeignKey("serviceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Diagnostics");
 
                     b.Navigation("Services");
                 });
@@ -326,6 +529,74 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.Navigation("category");
                 });
 
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Billing", b =>
+                {
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Diagnostics", "diagnostics")
+                        .WithMany()
+                        .HasForeignKey("DiagnosticsId");
+
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Purchase", "purchase")
+                        .WithMany()
+                        .HasForeignKey("PurchaseId");
+
+                    b.Navigation("diagnostics");
+
+                    b.Navigation("purchase");
+                });
+
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.DiagnosticDetails", b =>
+                {
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Diagnostics", null)
+                        .WithMany("IdiagnosticDetails")
+                        .HasForeignKey("diagnosticsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Records.Services", "Services")
+                        .WithMany()
+                        .HasForeignKey("serviceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Services");
+                });
+
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Diagnostics", b =>
+                {
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Purchase", "PurchaseNav")
+                        .WithMany()
+                        .HasForeignKey("PurchaseNavpurchaseId");
+
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Records.Pet", "pet")
+                        .WithMany()
+                        .HasForeignKey("petId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PurchaseNav");
+
+                    b.Navigation("pet");
+                });
+
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.PurchaseDetails", b =>
+                {
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Records.Product", "product")
+                        .WithMany()
+                        .HasForeignKey("productId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Purchase", "Purchase")
+                        .WithMany("purchaseDetails")
+                        .HasForeignKey("purchaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Purchase");
+
+                    b.Navigation("product");
+                });
+
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.Appointment", b =>
                 {
                     b.Navigation("IAppDetails");
@@ -339,6 +610,18 @@ namespace PAWS_NDV_PetLovers.Migrations
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Records.Owner", b =>
                 {
                     b.Navigation("Pets");
+                });
+
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Diagnostics", b =>
+                {
+                    b.Navigation("IPetFollowUps");
+
+                    b.Navigation("IdiagnosticDetails");
+                });
+
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Purchase", b =>
+                {
+                    b.Navigation("purchaseDetails");
                 });
 #pragma warning restore 612, 618
         }

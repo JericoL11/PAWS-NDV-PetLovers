@@ -52,7 +52,7 @@
                 </div>
                 <div class="form-group col-lg-3 col-md-6">
                     <label asp-for="Owner.gender" class="control-label"></label>
-                    <input asp-for="Owner.gender" class="form-control" />
+                    <input asp-for="Owner.gender" class="form-control" readonly />
                     <span asp-validation-for="Owner.gender" class="text-danger"></span>
                 </div>
                 <div class="form-group  col-lg-3 col-md-6">
@@ -74,7 +74,8 @@
 
                 <div class="form-group col-lg-3">
                     <label asp-for="Owner.registeredDate" class="control-label"></label>
-                    <input asp-for="Owner.registeredDate" class="form-control" readonly />
+                    <input type="hidden" asp-for="Owner.registeredDate" class="form-control" readonly />
+                    <input value="@Model.Owner.registeredDate?.ToString("MMM. dd, yyyy")" class="form-control" readonly />
                 </div>
 
 
@@ -83,7 +84,8 @@
                     @if (Model.Owner.lastUpdate.HasValue)
                     {
                         <label asp-for="Owner.lastUpdate" class="control-label"></label>
-                        <input asp-for="Owner.lastUpdate" class="form-control" readonly />
+                        <input type="hidden" asp-for="Owner.lastUpdate" readonly/>
+                        <input value="@Model.Owner.lastUpdate?.ToString("MMM. dd, yyyy")" class="form-control" readonly />
                     }
                     else
                     {
@@ -140,17 +142,17 @@
                             <td>@Html.DisplayFor(modelItem => item.petName)</td>
                             <td>@Html.DisplayFor(modelItem => item.species)</td>
                             <td>@Html.DisplayFor(modelItem => item.gender)</td>
-                            <td>@Html.DisplayFor(modelItem => item.bdate)</td>
+                            <td>@item.bdate?.ToString("MMM. dd, yyyy")</td>
                             <td>@Html.DisplayFor(modelItem => item.age)</td>
                             <td>@Html.DisplayFor(modelItem => item.breed)</td>
                             <td>@Html.DisplayFor(modelItem => item.color)</td>
-                            <td>@Html.DisplayFor(modelItem => item.registeredDate)</td>
+                            <td>@item.registeredDate?.ToString("MMM. dd, yyyy")</td>
                             <td>
                                 <a asp-action="Edit" asp-controller="Pets" class="btn btn-success btn-md" asp-route-id="@item.id">Update</a>
                                 @* <a asp-action="Details" asp-controller="Pets" class="btn btn-info btn-md" asp-route-id="@item.id">Details</a> *@
                              
                                 <a asp-controller="C_Diagnostics"
-                                   asp-route-id="@item.id"
+                                   asp-route-petId="@item.id"
                                    asp-action="Create" class="btn btn-primary"> Diagnosis
                                </a>
 
@@ -180,7 +182,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="editPetModalLabel">EDIT PET</h1>
+                <h1 class="modal-title fs-5" id="editPetModalLabel">New Pet</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -211,6 +213,15 @@
                                 <span asp-validation-for="Pet.breed" class="text-danger"></span>
                             </div>
                             <div class="form-group col-lg-4 col-md-6">
+                                <label class="control-label" asp-for="Pet.gender"></label>
+                                <select asp-for="Pet.gender" class="form-control bg-light" required>
+                                    <option value="" hidden>----</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                                <span asp-validation-for="Pet.gender" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6">
                                 <label asp-for="Pet.bdate" class="control-label"></label>
                                 <input asp-for="Pet.bdate" class="form-control bg-light birthdate" />
                                 <span asp-validation-for="Pet.bdate" class="text-danger"></span>
@@ -225,21 +236,12 @@
                                 <input asp-for="Pet.color" class="form-control bg-light" />
                                 <span asp-validation-for="Pet.color" class="text-danger"></span>
                             </div>
-                            <div class="form-group col-lg-4 col-md-6">
-                                <label class="control-label" asp-for="Pet.gender"></label>
-                                <select asp-for="Pet.gender" class="form-control bg-light" required>
-                                    <option value="" hidden>----</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                </select>
-                                <span asp-validation-for="Pet.gender" class="text-danger"></span>
-                            </div>
-                            <div class="form-group col-lg-4 col-md-6">
+                            <div class="form-group visually-hidden col-lg-4 col-md-6">
                                 <label asp-for="Pet.ownerId" class="control-label bg-light"></label>
                                 <input asp-for="Pet.ownerId" type="text" class="form-control bg-light" value="@Model.Owner.id" readonly />
                                 <span asp-validation-for="Pet.ownerId" class="text-danger"></span>
                             </div>
-                            <div class="form-group col-lg-4 col-md-6">
+                            <div class="form-group visually-hidden col-lg-4 col-md-6">
                                 <label asp-for="Pet.registeredDate" class="control-label"></label>
                                 <input type="date" asp-for="Pet.registeredDate" class="form-control bg-light maxDate" id="dateInput" readonly />
                                 <span asp-validation-for="Pet.registeredDate" class="text-danger"></span>

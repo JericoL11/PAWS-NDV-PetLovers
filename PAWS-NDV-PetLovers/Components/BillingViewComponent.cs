@@ -5,7 +5,7 @@ using PAWS_NDV_PetLovers.ViewModels;
 
 namespace PAWS_NDV_PetLovers.Components
 {
-    public class BillingViewComponent:ViewComponent
+    public class BillingViewComponent : ViewComponent
     {
         private readonly PAWS_NDV_PetLoversContext _context;
 
@@ -14,14 +14,14 @@ namespace PAWS_NDV_PetLovers.Components
             _context = context;
         }
 
-        public async Task <IViewComponentResult> InvokeAsync(int? id, bool? PaymentErrorMessage)
+        public async Task<IViewComponentResult> InvokeAsync(int? id, bool? PaymentErrorMessage)
         {
 
             var diagnostics = await _context.Diagnostics
                 .Include(d => d.IdiagnosticDetails)
                 .ThenInclude(dd => dd.Services)
                 .FirstOrDefaultAsync(d => d.diagnostic_Id == id);
-             
+
 
 
             var purchase = await _context.PurchaseDetails

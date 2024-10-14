@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using PAWS_NDV_PetLovers.Data;
+using PAWS_NDV_PetLovers.Models.Appointments;
 using PAWS_NDV_PetLovers.Models.Records;
 using PAWS_NDV_PetLovers.ViewModels;
 
@@ -31,7 +33,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             {
                 return View(pet);
             }
-
+            
             if (PetExists(pet.petName, pet.species ,pet.breed, pet.ownerId))
             {
                 ModelState.AddModelError("", "Pet exist Already");
@@ -126,15 +128,15 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         public async Task<IActionResult> Create([Bind("id,fname,lname,mname,gender,contact,email,address,registeredDate,Pets")] Owner owner)
         {
             var verifyOwner = _context.Owners
-                               .Where(m => m.fname == owner.fname && m.lname == owner.lname)
-                               .FirstOrDefault();
+                .Where(m => m.fname == owner.fname && m.lname == owner.lname && m.mname == owner.mname)
+                .FirstOrDefault();
 
             if (verifyOwner == null)
             {
                 if (owner.contact.Length < 11)
                 {
-                    ModelState.AddModelError("", $"Contact number below 11 is not valid");
-                    return View("Create",owner);
+                    ModelState.AddModelError("", "Contact number below 11 is not valid");
+                    return View("Create", owner);
                 }
 
                 // Use a HashSet to track pet names and check for duplicates
@@ -150,10 +152,30 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 }
 
                 _context.Add(owner);
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(); 
+
+                // Get the newly created owner's ID
+                var newOwnerId = owner.id;
+
+                // Check if there is an appointment that matches the owner's details but does not yet have an ownerId
+                var ownerExistAppointment = await _context.Appointments
+                    .FirstOrDefaultAsync(x => !string.IsNullOrEmpty(x.AppointId.ToString())
+                        && x.fname == owner.fname
+                        && x.lname == owner.lname
+                        && x.mname == owner.mname
+                        && string.IsNullOrEmpty(x.remarks));
+
+                if (ownerExistAppointment != null)
+                {
+                    // Update the appointment's ownerId
+                    ownerExistAppointment.ownerId = newOwnerId;
+                    _context.Update(ownerExistAppointment);
+                    await _context.SaveChangesAsync(); // Save changes to the appointment
+
+                    return RedirectToAction("Index", "Appointments"); // Redirect to another controller
+                }
 
                 TempData["SuccessMessage"] = "Created Successfully";
-
                 return RedirectToAction(nameof(Index));
             }
             else
@@ -165,9 +187,11 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         }
 
 
+
         // GET: Owners/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            
 
             if (id == null)
             {
@@ -175,6 +199,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             }
 
             var owner = await _context.Owners.FindAsync(id);
+
             if (owner == null)
             {
                 return NotFound();
@@ -184,8 +209,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             var updatedOwner = await _context.Owners
                                     .Include(o => o.Pets)
                                     .FirstOrDefaultAsync(o => o.id == id);
-
-
 
             //view Model Instantiations for VIEWS
             var data = new RecordsVm

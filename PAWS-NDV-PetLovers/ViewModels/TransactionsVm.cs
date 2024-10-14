@@ -1,4 +1,6 @@
-﻿using PAWS_NDV_PetLovers.Models.Records;
+﻿
+using PAWS_NDV_PetLovers.Models.Appointments;
+using PAWS_NDV_PetLovers.Models.Records;
 using PAWS_NDV_PetLovers.Models.Transactions;
 
 namespace PAWS_NDV_PetLovers.ViewModels
@@ -9,10 +11,16 @@ namespace PAWS_NDV_PetLovers.ViewModels
         public DiagnosticDetails? DiagnosticDetails { get; set; }
         public Pet? Pets { get; set; }
 
+        // Add a SelectedServiceId field to track the selected service
+        public int? SelectedServiceId { get; set; }
         public Purchase? Purchase { get; set; }
 
         public Billing? Billing { get; set; }
 
+
+        //For displaying name in diagnostic Appointments
+        public Appointment? Appointment { get; set; }
+        public AppointmentDetails? AppointmentDetails { get; set; }
 
         //selected services from appointment
         public List<int>? SelectedServices { get; set; }
@@ -39,9 +47,9 @@ namespace PAWS_NDV_PetLovers.ViewModels
 
         public IEnumerable<Product>? IProducts { get; set; }
 
-        public double? grandTotal { get; set; }
+       /* public double? grandTotal { get; set; }
 
-        public double? totalServicePayment { get; set; }
+        public double? totalServicePayment { get; set; }*/
 
         public double? totalPurchasePayment { get; set; }
 

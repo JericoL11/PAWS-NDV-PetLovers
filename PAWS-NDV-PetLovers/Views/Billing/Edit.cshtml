@@ -51,7 +51,8 @@
 
             <div class="form-group col-lg-3 col-md-6">
                 <label asp-for="Diagnostics.pet.bdate" class="control-label"></label>
-                <input asp-for="Diagnostics.pet.bdate" class="form-control" readonly />
+                <input type="hidden" asp-for="Diagnostics.pet.bdate" class="form-control" readonly />
+                <input value="@Model.Diagnostics.pet.bdate?.ToString("MMM. dd, yyyy")" class="form-control" readonly />
             </div>
 
             <div class="form-group col-lg-3 col-md-6">
@@ -64,7 +65,9 @@
             <div class="form-group col-lg-3">
                 <!-- Hidden Field for Date -->
                 <label asp-for="Diagnostics.date" class="control-label"></label>
-                <input asp-for="Diagnostics.date" class="form-control dateInput" value="@Model.Diagnostics.date" readonly />
+                <input type="hidden" asp-for="Diagnostics.date" class="form-control dateInput" value="@Model.Diagnostics.date" readonly />
+                <input value="@Model.Diagnostics.date?.ToString("MMM. dd, yyyy")" class="form-control" readonly />
+
             </div>
             <div class="form-group col-lg-3">
                 <!-- Hidden Field for Date -->
@@ -81,7 +84,7 @@
 
         <ul class="nav navbars">
             <li>
-                <a role="presentation" asp-action="SwitchToBillingTab" asp-route-tabName="Diagnosis" asp-route-id="@Model.Diagnostics.diagnostic_Id" class="@(Model.activeBillingTab == PAWS_NDV_PetLovers.ViewModels.BillingTab.Diagnosis ? "active" : string.Empty) btn btn-outline-primary">Diagnosis</a>
+                <a role="presentation" asp-action="SwitchToBillingTab" asp-route-tabName="Diagnosis" asp-route-id="@Model.Diagnostics.diagnostic_Id" class="@(Model.activeBillingTab == PAWS_NDV_PetLovers.ViewModels.BillingTab.Diagnosis ? "active" : string.Empty) btn btn-outline-primary">Service</a>
             </li>
             <li>
                 <a role="presentation" asp-action="SwitchToBillingTab" asp-route-tabName="Purchase" asp-route-id="@Model.Diagnostics.diagnostic_Id" class="@(Model.activeBillingTab == PAWS_NDV_PetLovers.ViewModels.BillingTab.Purchase ? "active" : string.Empty) btn btn-outline-primary">Purchase</a>
