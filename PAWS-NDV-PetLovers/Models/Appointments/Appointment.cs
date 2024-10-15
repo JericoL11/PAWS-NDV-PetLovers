@@ -49,6 +49,8 @@ namespace PAWS_NDV_PetLovers.Models.Appointments
         //navigation property
 
         //This will serve as parameterless Constructor bc of "?" nullable
+
+        public Owner OwnerNav { get; set; }
         public IList<AppointmentDetails>? IAppDetails { get; set; }
     
    

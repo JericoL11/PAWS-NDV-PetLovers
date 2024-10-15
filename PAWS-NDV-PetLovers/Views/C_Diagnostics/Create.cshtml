@@ -103,7 +103,7 @@
                                                     {
                                                         <option value="@service.serviceId"
                                                                 data-price="@service.serviceCharge"
-                                                                data-follow-up="@service.followUp"
+                                                                data-follow="@((service.followUp ? "true" : "false"))"
                                                                 data-service-type="@service.serviceType.ToLower()"
                                                                 data-service-name="@service.serviceName.ToLower()"
                                                                 selected="selected">
@@ -117,7 +117,7 @@
                                                     {
                                                         <option value="@service.serviceId"
                                                                 data-price="@service.serviceCharge"
-                                                                data-follow-up="@service.followUp"
+                                                                data-follow="@((service.followUp ? "true" : "false"))"
                                                                 data-service-type="@service.serviceType.ToLower()"
                                                                 data-service-name="@service.serviceName.ToLower()">
                                                             @service.serviceName
@@ -145,7 +145,7 @@
                                                             {
                                                                 <option value="@service.serviceId"
                                                                         data-price="@service.serviceCharge"
-                                                                        data-follow-up="@service.followUp"
+                                                                        data-follow="@((service.followUp ? "true" : "false"))"
                                                                         data-service-type="@service.serviceType.ToLower()"
                                                                         data-service-name="@service.serviceName.ToLower()"
                                                                         selected="selected">
@@ -156,7 +156,7 @@
                                                             {
                                                                 <option value="@service.serviceId"
                                                                         data-price="@service.serviceCharge"
-                                                                        data-follow-up="@service.followUp"
+                                                                        data-follow="@((service.followUp ? "true" : "false"))"
                                                                         data-service-type="@service.serviceType.ToLower()"
                                                                         data-service-name="@service.serviceName.ToLower()">
                                                                     @service.serviceName

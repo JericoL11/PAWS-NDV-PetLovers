@@ -1,0 +1,276 @@
+﻿@model PAWS_NDV_PetLovers.ViewModels.ReportsVm
+@{
+    ViewData["Title"] = "AppointmentsReport";
+}
+
+<div class="bg-secondary bg-opacity-10 mb-3 py-2">
+    <div class="container">
+        <h1>Appointment Report</h1>
+    </div>
+</div>
+<div class="container">
+    <form method="post" asp-action="AppointmentsReport">
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+        <div class="row">
+            <div class="form-group col-lg-3 col-12 col-md-6">
+                <label for="startingDate" class="control-label">Start Date</label>
+                <input type="date" name="startDate" class="form-control"
+                       value="@Model.startDate?.ToString("yyyy-MM-dd")" />
+            </div>
+
+            <div class="form-group col-lg-3 col-12 col-md-6">
+                <label for="endingDate" class="control-label">End Date</label>
+                <input type="date" name="endDate" class="form-control"
+                       value="@Model.endDate?.ToString("yyyy-MM-dd")" />
+            </div>
+
+            <div class="form-group col-lg-3 col-12 col-md-6 d-flex align-items-end">
+              
+                @switch (Model.Selection)
+                {
+                    case "all":
+                        <select name="selection" class="form-control bg-light me-2" required>
+                            <option value="" hidden class="text-center text-secondary" >Display Type</option>
+                            <option value="custom"  class="text-center">Custom</option>
+                            <option value="all" selected class="text-center">All</option>
+                        </select>
+                    break;
+
+                    case "custom":
+                        <select name="selection" class="form-control bg-light me-2" required>
+                            <option value="" hidden class="text-center text-secondary" >Display Type</option>
+                            <option value="custom" selected class="text-center">Custom</option>
+                            <option value="all" class="text-center">All</option>
+                        </select>
+                    break;
+
+                    default:
+                        <select name="selection" class="form-control bg-light me-2" required>
+                            <option value="" hidden class="text-center text-secondary" selected>--Display Type</option>
+                            <option value="custom"  class="text-center">Custom</option>
+                            <option value="all" class="text-center">All</option>
+                        </select>
+                    break;
+                }
+
+                <input type="submit" value="View" class="btn btn-primary mt-3 px-5" />
+            </div>
+        </div>
+    </form>
+
+    <!-- Display the filtered report -->
+    <div class="mt-4">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Service</th>
+                    <th>Status</th>
+                    <!-- Add other relevant columns here -->
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Filtered)
+                {
+                    @if (Model.IAppointment != null && Model.IAppointment.Any())
+                    {
+                        foreach (var appointment in Model.IAppointment)
+                        {
+                            <tr>
+                                @{
+                                    var fullname = $"{appointment.OwnerNav.fname} {appointment.OwnerNav.lname}";
+                                }
+                                <td>@fullname</td>
+                                <td>@appointment.date.ToShortDateString()</td>
+
+                                @{
+                                    var services = appointment.IAppDetails.Select(d => d.Services.serviceName).ToList();
+                                    var serviceDisplay = services.Take(2);
+
+                                    var remainingServices = serviceDisplay.Skip(2);
+                                }
+                                <td>
+                                    @string.Join(", ", serviceDisplay);
+                                    @if (services.Count > 2)
+                                    {
+                                        <strong>
+
+                                            <span title="@string.Join(", ", remainingServices)">...</span>
+                                        </strong>
+                                    }
+                                </td>
+                                <!-- Modern Status Design with Badge and Icons -->
+                                <td>
+                                    @if (appointment.remarks == "Completed")
+                                    {
+                                        <span class="badge bg-success text-white rounded-pill">
+                                            <i class="bi bi-check-circle-fill"></i> Complete
+                                        </span>
+                                    }
+                                    else if (appointment.remarks == "Cancelled")
+                                    {
+                                        <span class="badge bg-danger text-white rounded-pill">
+                                            <i class="bi bi-hourglass-split"></i> Cancelled
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary text-white rounded-pill">
+                                            <i class="bi bi-exclamation-circle-fill"></i> In Progress
+                                        </span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center">No appointments found for the selected date range.</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+
+@{
+    #region == DEFAULT FORM WITH JS DATE CHANGE ==
+    /*    < form method = "post" asp - action = "AppointmentsReport" >
+        < div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                <div class="row">
+                <div class="form-group col-lg-3 col-12 col-md-6">
+                    <label for="startingDate" class="control-label">Start Date</label>
+                    <input type = "date" id= "startingDate" name= "startDate" class="form-control"  />
+                </div>
+
+                <div class="form-group col-lg-3 col-12 col-md-6">
+                    <label for="endingDate" class="control-label">End Date</label>
+                    <input type = "date" id= "endingDate" name= "endDate" class="form-control" />
+                </div>
+
+                <div class="form-group col-lg-3 col-12 col-md-6 d-flex align-items-end">
+                    <select name = "selection" class="form-control bg-light me-2 ">
+                        <option value = "custom" class="text-center" selected>Custom</option>
+                        <option value = "all" class="text-center">All</option>
+
+                    </select>
+                    <input type = "submit" value="View" class="btn btn-primary mt-3 px-5" />
+            </div>
+            </div>
+      </form>
+    */
+    #endregion
+}
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+    <script>
+        /*
+        $(document).ready(function () {
+                    let startDate; // Variable to store the raw start date string
+                    let endDate;   // Variable to store the raw end date string
+
+                    // Function to format the date as "Mon. DD, YYYY"
+                    function formatDate(dateStr) {
+                        const date = new Date(dateStr);
+                        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                        return date.toLocaleDateString('en-US', options).replace(',', '');
+                    }
+
+                    // Event listener for the Start Date input
+                    $('#startingDate').on('change', function () {
+                        startDate = $(this).val(); // Store the raw date for start date
+                        const formattedDate = formatDate(startDate + 'T00:00:00'); // Append time to avoid timezone issues
+                        $(this).attr('type', 'text');  // Change input type to text to show the formatted date
+                        $(this).val(formattedDate);
+                    });
+
+                    // Event listener for the End Date input
+                    $('#endingDate').on('change', function () {
+                        endDate = $(this).val(); // Store the raw date for end date
+                        const formattedDate = formatDate(endDate + 'T00:00:00'); // Append time to avoid timezone issues
+                        $(this).attr('type', 'text');  // Change input type to text to show the formatted date
+                        $(this).val(formattedDate);
+                    });
+
+                    // Event listener to switch to date input when clicking on it
+                    $('#startingDate').on('focus', function () {
+                        $(this).attr('type', 'date');
+                        $(this).val(startDate); // Restore the original raw date
+                    });
+
+                    $('#endingDate').on('focus', function () {
+                        $(this).attr('type', 'date');
+                        $(this).val(endDate); // Restore the original raw date
+                    });
+
+                    // Event listener to switch back to formatted string on blur
+                    $('#startingDate').on('blur', function () {
+                        if ($(this).val()) { // Only format if there is a value
+                            const dateValue = new Date(startDate + 'T00:00:00'); // Append time to avoid timezone issues
+                            const formattedDate = formatDate(dateValue); // Format the original date
+                            $(this).attr('type', 'text'); // Change input type to text
+                            $(this).val(formattedDate); // Set the formatted date
+                        }
+                    });
+
+                    $('#endingDate').on('blur', function () {
+                        if ($(this).val()) { // Only format if there is a value
+                            const dateValue = new Date(endDate + 'T00:00:00'); // Append time to avoid timezone issues
+                            const formattedDate = formatDate(dateValue); // Format the original date
+                            $(this).attr('type', 'text'); // Change input type to text
+                            $(this).val(formattedDate); // Set the formatted date
+                        }
+                    });
+                });
+
+                //js code
+                /* document.addEventListener('DOMContentLoaded', function () {
+                     // Get the date input elements
+                     const startingDateInput = document.getElementById('startingDate');
+                     const endingDateInput = document.getElementById('endingDate');
+
+                     // Function to format the date as "Mon. DD, YYYY"
+                     function formatDate(dateStr) {
+                         const date = new Date(dateStr);
+                         const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                         return date.toLocaleDateString('en-US', options).replace(',', '');
+                     }
+
+                     // Event listener for the Start Date input
+                     startingDateInput.addEventListener('change', function () {
+                         const formattedDate = formatDate(this.value);
+                         this.type = 'text';  // Change input type to text to show the formatted date
+                         this.value = formattedDate;
+                     });
+
+                     // Event listener for the End Date input
+                     endingDateInput.addEventListener('change', function () {
+                         const formattedDate = formatDate(this.value);
+                         this.type = 'text';  // Change input type to text to show the formatted date
+                         this.value = formattedDate;
+                     });
+
+                     // Event listener to switch back to date input when clicking on it
+                     startingDateInput.addEventListener('focus', function () {
+                         this.type = 'date';
+                     });
+
+                     endingDateInput.addEventListener('focus', function () {
+                         this.type = 'date';
+                     });
+                 });
+
+                 */
+}

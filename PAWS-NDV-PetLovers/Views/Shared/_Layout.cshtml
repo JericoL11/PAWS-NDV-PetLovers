@@ -122,19 +122,16 @@
                 </li>
 
                 <li class="mb-2">
-                    <a class="nav-link collapsed  d-flex align-items-center  p-2 solo-link" asp-area="" asp-controller="Home" asp-action="Privacy"> @* data-bs-toggle="collapse" data-bs-target="#reports-collapse" aria-expanded="true collapse" *@
+                    <a class="nav-link collapsed  d-flex align-items-center  p-2 solo-link" data-bs-toggle="collapse" data-bs-target="#reports-collapse" aria-expanded="true collapse">
                         <i class="fa-solid fa-flag" id="icon"></i><div class="px-3">Reports</div>
-                      @*   <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i>
- *@
+                       <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i>
+ 
                     </a>
-                  @*   <div class="collapse" id="reports-collapse" data-bs-parent="#accordion">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3 small">
-                            <li><a href="#" class="link-l mb-1 px-5">New</a></li>
-                            <li><a href="#" class="link-l mb-1 px-5">Processed</a></li>
-                            <li><a href="#" class="link-l mb-1 px-5">Shipped</a></li>
-                            <li><a href="#" class="link-l mb-1 px-5">Returned</a></li>
-                        </ul>
-                    </div> *@
+                <div class="collapse" id="reports-collapse" data-bs-parent="#accordion">
+                     <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3  big">
+                        <li><a class="link-l mb-1 px-5" asp-action="AppointmentsReport" asp-controller="PawsReport">Appointment</a></li>
+                    </ul>
+                </div>
                 </li>
 
 
