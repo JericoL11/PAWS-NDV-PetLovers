@@ -16,7 +16,7 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
         }
 
 
-        //functions
+        //start of functions
         public async Task<ReportsVm> GetAppointments()
         {
             var reportVm = new ReportsVm
@@ -25,12 +25,14 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                      .Include(a => a.OwnerNav)
                      .Include(a => a.IAppDetails)
                         .ThenInclude(d => d.Services)
-                     .Where(a => !string.IsNullOrEmpty(a.remarks))
+                     .Where(a => a.remarks != "Cancelled")
                      .ToListAsync(),
             };
             return reportVm;
         }
-        public async Task<ReportsVm> GetAllAppointments(bool filtered,string? selection)
+
+        //filtered 
+        public async Task<ReportsVm> GetAllAppointments(string? Status, string? SelectType, bool Filtered)
         {
             var reportVm = new ReportsVm
             {
@@ -38,35 +40,65 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                      .Include(a => a.IAppDetails)
                      .ThenInclude(a => a.Services)
                      .Include(a => a.OwnerNav)
-                     .Where(a => !string.IsNullOrEmpty(a.remarks))
+                     .Where(a => a.remarks != "Cancelled")
                      .ToListAsync(),
-                Filtered = filtered,
-                Selection = selection
+                Status = Status,
+                SelectType = SelectType,
+                Filtered = Filtered
 
             };
             return reportVm;
         }
 
-        public async Task<ReportsVm> GetFilteredAppointments(DateTime? startDate, DateTime? endDate, bool filtered, string? selection)
+        public async Task<ReportsVm> GetCustomAppointments(DateTime? startDate, DateTime? endDate, string? Status, string? SelectType, bool Filtered)
 
         {
-            var reportVm = new ReportsVm
+            if (Status == "inProgress")
             {
-                IAppointment = await _context.Appointments
+                var reportVm = new ReportsVm
+                {
+                    IAppointment = await _context.Appointments
                     .Include(a => a.IAppDetails)
                      .ThenInclude(a => a.Services)
                     .Include(a => a.OwnerNav)
                     .Where(d => (!startDate.HasValue || d.date >= startDate)
                              && (!endDate.HasValue || d.date <= endDate)
-                             && !string.IsNullOrEmpty(d.remarks))
+                             && string.IsNullOrEmpty(d.remarks))
                     .ToListAsync(),
-                Filtered = filtered,
-                startDate = startDate,
-                Selection = selection,
-                endDate = endDate 
-            };
-            return reportVm;
+                    Status = Status,
+                    startDate = startDate,
+                    SelectType = SelectType,
+                    endDate = endDate,
+                    Filtered = Filtered
+                };
+                return reportVm;
+            }
+            else
+            {
+                var reportVm = new ReportsVm
+                {
+                    IAppointment = await _context.Appointments
+                   .Include(a => a.IAppDetails)
+                    .ThenInclude(a => a.Services)
+                   .Include(a => a.OwnerNav)
+                   .Where(d => (!startDate.HasValue || d.date >= startDate)
+                            && (!endDate.HasValue || d.date <= endDate)
+                            && d.remarks != "Cancelled"
+                            && !string.IsNullOrEmpty(d.remarks))
+                   .ToListAsync(),
+                    Status = Status,
+                    startDate = startDate,
+                    SelectType = SelectType,
+                    endDate = endDate,
+                    Filtered = Filtered
+                };
+                return reportVm;
+            }
+
+            
         }
+
+        // end of functions
 
         [HttpGet]
         public async Task<IActionResult> AppointmentsReport()
@@ -77,9 +109,9 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AppointmentsReport(DateTime? startDate, DateTime? endDate, string? selection)
+        public async Task<IActionResult> AppointmentsReport(DateTime? startDate, DateTime? endDate, string? SelectType, string? Status, bool Filtered)
         {
-            if (selection == "custom")
+            if (SelectType == "custom")
             {
                 // Validate the date range
                 if (!startDate.HasValue || !endDate.HasValue)
@@ -95,14 +127,14 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 }
 
                 // Fetch filtered appointments based on the date range
-                var reportData = await GetFilteredAppointments(startDate, endDate, true, selection);
+                var reportData = await GetCustomAppointments(startDate, endDate, Status, SelectType, true);
                 return View(reportData);  // Pass the filtered data to the view
             }
            
-            if (selection == "all")
+            if (SelectType == "all")
             {
                 // Fetch all appointments without any date filtering
-                return View(await GetAllAppointments(true, selection));
+                return View(await GetAllAppointments(Status, SelectType, true));
             }
 
             // Default return in case something is missed

@@ -9,13 +9,15 @@ namespace PAWS_NDV_PetLovers.ViewModels
 
         public Product Product { get; set; }
 
-        public bool Filtered { get; set; }
+        public string? Status { get; set; }
 
         public DateTime? startDate { get; set; }
 
         public DateTime? endDate { get; set; }
 
-        public string Selection { get; set; }
+        public string SelectType { get; set; }
+
+        public bool Filtered {  get; set; }
 
 
         public IEnumerable<Appointment> IAppointment { get; set; }
