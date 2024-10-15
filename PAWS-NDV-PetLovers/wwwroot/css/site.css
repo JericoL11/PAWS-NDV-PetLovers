@@ -362,7 +362,7 @@ html {
 
 .bg {
     background-color: rgba(70, 147, 135, 0.2); /* 70% opacity */
-    border-bottom: 1px solid #469387;
+    border-bottom: 2px solid #469387;
 }
 
 .bg-pets {
@@ -373,7 +373,7 @@ html {
 .container-appointments {
     margin-top: 20px;
     border-radius: 5px;
-    border: 1px solid #469387;
+    border: 2px solid #469387;
     padding: 10px;
 }
 
@@ -438,10 +438,9 @@ html {
 
 
 #subbody {
-    border-left: 2px solid white;
-    background-color: #469387;
+    border-left: 2px solid #469387;
+   
 }
-
 
 /* Hover state */
 #diagnostics-tab,
