@@ -84,13 +84,13 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 // Validate the date range
                 if (!startDate.HasValue || !endDate.HasValue)
                 {
-                    ModelState.AddModelError("", "Please select both Start Date and End Date.");
+                    ModelState.AddModelError("", "Both the start date and end date are required.");
                     return View(await GetAppointments());
                 }
 
                 if (startDate > endDate)
                 {
-                    ModelState.AddModelError("", "End date must not be before Start Date.");
+                    ModelState.AddModelError("", "The end date cannot be earlier than the start date.");
                     return View(await GetAppointments());
                 }
 
