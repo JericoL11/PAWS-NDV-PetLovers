@@ -88,14 +88,13 @@
                                     var services = appointment.IAppDetails.Select(d => d.Services.serviceName).ToList();
                                     var serviceDisplay = services.Take(2);
 
-                                    var remainingServices = serviceDisplay.Skip(2);
+                                    var remainingServices = services.Skip(2);
                                 }
                                 <td>
-                                    @string.Join(", ", serviceDisplay);
+                                    @string.Join(", ", serviceDisplay)
                                     @if (services.Count > 2)
                                     {
                                         <strong>
-
                                             <span title="@string.Join(", ", remainingServices)">...</span>
                                         </strong>
                                     }

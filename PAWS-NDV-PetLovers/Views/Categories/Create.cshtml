@@ -46,13 +46,13 @@
                         <th><p style="margin:0;">Selling Price</p></th>
                         <th><p style="margin:0;">Qty On Hand</p></th>
                         <th><p style="margin:0;">Expiry Date</p></th>
-                        <th></th>
+                        <th colspan="2"><button type="button" class="btn btn-success btn-sm" id="addRow">Add Row</button></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="productRow">
                         <td class="col-3">
-                            <input name="Products[0].productName" class="form-control " required placeholder="Enter Product Name" />
+                            <input name="Products[0].product    Name" class="form-control " required placeholder="Enter Product Name" />
                         </td>
                         <td class="col-2">
                             <input name="Products[0].supplierPrice" class="form-control" oninput="validateDecimalInput(this)" required placeholder="Enter Supplier Price" />
@@ -75,14 +75,12 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="p-2">
-                <button type="button" class="btn btn-success" id="addRow">Add Row</button>
-            </div>
+
             <!-- End of Products Table -->
             <!-- Form Actions -->
-            <div class="form-group row d-flex justify-content-end mt-4">
-                <input type="submit" value="Create" class="btn btn-primary col-3" id="AddCategoryButton" />
-                <a asp-action="Index" class="btn btn-secondary ms-3 col-2">Cancel</a>
+            <div class="form-group text-end mt-4">
+                <a asp-action="Index" class="btn btn-secondary ms-3 px-2">Cancel</a>
+                <input type="submit" value="Create" class="btn btn-primary px-2" id="AddCategoryButton" />
             </div>
             <!-- End of Form Actions -->
         </div>
