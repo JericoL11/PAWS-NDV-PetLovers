@@ -4,7 +4,7 @@
 }
 
 
-<div class="bg-secondary bg-opacity-10 mb-3 py-2">
+<div class="bg-custom-color bg-secondary bg-opacity-10 mb-3 py-2">
     <div class="container">
         <h1>Appointment Report</h1>
     </div>
@@ -128,10 +128,19 @@
                         foreach (var appointment in Model.IAppointment)
                         {
                             <tr>
-                                @{
-                                    var fullname = $"{appointment.OwnerNav.fname} {appointment.OwnerNav.lname}";
+
+                                @if(appointment.ownerId == null)
+                                {
+                                     var fullname = $"{appointment.fname} {appointment.lname}";
+                                    <td>@fullname</td>
                                 }
-                                <td>@fullname</td>
+                                else
+                                {
+                                    var fullname = $"{appointment.OwnerNav.fname} {appointment.OwnerNav.lname}";
+                                    <td>@fullname</td>
+                                }
+                            
+                               
                                 <td>@appointment.date.ToShortDateString()</td>
 
                                 @{

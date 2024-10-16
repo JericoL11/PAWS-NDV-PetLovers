@@ -505,8 +505,37 @@ html {
 
 
 /* Tablet and larger styles */
-@media (min-width: 769px) {
+@media (min-width: 769px) { 
     #sidebar {
         display: block; /* Show sidebar on larger screens */
     }
 }
+
+/*External table color*/
+table thead tr {
+    background-color: #d3f7f1a8;
+}
+
+table {
+    border-color: #469387;
+    background-color: white;
+}
+
+.bg-custom-color {
+    background-color: #d3f7f1a8 !important;
+}
+
+.bg-custom-btn {
+    background-color: #469387;
+    border-color: #469387;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+}
+/*End Here*/
+
+/*.dt-layout-row {
+    background-color: #d3f7f1a8;
+}
+
+*/

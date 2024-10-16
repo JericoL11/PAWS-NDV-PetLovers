@@ -3,7 +3,6 @@
 
 // Write your JavaScript code.
 
-
 //Numbers/Decimal only for inputs
 $(document).ready(function () {
     function validateDecimalInput(input) {

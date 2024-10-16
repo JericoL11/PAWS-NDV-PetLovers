@@ -4,7 +4,7 @@
 }
 
 <div class="container-fluid pb-3">
-    <div class="container p-0 container-appointments" style="background-color:#d3f7f1a8;">
+    <div class="container p-0 container-appointments bg-custom-color">
         <div class="row">
             <div class="col-12">
                 <div class="container bg p-2">
@@ -15,7 +15,7 @@
 
         <div class="mb-2 my-3 p-3">
             <!-- Set current date as default -->
-            <a asp-action="Create" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")" class="btn btn-primary px-4" style="background-color:#469387; border-color:#469387; color:white; font-weight:bold;font-size:15px;">
+            <a asp-action="Create" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")" class="btn btn-primary px-4 bg-custom-btn">
                 Set Appointment
             </a>
             <!-- <a asp-action="AppointmentHistory" class="btn btn-success px-4">History</a> -->
@@ -24,10 +24,10 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="card p-3" style="background-color:white">
         <div class="table-responsive">
-                <table class="table table-bordered text-center d-line" style="border-color:#469387; background-color:white;" id="AppointmentsTable">
+                <table class="table table-bordered text-center hover " id="AppointmentsTable">
 
-                    <thead >
-                    <tr style="background-color:#d3f7f1a8;">
+                    <thead>
+                    <tr>
                         <th class="text-center">Appointment ID</th>
                         <th class="text-center">Name</th>
                         <th class="text-center">Service</th>
@@ -42,7 +42,7 @@
                     @foreach (var item in Model.IAppointments)
                     {
                         <tr>
-                            <td class="text-center">@Html.DisplayFor(modelItem => item.AppointId)</td>
+                            <td class="text-center mt-auto">@Html.DisplayFor(modelItem => item.AppointId)</td>
                             <td class="text-center">
                                 @Html.DisplayFor(modelItem => item.fname) @Html.Raw(" ") @Html.DisplayFor(modelItem => item.lname)
                             </td>
@@ -88,15 +88,10 @@
                                         }
 
 
-                                            <!-- Register Button -->
-                                            <a class="btn btn-info me-1" style="background-color: #469387; border-color:#469387;color:white; font-weight:bold;font-size:15px;" asp-action="Create" asp-controller="Owners"
-                                               asp-route-fname="@item.fname"
-                                               asp-route-lname="@item.lname"
-                                               asp-route-mname="@item.mname"
-                                               asp-route-contact="@item.contact">
-                                                Register
-                                            </a>
-
+                                         
+                                            <button type="button" class="btn btn-secondary btn-sm me-1" style="background-color:lightcoral;border-color:lightcoral;color:black;font-weight:bold;font-size:15px;" data-id="@item.AppointId" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                                Cancel
+                                            </button>
 
                                     
 
@@ -105,13 +100,20 @@
 
                                        
                                             <!-- Update Button -->
-                                                <a class="btn btn-primary me-1" style="background-color:#efc65de8;border-color:#efc65de8;color:black; font-weight:bold;font-size:15px;" asp-action="Edit" asp-route-id="@item.AppointId">Update</a>
+                                                <a class="btn btn-primary btn-sm me-1" style="background-color:#efc65de8;border-color:#efc65de8;color:black; font-weight:bold;font-size:15px;" asp-action="Edit" asp-route-id="@item.AppointId">Update</a>
+                                                <!-- Register Button -->
 
+
+                                                <a class="btn btn-info btn-sm me-1" style="background-color: #469387; border-color:#469387;color:white; font-weight:bold;font-size:15px;" asp-action="Create" asp-controller="Owners"
+                                                   asp-route-fname="@item.fname"
+                                                   asp-route-lname="@item.lname"
+                                                   asp-route-mname="@item.mname"
+                                                   asp-route-contact="@item.contact">
+                                                    Register
+                                                </a>
 
                                                 <!-- Cancel Button with Modal -->
-                                                <button type="button" class="btn btn-secondary me-1" style="background-color:lightcoral;border-color:lightcoral;color:black;font-weight:bold;font-size:15px;" data-id="@item.AppointId" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                                    Cancel
-                                                </button>
+                                             
                                         }
 
                                         @if (item.remarks == null)
@@ -119,8 +121,8 @@
                                             @if (ownerExists != null)
                                             {
                                                 <!-- Complete Button for owners -->
-                                                <a asp-action="Edit" asp-controller="Owners" asp-route-id="@item.ownerId" class="btn btn-success me-1">
-                                                    Complete
+                                                <a asp-action="Edit" asp-controller="Owners" asp-route-id="@item.ownerId" class="btn btn-success btn-sm me-1">
+                                                    Attend
                                                 </a>
                                             }
                                         }
@@ -141,7 +143,7 @@
                                             var date = item.date.ToString("MM-dd-yyyy");
 
                                             <!-- Update Button -->
-                                            <a class="btn btn-primary me-1" asp-action="Edit" asp-route-id="@item.AppointId"
+                                            <a class="btn btn-primary btn-sm me-1" asp-action="Edit" asp-route-id="@item.AppointId"
                                                asp-route-date="@date" asp-route-serviceId="@selectedId">
                                                 Update
                                             </a>

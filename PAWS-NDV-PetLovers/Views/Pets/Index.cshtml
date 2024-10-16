@@ -16,7 +16,7 @@
         @* <a class="btn btn-primary btn-md mb-4  me-2" asp-action="Create">Add new Pet</a> *@
         <a class="btn btn-primary btn-md mb-4 px-4" asp-action="Index" asp-controller="Owners">View Owner List</a>
     </div>
-<table class="table table-striped table-info" id="PetTable">
+<table class="table table-striped" id="PetTable">
     <thead>
             <tr>
             <th class="text-center">
@@ -88,8 +88,8 @@
                 @Html.Raw(' ')
                 @Html.DisplayFor(Modelitem => item.owner.lname)
             </td>
-            <td class="text-center">
-                <a asp-action="Edit" class="btn btn-success" asp-route-id="@item.id">Update</a> 
+            <td class="btn-group">
+                <a asp-action="Edit" class="btn btn-success me-3" asp-route-id="@item.id">Update</a> 
                 <a asp-action="Details" class="btn btn-warning px-4" asp-route-id="@item.id">View</a> 
                @*  <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.id">Delete</a> *@ 
             </td>
