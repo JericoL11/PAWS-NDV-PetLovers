@@ -78,7 +78,7 @@
                             <td class="remarks-cell"></td>
                             <td class="text-center">
                                 <form asp-action="DiagnosAppointment" asp-controller="C_Diagnostics" method="get">
-                                    <div class="btn-group" role="group" style="display:inline;">
+                                    <div class="btn-group" role="group">
                                         @{
                                             // Check if owner exists and matches appointment details
                                             var ownerExists = Model.IOwner
@@ -148,6 +148,7 @@
                                                 Update
                                             </a>
                                         }
+
                                     </div>
                                 </form>
                             </td>

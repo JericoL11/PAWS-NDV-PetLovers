@@ -39,7 +39,7 @@
 
                     <div class="form-group col-md-4 col-sm-12">
                         <label asp-for="gender" class="control-label"></label>
-                        <select asp-for="gender" class="form-control bg-light">
+                        <select asp-for="gender" class="form-select bg-light">
                             <option value="" selected>Select Gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
@@ -103,7 +103,7 @@
                             </td>
 
                              <td class="col-1">
-                                <select name="Pets[0].gender" class="form-control bg-light" required>
+                                <select name="Pets[0].gender" class="form-select bg-light" required>
                                     <option value="" selected hidden>----</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
@@ -111,7 +111,7 @@
                             </td>
 
                             <td class="col-1">
-                                <select name="Pets[0].species" class="form-control bg-light" required>
+                                <select name="Pets[0].species" class="form-select bg-light" required>
                                     <option value="" selected hidden>----</option>
                                     <option value="Dog">Dog</option>
                                     <option value="Cat">Cat</option>

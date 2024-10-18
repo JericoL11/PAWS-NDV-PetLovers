@@ -47,7 +47,7 @@
 
             <div class="form-group col-lg-4">
                 <label asp-for="Appointment.time" class="control-label"></label>
-                <select id="timeDropdown" name="Appointment.time" class="form-control" required>
+                <select id="timeDropdown" name="Appointment.time" class="form-select" required>
                     <!-- Times will be loaded here -->
                 </select>
                 <span asp-validation-for="Appointment.time" class="text-danger"></span>
@@ -78,7 +78,7 @@
                                 <tr class="detailRow">
                                     <td>
                                         <div class="form-group mt-2">
-                                            <select name="Appointment.IAppDetails[@i].serviceID" class="form-control service-select" required>
+                                            <select name="Appointment.IAppDetails[@i].serviceID" class="form-select service-select" required>
                                                 <option value="" data-price="0" disabled>Select Service</option>
 
                                                 <!-- Loop through NA-type services and set the selected service -->

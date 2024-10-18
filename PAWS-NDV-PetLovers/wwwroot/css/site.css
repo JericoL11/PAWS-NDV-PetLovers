@@ -1,17 +1,17 @@
     
 /*Select Icon*/
 
-.custom-select-wrapper {
+/*.custom-select-wrapper {
         position: relative;
     }
 
 .custom-select-wrapper .icon {
         position: absolute;
         top: 50%;
-        right: 10px; /* Adjust as needed for spacing */
-        transform: translateY(-50%);
-        pointer-events: none; /* Prevent clicks on the icon */
-    }
+        right: 10px;*/ /* Adjust as needed for spacing */
+        /*transform: translateY(-50%);
+        pointer-events: none;*/ /* Prevent clicks on the icon */
+    /*}*/
 
 
 

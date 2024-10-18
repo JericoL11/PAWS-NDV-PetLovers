@@ -94,7 +94,7 @@
                             <tbody>
                                 <tr class="detailRow">
                                     <td>
-                                        <select name="Appointment.IAppDetails[0].serviceId" class="form-control service-select" required>
+                                        <select name="Appointment.IAppDetails[0].serviceId" class="service-select form-select" required>
                                             <option value="" data-price="0" disabled selected>Select Service</option>
 
                                             @foreach (var service in Model.IlistServices.Where(s => s.serviceType == "NA"))

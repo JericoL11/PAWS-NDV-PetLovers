@@ -35,7 +35,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,productName,supplierPrice,sellingPrice,quantity,registeredDate,expiryDate,CategoryId")] Product product)
+        public async Task<IActionResult> Create([Bind("id,productName,supplierPrice,sellingPrice,quantity,registeredDate,CategoryId")] Product product)
         {
             if (product == null)
             {
@@ -93,7 +93,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,productName,supplierPrice,sellingPrice,quantity,registeredDate,lastUpdate,expiryDate,CategoryId")]Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("id,productName,supplierPrice,sellingPrice,quantity,registeredDate,lastUpdate,CategoryId")]Product product)
         {
             await SetCategoryListAsync();
 
@@ -105,13 +105,15 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
             try
             {
+                product.lastUpdate = DateTime.Now;
+
                 _context.Products.Update(product);
                 await _context.SaveChangesAsync();
 
                 TempData["SuccessMessage"] = "Updated Successfully";
               
 
-                return View(product);
+                return RedirectToAction("Edit",product.id);
             }
             catch(DbUpdateConcurrencyException)
             {

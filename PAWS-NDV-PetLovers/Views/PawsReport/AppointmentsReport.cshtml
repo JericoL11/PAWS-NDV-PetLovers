@@ -15,12 +15,12 @@
         <div class="row">
             <div class="form-group col-lg-3 col-12 col-md-6">
                 <label for="startingDate" class="control-label">Start Date</label>
-                <input type="date" name="startDate" class="form-control" value="@Model.startDate?.ToString("yyyy-MM-dd")" />
+                <input type="date" name="startDate" class="form-control" value="@Model.startDate?.ToString("yyyy-MM-dd")" required />
             </div>
 
             <div class="form-group col-lg-3 col-12 col-md-6">
                 <label for="endingDate" class="control-label">End Date</label>
-                <input type="date" name="endDate" class="form-control" value="@Model.endDate?.ToString("yyyy-MM-dd")" />
+                <input type="date" name="endDate" class="form-control" value="@Model.endDate?.ToString("yyyy-MM-dd")" required />
             </div>
 
 
@@ -28,74 +28,61 @@
                     @switch (Model.SelectType)
                     {
                         case "custom":
-                            <div class="custom-select-wrapper">
-                                <select id="selectType" name="SelectType" class="form-control bg-light me-4" required>
+
+                                <select id="selectType" name="SelectType" class="form-control bg-light me-4 form-select" required>
                                     <option value="" hidden>--Select</option>
                                     <option value="custom" selected>Custom</option>
                                     <option value="all">All</option>
                                 </select>
-                                <i class="bi bi-chevron-down icon"></i>
-                            </div>
                             break;
 
                         case "all":
-                            <div class="custom-select-wrapper">
-                                <select id="selectType" name="SelectType" class="form-control bg-light me-4" required>
+                            <select id="selectType" name="SelectType" class="form-control bg-light me-4  form-select" required>
                                     <option value="" hidden>--Select</option>
                                     <option value="custom">Custom</option>
                                     <option value="all" selected>All</option>
                                 </select>
-                                <i class="bi bi-chevron-down icon"></i>
-                            </div>
                             break;
 
                         default:
-                            <div class="custom-select-wrapper">
-                                <select id="selectType" name="SelectType" class="form-control bg-light me-4" required>
+
+                            <select id="selectType" name="SelectType" class="form-control bg-light me-4  form-select" required>
                                     <option value="" hidden selected>--Select</option>
                                     <option value="custom">Custom</option>
                                     <option value="all">All</option>
                                 </select>
-                                <i class="bi bi-chevron-down icon"></i>
-                            </div>
+
                             break;
                     }
               </div>
 
-            <div id="statusVisibility" class=" form-group mt-auto  col-auto statusVisibility">
+            <div id="statusVisibility" class="form-group mt-auto col-auto statusVisibility">
                     @switch (Model.Status)
                     {
                         case "inProgress":
-                            <div class="custom-select-wrapper">
-                                <select name="Status" class="form-control bg-light me-4" required>
+                        <select name="Status" class="form-control bg-light me-4  form-select" required>
                                     <option value="" hidden>--Status</option>
                                     <option value="inProgress" selected>In Progress</option>
                                     <option value="complete">Complete</option>
                                 </select>
-                                <i class="bi bi-chevron-down icon"></i>
-                            </div>
                             break;
 
                         case "complete":
-                            <div class="custom-select-wrapper">
-                                <select name="Status" class="form-control bg-light me-4" required>
+
+                        <select name="Status" class="form-control bg-light me-4  form-select" required>
                                     <option value="" hidden>--Status</option>
                                     <option value="inProgress">In Progress</option>
                                     <option value="complete" selected>Complete</option>
                                 </select>
-                                <i class="bi bi-chevron-down icon"></i>
-                            </div>
+
                             break;
 
                         default:
-                            <div class="custom-select-wrapper">
-                                <select name="Status" class="form-control bg-light me-4" required>
+                        <select name="Status" class="form-control bg-light me-4 form-select" required>
                                     <option value="" hidden>--Status</option>
                                     <option value="inProgress">In Progress</option>
                                     <option value="complete">Complete</option>
                                 </select>
-                                <i class="bi bi-chevron-down icon"></i>
-                            </div>
                             break;
                     }
                 </div>
@@ -198,7 +185,8 @@
 
 </div>
 
-<script src="/js/ReportsTable/ReportsTable.js" defer></script>
+
+
 
 @{
     #region == DEFAULT FORM WITH JS DATE CHANGE ==
@@ -234,33 +222,12 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    <script>
-        $(document).ready(function () {
-            // Hide or show status dropdown based on the selected type
-            function toggleStatusVisibility() {
-                var selectedType = $('#selectType').val();
-                if (selectedType === 'all') {
-                    $('#statusVisibility').hide();
-                    $('#statusVisibility select').prop('disabled', true); // Disable when hidden
-                } else {
-                    $('#statusVisibility').show();
-                    $('#statusVisibility select').prop('disabled', false); // Enable when visible
-                }
-            }
 
-            // On page load
-            toggleStatusVisibility();
-
-            // On change event of the selectType dropdown
-            $('#selectType').on('change', function () {
-                toggleStatusVisibility();
-            });
-        });
-
-    </script>
 }
 
     <script>
+
+        
         /*
         $(document).ready(function () {
                     let startDate; // Variable to store the raw start date string

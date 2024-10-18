@@ -101,7 +101,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("serviceId,serviceName,serviceCharge,followUp")] Services updatedService)
+        public async Task<IActionResult> Edit(int id, [Bind("serviceId,serviceName,serviceCharge,followUp,")] Services updatedService)
         {
             if (id != updatedService.serviceId)
             {

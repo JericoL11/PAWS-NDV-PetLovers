@@ -19,7 +19,11 @@ namespace PAWS_NDV_PetLovers.ViewModels
 
         public bool Filtered {  get; set; }
 
-
         public IEnumerable<Appointment> IAppointment { get; set; }
+
+        public IEnumerable<PetFollowUps> IPetFollowUps { get; set; }
+        
+
+        public IEnumerable<Product> IProducts { get; set; }
     }
 }

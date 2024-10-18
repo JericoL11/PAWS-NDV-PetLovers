@@ -88,14 +88,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             {
                 return NotFound();
             }
-            //find the category information
-            var category = await _context.Categories.FindAsync(id);
-
-            if(category == null)
-            {
-                return NotFound();
-            }
-
+ 
             //retrieve related products
             var updatedCategory = await _context.Categories
                 .Include(c => c.Products)
@@ -106,48 +99,40 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 return NotFound();
             }
 
-            var data = new RecordsVm
-            {
-                Category = updatedCategory,
-                IProducts = updatedCategory.Products
-            };
-
-          
-            return View(data);
+            return View(updatedCategory);
 
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, [Bind("id,categoryName,description,registeredDate,lastUpdate")]Category category)
+        public async Task<IActionResult> Edit(int? id,[Bind("id,categoryName,description,lastUpdate")]Category category)
         {
             //id check
-            if(id != category.id)
+            if(id == null)
+            {
+                return NotFound();
+            }
+            var findCategory = await _context.Categories.FindAsync(id);
+
+            if (findCategory == null)
             {
                 return NotFound();
             }
 
-            category.lastUpdate = DateTime.Now;
 
             try
             {
-                _context.Categories.Update(category);
+
+                findCategory.lastUpdate = DateTime.Now;
+                findCategory.categoryName = category.categoryName;
+                findCategory.description = category.description;
+
+                _context.Update(findCategory);
                 await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Successfully Updated";
 
-                //retrieve related products
-                var updatedCategory = await _context.Categories
-                    .Include(c => c.Products)
-                    .FirstOrDefaultAsync(c => c.id == id);
-
-                var vm = new RecordsVm
-                {
-                    Category = updatedCategory,
-                    IProducts = updatedCategory.Products
-
-                };
-
-                return View(vm);
+      
+                return RedirectToAction("Index");
             }
             catch(DbUpdateConcurrencyException)
             {

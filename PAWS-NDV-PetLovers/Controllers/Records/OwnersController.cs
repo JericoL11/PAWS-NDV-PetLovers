@@ -282,7 +282,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 IPets = updatedOwner.Pets
             };
 
-            return View(data);
+            return RedirectToAction("Edit", owner.id);
         }
 
         //edit pet button

@@ -31,7 +31,7 @@
       
                         <div class="form-group col-lg-6 col-md-12">
                             <label asp-for="CategoryId" class="control-label"></label>
-                            <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.categoryList"></select>
+                            <select asp-for="CategoryId" class="form-select" asp-items="@ViewBag.categoryList"></select>
                             <span asp-validation-for="category" class="text-danger"></span>
                         </div>
       
@@ -59,11 +59,11 @@
                             <span asp-validation-for="quantity" class="text-danger"></span>
                         </div>
 
-                        <div class="form-group col-lg-6 col-md-12">
+                        @* <div class="form-group col-lg-6 col-md-12">
                             <label asp-for="expiryDate" class="control-label"></label>
                             <input asp-for="expiryDate" class="form-control" />
                             <span asp-validation-for="expiryDate" class="text-danger"></span>
-                        </div>
+                        </div> *@
 
                         <div class="form-group col-lg-6 col-md-12">
                             <label asp-for="registeredDate" class="control-label"></label>

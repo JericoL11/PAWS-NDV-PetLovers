@@ -39,7 +39,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                         .Annotation("SqlServer:Identity", "5000, 1"),
                     categoryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    registeredDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    registeredDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     lastUpdate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>

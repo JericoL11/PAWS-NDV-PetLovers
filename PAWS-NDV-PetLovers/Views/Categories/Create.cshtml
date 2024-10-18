@@ -45,14 +45,14 @@
                         <th><p style="margin:0;">Supplier Price</p></th>
                         <th><p style="margin:0;">Selling Price</p></th>
                         <th><p style="margin:0;">Qty On Hand</p></th>
-                        <th><p style="margin:0;">Expiry Date</p></th>
+                       @*  <th><p style="margin:0;">Expiry Date</p></th> *@
                         <th colspan="2"><button type="button" class="btn btn-success btn-sm" id="addRow">Add Row</button></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="productRow">
                         <td class="col-3">
-                            <input name="Products[0].product    Name" class="form-control " required placeholder="Enter Product Name" />
+                            <input name="Products[0].productName" class="form-control " required placeholder="Enter Product Name" />
                         </td>
                         <td class="col-2">
                             <input name="Products[0].supplierPrice" class="form-control" oninput="validateDecimalInput(this)" required placeholder="Enter Supplier Price" />
@@ -63,14 +63,14 @@
                         <td class="col-2">
                             <input type="number" name="Products[0].quantity" class="form-control" required placeholder="Enter Quantity" />
                         </td>
-                        <td class="col-2">
+                        @* <td class="col-2">
                             <input type="date" name="Products[0].expiryDate" class="form-control " placeholder="Optional" />
+                        </td> *@
+                        <td class="col-1">
+                            <button type="button" class="btn btn-danger removeRow">Remove</button>
                         </td>
                         <td class="col-2 visually-hidden">
                             <input type="date" name="Products[0].registeredDate" class="form-control" id="dateInput" />
-                        </td>
-                        <td class="col-1">
-                            <button type="button" class="btn btn-danger removeRow">Remove</button>
                         </td>
                     </tr>
                 </tbody>

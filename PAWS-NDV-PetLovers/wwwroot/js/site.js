@@ -3,6 +3,33 @@
 
 // Write your JavaScript code.
 
+
+//Reports
+
+$(document).ready(function () {
+    // Hide or show status dropdown based on the selected type
+    function toggleStatusVisibility() {
+        var selectedType = $('#selectType').val();
+        if (selectedType === 'all' || selectedType == 'allCategory' ) {
+            $('#statusVisibility').hide();
+            $('#statusVisibility select').prop('disabled', true); // Disable when hidden
+        } else {
+            $('#statusVisibility').show();
+            $('#statusVisibility select').prop('disabled', false); // Enable when visible
+        }
+    }
+
+    // On page load
+    toggleStatusVisibility();
+
+    // On change event of the selectType dropdown
+    $('#selectType').on('change', function () {
+        toggleStatusVisibility();
+    });
+});
+
+
+
 //Numbers/Decimal only for inputs
 $(document).ready(function () {
     function validateDecimalInput(input) {

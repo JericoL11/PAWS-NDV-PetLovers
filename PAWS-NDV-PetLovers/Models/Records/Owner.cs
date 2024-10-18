@@ -39,7 +39,6 @@ namespace PAWS_NDV_PetLovers.Models.Records
         [Display(Name = "Home Address")]
         public string? address { get; set; }
 
-        [Required]
         [Display(Name = "Registered Date")]
         [DataType(DataType.Date)]
         public DateTime? registeredDate { get; set; }
