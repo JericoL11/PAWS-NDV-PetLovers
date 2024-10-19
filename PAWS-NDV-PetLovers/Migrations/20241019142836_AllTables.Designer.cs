@@ -12,8 +12,8 @@ using PAWS_NDV_PetLovers.Data;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     [DbContext(typeof(PAWS_NDV_PetLoversContext))]
-    [Migration("20241018095820_DelCol_ExpiryDate_Products")]
-    partial class DelCol_ExpiryDate_Products
+    [Migration("20241019142836_AllTables")]
+    partial class AllTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -258,9 +258,6 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime?>("expiryDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("lastUpdate")
                         .HasColumnType("datetime2");

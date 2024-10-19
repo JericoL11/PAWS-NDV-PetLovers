@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.Models.Appointments;
-using PAWS_NDV_PetLovers.Models.Records;
-using PAWS_NDV_PetLovers.Models.Transactions;
 using PAWS_NDV_PetLovers.ViewModels;
 
 namespace PAWS_NDV_PetLovers.Controllers.Appointments
@@ -149,44 +146,57 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
         [HttpGet]
         public async Task<IActionResult> GetAvailableTimes(DateTime date)
         {
-            // Fetch appointments and determine available times
+            // Fetch appointments for the selected date
             var appointmentsOnDate = await _context.Appointments
                 .Where(a => a.date == date)
                 .Select(a => a.time)
                 .ToListAsync();
 
-            //read  each data
+            // Join all appointment times into a single string for comparison
             var convertedToString = string.Join(",", appointmentsOnDate);
 
-            //declare List storage Var
+            // Initialize AM and PM time lists
             var am = new List<string>();
             var pm = new List<string>();
 
-            for (int hour = 1; hour < 12; hour++)
-            {
-                var time = $"{hour}:00";
+            // Get current time for comparison
+            var currentDate = DateTime.Today;
+            var currentTime = DateTime.Now;
 
-                if (hour >= 8 && hour <= 11) // AM Times
+            // Loop through hours to populate AM and PM times
+            for (int hour = 1; hour <= 11; hour++)
+            {
+                var amTime = $"{hour}:00";
+                var pmTime = $"{hour}:00 pm";
+
+                if (hour >= 8 && hour <= 11) // Morning times (8:00 AM to 11:00 AM)
                 {
-                    //Check if time not  exist
-                    if (!convertedToString.Contains(time))
+                    if (!convertedToString.Contains(amTime))
                     {
-                        am.Add(time);
+                        // Exclude times that have already passed if it's today
+                        if (date > currentDate || (date == currentDate && hour > currentTime.Hour))
+                        {
+                            am.Add(amTime);
+                        }
                     }
                 }
-                else if (hour >= 1 && hour <= 4) // PM Times
+                else if (hour >= 1 && hour <= 4) // Afternoon times (1:00 PM to 4:00 PM)
                 {
-                    var timePm = $"{hour}:00";
-                    if (!convertedToString.Contains(timePm))
+                    if (!convertedToString.Contains(pmTime))
                     {
-                        pm.Add(timePm + " pm");
+                        // Exclude times that have already passed if it's today
+                        if (date > currentDate || (date == currentDate && (hour + 12) > currentTime.Hour))
+                        {
+                            pm.Add(pmTime);
+                        }
                     }
                 }
             }
 
-            // Return the available times as JSON
+            // Return available times as JSON
             return Json(new { availableAM = am, availablePM = pm });
         }
+
         [HttpGet]
         public async Task<IActionResult> Create(DateTime date)
         {
@@ -533,6 +543,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             if (appointment != null)
             {
                 appointment.remarks = "Cancelled";
+                appointment.time = DateTime.MinValue;
                 _context.Appointments.Update(appointment);
                 /*_context.Appointments.Remove(appointment);*/
                 await _context.SaveChangesAsync();
