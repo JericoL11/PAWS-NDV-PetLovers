@@ -18,6 +18,39 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
         {
             this._context = context;
         }
+
+
+        public IActionResult Dashboard(AppointmentVm vcm)
+        {
+            if(vcm.activeAppointTab == null)
+            {
+                vcm.activeAppointTab = AppointmentTab.booking;
+            }
+            return View(vcm);
+        }
+
+        public IActionResult SwitchToTab(string tabName)
+        {
+            var vm = new AppointmentVm();
+
+            switch (tabName)
+            {
+                case "booking":
+                    vm.activeAppointTab = AppointmentTab.booking;
+                    break;
+
+                case "followUp":
+                    vm.activeAppointTab = AppointmentTab.followUp;
+                    break;
+
+                default:
+                    vm.activeAppointTab = AppointmentTab.booking;
+                    break;
+            }
+
+            return RedirectToAction(nameof(Dashboard), vm);
+        }
+
         public async Task<IActionResult> Index()
         {
 
@@ -25,6 +58,10 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
             return View(appDetails);
         }
+
+
+
+
 
         #region == Functions == 
         public async Task<AppointmentVm> GetAllAsync()
@@ -225,10 +262,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             return View(viewModel);
         }
 
-
-
-
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Appointment")] AppointmentVm viewModel) //appointment vm is declared
         {
 
@@ -282,7 +317,10 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             //vm for index object instantiation
             var appDetails = await GetAllAsync();
 
-            return View("Index", appDetails);
+            var vcm = new AppointmentVm();
+            vcm.activeAppointTab = AppointmentTab.booking;
+            vcm.created = true;
+            return RedirectToAction(nameof(Dashboard), vcm);
 
         }
 
@@ -427,7 +465,12 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
                 // Save changes
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                var vcm = new AppointmentVm();
+                vcm.activeAppointTab = AppointmentTab.booking;
+                vcm.updated = true;
+
+                return RedirectToAction(nameof(Dashboard), vcm);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -495,7 +538,10 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToAction(nameof(Index));
+            var vm = new AppointmentVm();
+            vm.updated = true;
+            vm.activeAppointTab = AppointmentTab.booking;
+            return RedirectToAction(nameof(Dashboard), vm);
         }
     }
 }

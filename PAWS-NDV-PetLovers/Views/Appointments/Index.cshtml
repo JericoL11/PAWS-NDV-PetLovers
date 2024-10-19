@@ -1,32 +1,27 @@
 ﻿@model PAWS_NDV_PetLovers.ViewModels.AppointmentVm
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Index =>> Booking";
 }
 
-<div class="container-fluid pb-3">
-    <div class="container p-0 container-appointments bg-custom-color">
-        <div class="row">
-            <div class="col-12">
-                <div class="container bg p-2">
-                    <h1>Appointments</h1>
-                </div>
-            </div>
-        </div>
+@{
+    #region Abandoned Index Appointment 
 
-        <div class="mb-2 my-3 p-3">
-            <!-- Set current date as default -->
-            <a asp-action="Create" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")" class="btn btn-primary px-4 bg-custom-btn">
-                Set Appointment
-            </a>
-            <!-- <a asp-action="AppointmentHistory" class="btn btn-success px-4">History</a> -->
-        </div>
+    /*
+    @* this index is Abandoned *@
+    <div class="mb-2 my-3 p-3">
+        <!-- Set current date as default -->
+        <a asp-action="Create" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")" class="btn btn-primary px-4 bg-custom-btn">
+            Set Appointment
+        </a>
+        <!-- <a asp-action="AppointmentHistory" class="btn btn-success px-4">History</a> -->
+    </div>
 
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="card p-3" style="background-color:white">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="card p-3" style="background-color:white">
         <div class="table-responsive">
-                <table class="table table-bordered text-center hover " id="AppointmentsTable">
+            <table class="table table-bordered text-center hover " id="AppointmentsTable">
 
-                    <thead>
+                <thead>
                     <tr>
                         <th class="text-center">Appointment ID</th>
                         <th class="text-center">Name</th>
@@ -88,32 +83,31 @@
                                         }
 
 
-                                         
-                                            <button type="button" class="btn btn-secondary btn-sm me-1" style="background-color:lightcoral;border-color:lightcoral;color:black;font-weight:bold;font-size:15px;" data-id="@item.AppointId" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                                Cancel
-                                            </button>
 
-                                    
+                                        <button type="button" class="btn btn-secondary btn-sm me-1" style="background-color:lightcoral;border-color:lightcoral;color:black;font-weight:bold;font-size:15px;" data-id="@item.AppointId" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                            Cancel
+                                        </button>
+
+
 
                                         @if (ownerExists == null)
                                         {
 
-                                       
+
                                             <!-- Update Button -->
-                                                <a class="btn btn-primary btn-sm me-1" style="background-color:#efc65de8;border-color:#efc65de8;color:black; font-weight:bold;font-size:15px;" asp-action="Edit" asp-route-id="@item.AppointId">Update</a>
-                                                <!-- Register Button -->
+                                            <a class="btn btn-primary btn-sm me-1" style="background-color:#efc65de8;border-color:#efc65de8;color:black; font-weight:bold;font-size:15px;" asp-action="Edit" asp-route-id="@item.AppointId">Update</a>
+                                            <!-- Register Button -->
 
 
-                                                <a class="btn btn-info btn-sm me-1" style="background-color: #469387; border-color:#469387;color:white; font-weight:bold;font-size:15px;" asp-action="Create" asp-controller="Owners"
-                                                   asp-route-fname="@item.fname"
-                                                   asp-route-lname="@item.lname"
-                                                   asp-route-mname="@item.mname"
-                                                   asp-route-contact="@item.contact">
-                                                    Register
-                                                </a>
+                                            <a class="btn btn-info btn-sm me-1" style="background-color: #469387; border-color:#469387;color:white; font-weight:bold;font-size:15px;" asp-action="Create" asp-controller="Owners"
+                                               asp-route-fname="@item.fname"
+                                               asp-route-lname="@item.lname"
+                                               asp-route-mname="@item.mname"
+                                               asp-route-contact="@item.contact">
+                                                Register
+                                            </a>
 
-                                                <!-- Cancel Button with Modal -->
-                                             
+                                            <!-- Cancel Button with Modal -->
                                         }
 
                                         @if (item.remarks == null)
@@ -157,63 +151,66 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+
+
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger bg-opacity-50">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Warning</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to cancel this Appointment?
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" name="id" id="appointmentId" />
+                        <input type="submit" value="Confirm" class="btn btn-primary" />
+                    </form>
+
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
 
 
-<!-- Delete Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-danger bg-opacity-50">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Warning</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to cancel this Appointment?
-            </div>
-            <div class="modal-footer">
-            
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
-                <form asp-action="Delete" method="post">
-                    <input type="hidden" name="id" id="appointmentId" />
-                    <input type="submit" value="Confirm" class="btn btn-primary"/>
-                </form>
-              
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<script src="~/js/AppointmentDataTables/AppointmentsTable.js" defer></script>
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-    <script>
-        //modal pass AppointId using JS
-        var staticBackdrop = document.getElementById('staticBackdrop');
-        staticBackdrop.addEventListener('show.bs.modal', function (event) {
-            var button = event.relatedTarget; // Button that triggered the modal
-            var appointId = button.getAttribute('data-id'); // Extract data-id from the button
-            var modalInput = document.getElementById('appointmentId'); // Find the hidden input field
-            modalInput.value = appointId; // Set the input value
-        });
-
-        $(document).ready(function () {
-            $('.remarks-cell').each(function () {
-                var remarks = $(this).text().trim();
-                if (!remarks) {
-                    $(this).text('Incomplete');
-                }
+    <script src="~/js/AppointmentDataTables/AppointmentsTable.js" defer></script>
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+        <script>
+            //modal pass AppointId using JS
+            var staticBackdrop = document.getElementById('staticBackdrop');
+            staticBackdrop.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget; // Button that triggered the modal
+                var appointId = button.getAttribute('data-id'); // Extract data-id from the button
+                var modalInput = document.getElementById('appointmentId'); // Find the hidden input field
+                modalInput.value = appointId; // Set the input value
             });
 
-        });
-    </script>
-}
+            $(document).ready(function () {
+                $('.remarks-cell').each(function () {
+                    var remarks = $(this).text().trim();
+                    if (!remarks) {
+                        $(this).text('Incomplete');
+                    }
+                });
 
+            });
+        </script>
+    }
+
+    */
+    #endregion
+
+}

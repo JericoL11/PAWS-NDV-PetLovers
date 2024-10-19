@@ -11,13 +11,13 @@
 
 <div class="container">
 
-    <ul class="nav nab-bar">
+    <ul class="nav">
         <li >
-            <a role="presentation" asp-action="SwitchToDboardTab" asp-route-tabName="DBoard_Diagnostics" asp-controller="Billing" class="@(Model.activeBoardTab == PAWS_NDV_PetLovers.ViewModels.DBoardTab.DBoard_Diagnostics ? "active" : string.Empty) btn btn-outline-primary">Diagnostics</a>
+            <a role="presentation" asp-action="SwitchToDboardTab" asp-route-tabName="DBoard_Diagnostics" asp-controller="Billing" class="@(Model.activeBoardTab == PAWS_NDV_PetLovers.ViewModels.DBoardTab.DBoard_Diagnostics ? "active" : string.Empty) btn btn-outline-success">Diagnostics</a>
         </li>
          
         <li>
-            <a role="presentation" asp-action="SwitchToDboardTab" asp-route-tabName="DBoard_Purchase" asp-controller="Billing" class="@(Model.activeBoardTab == PAWS_NDV_PetLovers.ViewModels.DBoardTab.DBoard_Purchase ? "active" : string.Empty) btn btn-outline-primary">Purchases</a>
+            <a role="presentation" asp-action="SwitchToDboardTab" asp-route-tabName="DBoard_Purchase" asp-controller="Billing" class="@(Model.activeBoardTab == PAWS_NDV_PetLovers.ViewModels.DBoardTab.DBoard_Purchase ? "active" : string.Empty) btn btn-outline-success">Purchases</a>
 
         </li>
   

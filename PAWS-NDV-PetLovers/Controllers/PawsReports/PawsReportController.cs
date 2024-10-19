@@ -26,37 +26,96 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AppointmentsReport(DateTime? startDate, DateTime? endDate, string? SelectType, string? Status, bool Filtered)
+        public async Task<IActionResult> AppointmentsReport(string reportType,DateTime? startDate, DateTime? endDate, string? SelectType, string? Status, bool Filtered)
         {
-            if (SelectType == "custom")
+
+            switch (reportType)
             {
-                // Validate the date range
-                if (!startDate.HasValue || !endDate.HasValue)
-                {
-                    ModelState.AddModelError("", "Both the start date and end date are required.");
-                    return View(await GetAppointments());
-                }
+                case "booking":
+                    if (SelectType == "custom")
+                    {
+                        // Validate the date range
+                        if (!startDate.HasValue || !endDate.HasValue)
+                        {
+                            ModelState.AddModelError("", "Both the start date and end date are required.");
+                            return View(await GetAppointments());
+                        }
 
-                if (startDate > endDate)
-                {
-                    ModelState.AddModelError("", "The end date cannot be earlier than the start date.");
-                    return View(await GetAppointments());
-                }
+                        if (startDate > endDate)
+                        {
+                            ModelState.AddModelError("", "The end date cannot be earlier than the start date.");
+                            return View(await GetAppointments());
+                        }
 
-                // Fetch filtered appointments based on the date range
-                var reportData = await GetCustomAppointments(startDate, endDate, Status, SelectType, true);
-                return View(reportData);  // Pass the filtered data to the view
+                        // Fetch filtered appointments based on the date range
+                        var reportData = await GetCustomAppointments(reportType, startDate, endDate, Status, SelectType, true);
+                        return View(reportData);  // Pass the filtered data to the view
+                    }
+
+                    if (SelectType == "all")
+                    {
+                        // Fetch all appointments without any date filtering
+                        return View(await GetAllAppointments(reportType, startDate, endDate, Status, SelectType, true));
+                    }
+                    break;
+
+
+                case "followUp":
+                    if (SelectType == "custom")
+                    {
+                        // Validate the date range
+                        if (!startDate.HasValue || !endDate.HasValue)
+                        {
+                            ModelState.AddModelError("", "Both the start date and end date are required.");
+                            return View(await GetFollowUp());
+                        }
+
+                        if (startDate > endDate)
+                        {
+                            ModelState.AddModelError("", "The end date cannot be earlier than the start date.");
+                            return View(await GetFollowUp());
+                        }
+
+                        // Fetch filtered appointments based on the date range
+                        var reportData = await GetCustomFollowUp(reportType, startDate, endDate, Status, SelectType, true);
+                        return View(reportData);  // Pass the filtered data to the view
+                    }
+
+                    if (SelectType == "all")
+                    {
+                        // Fetch all appointments without any date filtering
+                        return View(await GetAllFollowUp(reportType, startDate, endDate, Status, SelectType, true));
+                    }
+
+                    break;
+
+                default:
+                    
+                    var followUp = await _context.PetFollowUps
+                   .Include(p => p.Diagnostics)
+                       .ThenInclude(d => d.pet)
+                           .ThenInclude(dp => dp.owner)
+                   .Include(p => p.Services)
+                   .Where(p => p.status != "Cancelled")
+                   .ToListAsync();
+
+                
+                    var reportVm = new ReportsVm
+                    {
+                        IPetFollowUps = followUp,
+                        IAppointment = await _context.Appointments
+                       .Include(a => a.OwnerNav)
+                       .Include(a => a.IAppDetails)
+                          .ThenInclude(d => d.Services)
+                       .Where(a => a.remarks != "Cancelled")
+                       .ToListAsync(),
+                    };
+                    break;
             }
-
-            if (SelectType == "all")
-            {
-                // Fetch all appointments without any date filtering
-                return View(await GetAllAppointments(startDate, endDate, Status, SelectType, true));
-            }
-
             // Default return in case something is missed
             return View(await GetAppointments());
         }
+           
 
 
         //Follow Up
@@ -68,7 +127,7 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> FollowUpVisitReport(DateTime? startDate, DateTime? endDate, string? SelectType, string? Status, bool Filtered)
+        public async Task<IActionResult> FollowUpVisitReport(string? reportType, DateTime? startDate, DateTime? endDate, string? SelectType, string? Status, bool Filtered)
         {
             if (SelectType == "custom")
             {
@@ -86,14 +145,14 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 }
 
                 // Fetch filtered appointments based on the date range
-                var reportData = await GetCustomFollowUp(startDate, endDate, Status, SelectType, true);
+                var reportData = await GetCustomFollowUp(reportType, startDate, endDate, Status, SelectType, true);
                 return View(reportData);  // Pass the filtered data to the view
             }
 
             if (SelectType == "all")
             {
                 // Fetch all appointments without any date filtering
-                return View(await GetAllFollowUp(startDate, endDate, Status, SelectType, true));
+                return View(await GetAllFollowUp(reportType, startDate, endDate, Status, SelectType, true));
             }
 
             // Default return in case something is missed
@@ -158,7 +217,7 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
         }
 
         //filtered 
-        public async Task<ReportsVm> GetAllAppointments(DateTime? startDate, DateTime? endDate, string? Status, string? SelectType, bool Filtered)
+        public async Task<ReportsVm> GetAllAppointments(string? reportType, DateTime? startDate, DateTime? endDate, string? Status, string? SelectType, bool Filtered)
         {
 
             var reportVm = new ReportsVm
@@ -176,12 +235,13 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 Filtered = Filtered,
                 startDate = startDate,
                 endDate = endDate,
+                reportType = reportType
 
             };
             return reportVm;
         }
 
-        public async Task<ReportsVm> GetCustomAppointments(DateTime? startDate, DateTime? endDate, string? Status, string? SelectType, bool Filtered)
+        public async Task<ReportsVm> GetCustomAppointments(string? reportType, DateTime? startDate, DateTime? endDate, string? Status, string? SelectType, bool Filtered)
 
         {
             if (Status == "inProgress")
@@ -200,7 +260,8 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                     startDate = startDate,
                     SelectType = SelectType,
                     endDate = endDate,
-                    Filtered = Filtered
+                    Filtered = Filtered,
+                    reportType = reportType
                 };
                 return reportVm;
             }
@@ -221,7 +282,8 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                     startDate = startDate,
                     SelectType = SelectType,
                     endDate = endDate,
-                    Filtered = Filtered
+                    Filtered = Filtered,
+                    reportType = reportType
                 };
                 return reportVm;
             }
@@ -249,7 +311,7 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
         }
 
 
-        public async Task<ReportsVm> GetAllFollowUp(DateTime? startDate, DateTime? endDate, string? Status, string? SelectType, bool Filtered)
+        public async Task<ReportsVm> GetAllFollowUp(string? reportType, DateTime? startDate, DateTime? endDate, string? Status, string? SelectType, bool Filtered)
         {
             var reportVm = new ReportsVm
             {
@@ -267,12 +329,12 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 Filtered = Filtered,
                 startDate = startDate,
                 endDate = endDate,
-
+                reportType = reportType
             };
             return reportVm;
         }
 
-        public async Task<ReportsVm> GetCustomFollowUp(DateTime? startDate, DateTime? endDate, string? Status, string? SelectType, bool Filtered)
+        public async Task<ReportsVm> GetCustomFollowUp(string? reportType, DateTime? startDate, DateTime? endDate, string? Status, string? SelectType, bool Filtered)
 
         {
             if (Status == "inProgress")
@@ -292,7 +354,8 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                     startDate = startDate,
                     SelectType = SelectType,
                     endDate = endDate,
-                    Filtered = Filtered
+                    Filtered = Filtered,
+                    reportType = reportType
                 };
                 return reportVm;
             }
@@ -314,7 +377,8 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                     startDate = startDate,
                     SelectType = SelectType,
                     endDate = endDate,
-                    Filtered = Filtered
+                    Filtered = Filtered,
+                    reportType = reportType
                 };
                 return reportVm;
             }

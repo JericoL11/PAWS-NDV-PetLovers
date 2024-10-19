@@ -172,7 +172,11 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                     _context.Update(ownerExistAppointment);
                     await _context.SaveChangesAsync(); // Save changes to the appointment
 
-                    return RedirectToAction("Index", "Appointments"); // Redirect to another controller
+                    var vm = new AppointmentVm
+                    {
+                        created = true
+                    };
+                    return RedirectToAction("Dashboard", "Appointments", vm); // Redirect to another controller
                 }
 
                 TempData["SuccessMessage"] = "Created Successfully";
