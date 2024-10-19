@@ -126,14 +126,13 @@
         {
             case "booking":
                 <div class="mt-4">
-                    <table class="table table-striped ReportsTable">
+                    <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Name</th>
                                 <th>Date</th>
                                 <th>Service</th>
                                 <th>Status</th>
-                                <!-- Add other relevant columns here -->
                             </tr>
                         </thead>
                         <tbody>
@@ -202,9 +201,6 @@
                                 {
                                     <tr>
                                         <td colspan="4" class="text-center">No appointments found for the selected date range.</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
                                     </tr>
                                 }
                             }
@@ -216,7 +212,7 @@
 
             case "followUp":
                 <div class="mt-4">
-                    <table class="table table-striped ReportsTable">
+                    <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Owner Name</th>
@@ -275,10 +271,7 @@
                                 else
                                 {
                                     <tr>
-                                        <td colspan="4" class="text-center">No appointments found for the selected date range.</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td colspan="5" class="text-center">No appointments found for the selected date range.</td>
                                     </tr>
                                 }
                             }

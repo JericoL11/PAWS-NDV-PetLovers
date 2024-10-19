@@ -99,16 +99,18 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                    .Where(p => p.status != "Cancelled")
                    .ToListAsync();
 
-                
+
+                    var appointment = await _context.Appointments
+                          .Include(a => a.OwnerNav)
+                          .Include(a => a.IAppDetails)
+                             .ThenInclude(d => d.Services)
+                          .Where(a => a.remarks != "Cancelled")
+                          .ToListAsync();
+
                     var reportVm = new ReportsVm
                     {
                         IPetFollowUps = followUp,
-                        IAppointment = await _context.Appointments
-                       .Include(a => a.OwnerNav)
-                       .Include(a => a.IAppDetails)
-                          .ThenInclude(d => d.Services)
-                       .Where(a => a.remarks != "Cancelled")
-                       .ToListAsync(),
+                        IAppointment = appointment
                     };
                     break;
             }
