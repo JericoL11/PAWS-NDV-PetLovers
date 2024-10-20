@@ -17,11 +17,15 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
         }
 
 
-        public IActionResult Dashboard(AppointmentVm vcm)
+        public IActionResult Dashboard(string? tabName,AppointmentVm vcm)
         {
             if(vcm.activeAppointTab == null)
             {
                 vcm.activeAppointTab = AppointmentTab.booking;
+            }
+            if(tabName == "followUp")
+            {
+                vcm.activeAppointTab = AppointmentTab.followUp;
             }
             return View(vcm);
         }
@@ -146,54 +150,42 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
         [HttpGet]
         public async Task<IActionResult> GetAvailableTimes(DateTime date)
         {
-            // Fetch appointments for the selected date
+            // Fetch appointments and determine available times
             var appointmentsOnDate = await _context.Appointments
                 .Where(a => a.date == date)
                 .Select(a => a.time)
                 .ToListAsync();
 
-            // Join all appointment times into a single string for comparison
+            //read  each data
             var convertedToString = string.Join(",", appointmentsOnDate);
 
-            // Initialize AM and PM time lists
+            //declare List storage Var
             var am = new List<string>();
             var pm = new List<string>();
 
-            // Get current time for comparison
-            var currentDate = DateTime.Today;
-            var currentTime = DateTime.Now;
-
-            // Loop through hours to populate AM and PM times
-            for (int hour = 1; hour <= 11; hour++)
+            for (int hour = 1; hour < 12; hour++)
             {
-                var amTime = $"{hour}:00";
-                var pmTime = $"{hour}:00 pm";
+                var time = $"{hour}:00";
 
-                if (hour >= 8 && hour <= 11) // Morning times (8:00 AM to 11:00 AM)
+                if (hour >= 8 && hour <= 11) // AM Times
                 {
-                    if (!convertedToString.Contains(amTime))
+                    //Check if time not  exist
+                    if (!convertedToString.Contains(time))
                     {
-                        // Exclude times that have already passed if it's today
-                        if (date > currentDate || (date == currentDate && hour > currentTime.Hour))
-                        {
-                            am.Add(amTime);
-                        }
+                        am.Add(time);
                     }
                 }
-                else if (hour >= 1 && hour <= 4) // Afternoon times (1:00 PM to 4:00 PM)
+                else if (hour >= 1 && hour <= 4) // PM Times
                 {
-                    if (!convertedToString.Contains(pmTime))
+                    var timePm = $"{hour}:00";
+                    if (!convertedToString.Contains(timePm))
                     {
-                        // Exclude times that have already passed if it's today
-                        if (date > currentDate || (date == currentDate && (hour + 12) > currentTime.Hour))
-                        {
-                            pm.Add(pmTime);
-                        }
+                        pm.Add(timePm + " pm");
                     }
                 }
             }
 
-            // Return available times as JSON
+            // Return the available times as JSON
             return Json(new { availableAM = am, availablePM = pm });
         }
 
