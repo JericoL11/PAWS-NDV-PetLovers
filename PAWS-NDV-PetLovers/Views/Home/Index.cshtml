@@ -1,8 +1,203 @@
-﻿@{
+﻿@model PAWS_NDV_PetLovers.ViewModels.ReportsVm
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+@* <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+ *@
+ <div class="bg-custom-color">
+     <div class="container">
+         <h1>Dashboard</h1>
+     </div>
+ </div>
+
+    <div class="row mt-3">
+        <div class="d-flex justify-content-between px-4">
+            <div class="card col-6 me-3 border border-dark">
+                 <div class="card-header">
+                     <div class="row justify-content-between">
+                         <div class="col-auto">
+                            <h5 class="d-inline">Booking</h5>
+                         </div>
+                        <div class="col-auto">
+                            <span class="badge bg-danger">@Model.IAppointment.Count().ToString()</span>
+                        </div>
+                     </div>
+                   
+                </div>
+               
+                <div class="card-body"> 
+                    <h5 class="card-title">Today</h5>
+                  @* table *@
+                    <div>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Service</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @if(Model.IAppointment.Count() > 0){
+                                @foreach (var booking in Model.IAppointment)
+                                {
+                                    <tr>
+                                        @{
+                                            var fullName = $"{booking.fname} {booking.lname}";
+                                        }
+                                        <td>@fullName</td>
+                                        <td>
+                                            @{
+                                                var services = booking.IAppDetails
+                                                .Select(d => d.Services.serviceName)
+                                                .Distinct()
+                                                .ToList();
+
+                                                var serviceDisplay = services.Take(2);
+                                                var remainingServices = services.Skip(2);
+                                            }
+
+                                            <span>
+                                                @string.Join(", ", serviceDisplay)
+                                                @if (services.Count > 2)
+                                                {
+                                                    <strong>
+                                                        <span title="@string.Join(", ", remainingServices)">...</span>
+                                                    </strong>
+                                                }
+                                            </span>
+                                        </td>
+
+                                        @if (@booking.time.Hour < 12)
+                                        {
+                                            <td>@booking.time.ToString("HH:mm") @(" am")</td>
+                                        }
+                                        else
+                                        {
+                                            var hour = @booking.time.Hour > 12 ? @booking.time.Hour - 12 : 12; // Convert to 12-hour format
+                                            <td>@hour:@booking.time.ToString("mm") @(" pm")</td>
+                                     
+                                        }
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3" class="text-center"> No booking for today</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    <a asp-action="Dashboard" asp-controller="Appointments" class="btn btn-primary">Modify</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card col-6 border border-dark">
+                <div class="card-header">
+                     <div class="row justify-content-between">
+                         <div class="col-auto">
+                            <h5 class="d-inline">Follow-up Visit</h5>
+                         </div>
+                        <div class="col-auto">
+                            <span class="badge bg-danger">@Model.IPetFollowUps.Count().ToString()</span>
+                        </div>
+                     </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Today</h5>
+                @* table *@
+                    <div>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Pet Name</th>
+                                    <th>Service</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.IPetFollowUps.Count() > 0)
+                                {
+                                    @foreach (var followUp in Model.IPetFollowUps)
+                                    {
+                                        <tr>
+                                            @{
+                                                var fullName = $"{followUp.Diagnostics.pet.owner.fname} {followUp.Diagnostics.pet.owner.lname}";
+                                            }
+                                            <td>@fullName</td>
+                                            <td>@followUp.Diagnostics.pet.petName</td>
+                                            <td>@followUp.Services.serviceName</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="3" class="text-center"> No visit for today</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <a asp-action="Dashboard" asp-controller="Appointments" asp-route-tabName="followUp" class="btn btn-primary">Modify</a>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+
+        <div class="d-flex justify-content-center">
+            <div class="card col-8 mt-4 border border-dark">
+                <div class="card-header">
+                     <div class="row justify-content-between">
+                         <div class="col-auto">
+                            <h5 class="d-inline">Low Stock Level</h5>
+                         </div>
+                        <div class="col-auto">
+                            <span class="badge bg-danger">@Model.IProducts.Count().ToString()</span>
+                        </div>
+                     </div>
+                </div>
+                <div class="card-body">
+                <div>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Category</th>
+                                <th>Available Qty</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.IProducts.Count() > 0)
+                            {
+                                @foreach (var product in Model.IProducts)
+                                {
+                                    <tr>
+                                        <td>@product.productName</td>
+                                        <td>@product.category.categoryName</td>
+                                        <td>@product.quantity</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3" class="text-center"> No Findings</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <a asp-action="Index" asp-controller="products"  class="btn btn-primary">Modify</a>
+                </div>
+                </div>
+            </div>
+        </div>
+        
 </div>
