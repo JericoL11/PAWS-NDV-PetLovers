@@ -13,6 +13,11 @@
         pointer-events: none;*/ /* Prevent clicks on the icon */
     /*}*/
 
+.card-Dashboard{
+    min-height: 250px;
+}
+
+
 .disabled-select {
     background-color: #e9ecef; /* Light gray background */
     color: #6c757d; /* Gray text */
