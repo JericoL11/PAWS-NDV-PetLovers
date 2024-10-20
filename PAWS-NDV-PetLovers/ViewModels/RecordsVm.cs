@@ -23,5 +23,8 @@ namespace PAWS_NDV_PetLovers.ViewModels
         public IEnumerable<Product> IProducts { get; set; }
 
         public Appointment? Appointment { get; set; }
+
+
+        public string? btnCnl { get; set; }
     }
 }

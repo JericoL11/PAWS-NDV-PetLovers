@@ -98,7 +98,6 @@
                                     @if (ownerExists == null)
                                     {
 
-
                                         <!-- Update Button -->
                                         <a class="btn btn-primary btn-sm me-1" style="background-color:#efc65de8;border-color:#efc65de8;color:black; font-weight:bold;font-size:15px;" asp-action="Edit" asp-route-id="@item.AppointId">Update</a>
                                         <!-- Register Button -->
@@ -108,7 +107,8 @@
                                            asp-route-fname="@item.fname"
                                            asp-route-lname="@item.lname"
                                            asp-route-mname="@item.mname"
-                                           asp-route-contact="@item.contact">
+                                           asp-route-contact="@item.contact"
+                                           asp-route-btnCnl="true">
                                             Register
                                         </a>
 

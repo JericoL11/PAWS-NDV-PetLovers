@@ -100,7 +100,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
         // GET: Owners/Create 
         //variables inside the parameters are the receiver of appointment route*
-        public IActionResult Create(string? fname, string? lname, string? mname, string? contact)
+        public IActionResult Create(string? fname, string? lname, string? mname, string? contact, string? btnCnl)
         {
 
             var date = DateTime.Now;
@@ -116,7 +116,14 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 contact = contact
             };
 
-            return View(owner);
+            //pass to vm
+            var vm = new RecordsVm
+            {
+                Owner = owner,
+                btnCnl = btnCnl //for cancel button if came from appointment, pass to view
+            };
+
+            return View(vm);
         }
 
 
@@ -125,8 +132,15 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("CreatePost")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,fname,lname,mname,gender,contact,email,address,registeredDate,Pets")] Owner owner)
+        public async Task<IActionResult> Create(string btnCnl,[Bind("id,fname,lname,mname,gender,contact,email,address,registeredDate,Pets")] Owner owner)
         {
+
+            var vm = new RecordsVm
+            {
+                Owner = owner,
+                btnCnl = btnCnl //get from view
+            };
+
             var verifyOwner = _context.Owners
                 .Where(m => m.fname == owner.fname && m.lname == owner.lname && m.mname == owner.mname)
                 .FirstOrDefault();
@@ -136,7 +150,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 if (owner.contact.Length < 11)
                 {
                     ModelState.AddModelError("", "Contact number below 11 is not valid");
-                    return View("Create", owner);
+
+                    return View("Create", vm);
                 }
 
                 // Use a HashSet to track pet names and check for duplicates
@@ -147,7 +162,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                     if (!petNames.Add(pet.petName))
                     {
                         ModelState.AddModelError("", $"Duplicate pet name '{pet.petName}' is invalid");
-                        return View(owner);
+                        return View("Create", vm);
                     }
                 }
 
@@ -172,11 +187,11 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                     _context.Update(ownerExistAppointment);
                     await _context.SaveChangesAsync(); // Save changes to the appointment
 
-                    var vm = new AppointmentVm
+                    var vcm = new AppointmentVm
                     {
                         created = true
                     };
-                    return RedirectToAction("Dashboard", "Appointments", vm); // Redirect to another controller
+                    return RedirectToAction("Dashboard", "Appointments", vcm); // Redirect to another controller
                 }
 
                 TempData["SuccessMessage"] = "Created Successfully";
@@ -187,7 +202,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 ModelState.AddModelError("", "Owner already exists");
             }
 
-            return View("Create", owner);
+                
+            return View("Create", vm);
         }
 
 
