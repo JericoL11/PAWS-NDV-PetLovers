@@ -116,7 +116,7 @@ button {
 }
 
 body {
-    background: #ffffff;
+    background: #A6D5C6;
     font-family: Arial, Helvetica, sans-serif;
     display: flex;
     min-height: 100vh;
@@ -136,9 +136,9 @@ html {
 /*CLASS AREA*/
 
 
-
 .navbar {
-    border-bottom: 1px solid #ffffff;
+    outline: 3px solid #469387;
+    border-bottom: 2px solid #ffffff;
     display: flex;
     background-color: #469387;
 }
@@ -311,9 +311,14 @@ html {
 
 .card {
     border-color: transparent;
+    border-radius:0px;
+    background-color:white;
 }
 
+.table-bordered{
+    border-color:black;
 
+}
 
 .dropdown-item:hover {
     background: #ebc25ce8;
@@ -362,8 +367,8 @@ html {
     }
 
 .row-appointments {
-    margin-left: 5px;
-    margin-right: 5px;
+    margin-left: 0px;
+    margin-right: 0px;
 }
 
 #headapp {
@@ -376,8 +381,8 @@ html {
 }
 
 .bg {
-    background-color: rgba(70, 147, 135, 0.2); /* 70% opacity */
-    border-bottom: 2px solid #469387;
+    background-color:white;
+   
 }
 
 .bg-pets {
@@ -385,12 +390,13 @@ html {
     background-color: rgba(70, 147, 135, 0.2);
 }
 
-.container-appointments {
+.container-bord {
     margin-top: 20px;
     border-radius: 5px;
-    border: 2px solid #469387;
+    border: 3px solid #469387;
     padding: 10px;
 }
+
 
 
 /*APPOINTMENTS AREA END*/
@@ -444,16 +450,33 @@ html {
 }
 
 /*SIDEBAR BORDER & BG COLOR*/
+
+
 #sidebar {
     background: #469387;
-    border-right: 1px solid #ffffff;
-    /* height: 100vh;*/
-    /*overflow: auto;*/
+    border-right: 2px solid #ffffff;
+    position: fixed; /* Make sidebar fixed */
+    top: 0;
+    left: 0;
+    width: 300px; /* Fixed width for sidebar */
+    height: 100vh; /* Full height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 15px;
+    z-index: 100000;
+}
+
+
+/* Main Content Area */
+#subbody {
+    margin-left: 300px; /* Space for sidebar */
+    padding: 15px;
+    height: 100vh; /* Full height */
+    overflow-y: auto; /* Enable vertical scrolling */
 }
 
 
 #subbody {
-    border-left: 2px solid #469387;
+    border-left: 3px solid #469387;
    
 }
 
@@ -501,6 +524,12 @@ html {
     #sidebar {
         display: none; /* Hide sidebar on mobile */
     }
+
+    /* Main Content Area */
+    #subbody {
+        margin-left: 0px; /* Space for sidebar */
+        border-left:0px;
+    }
 }
 
 
@@ -508,7 +537,10 @@ html {
 @media (min-width: 769px) { 
     #sidebar {
         display: block; /* Show sidebar on larger screens */
+
     }
+
+
 }
 
 /*External table color*/
@@ -522,15 +554,22 @@ table {
 }
 
 .bg-custom-color {
-    background-color: #d3f7f1a8 !important;
+    background-color: #aad7d7 !important;
+    border-bottom: 2px solid #469387;
+    border-radius: 3px 3px 0 0;
 }
 
-.bg-custom-btn {
-    background-color: #469387;
-    border-color: #469387;
-    color: white;
-    font-weight: bold;
-    font-size: 15px;
+.bg-secustom-color {
+    border-bottom: 2px solid #469387;
+    border-top: 2px solid #469387;
+    background-color: #aad7d7 !important;
+}
+
+
+.modal-f{
+    margin-left:150px;
+    margin-top:50px;
+    
 }
 /*End Here*/
 
@@ -539,3 +578,34 @@ table {
 }
 
 */
+/*BUTTONS COLOR ,HOVER, OUTLINE */
+.btn-cancel,
+.btn-cancel:hover,
+.btn-cancel:active,
+.btn-cancel:focus{
+    background-color: lightcoral;
+    font-weight: bold;
+    font-size: 15px;
+    border-color:lightcoral;
+    color:black;
+    outline:none;
+    box-shadow:none;
+}
+
+.btn-appointment,
+.btn-appointment:hover,
+.btn-appointment:active,
+.btn-appointment:focus {
+    background-color: #469387;
+    border-color: #469387;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    outline: none;
+    box-shadow: none;
+}
+
+
+
+/*BUTTONS COLOR AND HOVER END*/
+

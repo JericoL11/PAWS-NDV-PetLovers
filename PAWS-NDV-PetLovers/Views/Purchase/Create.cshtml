@@ -3,64 +3,70 @@
     ViewData["Title"] = "Create";
 }
 
-<div class="bg-secondary bg-opacity-10 my-2 mb-3">
-    <div class="container">
-        <h2>Select Product</h2>
-    </div>
-</div>
 
-<div class="container">
-    <form method="post" asp-action="Create">
-        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-        <div class="row mb-4 justify-content-between">
-            <div class="form-group col-lg-3 col-xl-3 col-md-3">
-                <label asp-for="Purchase.customerName" class="control-label"></label>
-                <input asp-for="Purchase.customerName" class="form-control" placeholder="(Optional)">
-            </div>
-            <div class="form-group col-lg-3 col-xl-3 col-md-3 ">
-                <label asp-for="Purchase.date" class="control-label"></label>
-                <input asp-for="Purchase.date" class="form-control dateInput" >
-            </div>
-            <div class="form-group col-lg-4 col-xl-4 col-md-4">
+<div class="container p-0 bg container-bord">
 
-            </div>
-            <div class="form-group col-lg-2 col-xl-2 col-md-2">
-                <!--Modal Button-->
-                <label class="control-label"></label>
-                <button type="button" id="AddProductBtn" class="btn btn-success form-control " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                    Select Product
-                </button>
+    <div class="container p-0">
+
+        <div class="container p-0  bg-custom-color">
+            <div>
+                <div class="container p-2">
+                    <h1>Select Product</h1>
+                </div>
             </div>
         </div>
+
+        <form method="post" asp-action="Create">
+            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+            <div class="row mb-4 justify-content-between">
+                <div class="form-group col-lg-3 col-xl-3 col-md-3">
+                    <label asp-for="Purchase.customerName" class="control-label"></label>
+                    <input asp-for="Purchase.customerName" class="form-control" placeholder="(Optional)">
+                </div>
+                <div class="form-group col-lg-3 col-xl-3 col-md-3 ">
+                    <label asp-for="Purchase.date" class="control-label"></label>
+                    <input asp-for="Purchase.date" class="form-control dateInput" >
+                </div>
+                <div class="form-group col-lg-4 col-xl-4 col-md-4">
+
+                </div>
+                <div class="form-group col-lg-2 col-xl-2 col-md-2">
+                    <!--Modal Button-->
+                    <label class="control-label"></label>
+                    <button type="button" id="AddProductBtn" class="btn btn-success form-control " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        Select Product
+                    </button>
+                </div>
+            </div>
   
-    <table class="table" id="purchaseTable">
-        <thead>
-            <tr>
-                <th class="text-center">Id</th>
-                <th class="text-center">Name</th>
-                <th class="text-center">Category</th>
-                <th class="text-center">Stock</th>
-                <th class="text-center">Price</th>
-                <th>Order Quantity</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="detailRow">
-                <!--selected Product will appear here-->
-            </tr>
-        </tbody>
-    </table>
+        <table class="table" id="purchaseTable">
+            <thead>
+                <tr>
+                    <th class="text-center">Id</th>
+                    <th class="text-center">Name</th>
+                    <th class="text-center">Category</th>
+                    <th class="text-center">Stock</th>
+                    <th class="text-center">Price</th>
+                    <th>Order Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="detailRow">
+                    <!--selected Product will appear here-->
+                </tr>
+            </tbody>
+        </table>
 
 
-        <div class="fixed-bottom p-4 pe-5 text-end">
-            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-            <input type="submit" class="btn btn-primary" value="Purchase" />
-        </div>
-     </form>
+            <div class="fixed-bottom p-4 pe-5 text-end">
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                <input type="submit" class="btn btn-primary" value="Purchase" />
+            </div>
+         </form>
    
+    </div>
+
 </div>
-
-
 
 
 

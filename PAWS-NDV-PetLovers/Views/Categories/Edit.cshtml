@@ -4,39 +4,45 @@
     ViewData["Title"] = "Edit";
 }
 
-<div class="bg-secondary bg-opacity-10 py-2 mb-3">
-    <div class="container">
-        <h1> Update Category</h1>
+
+<div class="container p-0 bg container-bord">
+    <div class="container p-0 ">
+
+
+        <div class="container p-0  bg-custom-color">
+            <div>
+                <div class="container p-2">
+                    <h1>Update Category</h1>
+                </div>
+            </div>
+        </div>
+
+        <form method="post" asp-action="Edit">
+            <div class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="categoryName" class="control-label"></label>
+                    <input asp-for="categoryName" class="form-control bg-light" />
+                    <span asp-validation-for="categoryName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="description" class="control-label"></label>
+                    <textarea asp-for="description" class="form-control bg-light" rows="5" style="resize: none;"></textarea>
+                    <span asp-validation-for="description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group visually-hidden">
+                    <label asp-for="lastUpdate" class="control-label"></label>
+                    <input asp-for="lastUpdate" class="form-control bg-light dateInput" readonly />
+                </div>
+
+            </div>
+            <div class="mt-3">
+                <a class="btn btn-secondary px-2" asp-action="Index">Cancel</a>
+                <input type="submit" value="Save" class="btn btn-primary px-2"/>
+            </div>
+        </form>
     </div>
+
 </div>
-
-<div class="main container">
-    <form method="post" asp-action="Edit">
-        <div class="row">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="categoryName" class="control-label"></label>
-                <input asp-for="categoryName" class="form-control bg-light" />
-                <span asp-validation-for="categoryName" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="description" class="control-label"></label>
-                <textarea asp-for="description" class="form-control bg-light" rows="5" style="resize: none;"></textarea>
-                <span asp-validation-for="description" class="text-danger"></span>
-            </div>
-
-            <div class="form-group visually-hidden">
-                <label asp-for="lastUpdate" class="control-label"></label>
-                <input asp-for="lastUpdate" class="form-control bg-light dateInput" readonly />
-            </div>
-
-        </div>
-        <div class="mt-3">
-            <a class="btn btn-secondary px-2" asp-action="Index">Cancel</a>
-            <input type="submit" value="Save" class="btn btn-primary px-2"/>
-        </div>
-    </form>
-</div>
-
-

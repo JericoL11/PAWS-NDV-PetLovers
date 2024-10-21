@@ -3,196 +3,205 @@
     ViewData["Title"] = "Product Managnement Report";
 }
 
-<div class="bg-custom-color">
-    <div class="container"> 
-        <h1>Product Management Report</h1>
-    </div>
-</div>
 
-<div class="container">
-    <form method="post" asp-action="ProductMgmtReport">
+<div class="container p-0  bg-custom-color">
+    <div class="container p-0">
 
-        <div class="row mt-5">
-            <div class="form-group mt-auto col-auto">
-            
-                @if(Model.SelectType == "allCategory")
-                {
-                    <select id="selectType" name="SelectType" class="form-control bg-light me-4 form-select" asp-items="@ViewBag.CategoryList" required>
-                        <option value="" hidden>-- Select --</option>
-                        <option value="allCategory" selected>All Category</option>
-                        @*  <option value="expiration">Product Expiration</option> *@
-                    </select>
-                }
-                else if (Model.SelectType != null)
-                {
-                    <select id="selectType" name="SelectType" class="form-control bg-light me-4 form-select" asp-items="@ViewBag.CategoryList" selected required>
-                        <option value="allCategory">All Category</option>
-                        @*  <option value="expiration">Product Expiration</option> *@
-                    </select>
-                }
-                else
-                {
-                    <select id="selectType" name="SelectType" class="form-control bg-light me-4 form-select" asp-items="@ViewBag.CategoryList" required>
-                        <option value="" hidden selected>-- Select --</option>
-                        <option value="allCategory">All Category</option>
-                        @*           <option value="expiration">Product Expiration</option> *@
-                    </select>
-                }
-
-             </div>
-
-            <div id="statusVisibility" class=" form-group mt-auto  col-auto statusVisibility">
-                @switch (Model.Status)
-                {
-                    case "Low":
-                        <select name="Status" class="form-control bg-light me-4  form-select" required>
-                            <option value="" hidden>--Status</option>
-                            <option value="Low" selected>Low</option>
-                            <option value="High">High</option>
-                            <option value="All">All</option>
-                        </select>
-                        break;
-
-                    case "High":
-                        <select name="Status" class="form-control bg-light me-4  form-select" required>
-                            <option value="" hidden>--Status</option>
-                            <option value="Low" >Low</option>
-                            <option value="High" selected>High</option>
-                            <option value="All">All</option>
-                        </select>
-                        break;
-
-                    case "All":
-                        <select name="Status" class="form-control bg-light me-4  form-select" required>
-                            <option value="" hidden>--Status</option>
-                            <option value="Low">Low</option>
-                            <option value="High" >High</option>
-                            <option value="All" selected>All</option>
-                        </select>
-                        break;
-
-                    default:
-                        <select name="Status" class="form-control bg-light me-4  form-select" required>
-                            <option value="" hidden selected>--Status</option>
-                            <option value="Low" >Low</option>
-                            <option value="High">High</option>
-                            <option value="All">All</option>
-                        </select>
-                     break;
-                }
-            </div>
-            <div class="col-lg-3">
-               <input type="submit" value="View" class="btn btn-primary" />
+        <div class="container p-0  bg-custom-color">
+            <div>
+                <div class="container p-2">
+                    <h1>Product Management Report</h1>
+                </div>
             </div>
         </div>
 
-    </form>
+        <form method="post" asp-action="ProductMgmtReport">
 
-
-    <div class="mt-4">
-        <table class="table">
-            <thead>
-                <th>Product Name</th>
-                <th>Category</th>
-                <th>Stocks</th>
-            </thead>
-            <tbody>
-
-        @if (Model.Filtered)
-        {
-            if (Model.Status != null)
-            {
-                @switch (Model.Status)
-                {
-                    case "Low":
-                        if (Model.IProducts.Count() > 0)
-                        {
-                            @foreach (var stock in Model.IProducts)
-                            {
-                                <tr>
-                                    <td>@stock.productName</td>
-                                    <td>@stock.category.categoryName</td>
-                                    <td>@stock.quantity</td>
-                                </tr>
-                            }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="3" class="text-center">No Products found</td>
-                            </tr>
-                        }
-                        break;
-
-                    case "High":
-                        if (Model.IProducts.Count() > 0)
-                        {
-                            @foreach (var stock in Model.IProducts)
-                            {
-                                <tr>
-                                    <td>@stock.productName</td>
-                                    <td>@stock.category.categoryName</td>
-                                    <td>@stock.quantity</td>
-                                </tr>
-                            }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="3" class="text-center">No Products found</td>
-                            </tr>
-                        }
-                        break;
-
-                    case "All":
-                        if (Model.IProducts.Count() > 0)
-                        {
-                            @foreach (var stock in Model.IProducts)
-                            {
-                                <tr>
-                                    <td>@stock.productName</td>
-                                    <td>@stock.category.categoryName</td>
-                                    <td>@stock.quantity</td>
-                                </tr>
-                            }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="3" class="text-center">No Products found</td>
-                            </tr>
-                        }
-                        break;
-                }
-              
-            }
-            else
-            {
-                if (Model.IProducts.Count() > 0)
-                {
-                    @foreach (var stock in Model.IProducts)
+            <div class="row mt-5">
+                <div class="form-group mt-auto col-auto">
+            
+                    @if(Model.SelectType == "allCategory")
                     {
-                        <tr>
-                            <td>@stock.productName</td>
-                            <td>@stock.category.categoryName</td>
-                            <td>@stock.quantity</td>
-                        </tr>
+                        <select id="selectType" name="SelectType" class="form-control bg-light me-4 form-select" asp-items="@ViewBag.CategoryList" required>
+                            <option value="" hidden>-- Select --</option>
+                            <option value="allCategory" selected>All Category</option>
+                            @*  <option value="expiration">Product Expiration</option> *@
+                        </select>
                     }
+                    else if (Model.SelectType != null)
+                    {
+                        <select id="selectType" name="SelectType" class="form-control bg-light me-4 form-select" asp-items="@ViewBag.CategoryList" selected required>
+                            <option value="allCategory">All Category</option>
+                            @*  <option value="expiration">Product Expiration</option> *@
+                        </select>
+                    }
+                    else
+                    {
+                        <select id="selectType" name="SelectType" class="form-control bg-light me-4 form-select" asp-items="@ViewBag.CategoryList" required>
+                            <option value="" hidden selected>-- Select --</option>
+                            <option value="allCategory">All Category</option>
+                            @*           <option value="expiration">Product Expiration</option> *@
+                        </select>
+                    }
+
+                 </div>
+
+                <div id="statusVisibility" class=" form-group mt-auto  col-auto statusVisibility">
+                    @switch (Model.Status)
+                    {
+                        case "Low":
+                            <select name="Status" class="form-control bg-light me-4  form-select" required>
+                                <option value="" hidden>--Status</option>
+                                <option value="Low" selected>Low</option>
+                                <option value="High">High</option>
+                                <option value="All">All</option>
+                            </select>
+                            break;
+
+                        case "High":
+                            <select name="Status" class="form-control bg-light me-4  form-select" required>
+                                <option value="" hidden>--Status</option>
+                                <option value="Low" >Low</option>
+                                <option value="High" selected>High</option>
+                                <option value="All">All</option>
+                            </select>
+                            break;
+
+                        case "All":
+                            <select name="Status" class="form-control bg-light me-4  form-select" required>
+                                <option value="" hidden>--Status</option>
+                                <option value="Low">Low</option>
+                                <option value="High" >High</option>
+                                <option value="All" selected>All</option>
+                            </select>
+                            break;
+
+                        default:
+                            <select name="Status" class="form-control bg-light me-4  form-select" required>
+                                <option value="" hidden selected>--Status</option>
+                                <option value="Low" >Low</option>
+                                <option value="High">High</option>
+                                <option value="All">All</option>
+                            </select>
+                         break;
+                    }
+                </div>
+                <div class="col-lg-3">
+                   <input type="submit" value="View" class="btn btn-primary" />
+                </div>
+            </div>
+
+        </form>
+
+
+        <div class="mt-4">
+            <table class="table">
+                <thead>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Stocks</th>
+                </thead>
+
+
+
+                <tbody>
+
+            @if (Model.Filtered)
+            {
+                if (Model.Status != null)
+                {
+                    @switch (Model.Status)
+                    {
+                        case "Low":
+                            if (Model.IProducts.Count() > 0)
+                            {
+                                @foreach (var stock in Model.IProducts)
+                                {
+                                    <tr>
+                                        <td>@stock.productName</td>
+                                        <td>@stock.category.categoryName</td>
+                                        <td>@stock.quantity</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3" class="text-center">No Products found</td>
+                                </tr>
+                            }
+                            break;
+
+                        case "High":
+                            if (Model.IProducts.Count() > 0)
+                            {
+                                @foreach (var stock in Model.IProducts)
+                                {
+                                    <tr>
+                                        <td>@stock.productName</td>
+                                        <td>@stock.category.categoryName</td>
+                                        <td>@stock.quantity</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3" class="text-center">No Products found</td>
+                                </tr>
+                            }
+                            break;
+
+                        case "All":
+                            if (Model.IProducts.Count() > 0)
+                            {
+                                @foreach (var stock in Model.IProducts)
+                                {
+                                    <tr>
+                                        <td>@stock.productName</td>
+                                        <td>@stock.category.categoryName</td>
+                                        <td>@stock.quantity</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3" class="text-center">No Products found</td>
+                                </tr>
+                            }
+                            break;
+                    }
+              
                 }
                 else
-                {  
-                    <tr>
-                        <td colspan="3" class="text-center">No Products found</td>
-                    </tr>
+                {
+                    if (Model.IProducts.Count() > 0)
+                    {
+                        @foreach (var stock in Model.IProducts)
+                        {
+                            <tr>
+                                <td>@stock.productName</td>
+                                <td>@stock.category.categoryName</td>
+                                <td>@stock.quantity</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {  
+                        <tr>
+                            <td colspan="3" class="text-center">No Products found</td>
+                        </tr>
+
+                    }
 
                 }
 
             }
 
-        }
-
-            </tbody>
-        </table>
-    </div>
+                </tbody>
+            </table>
+        </div>
     
+    </div>
 </div>

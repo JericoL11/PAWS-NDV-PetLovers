@@ -2,43 +2,52 @@
 @{
     ViewData["Title"] = "Edit";
 }
-<div class="bg-secondary bg-opacity-10 py-2 mb-3">
-    <div class="container">
-        <h1>Update Service</h1>
-    </div>
-</div>
 
-<div class="container">
+<div class="container p-0 bg container-bord">
 
-    <div class="row justify-content-center">
-        <div class="col-6">
-            <form method="post" asp-action="Edit" class="card shadow-sm mt-5">
-                <input asp-for="serviceId" hidden/>
-                <div class="card-body p-4">
+    <div class="container p-0">
 
-                    <div class="form-group">
-                        <label asp-for="serviceName" class="control-label"></label>
-                        <input asp-for="serviceName" class="form-control"/>
-                        <span asp-validation-for="serviceName" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="serviceCharge" class="control-label"></label>
-                        <input asp-for="serviceCharge" class="form-control" />
-                        <span asp-validation-for="serviceCharge" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group col-lg-8 mt-4 mb-3">
-                        <input class="form-check-input" name="followUp" asp-for="followUp" type="checkbox">
-                        <label class="form-check-label" asp-for="followUp"> </label>
-                    </div>
-
-                    <div class="form-group mt-4 text-end">
-                        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-                        <input type="submit" value="Update" class="btn btn-primary"/>
-                    </div>
+        <div class="container p-0  bg-custom-color">
+            <div>
+                <div class="container p-2">
+                    <h1>Update Service</h1>
                 </div>
-            </form>
-         </div>
+            </div>
+        </div>
+
+
+
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <form method="post" asp-action="Edit" class="card shadow-sm mt-5">
+                    <input asp-for="serviceId" hidden/>
+                    <div class="card-body p-4">
+
+                        <div class="form-group">
+                            <label asp-for="serviceName" class="control-label"></label>
+                            <input asp-for="serviceName" class="form-control"/>
+                            <span asp-validation-for="serviceName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="serviceCharge" class="control-label"></label>
+                            <input asp-for="serviceCharge" class="form-control" />
+                            <span asp-validation-for="serviceCharge" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-lg-8 mt-4 mb-3">
+                            <input class="form-check-input" name="followUp" asp-for="followUp" type="checkbox">
+                            <label class="form-check-label" asp-for="followUp"> </label>
+                        </div>
+
+                        <div class="form-group mt-4 text-end">
+                            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                            <input type="submit" value="Update" class="btn btn-primary"/>
+                        </div>
+                    </div>
+                </form>
+             </div>
+        </div>
     </div>
+
 </div>

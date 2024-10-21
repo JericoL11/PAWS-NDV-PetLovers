@@ -39,7 +39,7 @@
 </head>
 <body>
 
-    <div class="flex-shrink-0 d-" id="sidebar">
+    <div class="flex-shrink-0 fixed-sticky left-0 top-0" id="sidebar">
 
         <div class="header-box px-1 pt-1 pb-1 justify-content-between text-center">
             <h1 class="fs-4">
@@ -207,7 +207,7 @@
     }
    
     <div class="container-fluid p-0" id="subbody">
-        <nav class="navbar">
+        <nav class="navbar" style="position: sticky; top: 0; z-index:10000;">
             <div class="d-flex w-100 align-items-center">
                 <a class="navbar-brand fs-5"></a>
                     <button class="btn px-2 py-2 open-btn d-md-none">
@@ -256,7 +256,7 @@
             </div>
         </footer> *@
 
-    </div>
+    
 
   
     <script>
@@ -264,10 +264,19 @@
         // Toggle Sidebar Visibility
         document.querySelector('.open-btn').addEventListener('click', function () {
             const sidebar = document.getElementById('sidebar');
-            sidebar.style.display = sidebar.style.display === 'none' ? 'block' : 'none';
+
+            // Check current display style
+            if (sidebar.style.display === 'none') {
+                sidebar.style.display = 'block';
+                sidebar.style.marginTop = '70px'; // Add margin when opened
+            } else {
+                sidebar.style.display = 'none';
+                sidebar.style.marginTop = '0'; // Reset margin when closed
+            }
         });
 
-        document.querySelector('.solo-link').forEach(function (link) {
+        // Active Link Toggle
+        document.querySelectorAll('.solo-link').forEach(function (link) {
             link.addEventListener('click', function () {
                 document.querySelectorAll('.solo-link').forEach(function (link) {
                     link.classList.remove('active');
@@ -275,7 +284,6 @@
                 this.classList.add('active');
             });
         });
-
     </script>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

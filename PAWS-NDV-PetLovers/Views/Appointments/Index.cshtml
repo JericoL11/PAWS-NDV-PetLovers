@@ -3,30 +3,34 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="container-fluid pb-3">
-    <div class="container p-0 container-appointments bg-custom-color">
-        <div class="row">
-            <div class="col-12">
-                <div class="container bg p-2">
+<div class="container-fluid p-0 container-bord">
+
+    <div class="container p-0">
+
+        <div class="container p-0  bg-custom-color">
+            <div>
+                <div class="container p-2">
                     <h1>Appointments</h1>
                 </div>
             </div>
         </div>
 
-        <div class="mb-2 my-3 p-3">
+        
+
+        <div class="p-3 bg">
             <!-- Set current date as default -->
-            <a asp-action="Create" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")" class="btn btn-primary px-4 bg-custom-btn">
+            <a asp-action="Create" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")" class="btn btn-primary px-4 btn-appointment">
                 Set Appointment
             </a>
             <!-- <a asp-action="AppointmentHistory" class="btn btn-success px-4">History</a> -->
         </div>
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="card p-3" style="background-color:white">
+        <div class="card p-3">
         <div class="table-responsive">
                 <table class="table table-bordered text-center hover " id="AppointmentsTable">
 
-                    <thead>
+                 <thead>
                     <tr>
                         <th class="text-center">Appointment ID</th>
                         <th class="text-center">Name</th>
@@ -89,7 +93,7 @@
 
 
                                          
-                                            <button type="button" class="btn btn-secondary btn-sm me-1" style="background-color:lightcoral;border-color:lightcoral;color:black;font-weight:bold;font-size:15px;" data-id="@item.AppointId" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                            <button type="button" class="btn btn-secondary btn-cancel btn-sm me-1"  data-id="@item.AppointId" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                                 Cancel
                                             </button>
 
