@@ -398,7 +398,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, DateTime? time)
         {
 
             if (id == null)
@@ -417,12 +417,20 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
                 return NotFound();
             }
 
+            appointment.time = DateTime.MinValue;
+            await _context.SaveChangesAsync();
+
+            //remove time to be seen again in dropdown
+            appointment.date = time.Value.Date;
+            //set the removed time as default
+            appointment.time = time.Value;
             //vm instantiationn
             AppointmentVm vm = new AppointmentVm
             {
                 Appointment = appointment,
-                Services = await _context.Services.Where(s => string.IsNullOrEmpty(s.status)).ToListAsync()
-             
+                Services = await _context.Services.Where(s => string.IsNullOrEmpty(s.status)).ToListAsync(),
+                timeHolder = time.Value
+
             };
 
             return View("Edit", vm);
@@ -432,7 +440,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, AppointmentVm appoint)
+        public async Task<IActionResult> Edit(int id,  AppointmentVm appoint)
         {
             var appointments = appoint.Appointment;
 
@@ -525,7 +533,26 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             return _context.Appointments.Any(a => a.AppointId == id);
         }
 
+        public async Task<IActionResult> ResetDateTime(int? id, DateTime? prevSched)
+        { 
+            if(id == null)
+            {
+                return NotFound();
+            }
 
+
+            var appointment = await _context.Appointments.FindAsync(id);
+
+            if(appointment != null)
+            {
+                //back prevTime as default
+                appointment.time = prevSched.Value;
+                await _context.SaveChangesAsync();
+            }
+            
+
+            return RedirectToAction("Dashboard");
+        }
 
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)

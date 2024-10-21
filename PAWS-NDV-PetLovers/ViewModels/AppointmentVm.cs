@@ -30,6 +30,8 @@ namespace PAWS_NDV_PetLovers.ViewModels
         public List<Appointment> IAppointments { get; set; }
 
 
+        public DateTime? timeHolder { get; set; }
+
         public List<string> AvailableAM { get; set; }
         public List<string> AvailablePM { get; set; }
         public AppointmentTab activeAppointTab { get; set; }

@@ -209,7 +209,7 @@
                 </table>
             </div>
             <div class="form-group mt-4">
-                <a class="btn btn-secondary" asp-action="Dashboard">Cancel</a>
+                    <a class="btn btn-secondary" asp-action="ResetDateTime" asp-route-id="@Model.Appointment.AppointId" asp-route-prevSched="@Model.Appointment.time.ToString("HH:mm:ss")">Cancel</a>
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
     </form>

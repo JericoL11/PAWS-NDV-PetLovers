@@ -98,10 +98,13 @@
                                     @if (ownerExists == null)
                                     {
 
-                                        <!-- Update Button -->
-                                        <a class="btn btn-primary btn-sm me-1" style="background-color:#efc65de8;border-color:#efc65de8;color:black; font-weight:bold;font-size:15px;" asp-action="Edit" asp-route-id="@item.AppointId">Update</a>
-                                        <!-- Register Button -->
+                                        <a class="btn btn-primary btn-sm me-1"
+                                           style="background-color:#efc65de8;border-color:#efc65de8;color:black; font-weight:bold;font-size:15px;"
+                                           asp-action="Edit"
+                                           asp-route-id="@item.AppointId"
+                                           asp-route-time="@item.time.ToString("HH:mm:ss")">Update</a>
 
+                                        <!-- Register Button -->
 
                                         <a class="btn btn-info btn-sm me-1" style="background-color: #469387; border-color:#469387;color:white; font-weight:bold;font-size:15px;" asp-action="Create" asp-controller="Owners"
                                            asp-route-fname="@item.fname"
