@@ -196,6 +196,18 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
             }
             else
             {
+                switch (Status)
+                {
+                    case "Low":
+                        return View(await GetAllcategoryLowProducts(SelectType, Status, true));
+
+                    case "High":
+                        return View(await GetAllcategoryHighProducts(SelectType, Status, true));
+
+                    case "All":
+                        return View(await GetAllCategoryProducts(SelectType, Status, true));
+
+                }
                 return View(await GetAllCategoryProducts(SelectType, Status, true));
             }
 
@@ -476,11 +488,41 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 Filtered = filtered
             };
             return vm;
-
-            //end of stock levels
-
-            #endregion
-
         }
+
+        public async Task<ReportsVm> GetAllcategoryLowProducts(string SelectType, string Status, bool filtered)
+        {
+            await GetAllCategory();
+            var vm = new ReportsVm
+            {
+                IProducts = await _context.Products
+                .Where(p => p.quantity <= 10)
+                .Include(p => p.category)
+                .ToListAsync(),
+                Status = Status,
+                SelectType = SelectType,
+                Filtered = filtered
+            };
+            return vm;
+        }
+        public async Task<ReportsVm> GetAllcategoryHighProducts(string SelectType, string Status, bool filtered)
+        {
+            await GetAllCategory();
+            var vm = new ReportsVm
+            {
+                IProducts = await _context.Products
+                .Where(p => p.quantity >= 11)
+                .Include(p => p.category)
+                .ToListAsync(),
+                Status = Status,
+                SelectType = SelectType,
+                Filtered = filtered
+            };
+            return vm;
+        }
+
+
+        //end of stock levels
+        #endregion
     }
 }

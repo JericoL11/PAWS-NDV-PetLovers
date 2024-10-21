@@ -150,16 +150,23 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
         [HttpGet]
         public async Task<IActionResult> GetAvailableTimes(DateTime date)
         {
+            var dateFromView = date.Date;
+
+            // Current date and hour
+            var currentDate = DateTime.Now;
+            var today = currentDate.Date;
+            var currentHour = currentDate.Hour;
+
             // Fetch appointments and determine available times
             var appointmentsOnDate = await _context.Appointments
                 .Where(a => a.date == date)
                 .Select(a => a.time)
                 .ToListAsync();
 
-            //read  each data
+            // Convert to a comma-separated string
             var convertedToString = string.Join(",", appointmentsOnDate);
 
-            //declare List storage Var
+            // Declare List storage variables
             var am = new List<string>();
             var pm = new List<string>();
 
@@ -169,24 +176,50 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
                 if (hour >= 8 && hour <= 11) // AM Times
                 {
-                    //Check if time not  exist
-                    if (!convertedToString.Contains(time))
+                    // If it's today, check the current hour condition
+                    if (dateFromView == today)
                     {
-                        am.Add(time);
+                        // Only add AM times greater than the current hour
+                        if (!convertedToString.Contains(time) && hour > currentHour)
+                        {
+                            am.Add(time);
+                        }
+                    }
+                    else
+                    {
+                        // For future dates, just check if the time doesn't exist
+                        if (!convertedToString.Contains(time))
+                        {
+                            am.Add(time);
+                        }
                     }
                 }
                 else if (hour >= 1 && hour <= 4) // PM Times
                 {
                     var timePm = $"{hour}:00";
-                    if (!convertedToString.Contains(timePm))
+
+                    if (dateFromView == today)
                     {
-                        pm.Add(timePm + " pm");
+                        // Only add PM times greater than the current hour
+                        if (!convertedToString.Contains(timePm) && hour < currentHour)
+                        {
+                            pm.Add(timePm + " pm");
+                        }
+                    }
+                    else
+                    {
+                        // For future dates, just check if the time doesn't exist
+                        if (!convertedToString.Contains(timePm))
+                        {
+                            pm.Add(timePm + " pm");
+                        }
                     }
                 }
             }
 
             // Return the available times as JSON
             return Json(new { availableAM = am, availablePM = pm });
+
         }
 
         [HttpGet]
