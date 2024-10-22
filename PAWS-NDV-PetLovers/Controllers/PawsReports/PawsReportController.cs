@@ -54,6 +54,26 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
 
                     if (SelectType == "all")
                     {
+
+
+                        ///wala magawas ang error
+                        // Validate the date range
+                        if (!startDate.HasValue || !endDate.HasValue)
+                        {
+                            ModelState.AddModelError("", "Both the start date and end date are required.");
+
+                            var vcm = new AppointmentVm();
+                            vcm.activeAppointTab = AppointmentTab.monitoring;
+                            return RedirectToAction("Dashboard","Appointments", vcm);
+                        }
+
+                        if (startDate > endDate)
+                        {
+                            ModelState.AddModelError("", "The end date cannot be earlier than the start date.");
+                            var vcm = new AppointmentVm();
+                            vcm.activeAppointTab = AppointmentTab.monitoring;
+                            return RedirectToAction("Dashboard", "Appointments", vcm);
+                        }
                         // Fetch all appointments without any date filtering
                         return View(await GetAllAppointments(reportType, startDate, endDate, Status, SelectType, true));
                     }
@@ -67,13 +87,17 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                         if (!startDate.HasValue || !endDate.HasValue)
                         {
                             ModelState.AddModelError("", "Both the start date and end date are required.");
-                            return View(await GetFollowUp());
+                            var vcm = new AppointmentVm();
+                            vcm.activeAppointTab = AppointmentTab.monitoring;
+                            return RedirectToAction("Dashboard", vcm);
                         }
 
                         if (startDate > endDate)
                         {
                             ModelState.AddModelError("", "The end date cannot be earlier than the start date.");
-                            return View(await GetFollowUp());
+                            var vcm = new AppointmentVm();
+                            vcm.activeAppointTab = AppointmentTab.monitoring;
+                            return RedirectToAction("Dashboard", vcm);
                         }
 
                         // Fetch filtered appointments based on the date range
@@ -83,6 +107,23 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
 
                     if (SelectType == "all")
                     {
+
+                        // Validate the date range
+                        if (!startDate.HasValue || !endDate.HasValue)
+                        {
+                            ModelState.AddModelError("", "Both the start date and end date are required.");
+                            var vcm = new AppointmentVm();
+                            vcm.activeAppointTab = AppointmentTab.monitoring;
+                            return RedirectToAction("Dashboard", vcm);
+                        }
+
+                        if (startDate > endDate)
+                        {
+                            ModelState.AddModelError("", "The end date cannot be earlier than the start date.");
+                            var vcm = new AppointmentVm();
+                            vcm.activeAppointTab = AppointmentTab.monitoring;
+                            return RedirectToAction("Dashboard", vcm);
+                        }
                         // Fetch all appointments without any date filtering
                         return View(await GetAllFollowUp(reportType, startDate, endDate, Status, SelectType, true));
                     }
@@ -153,6 +194,18 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
 
             if (SelectType == "all")
             {
+                // Validate the date range
+                if (!startDate.HasValue || !endDate.HasValue)
+                {
+                    ModelState.AddModelError("", "Both the start date and end date are required.");
+                    return View(await GetFollowUp());
+                }
+
+                if (startDate > endDate)
+                {
+                    ModelState.AddModelError("", "The end date cannot be earlier than the start date.");
+                    return View(await GetFollowUp());
+                }
                 // Fetch all appointments without any date filtering
                 return View(await GetAllFollowUp(reportType, startDate, endDate, Status, SelectType, true));
             }

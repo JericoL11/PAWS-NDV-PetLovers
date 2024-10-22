@@ -2,13 +2,6 @@
 @{
     ViewData["Title"] = "AppointmentsReport";
 }
-
-
-<div class="bg-custom-color bg-secondary bg-opacity-10 mb-3 py-2">
-    <div class="container">
-        <h1>Appointment Report</h1>
-    </div>
-</div>
 <div class="container">
     <form method="post" asp-action="AppointmentsReport" asp-controller="PawsReport" id="viewForm">
         <div class="text-danger" asp-validation-summary="ModelOnly"></div>
@@ -282,7 +275,7 @@
         }
 
     }
-   
+
 </div>
 
 
@@ -311,8 +304,8 @@
                     </select>
                     <input type = "submit" value="View" class="btn btn-primary mt-3 px-5" />
             </div>
-            </div>
-      </form>
+      </div>
+    </form>
     */
     #endregion
 }

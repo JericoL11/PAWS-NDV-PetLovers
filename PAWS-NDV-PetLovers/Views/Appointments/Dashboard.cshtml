@@ -27,6 +27,10 @@
                 <li>
                     <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="followUp" class="@(Model.activeAppointTab == PAWS_NDV_PetLovers.ViewModels.AppointmentTab.followUp ? "active" : string.Empty) btn btn-outline-success px-4">Follow-up</a>
                 </li>
+
+            <li>
+                <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="monitoring" class="@(Model.activeAppointTab == PAWS_NDV_PetLovers.ViewModels.AppointmentTab.monitoring ? "active" : string.Empty) btn btn-outline-success px-4">Monitoring</a>
+            </li>
             </ul>
         </div>
 
@@ -40,6 +44,10 @@
             case PAWS_NDV_PetLovers.ViewModels.AppointmentTab.followUp:
                 @await Component.InvokeAsync("FollowUp", new {updated = Model.updated})
                 break;
+
+            case PAWS_NDV_PetLovers.ViewModels.AppointmentTab.monitoring:
+                @await Component.InvokeAsync("Monitoring")
+            break;
 
             default:
                 @await Component.InvokeAsync("Booking", new { updated = Model.updated, created = Model.created })
