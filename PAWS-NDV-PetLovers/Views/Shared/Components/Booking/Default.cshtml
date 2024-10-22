@@ -12,9 +12,13 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
-
-
-
+<div class="text-end">
+    <!-- Set current date as default -->
+    <a asp-action="Create" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")" class="btn btn-primary px-4 bg-custom-btn">
+        Add New Booking
+    </a>
+    <!-- <a asp-action="AppointmentHistory" class="btn btn-success px-4">History</a> -->
+</div>
 
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 <div class="card p-3" >

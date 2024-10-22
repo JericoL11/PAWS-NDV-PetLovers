@@ -1,119 +1,121 @@
-﻿@model PAWS_NDV_PetLovers.ViewModels.ReportsVm
+﻿@model PAWS_NDV_PetLovers.ViewModels.AppointmentVm
 @{
     ViewData["Title"] = "AppointmentsReport";
 }
+
 <div class="container">
-    <form method="post" asp-action="AppointmentsReport" asp-controller="PawsReport" id="viewForm">
-        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-        <div class="row">
+    <div class="mt-4">
+        <form method="post" asp-action="AppointmentsReport" asp-controller="PawsReport" id="viewForm">
+            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+            <div class="row">
 
-            <div class="form-group col-lg-2 col-auto">
-                <label for="reportType">Report Type</label>
-                @switch (Model.reportType)
-                {
-                    case "booking":
-                        <select name="reportType" class="form-control bg-light me-4 form-select" required>
-                            <option value="" hidden>--Select</option>
-                            <option value="booking" selected>Booking</option>
-                            <option value="followUp">Follow Up</option>
-                        </select>
-                        break;
+                <div class="form-group col-lg-2 col-auto">
+                    <label for="reportType">Report Type</label>
+                    @switch (Model.reportType)
+                    {
+                        case "booking":
+                            <select name="reportType" class="form-control bg-light me-4 form-select" required>
+                                <option value="" hidden>--Select</option>
+                                <option value="booking" selected>Booking</option>
+                                <option value="followUp">Follow Up</option>
+                            </select>
+                            break;
 
-                    case "followUp":
-                        <select name="reportType" class="form-control bg-light me-4 form-select" required>
-                            <option value="" hidden>--Select</option>
-                            <option value="booking">Booking</option>
-                            <option value="followUp" selected>Follow Up</option>
-                        </select>
-                        break;
+                        case "followUp":
+                            <select name="reportType" class="form-control bg-light me-4 form-select" required>
+                                <option value="" hidden>--Select</option>
+                                <option value="booking">Booking</option>
+                                <option value="followUp" selected>Follow Up</option>
+                            </select>
+                            break;
 
-                    default:
-                        <select name="reportType" class="form-control bg-light me-4 form-select" required>
-                            <option value="" hidden>--Select</option>
-                            <option value="booking">Booking</option>
-                            <option value="followUp">Follow Up</option>
-                        </select>
-                        break;
-                }
+                        default:
+                            <select name="reportType" class="form-control bg-light me-4 form-select" required>
+                                <option value="" hidden>--Select</option>
+                                <option value="booking">Booking</option>
+                                <option value="followUp">Follow Up</option>
+                            </select>
+                            break;
+                    }
+                </div>
+
+                <div class="form-group col-lg-2 col-auto">
+                    <label for="startingDate" class="control-label">Start Date</label>
+                    <input type="date" name="startDate" class="form-control" value="@Model.startDate?.ToString("yyyy-MM-dd")" required />
+                </div>
+
+                <div class="form-group col-lg-2 col-auto">
+                    <label for="endingDate" class="control-label">End Date</label>
+                    <input type="date" name="endDate" class="form-control" value="@Model.endDate?.ToString("yyyy-MM-dd")" required />
+                </div>
+
+                <div class="form-group mt-auto col-lg-2 col-auto">
+                    @switch (Model.SelectType)
+                    {
+                        case "custom":
+                            <select id="selectType" name="SelectType" class="form-control bg-light me-4 form-select" required>
+                                <option value="" hidden>--Select</option>
+                                <option value="custom" selected>Custom</option>
+                                <option value="all">All</option>
+                            </select>
+                            break;
+
+                        case "all":
+                            <select id="selectType" name="SelectType" class="form-control bg-light me-4 form-select" required>
+                                <option value="" hidden>--Select</option>
+                                <option value="custom">Custom</option>
+                                <option value="all" selected>All</option>
+                            </select>
+                            break;
+
+                        default:
+                            <select id="selectType" name="SelectType" class="form-control bg-light me-4 form-select" required>
+                                <option value="" hidden selected>--Select</option>
+                                <option value="custom">Custom</option>
+                                <option value="all">All</option>
+                            </select>
+                            break;
+                    }
+                </div>
+
+                <div id="statusVisibility" class="form-group mt-auto col-lg-2 col-auto statusVisibility">
+                    @switch (Model.Status)
+                    {
+                        case "inProgress":
+                            <select name="Status" class="form-control bg-light me-4 form-select" required>
+                                <option value="" hidden>--Status</option>
+                                <option value="inProgress" selected>In Progress</option>
+                                <option value="complete">Complete</option>
+                            </select>
+                            break;
+
+                        case "complete":
+                            <select name="Status" class="form-control bg-light me-4 form-select" required>
+                                <option value="" hidden>--Status</option>
+                                <option value="inProgress">In Progress</option>
+                                <option value="complete" selected>Complete</option>
+                            </select>
+                            break;
+
+                        default:
+                            <select name="Status" class="form-control bg-light me-4 form-select" required>
+                                <option value="" hidden>--Status</option>
+                                <option value="inProgress">In Progress</option>
+                                <option value="complete">Complete</option>
+                            </select>
+                            break;
+                    }
+                </div>
+
+                <div class="form-group col-lg-2 col-4 col-md-6 mt-auto">
+                    <input type="submit" value="View" class="btn btn-primary ms-3 mt-3 px-5" />
+                </div>
             </div>
-
-            <div class="form-group col-lg-2 col-auto">
-                <label for="startingDate" class="control-label">Start Date</label>
-                <input type="date" name="startDate" class="form-control" value="@Model.startDate?.ToString("yyyy-MM-dd")" required />
-            </div>
-
-            <div class="form-group col-lg-2 col-auto">
-                <label for="endingDate" class="control-label">End Date</label>
-                <input type="date" name="endDate" class="form-control" value="@Model.endDate?.ToString("yyyy-MM-dd")" required />
-            </div>
-
-            <div class="form-group mt-auto col-lg-2 col-auto">
-                @switch (Model.SelectType)
-                {
-                    case "custom":
-                        <select id="selectType" name="SelectType" class="form-control bg-light me-4 form-select" required>
-                            <option value="" hidden>--Select</option>
-                            <option value="custom" selected>Custom</option>
-                            <option value="all">All</option>
-                        </select>
-                        break;
-
-                    case "all":
-                        <select id="selectType" name="SelectType" class="form-control bg-light me-4 form-select" required>
-                            <option value="" hidden>--Select</option>
-                            <option value="custom">Custom</option>
-                            <option value="all" selected>All</option>
-                        </select>
-                        break;
-
-                    default:
-                        <select id="selectType" name="SelectType" class="form-control bg-light me-4 form-select" required>
-                            <option value="" hidden selected>--Select</option>
-                            <option value="custom">Custom</option>
-                            <option value="all">All</option>
-                        </select>
-                        break;
-                }
-            </div>
-
-            <div id="statusVisibility" class="form-group mt-auto col-lg-2 col-auto statusVisibility">
-                @switch (Model.Status)
-                {
-                    case "inProgress":
-                        <select name="Status" class="form-control bg-light me-4 form-select" required>
-                            <option value="" hidden>--Status</option>
-                            <option value="inProgress" selected>In Progress</option>
-                            <option value="complete">Complete</option>
-                        </select>
-                        break;
-
-                    case "complete":
-                        <select name="Status" class="form-control bg-light me-4 form-select" required>
-                            <option value="" hidden>--Status</option>
-                            <option value="inProgress">In Progress</option>
-                            <option value="complete" selected>Complete</option>
-                        </select>
-                        break;
-
-                    default:
-                        <select name="Status" class="form-control bg-light me-4 form-select" required>
-                            <option value="" hidden>--Status</option>
-                            <option value="inProgress">In Progress</option>
-                            <option value="complete">Complete</option>
-                        </select>
-                        break;
-                }
-            </div>
-
-            <div class="form-group col-lg-2 col-4 col-md-6 mt-auto">
-                <input type="submit" value="View" class="btn btn-primary ms-3 mt-3 px-5" />
-            </div>
-        </div>
-    </form>
-
+        </form>
+    </div>
 
     <!-- Display the filtered report -->
-    @if (Model.reportType != null)
+    @if (Model.Filtered == true)
     {
         @switch (Model.reportType)
         {
@@ -129,11 +131,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (Model.Filtered)
+                            @if (Model.Filtered == true)
                             {
-                                @if (Model.IAppointment != null && Model.IAppointment.Any())
+                                @if (Model.IEAppointment != null && Model.IEAppointment.Any())
                                 {
-                                    foreach (var appointment in Model.IAppointment)
+                                    foreach (var appointment in Model.IEAppointment)
                                     {
                                         <tr>
 
@@ -217,7 +219,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (Model.Filtered)
+                            @if (Model.Filtered == true)
                             {
                                 @if (Model.IPetFollowUps != null && Model.IPetFollowUps.Any())
                                 {

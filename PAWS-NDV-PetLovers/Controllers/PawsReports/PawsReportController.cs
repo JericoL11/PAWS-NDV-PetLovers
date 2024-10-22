@@ -17,6 +17,8 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
             _context = context;
         }
 
+
+        ///THE VUEW IF THIS REPORST IS LOCATED IN THE VIEWCOMPOENENTS MONITORING
         [HttpGet]
         public async Task<IActionResult> AppointmentsReport()
         {
@@ -34,56 +36,36 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 case "booking":
                     if (SelectType == "custom")
                     {
-                        // Validate the date range
-                        if (!startDate.HasValue || !endDate.HasValue)
-                        {
-                            var vcm = new AppointmentVm();
-                            vcm.reportType = reportType;
-                            vcm.startDate = startDate.Value.Date;
-                            vcm.endDate = endDate.Value.Date;
-                            vcm.SelectType = SelectType; 
-                            vcm.Status = Status;
-                            vcm.Filtered = true;
-                            vcm.activeAppointTab = AppointmentTab.monitoring;
-                            vcm.null_dateError = true;
+                   
+                        //validating the inputs
+                        var validation = ValidateDateRange(startDate, endDate, reportType, SelectType);
 
-                            
-                            return RedirectToAction("Dashboard", "Appointments", vcm);
-                        }
-
-                        if (startDate > endDate)
+                        if (validation != null)
                         {
-                            var vcm = new AppointmentVm();
-                            vcm.activeAppointTab = AppointmentTab.monitoring;
-                            vcm.logical_dateError = true;
-                            return RedirectToAction("Dashboard", "Appointments", vcm);
+                            return RedirectToAction("Dashboard", "Appointments", validation);
                         }
 
                         // Fetch filtered appointments based on the date range
                         var reportData = await GetCustomAppointments(reportType, startDate, endDate, Status, SelectType, true);
-                        return View(reportData);  // Pass the filtered data to the view
+
+                        return RedirectToAction("Dashboard","Appointments",reportData);  // Pass the filtered data to the view
                     }
 
                     if (SelectType == "all")
                     {
-                        // Validate the date range
-                        if (!startDate.HasValue || !endDate.HasValue)
+
+                        //validating the inputs
+                        var validation = ValidateDateRange(startDate, endDate, reportType, SelectType);
+
+                        if (validation != null)
                         {
-                            var vcm = new AppointmentVm();
-                            vcm.activeAppointTab = AppointmentTab.monitoring;
-                            vcm.null_dateError = true;
-                            return RedirectToAction("Dashboard","Appointments", vcm);
+                            return RedirectToAction("Dashboard", "Appointments", validation);
                         }
 
-                        if (startDate > endDate)
-                        {
-                            var vcm = new AppointmentVm();
-                            vcm.activeAppointTab = AppointmentTab.monitoring;
-                            vcm.logical_dateError = true;
-                            return RedirectToAction("Dashboard", "Appointments", vcm);
-                        }
-                        // Fetch all appointments without any date filtering
-                        return View(await GetAllAppointments(reportType, startDate, endDate, Status, SelectType, true));
+                        var result = await GetAllAppointments(reportType, startDate, endDate, Status, SelectType, true);
+
+                        return RedirectToAction("Dashboard", "Appointments", result);
+                        
                     }
                     break;
 
@@ -91,49 +73,34 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 case "followUp":
                     if (SelectType == "custom")
                     {
-                        // Validate the date range
-                        if (!startDate.HasValue || !endDate.HasValue)
-                        {
-                            var vcm = new AppointmentVm();
-                            vcm.activeAppointTab = AppointmentTab.monitoring;
-                            vcm.null_dateError = true;
-                            return RedirectToAction("Dashboard", "Appointments", vcm);
-                        }
+                        //validating the inputs
+                        var validation = ValidateDateRange(startDate, endDate, reportType, SelectType);
 
-                        if (startDate > endDate)
+                        if (validation != null)
                         {
-                            var vcm = new AppointmentVm();
-                            vcm.activeAppointTab = AppointmentTab.monitoring;
-                            vcm.logical_dateError = true;
-                            return RedirectToAction("Dashboard", "Appointments", vcm);
+                            return RedirectToAction("Dashboard", "Appointments", validation);
                         }
 
                         // Fetch filtered appointments based on the date range
                         var reportData = await GetCustomFollowUp(reportType, startDate, endDate, Status, SelectType, true);
-                        return View(reportData);  // Pass the filtered data to the view
+                        return RedirectToAction("Dashboard", "Appointments",reportData);  // Pass the filtered data to the view
                     }
 
                     if (SelectType == "all")
                     {
 
-                        // Validate the date range
-                        if (!startDate.HasValue || !endDate.HasValue)
+                        //validating the inputs
+                        var validation = ValidateDateRange(startDate, endDate, reportType, SelectType);
+
+                        if (validation != null)
                         {
-                            var vcm = new AppointmentVm();
-                            vcm.activeAppointTab = AppointmentTab.monitoring;
-                            vcm.null_dateError = true;
-                            return RedirectToAction("Dashboard", "Appointments", vcm);
+                            return RedirectToAction("Dashboard", "Appointments", validation);
                         }
 
-                        if (startDate > endDate)
-                        {
-                            var vcm = new AppointmentVm();
-                            vcm.activeAppointTab = AppointmentTab.monitoring;
-                            vcm.logical_dateError = true;
-                            return RedirectToAction("Dashboard", "Appointments", vcm);
-                        }
+                        var reportData = await GetAllFollowUp(reportType, startDate, endDate, Status, SelectType, true);
+
                         // Fetch all appointments without any date filtering
-                        return View(await GetAllFollowUp(reportType, startDate, endDate, Status, SelectType, true));
+                        return RedirectToAction("Dashboard", "Appointments", reportData);
                     }
 
                     break;
@@ -156,10 +123,10 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                           .Where(a => a.remarks != "Cancelled")
                           .ToListAsync();
 
-                    var reportVm = new ReportsVm
+                    var reportVm = new AppointmentVm
                     {
                         IPetFollowUps = followUp,
-                        IAppointment = appointment
+                        IEAppointment = appointment
                     };
                     break;
             }
@@ -182,48 +149,32 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
         {
             if (SelectType == "custom")
             {
-                // Validate the date range
-                if (!startDate.HasValue || !endDate.HasValue)
-                {
-                    var vcm = new AppointmentVm();
-                    vcm.activeAppointTab = AppointmentTab.monitoring;
-                    vcm.null_dateError = true;
-                    return RedirectToAction("Dashboard", "Appointments", vcm);
-                }
+                //validating the inputs
+                var validation = ValidateDateRange(startDate, endDate, reportType, SelectType);
 
-                if (startDate > endDate)
+                if (validation != null)
                 {
-                    var vcm = new AppointmentVm();
-                    vcm.activeAppointTab = AppointmentTab.monitoring;
-                    vcm.logical_dateError = true;
-                    return RedirectToAction("Dashboard", "Appointments", vcm);
+                    return RedirectToAction("Dashboard", "Appointments", validation);
                 }
 
                 // Fetch filtered appointments based on the date range
                 var reportData = await GetCustomFollowUp(reportType, startDate, endDate, Status, SelectType, true);
-                return View(reportData);  // Pass the filtered data to the view
+                return RedirectToAction("Dashboard", "Appointments",reportData);  // Pass the filtered data to the view
             }
 
             if (SelectType == "all")
             {
-                // Validate the date range
-                if (!startDate.HasValue || !endDate.HasValue)
+                //validating the inputs
+                var validation = ValidateDateRange(startDate, endDate, reportType, SelectType);
+
+                if (validation != null)
                 {
-                    var vcm = new AppointmentVm();
-                    vcm.activeAppointTab = AppointmentTab.monitoring;
-                    vcm.null_dateError = true;
-                    return RedirectToAction("Dashboard", "Appointments", vcm);
+                    return RedirectToAction("Dashboard", "Appointments", validation);
                 }
 
-                if (startDate > endDate)
-                {
-                    var vcm = new AppointmentVm();
-                    vcm.activeAppointTab = AppointmentTab.monitoring;
-                    vcm.logical_dateError = true;
-                    return RedirectToAction("Dashboard", "Appointments", vcm);
-                }
-                // Fetch all appointments without any date filtering
-                return View(await GetAllFollowUp(reportType, startDate, endDate, Status, SelectType, true));
+                // Fetch filtered appointments based on the date range
+                var reportData = await GetCustomFollowUp(reportType, startDate, endDate, Status, SelectType, true);
+                return RedirectToAction("Dashboard", "Appointments", reportData);  // Pass the filtered data to the view
             }
 
             // Default return in case something is missed
@@ -284,12 +235,47 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
             return View();
         }
 
+
         #region == functions for Appointment Reports ==
-        public async Task<ReportsVm> GetAppointments()
+
+        private AppointmentVm ValidateDateRange(DateTime? startDate, DateTime? endDate, string reportType, string SelectType)
         {
-            var reportVm = new ReportsVm
+            // If either date is null, set null_dateError to true
+            if (!startDate.HasValue || !endDate.HasValue)
             {
-                IAppointment = await _context.Appointments
+                return new AppointmentVm
+                {
+                    reportType = reportType,
+                    startDate = startDate?.Date ?? DateTime.MinValue,  // Default to DateTime.MinValue if null
+                    endDate = endDate?.Date ?? DateTime.MinValue,
+                    SelectType = SelectType,
+                    activeAppointTab = AppointmentTab.monitoring,
+                    null_dateError = true,
+                };
+            }
+
+            // If startDate is greater than endDate, set logical_dateError to true
+            if (startDate > endDate)
+            {
+                return new AppointmentVm
+                {
+                    reportType = reportType,
+                    startDate = startDate.Value.Date,
+                    endDate = endDate.Value.Date,
+                    SelectType = SelectType,
+                    activeAppointTab = AppointmentTab.monitoring,
+                    logical_dateError = true,
+                };
+            }
+
+            // If no errors, return null
+            return null;
+        }
+        public async Task<AppointmentVm> GetAppointments()
+        {
+            var reportVm = new AppointmentVm
+            {
+                IEAppointment = await _context.Appointments
                      .Include(a => a.OwnerNav)
                      .Include(a => a.IAppDetails)
                         .ThenInclude(d => d.Services)
@@ -300,38 +286,41 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
         }
 
         //filtered 
-        public async Task<ReportsVm> GetAllAppointments(string? reportType, DateTime? startDate, DateTime? endDate, string? Status, string? SelectType, bool Filtered)
+        public async Task<AppointmentVm> GetAllAppointments(string? reportType, DateTime? startDate, DateTime? endDate, string? Status, string? SelectType, bool Filtered)
         {
 
-            var reportVm = new ReportsVm
-            {
-                IAppointment = await _context.Appointments
+            var appointment = await _context.Appointments
                  .Include(a => a.IAppDetails)
                  .ThenInclude(a => a.Services)
                  .Include(a => a.OwnerNav)
                  .Where(d => (!startDate.HasValue || d.date >= startDate)
                         && (!endDate.HasValue || d.date <= endDate)
                         && d.remarks != "Cancelled")
-                 .ToListAsync(),
+                 .ToListAsync();
+
+             return new AppointmentVm
+            {
+                IEAppointment = appointment,
                 Status = Status,
                 SelectType = SelectType,
                 Filtered = Filtered,
                 startDate = startDate,
                 endDate = endDate,
-                reportType = reportType
+                reportType = reportType,
+                activeAppointTab = AppointmentTab.monitoring
 
             };
-            return reportVm;
+       
         }
 
-        public async Task<ReportsVm> GetCustomAppointments(string? reportType, DateTime? startDate, DateTime? endDate, string? Status, string? SelectType, bool Filtered)
+        public async Task<AppointmentVm> GetCustomAppointments(string? reportType, DateTime? startDate, DateTime? endDate, string? Status, string? SelectType, bool Filtered)
 
         {
             if (Status == "inProgress")
             {
-                var reportVm = new ReportsVm
+                return new AppointmentVm
                 {
-                    IAppointment = await _context.Appointments
+                    IEAppointment = await _context.Appointments
                     .Include(a => a.IAppDetails)
                      .ThenInclude(a => a.Services)
                     .Include(a => a.OwnerNav)
@@ -344,15 +333,16 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                     SelectType = SelectType,
                     endDate = endDate,
                     Filtered = Filtered,
-                    reportType = reportType
+                    reportType = reportType,
+                    activeAppointTab = AppointmentTab.monitoring
                 };
-                return reportVm;
+               
             }
             else
             {
-                var reportVm = new ReportsVm
+                return new AppointmentVm
                 {
-                    IAppointment = await _context.Appointments
+                    IEAppointment = await _context.Appointments
                    .Include(a => a.IAppDetails)
                     .ThenInclude(a => a.Services)
                    .Include(a => a.OwnerNav)
@@ -366,16 +356,17 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                     SelectType = SelectType,
                     endDate = endDate,
                     Filtered = Filtered,
-                    reportType = reportType
+                    reportType = reportType,
+                    activeAppointTab = AppointmentTab.monitoring
                 };
-                return reportVm;
+             
             }
         }
         #endregion
 
         #region == Functions for Follow Up == 
 
-        public async Task<ReportsVm> GetFollowUp()
+        public async Task<AppointmentVm> GetFollowUp()
         {
             var followUp = await _context.PetFollowUps
                 .Include(p => p.Diagnostics)
@@ -385,7 +376,7 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 .Where(p => p.status != "Cancelled")
                 .ToListAsync();
 
-            var reportVm = new ReportsVm
+            var reportVm = new AppointmentVm
             {
                 IPetFollowUps = followUp
             };
@@ -394,9 +385,9 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
         }
 
 
-        public async Task<ReportsVm> GetAllFollowUp(string? reportType, DateTime? startDate, DateTime? endDate, string? Status, string? SelectType, bool Filtered)
+        public async Task<AppointmentVm> GetAllFollowUp(string? reportType, DateTime? startDate, DateTime? endDate, string? Status, string? SelectType, bool Filtered)
         {
-            var reportVm = new ReportsVm
+            var reportVm = new AppointmentVm
             {
                 IPetFollowUps = await _context.PetFollowUps
                 .Include(p => p.Diagnostics)
@@ -412,17 +403,18 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 Filtered = Filtered,
                 startDate = startDate,
                 endDate = endDate,
-                reportType = reportType
+                reportType = reportType,
+                activeAppointTab = AppointmentTab.monitoring
             };
             return reportVm;
         }
 
-        public async Task<ReportsVm> GetCustomFollowUp(string? reportType, DateTime? startDate, DateTime? endDate, string? Status, string? SelectType, bool Filtered)
+        public async Task<AppointmentVm> GetCustomFollowUp(string? reportType, DateTime? startDate, DateTime? endDate, string? Status, string? SelectType, bool Filtered)
 
         {
             if (Status == "inProgress")
             {
-                var reportVm = new ReportsVm
+                var reportVm = new AppointmentVm
                 {
                     IPetFollowUps = await _context.PetFollowUps
                     .Include(p => p.Diagnostics)
@@ -438,13 +430,14 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                     SelectType = SelectType,
                     endDate = endDate,
                     Filtered = Filtered,
-                    reportType = reportType
+                    reportType = reportType,
+                    activeAppointTab = AppointmentTab.monitoring
                 };
                 return reportVm;
             }
             else
             {
-                var reportVm = new ReportsVm
+                var reportVm = new AppointmentVm
                 {
                     IPetFollowUps = await _context.PetFollowUps
                     .Include(p => p.Diagnostics)
@@ -461,7 +454,8 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                     SelectType = SelectType,
                     endDate = endDate,
                     Filtered = Filtered,
-                    reportType = reportType
+                    reportType = reportType,
+                    activeAppointTab = AppointmentTab.monitoring
                 };
                 return reportVm;
             }
