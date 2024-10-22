@@ -256,9 +256,6 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("expiryDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime?>("lastUpdate")
                         .HasColumnType("datetime2");
 

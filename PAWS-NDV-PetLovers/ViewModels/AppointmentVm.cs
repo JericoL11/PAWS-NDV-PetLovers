@@ -5,7 +5,7 @@ namespace PAWS_NDV_PetLovers.ViewModels
 {
     public class AppointmentVm
     {
-        public Appointment? Appointment {  get; set; }
+        public Appointment? Appointment { get; set; }
 
         public AppointmentDetails? AppointmentDetails { get; set; }
 
@@ -27,12 +27,27 @@ namespace PAWS_NDV_PetLovers.ViewModels
         //GROUP FOR INDEX UNIQUE ID
         public List<AppointmentGroup> AppointmentGrouping { get; set; }
 
-         public List<Appointment> IAppointments { get; set; }
+        public List<Appointment> IAppointments { get; set; }
 
 
-        public List<string> AvailableAM {  get; set; }
+        public DateTime? timeHolder { get; set; }
+
+        public List<string> AvailableAM { get; set; }
         public List<string> AvailablePM { get; set; }
+        public AppointmentTab activeAppointTab { get; set; }
+
+
+
+        public bool? updated { get; set; }
+        public bool? created { get; set; }
+
     }
+
+    public enum AppointmentTab
+    {
+        booking,
+        followUp
+    };
 
 
     //grouping technique to display 1 ID distinctly.

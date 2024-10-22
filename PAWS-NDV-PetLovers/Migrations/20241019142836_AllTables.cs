@@ -12,26 +12,6 @@ namespace PAWS_NDV_PetLovers.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Appointments",
-                columns: table => new
-                {
-                    AppointId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "100, 1"),
-                    ownerId = table.Column<int>(type: "int", nullable: true),
-                    fname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    mname = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    lname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    contact = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
-                    date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    time = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    remarks = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Appointments", x => x.AppointId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
                 {
@@ -60,7 +40,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                     contact = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
                     email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    registeredDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    registeredDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     lastUpdate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
@@ -93,6 +73,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                     serviceName = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
                     serviceCharge = table.Column<double>(type: "float", nullable: false),
                     serviceType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    followUp = table.Column<bool>(type: "bit", nullable: false),
                     status = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -112,7 +93,6 @@ namespace PAWS_NDV_PetLovers.Migrations
                     quantity = table.Column<int>(type: "int", nullable: false),
                     registeredDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     lastUpdate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    expiryDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -124,6 +104,31 @@ namespace PAWS_NDV_PetLovers.Migrations
                         principalTable: "Categories",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Appointments",
+                columns: table => new
+                {
+                    AppointId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "100, 1"),
+                    ownerId = table.Column<int>(type: "int", nullable: true),
+                    fname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    mname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    contact = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
+                    date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    time = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    remarks = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Appointments", x => x.AppointId);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Owners_ownerId",
+                        column: x => x.ownerId,
+                        principalTable: "Owners",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
@@ -155,36 +160,11 @@ namespace PAWS_NDV_PetLovers.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AppointmentDetails",
-                columns: table => new
-                {
-                    AppDetailsId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "11000, 1"),
-                    AppointId = table.Column<int>(type: "int", nullable: false),
-                    serviceID = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppointmentDetails", x => x.AppDetailsId);
-                    table.ForeignKey(
-                        name: "FK_AppointmentDetails_Appointments_AppointId",
-                        column: x => x.AppointId,
-                        principalTable: "Appointments",
-                        principalColumn: "AppointId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AppointmentDetails_Services_serviceID",
-                        column: x => x.serviceID,
-                        principalTable: "Services",
-                        principalColumn: "serviceId");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PurchaseDetails",
                 columns: table => new
                 {
                     purchaseDet_Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "300000, 1"),
+                        .Annotation("SqlServer:Identity", "11000, 1"),
                     purchaseId = table.Column<int>(type: "int", nullable: false),
                     productId = table.Column<int>(type: "int", nullable: false),
                     quantity = table.Column<int>(type: "int", nullable: false),
@@ -205,6 +185,31 @@ namespace PAWS_NDV_PetLovers.Migrations
                         principalTable: "Purchases",
                         principalColumn: "purchaseId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppointmentDetails",
+                columns: table => new
+                {
+                    AppDetailsId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "300000, 1"),
+                    AppointId = table.Column<int>(type: "int", nullable: false),
+                    serviceID = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppointmentDetails", x => x.AppDetailsId);
+                    table.ForeignKey(
+                        name: "FK_AppointmentDetails_Appointments_AppointId",
+                        column: x => x.AppointId,
+                        principalTable: "Appointments",
+                        principalColumn: "AppointId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AppointmentDetails_Services_serviceID",
+                        column: x => x.serviceID,
+                        principalTable: "Services",
+                        principalColumn: "serviceId");
                 });
 
             migrationBuilder.CreateTable(
@@ -328,6 +333,11 @@ namespace PAWS_NDV_PetLovers.Migrations
                 name: "IX_AppointmentDetails_serviceID",
                 table: "AppointmentDetails",
                 column: "serviceID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_ownerId",
+                table: "Appointments",
+                column: "ownerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Billings_DiagnosticsId",

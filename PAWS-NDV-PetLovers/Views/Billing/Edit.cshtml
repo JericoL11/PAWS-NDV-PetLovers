@@ -82,15 +82,15 @@
 <div class="container">
     <div class="bg-secondary bg-opacity-10 py-2 mt-3">
 
-        <ul class="nav navbars">
+        <ul class="nav">
             <li>
-                <a role="presentation" asp-action="SwitchToBillingTab" asp-route-tabName="Diagnosis" asp-route-id="@Model.Diagnostics.diagnostic_Id" class="@(Model.activeBillingTab == PAWS_NDV_PetLovers.ViewModels.BillingTab.Diagnosis ? "active" : string.Empty) btn btn-outline-primary">Service</a>
+                <a role="presentation" asp-action="SwitchToBillingTab" asp-route-tabName="Diagnosis" asp-route-id="@Model.Diagnostics.diagnostic_Id" class="@(Model.activeBillingTab == PAWS_NDV_PetLovers.ViewModels.BillingTab.Diagnosis ? "active" : string.Empty) btn btn-outline-success">Service</a>
             </li>
             <li>
-                <a role="presentation" asp-action="SwitchToBillingTab" asp-route-tabName="Purchase" asp-route-id="@Model.Diagnostics.diagnostic_Id" class="@(Model.activeBillingTab == PAWS_NDV_PetLovers.ViewModels.BillingTab.Purchase ? "active" : string.Empty) btn btn-outline-primary">Purchase</a>
+                <a role="presentation" asp-action="SwitchToBillingTab" asp-route-tabName="Purchase" asp-route-id="@Model.Diagnostics.diagnostic_Id" class="@(Model.activeBillingTab == PAWS_NDV_PetLovers.ViewModels.BillingTab.Purchase ? "active" : string.Empty) btn btn-outline-success">Purchase</a>
             </li>
             <li>
-                <a role="presentation" asp-action="SwitchToBillingTab" asp-route-tabName="Billing" asp-route-id="@Model.Diagnostics.diagnostic_Id" class="@(Model.activeBillingTab == PAWS_NDV_PetLovers.ViewModels.BillingTab.Billing ? "active" : string.Empty) btn btn-outline-primary">Billing</a>
+                <a role="presentation" asp-action="SwitchToBillingTab" asp-route-tabName="Billing" asp-route-id="@Model.Diagnostics.diagnostic_Id" class="@(Model.activeBillingTab == PAWS_NDV_PetLovers.ViewModels.BillingTab.Billing ? "active" : string.Empty) btn btn-outline-success">Billing</a>
             </li>
         </ul>
     </div>

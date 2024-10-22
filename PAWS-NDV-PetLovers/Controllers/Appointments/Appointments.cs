@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.Models.Appointments;
-using PAWS_NDV_PetLovers.Models.Records;
-using PAWS_NDV_PetLovers.Models.Transactions;
 using PAWS_NDV_PetLovers.ViewModels;
 
 namespace PAWS_NDV_PetLovers.Controllers.Appointments
@@ -18,6 +15,43 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
         {
             this._context = context;
         }
+
+
+        public IActionResult Dashboard(string? tabName,AppointmentVm vcm)
+        {
+            if(vcm.activeAppointTab == null)
+            {
+                vcm.activeAppointTab = AppointmentTab.booking;
+            }
+            if(tabName == "followUp")
+            {
+                vcm.activeAppointTab = AppointmentTab.followUp;
+            }
+            return View(vcm);
+        }
+
+        public IActionResult SwitchToTab(string tabName)
+        {
+            var vm = new AppointmentVm();
+
+            switch (tabName)
+            {
+                case "booking":
+                    vm.activeAppointTab = AppointmentTab.booking;
+                    break;
+
+                case "followUp":
+                    vm.activeAppointTab = AppointmentTab.followUp;
+                    break;
+
+                default:
+                    vm.activeAppointTab = AppointmentTab.booking;
+                    break;
+            }
+
+            return RedirectToAction(nameof(Dashboard), vm);
+        }
+
         public async Task<IActionResult> Index()
         {
 
@@ -25,6 +59,10 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
             return View(appDetails);
         }
+
+
+
+
 
         #region == Functions == 
         public async Task<AppointmentVm> GetAllAsync()
@@ -112,16 +150,23 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
         [HttpGet]
         public async Task<IActionResult> GetAvailableTimes(DateTime date)
         {
+            var dateFromView = date.Date;
+
+            // Current date and hour
+            var currentDate = DateTime.Now;
+            var today = currentDate.Date;
+            var currentHour = currentDate.Hour;
+
             // Fetch appointments and determine available times
             var appointmentsOnDate = await _context.Appointments
                 .Where(a => a.date == date)
                 .Select(a => a.time)
                 .ToListAsync();
 
-            //read  each data
+            // Convert to a comma-separated string
             var convertedToString = string.Join(",", appointmentsOnDate);
 
-            //declare List storage Var
+            // Declare List storage variables
             var am = new List<string>();
             var pm = new List<string>();
 
@@ -131,25 +176,52 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
                 if (hour >= 8 && hour <= 11) // AM Times
                 {
-                    //Check if time not  exist
-                    if (!convertedToString.Contains(time))
+                    // If it's today, check the current hour condition
+                    if (dateFromView == today)
                     {
-                        am.Add(time);
+                        // Only add AM times greater than the current hour
+                        if (!convertedToString.Contains(time) && hour > currentHour)
+                        {
+                            am.Add(time);
+                        }
+                    }
+                    else
+                    {
+                        // For future dates, just check if the time doesn't exist
+                        if (!convertedToString.Contains(time))
+                        {
+                            am.Add(time);
+                        }
                     }
                 }
                 else if (hour >= 1 && hour <= 4) // PM Times
                 {
                     var timePm = $"{hour}:00";
-                    if (!convertedToString.Contains(timePm))
+
+                    if (dateFromView == today)
                     {
-                        pm.Add(timePm + " pm");
+                        // Only add PM times greater than the current hour
+                        if (!convertedToString.Contains(timePm) && hour < currentHour)
+                        {
+                            pm.Add(timePm + " pm");
+                        }
+                    }
+                    else
+                    {
+                        // For future dates, just check if the time doesn't exist
+                        if (!convertedToString.Contains(timePm))
+                        {
+                            pm.Add(timePm + " pm");
+                        }
                     }
                 }
             }
 
             // Return the available times as JSON
             return Json(new { availableAM = am, availablePM = pm });
+
         }
+
         [HttpGet]
         public async Task<IActionResult> Create(DateTime date)
         {
@@ -225,10 +297,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             return View(viewModel);
         }
 
-
-
-
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Appointment")] AppointmentVm viewModel) //appointment vm is declared
         {
 
@@ -282,7 +352,10 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             //vm for index object instantiation
             var appDetails = await GetAllAsync();
 
-            return View("Index", appDetails);
+            var vcm = new AppointmentVm();
+            vcm.activeAppointTab = AppointmentTab.booking;
+            vcm.created = true;
+            return RedirectToAction(nameof(Dashboard), vcm);
 
         }
 
@@ -325,7 +398,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, DateTime? time)
         {
 
             if (id == null)
@@ -344,12 +417,20 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
                 return NotFound();
             }
 
+            appointment.time = DateTime.MinValue;
+            await _context.SaveChangesAsync();
+
+            //remove time to be seen again in dropdown
+            appointment.date = time.Value.Date;
+            //set the removed time as default
+            appointment.time = time.Value;
             //vm instantiationn
             AppointmentVm vm = new AppointmentVm
             {
                 Appointment = appointment,
-                Services = await _context.Services.Where(s => string.IsNullOrEmpty(s.status)).ToListAsync()
-             
+                Services = await _context.Services.Where(s => string.IsNullOrEmpty(s.status)).ToListAsync(),
+                timeHolder = time.Value
+
             };
 
             return View("Edit", vm);
@@ -359,7 +440,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, AppointmentVm appoint)
+        public async Task<IActionResult> Edit(int id,  AppointmentVm appoint)
         {
             var appointments = appoint.Appointment;
 
@@ -427,7 +508,12 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
                 // Save changes
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                var vcm = new AppointmentVm();
+                vcm.activeAppointTab = AppointmentTab.booking;
+                vcm.updated = true;
+
+                return RedirectToAction(nameof(Dashboard), vcm);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -447,7 +533,26 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             return _context.Appointments.Any(a => a.AppointId == id);
         }
 
+        public async Task<IActionResult> ResetDateTime(int? id, DateTime? prevSched)
+        { 
+            if(id == null)
+            {
+                return NotFound();
+            }
 
+
+            var appointment = await _context.Appointments.FindAsync(id);
+
+            if(appointment != null)
+            {
+                //back prevTime as default
+                appointment.time = prevSched.Value;
+                await _context.SaveChangesAsync();
+            }
+            
+
+            return RedirectToAction("Dashboard");
+        }
 
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
@@ -490,12 +595,16 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             if (appointment != null)
             {
                 appointment.remarks = "Cancelled";
+                appointment.time = DateTime.MinValue;
                 _context.Appointments.Update(appointment);
                 /*_context.Appointments.Remove(appointment);*/
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToAction(nameof(Index));
+            var vm = new AppointmentVm();
+            vm.updated = true;
+            vm.activeAppointTab = AppointmentTab.booking;
+            return RedirectToAction(nameof(Dashboard), vm);
         }
     }
 }

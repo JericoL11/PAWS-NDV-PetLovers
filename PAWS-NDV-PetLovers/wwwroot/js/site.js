@@ -3,23 +3,23 @@
 
 // Write your JavaScript code.
 
-
 //Reports
-
 $(document).ready(function () {
-    // Hide or show status dropdown based on the selected type
+    // Function to toggle the status dropdown based on the selectType value
     function toggleStatusVisibility() {
         var selectedType = $('#selectType').val();
-        if (selectedType === 'all' || selectedType == 'allCategory' ) {
-            $('#statusVisibility').hide();
-            $('#statusVisibility select').prop('disabled', true); // Disable when hidden
+        var $statusSelect = $('#statusVisibility select');
+
+        if (selectedType === 'all') {
+            $statusSelect.prop('disabled', true); // Disable status dropdown when 'all' is selected
+            $statusSelect.addClass('disabled-select'); // Add class for styling
         } else {
-            $('#statusVisibility').show();
-            $('#statusVisibility select').prop('disabled', false); // Enable when visible
+            $statusSelect.prop('disabled', false); // Enable status dropdown for other selections
+            $statusSelect.removeClass('disabled-select'); // Remove class when enabled
         }
     }
 
-    // On page load
+    // Run the function on page load to handle the initial state
     toggleStatusVisibility();
 
     // On change event of the selectType dropdown
@@ -27,7 +27,6 @@ $(document).ready(function () {
         toggleStatusVisibility();
     });
 });
-
 
 
 //Numbers/Decimal only for inputs

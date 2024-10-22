@@ -19,6 +19,8 @@ namespace PAWS_NDV_PetLovers.ViewModels
 
         public bool Filtered {  get; set; }
 
+        public string reportType { get; set; }
+
         public IEnumerable<Appointment> IAppointment { get; set; }
 
         public IEnumerable<PetFollowUps> IPetFollowUps { get; set; }

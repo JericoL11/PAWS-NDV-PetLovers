@@ -68,7 +68,7 @@
                 </li>
 
                 <li class="mb-2">
-                    <a class="nav-link  collapsed  d-flex align-items-center p-2 solo-link" asp-area="" asp-controller="Appointments" asp-action="Index" id="iappointments"> @* data-bs-toggle="collapse" data-bs-target="#appointment-collapse" aria-expanded="true collapse" *@
+                    <a class="nav-link  collapsed  d-flex align-items-center p-2 solo-link" asp-area="" asp-controller="Appointments" asp-action="DashBoard" id="iappointments"> @* data-bs-toggle="collapse" data-bs-target="#appointment-collapse" aria-expanded="true collapse" *@
                         <i class="fa-solid fa-calendar-check" id="icon"></i><div class="px-3">Appointments</div>
                        @*  <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i> *@
                     </a>
@@ -82,14 +82,13 @@
                     </div> *@
                 </li>
 
+              @*   follow Up
                 <li class="mb-2">
                     <a class="nav-link  collapsed  d-flex align-items-center p-2 solo-link" asp-controller="PetFollowUp" asp-action="Index" id="ihome">
-                        @* data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="true collapse" *@
                         <i class="fa-solid fa-angles-right"></i><div class="px-3">Follow-up Visit</div>
-                        @*  <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i> *@
                     </a>
                   
-                </li>
+                </li> *@
 
                 <li class="mb-2">
                     <a class="nav-link collapsed  d-flex align-items-center  p-2" data-bs-toggle="collapse" data-bs-target="#recordmanagement-collapse" aria-expanded="true collapse">
@@ -125,15 +124,14 @@
                 </li>
 
                 <li class="mb-2">
-                    <a class="nav-link collapsed  d-flex align-items-center  p-2 solo-link" data-bs-toggle="collapse" data-bs-target="#reports-collapse" aria-expanded="true collapse">
+                    <a class="nav-link collapsed  d-flex align-items-center  p-2" data-bs-toggle="collapse" data-bs-target="#reports-collapse" aria-expanded="true collapse">
                         <i class="fa-solid fa-flag" id="icon"></i><div class="px-3">Reports</div>
                        <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i>
  
                     </a>
                 <div class="collapse" id="reports-collapse" data-bs-parent="#accordion">
                      <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3  big">
-                        <li><a class="link-l mb-1 px-5" asp-action="AppointmentsReport" asp-controller="PawsReport">Appointment</a></li>
-                        <li><a class="link-l mb-1 px-5" asp-action="FollowUpVisitReport" asp-controller="PawsReport">Follow-Up Visit</a></li>
+                        <li><a class="link-l mb-1 px-5" asp-action="AppointmentsReport" asp-controller="PawsReport">Appointments</a></li>
                         <li><a class="link-l mb-1 px-5" asp-action="ProductMgmtReport" asp-controller="PawsReport">Product Mgmt. </a></li>
                     </ul>
                 </div>
@@ -287,7 +285,7 @@
     </script>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/DataTables/datatables.min.js"></script>
+    <script src="~/DataTables/datatables.min.js" defer></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 

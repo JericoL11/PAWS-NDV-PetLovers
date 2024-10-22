@@ -15,46 +15,51 @@
             </div>
         </div>
 
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between pt-3 px-3">
             <a class="btn btn-primary" asp-action="Create"> Add new Service</a>
             @* <a class="btn btn-warning" asp-action="VoidServices"> Void Services</a> *@
         </div>
   
-        <table class="table table-striped mt-4" id="ServicesTbl">
-            <thead>
-                <tr class="text-center">
-                    <th>Service ID</th>
-                    <th>Name</th>
-                    <th>Charge</th>
-                    <th>Settings</th>
-                </tr>
-            </thead>
+        <div class="card p-3">
+            <div class="row">
+                <div class="table-responsive text-center">
+                    <table class="table table-bordered text-center hover mt-4" id="ServicesTbl">
+                        <thead>
+                            <tr class="text-center">
+                                <th>Service ID</th>
+                                <th>Name</th>
+                                <th>Charge</th>
+                                <th class="col-lg-2">Settings</th>
+                            </tr>
+                        </thead>
 
-            <tbody>
-                @foreach ( var item in Model)
-                {
-                    <tr class="text-center">
-                        <td>@Html.DisplayFor(modelItem => item.serviceId)</td>
+                        <tbody>
+                            @foreach ( var item in Model)
+                            {
+                                <tr class="text-center">
+                                    <td>@Html.DisplayFor(modelItem => item.serviceId)</td>
 
-                        @if(item.serviceType != "NA"){
-                            <td>@Html.DisplayFor(modelItem => item.serviceName)
-                                @Html.Raw('-') 
-                                @Html.DisplayFor(modelItem => item.serviceType)
-                            </td>
-                        }
-                        else
-                        {
-                            <td>@Html.DisplayFor(modelItem => item.serviceName)</td>
-                        }
+                                    @if(item.serviceType != "NA"){
+                                        <td>@Html.DisplayFor(modelItem => item.serviceName)
+                                            @Html.Raw('-') 
+                                            @Html.DisplayFor(modelItem => item.serviceType)
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>@Html.DisplayFor(modelItem => item.serviceName)</td>
+                                    }
           
-                        <td>@Html.DisplayFor(modelItem => item.serviceCharge)</td>
-                        <td><a class="btn btn-success" asp-route-id="@item.serviceId" asp-action="Edit">Update</a> | 
-                            <a class="btn btn-danger" asp-route-id="@item.serviceId" asp-action="Delete">Delete</a></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
+                                    <td>@Html.DisplayFor(modelItem => item.serviceCharge)</td>
+                                    <td><a class="btn btn-success" asp-route-id="@item.serviceId" asp-action="Edit">Update</a>  
+                                        <a class="btn btn-danger" asp-route-id="@item.serviceId" asp-action="Delete">Delete</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
      </div>
 </div>
 @section Scripts {

@@ -4,29 +4,29 @@
 }
 
 
-<div class="container p-0 bg container-bord">
+<div class="container p-0 bg container-bord mb-3">
     <div class="container  p-0">
 
-            <div class="container p-0 bg-custom-color">
-
-                <div>
-                    <div class="container p-2">
-                        <h1>Set Appointments</h1>
-                    </div>
+        <div class="container p-0 bg-custom-color sticky-header">
+            <div>
+                <div class="container p-2">
+                    <h1>Set Booking</h1>
                 </div>
+            </div>
+        </div>
 
             </div>
 
                 <div class="container p-0 ">
                     <div class="pt-4 p-3">
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-warning" style="background-color:#efc65de8;border-color:#efc65de8;color:black; font-weight:bold;font-size:15px;" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                <button type="button" class="btn btn-warning btn-exrecord" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                     Existing Record
                                 </button>
 
-                                <a class="btn btn-primary" style="background-color:#469387;border-color:#469387;color:white; font-weight:bold;font-size:15px; " asp-action="Create" asp-controller="Owners">Register New Owner</a>
-       
-                    </div>
+               @*  <a class="btn btn-primary" style="background-color:#469387;border-color:#469387;color:white; font-weight:bold;font-size:15px; " asp-action="Create" asp-controller="Owners">Register New Owner</a>
+        *@
+    </div>
 
                         <form asp-action="Create" method="post" class="p-0">
 
@@ -65,11 +65,11 @@
                                     <span asp-validation-for="Appointment.contact" class="text-danger"></span>
                                 </div>
 
-                                <div class="form-group col-lg-4 col-12 col-md-6" id="apppad">
-                                    <label asp-for="Appointment.date" class="control-label"></label>
-                                    <input asp-for="Appointment.date" class="form-control " id="appointmentDate" type="date" />
-                                    <span asp-validation-for="Appointment.date" class="text-danger"></span>
-                                </div>
+                <div class="form-group col-lg-4 col-12 col-md-6" id="apppad">
+                    <label asp-for="Appointment.date" class="control-label"></label>
+                    <input asp-for="Appointment.date" class="form-control minDate" id="appointmentDate" type="date" />
+                    <span asp-validation-for="Appointment.date" class="text-danger"></span>
+                </div>
 
                                 <div class="form-group col-lg-4 col-12 col-md-6" id="apppad">
                                     <label asp-for="Appointment.time" class="control-label"></label>
@@ -95,70 +95,80 @@
                                     </div>
 
                                         <div class="card p-3">
-                                            <table class="table mt-2" id="DetailsTable">
-                                            <thead>
-                                                <tr>
-                                                    <th>Select Service</th>
-                                                    <th colspan="1">Actions</th>
+                                             <div class="row">
+                                                <div class="form-group text-end">
+                                               
                                                         <th class="text-end"><button type="button" class="btn btn-success" id="addRow" style="background-color:#469387;border-color:#469387;color:white; font-weight:bold;font-size:15px; ">Add Row</button> </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="detailRow">
-                                                    <td>
-                                                        <select name="Appointment.IAppDetails[0].serviceId" class="service-select form-select" required>
-                                                            <option value="" data-price="0" disabled selected>Select Service</option>
+                                               
+                                                </div>   
 
-                                                            @foreach (var service in Model.IlistServices.Where(s => s.serviceType == "NA"))
-                                                            {
-                                                                <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-type="@service.serviceType.ToLower()" data-service-name="@service.serviceName.ToLower()">
-                                                                    @service.serviceName
-                                                                </option>
-                                                            }
+                                                <div class="table-responsive  text-center"> 
+                                                    <table class="table table table-bordered hover text-center  mt-2" id="DetailsTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Select Service</th>
+                                                            <th colspan="1" class="col-lg-2">Actions</th>
+                                                     
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="detailRow">
+                                                            <td>
+                                                                <select name="Appointment.IAppDetails[0].serviceId" class="service-select form-select" required>
+                                                                    <option value="" data-price="0" disabled selected>Select Service</option>
 
-                                                            @* for display laboratory items *@
-                                                            @{
-                                                                //check services
-                                                                var checkTypes = Model.IlistServices
-                                                                .Select(s => s.serviceType)
-                                                                .Distinct();
-
-                                                                var type = string.Join(",", checkTypes).ToLower();
-
-                                                            }
-                                                            @if (type.Contains("lab"))
-                                                            {
-                                                                <optgroup label="Laboratory test">
-                                                                    @foreach (var service in Model.IlistServices.Where(s => s.serviceType != "NA"))
+                                                                    @foreach (var service in Model.IlistServices.Where(s => s.serviceType == "NA"))
                                                                     {
                                                                         <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-type="@service.serviceType.ToLower()" data-service-name="@service.serviceName.ToLower()">
                                                                             @service.serviceName
                                                                         </option>
                                                                     }
-                                                                </optgroup>
-                                                            }
 
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-outline-danger removeRow">Remove</button>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                                                    @* for display laboratory items *@
+                                                                    @{
+                                                                        //check services
+                                                                        var checkTypes = Model.IlistServices
+                                                                        .Select(s => s.serviceType)
+                                                                        .Distinct();
+
+                                                                        var type = string.Join(",", checkTypes).ToLower();
+
+                                                                    }
+                                                                    @if (type.Contains("lab"))
+                                                                    {
+                                                                        <optgroup label="Laboratory test">
+                                                                            @foreach (var service in Model.IlistServices.Where(s => s.serviceType != "NA"))
+                                                                            {
+                                                                                <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-type="@service.serviceType.ToLower()" data-service-name="@service.serviceName.ToLower()">
+                                                                                    @service.serviceName
+                                                                                </option>
+                                                                            }
+                                                                        </optgroup>
+                                                                    }
+
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-danger removeRow">Remove</button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                </div>
+                                             </div>
                                         </div>
                                 </div>
                             </div>
 
-                            <!-- Submit and Cancel buttons -->
-                            <div class="form-group mt-3">
-                                <a asp-action="Index" class="btn btn-secondary px-4">Cancel</a>
-                                <input type="submit" value="Create" class="btn btn-primary px-4" />
-                            </div>
-                        </div>
-                    </form>
-                </div>
-    </div>
+            <!-- Submit and Cancel buttons -->
+            <div class="form-group text-end mt-3 mb-3">
+                <a asp-action="Dashboard" class="btn btn-secondary px-4">Cancel</a>
+                <input type="submit" value="Create" class="btn btn-primary px-4" />
+            </div>
+        </div>
+    </form>
+</div>
+
 <!-- Modal for selecting existing records -->
     <div class="modal fade   modal-f " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -322,22 +332,22 @@
                                         hasAvailableTimes = true;
                                     }
 
-                                    // If no available times, add "Fully booked" option
-                                    if (!hasAvailableTimes) {
-                                        timeDropdown.append($('<option>', {
-                                            value: '',
-                                            text: 'Fully booked',
-                                            disabled: true,
-                                            selected: true
-                                        }));
-                                    }
-                                },
-                                error: function (xhr, status, error) {
-                                    console.error('Error fetching available times:', error);
-                                }
-                            });
+                            // If no available times, add "Fully booked" option
+                            if (!hasAvailableTimes) {
+                                timeDropdown.append($('<option>', {
+                                    value: '',
+                                    text: 'Not Available',
+                                    disabled: true,
+                                    selected: true
+                                }));
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching available times:', error);
                         }
-                    }
+                    });
+                }
+            }
 
 
                     // Trigger the date change event on page load if date is pre-filled
@@ -345,9 +355,9 @@
                         fetchAvailableTimes();
                     }
 
-                    $('#appointmentDate').change(fetchAvailableTimes);
-                });
-                console.log('Selected Owner ID:', ownerId);
+            $('#appointmentDate').change(fetchAvailableTimes);
+        });
+        //console.log('Selected Owner ID:', ownerId);
 
             </script>
 

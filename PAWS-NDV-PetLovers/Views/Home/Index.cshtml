@@ -1,8 +1,110 @@
-﻿@{
+﻿@model PAWS_NDV_PetLovers.ViewModels.ReportsVm
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    /* Modern card styling */
+    .card-custom {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        overflow: hidden;
+    }
+
+        .card-custom:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+    /* Header styling with icon support */
+    .card-header-custom {
+        background-color: #469387;
+        color: white;
+        padding: 20px;
+        font-size: 1.5rem;
+        font-weight: 600;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .card-header-custom i {
+            margin-right: 10px;
+        }
+
+    /* Body styling with a light version of #469387 */
+    .card-body-custom {
+        background-color: #dff3f1;
+        color: black;
+        padding: 30px;
+        font-size: 2rem;
+        font-weight: bold;
+    }
+
+    /* Footer styling */
+    .card-footer-custom {
+        background-color: #469387;
+        color: white;
+        padding: 15px;
+        font-size: 1rem;
+    }
+
+    /* Center the content */
+    .card-body-custom h1 {
+        margin: 0;
+    }
+</style>
+
+
+
+<div class="mt-5">
+    <div class="row justify-content-center">
+        <!-- Booking Card -->
+        <div class="col-lg-3 col-md-5 col-sm-8 mb-4">
+            <div class="card text-center card-custom">
+                <div class="card-header card-header-custom">
+                    <i class="fas fa-calendar-alt"></i> Booking
+                </div>
+                <div class="card-body card-body-custom my-auto">
+                    <h1 class="display-5">@Model.IAppointment.Count().ToString()</h1>
+                </div>
+                <div class="card-footer card-footer-custom">
+                    Today
+                </div>
+            </div>
+        </div>
+
+        <!-- Follow-up Visit Card -->
+        <div class="col-lg-3 col-md-5 col-sm-8 mb-4">
+            <div class="card text-center card-custom">
+                <div class="card-header card-header-custom">
+                    <i class="fas fa-calendar-check"></i> Follow-up Visit
+                </div>
+                <div class="card-body card-body-custom my-auto">
+                    <h1 class="display-5">@Model.IPetFollowUps.Count().ToString()</h1>
+                </div>
+                <div class="card-footer card-footer-custom">
+                    Today
+                </div>
+            </div>
+        </div>
+
+        <!-- Low Stock Level Card -->
+        <div class="col-lg-3 col-md-5 col-sm-8 mb-4">
+            <div class="card text-center card-custom">
+                <div class="card-header card-header-custom">
+                    <i class="fas fa-exclamation-triangle"></i> Low Stock Level
+                </div>
+                <div class="card-body card-body-custom my-auto">
+                    <h1 class="display-5">@Model.IProducts.Count().ToString()</h1>
+                </div>
+                <div class="card-footer card-footer-custom">
+                    Today
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

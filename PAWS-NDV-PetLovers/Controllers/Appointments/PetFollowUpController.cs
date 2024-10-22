@@ -14,34 +14,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             _context = context;
         }
 
-        //method
-        public async Task<AppointmentVm> GetAllRecords()
-        {
-            var PetFollowUp = await _context.PetFollowUps
-            .Where(p => string.IsNullOrEmpty(p.status))
-            .Include(f => f.Diagnostics)
-                .ThenInclude(d => d.IdiagnosticDetails)
-                    .ThenInclude(d => d.Services)
-            .Include(f => f.Diagnostics)
-                .ThenInclude(d => d.pet)
-                    .ThenInclude(p => p.owner)
-            .ToListAsync();
-
-            var vm = new AppointmentVm
-            {
-                IPetFollowUps = PetFollowUp,
-                Services = await _context.Services.ToListAsync()
-            };
-
-            return vm;
-        }
-
-        public async Task<IActionResult> Index()
-        {
-           return View(await GetAllRecords());
-        }
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Cancel(int? id)
@@ -64,10 +36,14 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             _context.Update(PetFollowUp);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index");
+            var vm = new AppointmentVm();
+            vm.activeAppointTab = AppointmentTab.followUp;
+            vm.updated = true;
+            return RedirectToAction("Dashboard", "Appointments",vm);
+
         }
 
-       public async Task<IActionResult> Attend(int? id)
+        public async Task<IActionResult> Attend(int? id)
         {
             if (id == null)
             {
@@ -87,8 +63,40 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             _context.Update(PetFollowUp);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index");
+            var vm = new AppointmentVm();
+            vm.activeAppointTab = AppointmentTab.followUp;
+            vm.updated = true;
+            return RedirectToAction("Dashboard", "Appointments", vm);
         }
 
+        #region == index (abandoned)
+        /* public async Task<AppointmentVm> GetAllRecords()
+         {
+             var PetFollowUp = await _context.PetFollowUps
+             .Where(p => string.IsNullOrEmpty(p.status))
+             .Include(f => f.Diagnostics)
+                 .ThenInclude(d => d.IdiagnosticDetails)
+                     .ThenInclude(d => d.Services)
+             .Include(f => f.Diagnostics)
+                 .ThenInclude(d => d.pet)
+                     .ThenInclude(p => p.owner)
+             .ToListAsync();
+
+             var vm = new AppointmentVm
+             {
+                 IPetFollowUps = PetFollowUp,
+                 Services = await _context.Services.ToListAsync()
+             };
+
+             return vm;
+         }
+
+         public async Task<IActionResult> Index()
+         {
+            return View(await GetAllRecords());
+         }*/
+        #endregion
     }
 }
+
+
