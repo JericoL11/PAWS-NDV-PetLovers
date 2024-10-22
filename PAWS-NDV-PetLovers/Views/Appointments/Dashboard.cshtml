@@ -41,7 +41,7 @@
                     break;
 
                 case PAWS_NDV_PetLovers.ViewModels.AppointmentTab.monitoring:
-                @await Component.InvokeAsync("Monitoring", new { logical_dateError = Model.logical_dateError, null_dateError = Model.null_dateError })
+                    @await Component.InvokeAsync("Monitoring", new {vcm = Model})
                 break;
 
             default:

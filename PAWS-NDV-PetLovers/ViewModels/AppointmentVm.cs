@@ -37,7 +37,7 @@ namespace PAWS_NDV_PetLovers.ViewModels
         public AppointmentTab activeAppointTab { get; set; }
 
 
-
+        //monitoring prperties
         public bool? updated { get; set; }
         public bool? created { get; set; }
 
@@ -50,13 +50,15 @@ namespace PAWS_NDV_PetLovers.ViewModels
 
         public DateTime? endDate { get; set; }
 
-        public string SelectType { get; set; }
+        public string? SelectType { get; set; }
 
-        public bool Filtered { get; set; }
+        public bool? Filtered { get; set; }
 
-        public string reportType { get; set; }
+        public string? reportType { get; set; }
 
+        public IEnumerable<Appointment> IEAppointment { get; set; }
 
+        public IEnumerable<PetFollowUps> IEPetFollowUps { get; set; }
     }
 
     public enum AppointmentTab

@@ -21,6 +21,9 @@ namespace PAWS_NDV_PetLovers.ViewModels
 
         public string reportType { get; set; }
 
+        public bool? logical_dateError { get; set; }
+        public bool? null_dateError { get; set; }
+
         public IEnumerable<Appointment> IAppointment { get; set; }
 
         public IEnumerable<PetFollowUps> IPetFollowUps { get; set; }

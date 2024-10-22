@@ -205,12 +205,13 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
                 }
                 else if (hour >= 1 && hour <= 4) // PM Times
                 {
+                    var addHour = hour + 12;
                     var timePm = $"{hour}:00";
 
                     if (dateFromView == today)
                     {
                         // Only add PM times greater than the current hour
-                        if (!convertedToString.Contains(timePm) && hour < currentHour)
+                        if (!convertedToString.Contains(timePm) && addHour > currentHour)
                         {
                             pm.Add(timePm + " pm");
                         }
