@@ -4,20 +4,15 @@
 }
 
 
-<div class="container p-0 bg container-bord">
-    <div class="container p-0">
-
-        <div class="container p-0  bg-custom-color">
-            <div>
-                <div class="container p-2">
-                    <h1>Appointment Report</h1>
-                </div>
-            </div>
-        </div>
-
-        <form method="post" asp-action="AppointmentsReport" id="viewForm" class="p-5">
-            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-            <div class="row">
+<div class="bg-custom-color bg-secondary bg-opacity-10 mb-3 py-2">
+    <div class="container">
+        <h1>Appointment Report</h1>
+    </div>
+</div>
+<div class="container">
+    <form method="post" asp-action="AppointmentsReport" asp-controller="PawsReport" id="viewForm">
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+        <div class="row">
 
                 <div class="form-group col-lg-2 col-auto">
                     <label for="reportType">Report Type</label>

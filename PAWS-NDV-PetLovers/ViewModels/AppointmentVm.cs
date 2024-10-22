@@ -46,7 +46,8 @@ namespace PAWS_NDV_PetLovers.ViewModels
     public enum AppointmentTab
     {
         booking,
-        followUp
+        followUp,
+        monitoring
     };
 
 

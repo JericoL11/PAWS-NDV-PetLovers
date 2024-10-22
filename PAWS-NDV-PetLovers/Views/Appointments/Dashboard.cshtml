@@ -26,19 +26,15 @@
                         <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="followUp" class="@(Model.activeAppointTab == PAWS_NDV_PetLovers.ViewModels.AppointmentTab.followUp ? "active" : string.Empty) btn btn-success btn-followup mx-2 px-4">Follow-up</a>
                     </li>
 
-                    <li>
-                        <!-- Set current date as default -->
-                        <a asp-action="Create" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")" class="btn btn-primary px-4 bg-custom-btn">
-                            Add New Booking
-                        </a>
-                        <!-- <a asp-action="AppointmentHistory" class="btn btn-success px-4">History</a> -->
-                    </li>
+                <li>
+                    <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="followUp" class="@(Model.activeAppointTab == PAWS_NDV_PetLovers.ViewModels.AppointmentTab.followUp ? "active" : string.Empty) btn btn-outline-success px-4">Follow-up</a>
+                </li>
 
-
-                </ul>
-
-                
-            </div>
+            <li>
+                <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="monitoring" class="@(Model.activeAppointTab == PAWS_NDV_PetLovers.ViewModels.AppointmentTab.monitoring ? "active" : string.Empty) btn btn-outline-success px-4">Monitoring</a>
+            </li>
+            </ul>
+        </div>
 
 
             @switch (Model.activeAppointTab)
@@ -51,10 +47,14 @@
                     @await Component.InvokeAsync("FollowUp", new {updated = Model.updated})
                     break;
 
-                default:
-                    @await Component.InvokeAsync("Booking", new { updated = Model.updated, created = Model.created })
-                    break;
-            }
+            case PAWS_NDV_PetLovers.ViewModels.AppointmentTab.monitoring:
+                @await Component.InvokeAsync("Monitoring")
+            break;
+
+            default:
+                @await Component.InvokeAsync("Booking", new { updated = Model.updated, created = Model.created })
+                break;
+        }
 
     
 
