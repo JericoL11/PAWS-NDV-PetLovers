@@ -566,6 +566,7 @@ table thead tr {
 table {
     border-color: #469387;
     background-color: white;
+    
 }
 
 .bg-custom-color {
@@ -632,6 +633,24 @@ table {
     outline:none;
     box-shadow:none;
 }
+
+.btn-success{
+
+    background-color: #469387 !important;
+    border-color: #469387 !important;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    outline: none;
+    box-shadow: none;
+}
+
+    .btn-success:hover,
+    .btn-success:active{
+        background-color: #efc65de8 !important;
+        color: black;
+        border-color: #efc65de8;
+    }
 
 
 /*BUTTONS COLOR AND HOVER END*/

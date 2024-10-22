@@ -2,74 +2,76 @@
 @{
     ViewData["Title"] = "DBoard Diagnostics VC -> Invoice Diagnostics";
 }
-<div class="container">
-    <table class="table table-striped  ComponentTable">
-        <thead>
-            <tr>
-                <th>Diagnostic Id</th>
-                <th>Owner ID - Name</th>
-                <th>Pet Id - Name</th>
-                <th>Services</th>
-                <th>Date</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.IDiagnostics)
-            {
+
+<div class="card p-3">
+    <div class="table-responsive text-center">
+        <table class="table table-bordered ComponentTable">
+            <thead>
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.diagnostic_Id)</td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.pet.owner.fname)
-                        @Html.Raw(' ')
-                        @Html.DisplayFor(modelItem => item.pet.owner.lname)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.pet.petName)
-                    </td>
-                    <td>
-
-                        @*For New Line every new service Name*@
-                        @* @{
-                            var diagnosticDetails = item.IdiagnosticDetails
-                            .Select(d => d.Services.serviceName)
-                            .Distinct();
-                            var Services = string.Join(" , ", diagnosticDetails);
-                        }
-                        @Html.Raw(Services.Replace(",", "<br>")) *@
-
-                        @{
-                            var diagnosticDetails = item.IdiagnosticDetails
-                        .Select(d => d.Services.serviceName);
-
-
-                            var service = diagnosticDetails.Take(2);
-                            var remainingService = diagnosticDetails.Skip(2);
-        
-                        }
-                      <span>
-                            @string.Join(", ", service) <!-- Display first 2 services -->
-                            @if (diagnosticDetails.Count() > 2)
-                            {
-                                <strong>
-                                    <!-- Display ellipsis and remaining services as a tooltip -->
-                                    <span title="@string.Join(", ", remainingService)">
-                                        ...
-                                    </span>
-                                </strong>
-                            }
-                      </span>
-                    </td>
-                    <td>
-                        @item.date?.ToString("MMM. dd, yyyy")
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.diagnostic_Id" asp-controller="Billing" class="btn btn-outline-primary px-3">Modify</a>
-                    </td>
+                    <th class="text-center">Diagnostic Id</th>
+                    <th class="text-center">Owner ID - Name</th>
+                    <th class="text-center">Pet Id - Name</th>
+                    <th class="text-center">Services</th>
+                    <th class="text-center">Date</th>
+                    <th class="text-center">Actions</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.IDiagnostics)
+                {
+                    <tr>
+                        <td class="text-center">@Html.DisplayFor(modelItem => item.diagnostic_Id)</td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.pet.owner.fname)
+                            @Html.Raw(' ')
+                            @Html.DisplayFor(modelItem => item.pet.owner.lname)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.pet.petName)
+                        </td>
+                        <td>
 
+                            @*For New Line every new service Name*@
+                            @* @{
+                                var diagnosticDetails = item.IdiagnosticDetails
+                                .Select(d => d.Services.serviceName)
+                                .Distinct();
+                                var Services = string.Join(" , ", diagnosticDetails);
+                            }
+                            @Html.Raw(Services.Replace(",", "<br>")) *@
+
+                            @{
+                                var diagnosticDetails = item.IdiagnosticDetails
+                            .Select(d => d.Services.serviceName);
+
+
+                                var service = diagnosticDetails.Take(2);
+                                var remainingService = diagnosticDetails.Skip(2);
+        
+                            }
+                          <span>
+                                @string.Join(", ", service) <!-- Display first 2 services -->
+                                @if (diagnosticDetails.Count() > 2)
+                                {
+                                    <strong>
+                                        <!-- Display ellipsis and remaining services as a tooltip -->
+                                        <span title="@string.Join(", ", remainingService)">
+                                            ...
+                                        </span>
+                                    </strong>
+                                }
+                          </span>
+                        </td>
+                        <td>
+                            @item.date?.ToString("MMM. dd, yyyy")
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.diagnostic_Id" asp-controller="Billing" class="btn btn-outline-primary px-3">Modify</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
  <script src="~/js/ComponentsTable/ComponentsTable.js" defer></script>
