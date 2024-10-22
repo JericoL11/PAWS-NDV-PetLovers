@@ -4,62 +4,66 @@
 }
 
 
-<div class="container">
-    <div class="container bg-white p-0 container-appointments">
+<div class="container p-0 bg container-bord mb-3">
+    <div class="container  p-0">
 
-        <div>
-            <div class="container bg p-2">
-                <h1>Set Booking</h1>
+        <div class="container p-0 bg-custom-color sticky-header">
+            <div>
+                <div class="container p-2">
+                    <h1>Set Booking</h1>
+                </div>
             </div>
         </div>
 
-<div class="container">
-    <div class="pt-4 p-3">
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-warning" style="background-color:#efc65de8;border-color:#efc65de8;color:black; font-weight:bold;font-size:15px;" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                    Existing Record
-                </button>
+            </div>
+
+                <div class="container p-0 ">
+                    <div class="pt-4 p-3">
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-warning btn-exrecord" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                    Existing Record
+                                </button>
 
                @*  <a class="btn btn-primary" style="background-color:#469387;border-color:#469387;color:white; font-weight:bold;font-size:15px; " asp-action="Create" asp-controller="Owners">Register New Owner</a>
         *@
     </div>
 
-        <form asp-action="Create" method="post">
+                        <form asp-action="Create" method="post" class="p-0">
 
 
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <div class="row row-appointments">
-            <!-- Owner fields -->
-            <div class="form-group col-lg-4 visually-hidden" >
-                <label asp-for="Appointment.ownerId" class="control-label" id="apppad"></label>
-                <input id="ownerId" asp-for="Appointment.ownerId" class="form-control" readonly />
-                <span asp-validation-for="Appointment.ownerId" class="text-danger"></span>
-            </div>
+                        <div class="row row-appointments">
+                            <!-- Owner fields -->
+                            <div class="form-group col-lg-4 visually-hidden" >
+                                <label asp-for="Appointment.ownerId" class="control-label" id="apppad"></label>
+                                <input id="ownerId" asp-for="Appointment.ownerId" class="form-control" readonly />
+                                <span asp-validation-for="Appointment.ownerId" class="text-danger"></span>
+                            </div>
 
-                    <div class="form-group col-lg-4 col-12 col-md-6" id="apppad">
-                <label asp-for="Appointment.fname" class="control-label" ></label>
-                <input id="fname" asp-for="Appointment.fname" class="form-control" />
-                <span asp-validation-for="Appointment.fname" class="text-danger"></span>
-            </div>
+                                    <div class="form-group col-lg-4 col-12 col-md-6" id="apppad">
+                                <label asp-for="Appointment.fname" class="control-label" ></label>
+                                <input id="fname" asp-for="Appointment.fname" class="form-control" />
+                                <span asp-validation-for="Appointment.fname" class="text-danger"></span>
+                            </div>
 
-                <div class="form-group col-lg-4 col-12 col-md-6" id="apppad">
-                    <label asp-for="Appointment.lname" class="control-label"></label>
-                    <input id="lname" asp-for="Appointment.lname" class="form-control" />
-                    <span asp-validation-for="Appointment.lname" class="text-danger"></span>
-                </div>
+                                <div class="form-group col-lg-4 col-12 col-md-6" id="apppad">
+                                    <label asp-for="Appointment.lname" class="control-label"></label>
+                                    <input id="lname" asp-for="Appointment.lname" class="form-control" />
+                                    <span asp-validation-for="Appointment.lname" class="text-danger"></span>
+                                </div>
 
-                <div class="form-group col-lg-4 col-12 col-md-6" id="apppad">
-                    <label asp-for="Appointment.mname" class="control-label"></label>
-                    <input id="mname" asp-for="Appointment.mname" class="form-control" />
-                    <span asp-validation-for="Appointment.mname" class="text-danger"></span>
-                </div>
+                                <div class="form-group col-lg-4 col-12 col-md-6" id="apppad">
+                                    <label asp-for="Appointment.mname" class="control-label"></label>
+                                    <input id="mname" asp-for="Appointment.mname" class="form-control" />
+                                    <span asp-validation-for="Appointment.mname" class="text-danger"></span>
+                                </div>
 
-                <div class="form-group col-lg-4 col-12 col-md-6" id="apppad">
-                    <label asp-for="Appointment.contact" class="control-label"></label>
-                    <input id="contact" asp-for="Appointment.contact" class="form-control" />
-                    <span asp-validation-for="Appointment.contact" class="text-danger"></span>
-                </div>
+                                <div class="form-group col-lg-4 col-12 col-md-6" id="apppad">
+                                    <label asp-for="Appointment.contact" class="control-label"></label>
+                                    <input id="contact" asp-for="Appointment.contact" class="form-control" />
+                                    <span asp-validation-for="Appointment.contact" class="text-danger"></span>
+                                </div>
 
                 <div class="form-group col-lg-4 col-12 col-md-6" id="apppad">
                     <label asp-for="Appointment.date" class="control-label"></label>
@@ -67,78 +71,97 @@
                     <span asp-validation-for="Appointment.date" class="text-danger"></span>
                 </div>
 
-                <div class="form-group col-lg-4 col-12 col-md-6" id="apppad">
-                    <label asp-for="Appointment.time" class="control-label"></label>
-                    <select id="timeDropdown" name="Appointment.time" class="form-control" required>
-                        <!-- Times will be loaded here -->
-                    </select>
-                    <span asp-validation-for="Appointment.time" class="text-danger"></span>
-                </div>
+                                <div class="form-group col-lg-4 col-12 col-md-6" id="apppad">
+                                    <label asp-for="Appointment.time" class="control-label"></label>
+                                    <select id="timeDropdown" name="Appointment.time" class="form-control" required>
+                                        <!-- Times will be loaded here -->
+                                    </select>
+                                    <span asp-validation-for="Appointment.time" class="text-danger"></span>
+                                </div>
 
            
-            <!-- Services Table -->
-            <div class="row mt-4 ">
-                <div class="container ">
-                                <div class="container pt-2  p-0">
-                                    <h1>Service</h1>
+                            <!-- Services Table -->
+                            <div class="container-fluid mt-4 p-0 ">
+                                <div class="container p-0 pt-3 ">
+
+                                    <div class="container p-0 bg-secustom-color">
+
+                                        <div>
+                                            <div class="container p-2">
+                                                <h1>Service</h1>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                        <div class="card p-3">
+                                             <div class="row">
+                                                <div class="form-group text-end">
+                                               
+                                                        <th class="text-end"><button type="button" class="btn btn-success" id="addRow" style="background-color:#469387;border-color:#469387;color:white; font-weight:bold;font-size:15px; ">Add Row</button> </th>
+                                               
+                                                </div>   
+
+                                                <div class="table-responsive  text-center"> 
+                                                    <table class="table table table-bordered hover text-center  mt-2" id="DetailsTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Select Service</th>
+                                                            <th colspan="1" class="col-lg-2">Actions</th>
+                                                     
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="detailRow">
+                                                            <td>
+                                                                <select name="Appointment.IAppDetails[0].serviceId" class="service-select form-select" required>
+                                                                    <option value="" data-price="0" disabled selected>Select Service</option>
+
+                                                                    @foreach (var service in Model.IlistServices.Where(s => s.serviceType == "NA"))
+                                                                    {
+                                                                        <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-type="@service.serviceType.ToLower()" data-service-name="@service.serviceName.ToLower()">
+                                                                            @service.serviceName
+                                                                        </option>
+                                                                    }
+
+                                                                    @* for display laboratory items *@
+                                                                    @{
+                                                                        //check services
+                                                                        var checkTypes = Model.IlistServices
+                                                                        .Select(s => s.serviceType)
+                                                                        .Distinct();
+
+                                                                        var type = string.Join(",", checkTypes).ToLower();
+
+                                                                    }
+                                                                    @if (type.Contains("lab"))
+                                                                    {
+                                                                        <optgroup label="Laboratory test">
+                                                                            @foreach (var service in Model.IlistServices.Where(s => s.serviceType != "NA"))
+                                                                            {
+                                                                                <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-type="@service.serviceType.ToLower()" data-service-name="@service.serviceName.ToLower()">
+                                                                                    @service.serviceName
+                                                                                </option>
+                                                                            }
+                                                                        </optgroup>
+                                                                    }
+
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-danger removeRow">Remove</button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                </div>
+                                             </div>
+                                        </div>
                                 </div>
-                           
-                        <table class="table mt-2" id="DetailsTable">
-                            <thead>
-                                <tr>
-                                    <th>Select Service</th>
-                                    <th colspan="1">Actions</th>
-                                        <th class="text-end"><button type="button" class="btn btn-success" id="addRow" style="background-color:#469387;border-color:#469387;color:white; font-weight:bold;font-size:15px; ">Add Row</button> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="detailRow">
-                                    <td>
-                                        <select name="Appointment.IAppDetails[0].serviceId" class="service-select form-select" required>
-                                            <option value="" data-price="0" disabled selected>Select Service</option>
-
-                                            @foreach (var service in Model.IlistServices.Where(s => s.serviceType == "NA"))
-                                            {
-                                                <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-type="@service.serviceType.ToLower()" data-service-name="@service.serviceName.ToLower()">
-                                                    @service.serviceName
-                                                </option>
-                                            }
-
-                                            @* for display laboratory items *@
-                                            @{
-                                                //check services
-                                                var checkTypes = Model.IlistServices
-                                                .Select(s => s.serviceType)
-                                                .Distinct();
-
-                                                var type = string.Join(",", checkTypes).ToLower();
-
-                                            }
-                                            @if (type.Contains("lab"))
-                                            {
-                                                <optgroup label="Laboratory test">
-                                                    @foreach (var service in Model.IlistServices.Where(s => s.serviceType != "NA"))
-                                                    {
-                                                        <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-type="@service.serviceType.ToLower()" data-service-name="@service.serviceName.ToLower()">
-                                                            @service.serviceName
-                                                        </option>
-                                                    }
-                                                </optgroup>
-                                            }
-
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-outline-danger removeRow">Remove</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                            </div>
 
             <!-- Submit and Cancel buttons -->
-            <div class="form-group mt-3">
+            <div class="form-group text-end mt-3 mb-3">
                 <a asp-action="Dashboard" class="btn btn-secondary px-4">Cancel</a>
                 <input type="submit" value="Create" class="btn btn-primary px-4" />
             </div>
@@ -147,8 +170,8 @@
 </div>
 
 <!-- Modal for selecting existing records -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal fade   modal-f " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content" id="modalapp">
             <div class="modal-header" id="headapp">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Select Record</h1>
@@ -197,117 +220,117 @@
             </div>
         </div>
     </div>
-</div>
 
-<script src="~/js/RecordsDataTables/OwnerTable.js" defer></script>
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-    <script>
-        $(document).ready(function () {
-            // Function to update row names
-            function updateRowNames() {
-                $('#DetailsTable tbody tr').each(function (index) {
-                    $(this).find('input, select').each(function () {
-                        var name = $(this).attr('name');
-                        if (name) {
-                            var newName = name.replace(/\d+/, index);
-                            $(this).attr('name', newName);
+
+        <script src="~/js/RecordsDataTables/OwnerTable.js" defer></script>
+        @section Scripts {
+            @{
+                await Html.RenderPartialAsync("_ValidationScriptsPartial");
+            }
+            <script>
+                $(document).ready(function () {
+                    // Function to update row names
+                    function updateRowNames() {
+                        $('#DetailsTable tbody tr').each(function (index) {
+                            $(this).find('input, select').each(function () {
+                                var name = $(this).attr('name');
+                                if (name) {
+                                    var newName = name.replace(/\d+/, index);
+                                    $(this).attr('name', newName);
+                                }
+                            });
+                        });
+                    }
+
+                    // Add row
+                    $('#addRow').click(function () {
+                        var rowCount = $('#DetailsTable tbody tr').length;
+                        var newRow = $('.detailRow').first().clone();
+
+                        newRow.find('input, select').each(function () {
+                            var name = $(this).attr('name');
+                            if (name) {
+                                var newName = name.replace(/\d+/, rowCount);
+                                $(this).attr('name', newName);
+                            }
+                            $(this).val(''); // Clear the value of the input/select
+                        });
+
+                        newRow.appendTo($('#DetailsTable tbody'));
+                        updateRowNames();
+                    });
+
+                    // Remove row
+                    $(document).on('click', '.removeRow', function () {
+                        if ($('#DetailsTable tbody tr').length > 1) {
+                            $(this).closest('tr').remove();
+                            updateRowNames(); // Update the name attributes of the remaining rows
                         }
                     });
-                });
-            }
 
-            // Add row
-            $('#addRow').click(function () {
-                var rowCount = $('#DetailsTable tbody tr').length;
-                var newRow = $('.detailRow').first().clone();
+                    $('#SelectOwnerButton').click(function () {
+                        var selectedOwner = $('input[name="SelectedOwnerId"]:checked');
+                        if (selectedOwner.length > 0) {
+                            var ownerId = selectedOwner.data('ownerid');  // Ensure this matches the data attribute used
+                            var fname = selectedOwner.data('fname');
+                            var lname = selectedOwner.data('lname');
+                            var mname = selectedOwner.data('mname');
+                            var contact = selectedOwner.data('contact');
 
-                newRow.find('input, select').each(function () {
-                    var name = $(this).attr('name');
-                    if (name) {
-                        var newName = name.replace(/\d+/, rowCount);
-                        $(this).attr('name', newName);
-                    }
-                    $(this).val(''); // Clear the value of the input/select
-                });
+                            // Populate the form fields
+                            $('#ownerId').val(ownerId);
+                            $('#fname').val(fname);
+                            $('#lname').val(lname);
+                            $('#mname').val(mname);
+                            $('#contact').val(contact);
 
-                newRow.appendTo($('#DetailsTable tbody'));
-                updateRowNames();
-            });
-
-            // Remove row
-            $(document).on('click', '.removeRow', function () {
-                if ($('#DetailsTable tbody tr').length > 1) {
-                    $(this).closest('tr').remove();
-                    updateRowNames(); // Update the name attributes of the remaining rows
-                }
-            });
-
-            $('#SelectOwnerButton').click(function () {
-                var selectedOwner = $('input[name="SelectedOwnerId"]:checked');
-                if (selectedOwner.length > 0) {
-                    var ownerId = selectedOwner.data('ownerid');  // Ensure this matches the data attribute used
-                    var fname = selectedOwner.data('fname');
-                    var lname = selectedOwner.data('lname');
-                    var mname = selectedOwner.data('mname');
-                    var contact = selectedOwner.data('contact');
-
-                    // Populate the form fields
-                    $('#ownerId').val(ownerId);
-                    $('#fname').val(fname);
-                    $('#lname').val(lname);
-                    $('#mname').val(mname);
-                    $('#contact').val(contact);
-
-                    // Hide the modal
-                    $('#staticBackdrop').modal('hide');
-                } else {
-                    alert("Please select an owner.");
-                }
-            });
+                            // Hide the modal
+                            $('#staticBackdrop').modal('hide');
+                        } else {
+                            alert("Please select an owner.");
+                        }
+                    });
 
 
-            function fetchAvailableTimes() {
-                var selectedDate = $('#appointmentDate').val();
+                    function fetchAvailableTimes() {
+                        var selectedDate = $('#appointmentDate').val();
 
-                if (selectedDate) {
-                    $.ajax({
-                        url: '@Url.Action("GetAvailableTimes", "Appointments")',
-                        type: 'GET',
-                        data: { date: selectedDate },
-                        success: function (data) {
-                            var timeDropdown = $('#timeDropdown');
-                            timeDropdown.empty(); // Clear existing options
+                        if (selectedDate) {
+                            $.ajax({
+                                url: '@Url.Action("GetAvailableTimes", "Appointments")',
+                                type: 'GET',
+                                data: { date: selectedDate },
+                                success: function (data) {
+                                    var timeDropdown = $('#timeDropdown');
+                                    timeDropdown.empty(); // Clear existing options
 
-                            var hasAvailableTimes = false;
+                                    var hasAvailableTimes = false;
 
-                            // Add AM options
-                            if (data.availableAM && data.availableAM.length > 0) {
-                                var amGroup = $('<optgroup>', { label: 'Morning' });
-                                $.each(data.availableAM, function (index, value) {
-                                    amGroup.append($('<option>', {
-                                        value: value,
-                                        text: value + ' am'
-                                    }));
-                                });
-                                timeDropdown.append(amGroup);
-                                hasAvailableTimes = true;
-                            }
+                                    // Add AM options
+                                    if (data.availableAM && data.availableAM.length > 0) {
+                                        var amGroup = $('<optgroup>', { label: 'Morning' });
+                                        $.each(data.availableAM, function (index, value) {
+                                            amGroup.append($('<option>', {
+                                                value: value,
+                                                text: value + ' am'
+                                            }));
+                                        });
+                                        timeDropdown.append(amGroup);
+                                        hasAvailableTimes = true;
+                                    }
 
-                            // Add PM options
-                            if (data.availablePM && data.availablePM.length > 0) {
-                                var pmGroup = $('<optgroup>', { label: 'Afternoon' });
-                                $.each(data.availablePM, function (index, value) {
-                                    pmGroup.append($('<option>', {
-                                        value: value,
-                                        text: value
-                                    }));
-                                });
-                                timeDropdown.append(pmGroup);
-                                hasAvailableTimes = true;
-                            }
+                                    // Add PM options
+                                    if (data.availablePM && data.availablePM.length > 0) {
+                                        var pmGroup = $('<optgroup>', { label: 'Afternoon' });
+                                        $.each(data.availablePM, function (index, value) {
+                                            pmGroup.append($('<option>', {
+                                                value: value,
+                                                text: value
+                                            }));
+                                        });
+                                        timeDropdown.append(pmGroup);
+                                        hasAvailableTimes = true;
+                                    }
 
                             // If no available times, add "Fully booked" option
                             if (!hasAvailableTimes) {
@@ -327,15 +350,19 @@
             }
 
 
-            // Trigger the date change event on page load if date is pre-filled
-            if ($('#appointmentDate').val()) {
-                fetchAvailableTimes();
-            }
+                    // Trigger the date change event on page load if date is pre-filled
+                    if ($('#appointmentDate').val()) {
+                        fetchAvailableTimes();
+                    }
 
             $('#appointmentDate').change(fetchAvailableTimes);
         });
         //console.log('Selected Owner ID:', ownerId);
 
-    </script>
+            </script>
 
-}
+        }
+
+</div>
+
+</div>

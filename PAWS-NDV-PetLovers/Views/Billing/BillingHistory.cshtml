@@ -2,11 +2,18 @@
 @{
     ViewData["Title"] = "Billing History -> ALL TRANSACTION HISTORY";
 }
-<div class="bg-secondary bg-opacity-10 mb-3 py-2">
-    <div class="container">
-        <h3>Transaction History</h3>
-    </div>
-</div>
+
+<div class="container p-0 bg container-bord">
+
+    <div class="container p-0">
+
+        <div class="container p-0  bg-custom-color">
+            <div>
+                <div class="container p-2">
+                    <h1>Transaction History</h1>
+                </div>
+            </div>
+        </div>
 
 <div class="container">
    <ul class="nav">
@@ -17,24 +24,23 @@
 </div>
 
 
-<div class="container">
+        @switch (Model.activeHistoryTab)
+        {
+            case PAWS_NDV_PetLovers.ViewModels.BillingHistoryTab.All:
+                @await Component.InvokeAsync("AllBillingHistory")
+                break;
 
-    @switch (Model.activeHistoryTab)
-    {
-        case PAWS_NDV_PetLovers.ViewModels.BillingHistoryTab.All:
-            @await Component.InvokeAsync("AllBillingHistory")
-            break;
+            case PAWS_NDV_PetLovers.ViewModels.BillingHistoryTab.Diagnostics:
+                @await Component.InvokeAsync("DiagnosticBillingHistory")
+                break;
 
-        case PAWS_NDV_PetLovers.ViewModels.BillingHistoryTab.Diagnostics:
-            @await Component.InvokeAsync("DiagnosticBillingHistory")
-            break;
-
-        case PAWS_NDV_PetLovers.ViewModels.BillingHistoryTab.Purchase:
-            @await Component.InvokeAsync("PurchaseBillingHistory")
-            break;
+            case PAWS_NDV_PetLovers.ViewModels.BillingHistoryTab.Purchase:
+                @await Component.InvokeAsync("PurchaseBillingHistory")
+                break;
         
-        default:
-            @await Component.InvokeAsync("AllBillingHistory")
-            break;
-    }
+            default:
+                @await Component.InvokeAsync("AllBillingHistory")
+                break;
+        }
+    </div>
 </div>

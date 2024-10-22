@@ -16,94 +16,102 @@
 }
  
 
-<div class="bg-secondary bg-custom-color bg-opacity-10 py-2 mb-3 ">
-    <div class="container ">
-        <h1>Owner Dashboard</h1>
-    </div>
-</div>
 
 
+<div class="container-fluid bg p-0 container-bord">
 
-<div class="container">
-    <div class="d-flex justify-content-end">
-        <a class="btn btn-primary btn-md mb-4  me-2 bg-custom-btn " asp-action="Create">Add new Owner</a>
-        <a class="btn btn-primary btn-md mb-4 px-4 bg-custom-btn" asp-action="Index" asp-controller="Pets">View Pet List</a>
-    </div>
-   
-    <table class="table table-bordered box-shadow hover row-border " id="OwnerTable">
-    <thead> 
+    <div class="container  p-0">
 
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.id)
-            </th>
-            <th>
-               <span style="margin:0">Full Name</span>
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.gender)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.contact)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.address)
+        <div class="container p-0  bg-custom-color">
+            <div>
+                <div class="container p-2">
+                    <h1>Owner Dashboard</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end pt-3 px-3">
+            <a class="btn btn-primary btn-md mb-4  me-2 bg-custom-btn " asp-action="Create">Add new Owner</a>
+            <a class="btn btn-primary btn-md mb-4 px-4 bg-custom-btn" asp-action="Index" asp-controller="Pets">View Pet List</a>
+        </div>
+            <div class="card p-3">
+                <div class="table-responsive">
+                <table class="table table-bordered hover" id="OwnerTable">
+                    <thead> 
+
+                        <tr class="text-center">
+                            <th>
+                                @Html.DisplayNameFor(model => model.id)
+                            </th>
+                            <th>
+                               <span style="margin:0">Full Name</span>
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.gender)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.contact)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.email)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.address)
                    
-            </th>
-            <th>
-               @Html.DisplayNameFor(model => model.registeredDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr >
-            <td>
-                @Html.DisplayFor(modelItem => item.id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.fname)
-                @Html.Raw(' ')
-                @Html.DisplayFor(modelItem => item.mname)
-                @Html.Raw(' ')
-                @Html.DisplayFor(modelItem => item.lname)
-            </td>
+                            </th>
+                            <th>
+                               @Html.DisplayNameFor(model => model.registeredDate)
+                            </th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                @foreach (var item in Model) {
+                        <tr class="text-center" >
+                            <td class="text-center">
+                                @Html.DisplayFor(modelItem => item.id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.fname)
+                                @Html.Raw(' ')
+                                @Html.DisplayFor(modelItem => item.mname)
+                                @Html.Raw(' ')
+                                @Html.DisplayFor(modelItem => item.lname)
+                            </td>
          
-            <td>
-                @Html.DisplayFor(modelItem => item.gender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.contact)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.address)
-            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.gender)
+                            </td>
+                            <td class="text-center">
+                                @Html.DisplayFor(modelItem => item.contact)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.address)
+                            </td>
 
-            <td>
-                @item.registeredDate?.ToString("MMM. dd, yyyy")
-            </td>
+                            <td>
+                                @item.registeredDate?.ToString("MMM. dd, yyyy")
+                            </td>
 
-            <td>
+                            <td class="text-center">
 
-                <a asp-action="Edit" class="btn btn-success btn-sm px-3" asp-route-id="@item.id">View</a>
-              @*   <a asp-action="Details" class="btn btn-warning btn-sm" asp-route-id="@item.id">Details</a>  *@
-             @*    <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.id">Delete</a>     *@
+                                <a asp-action="Edit" class="btn btn-success btn-sm px-3" asp-route-id="@item.id">View</a>
+                              @*   <a asp-action="Details" class="btn btn-warning btn-sm" asp-route-id="@item.id">Details</a>  *@
+                             @*    <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.id">Delete</a>     *@
 
 
-            </td>
-        </tr>
-}
-    </tbody>
-    </table>
+                            </td>
+                        </tr>
+                }
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
 </div>
-
 
 @section Scripts {
     @{

@@ -3,61 +3,79 @@
     ViewData["Title"] = "Create Purchase";
 }
 
-<div class="bg-secondary bg-opacity-10 mb-3 py-2">
-    <div class="container">
-        <h3>Create New Purchase</h3>
-    </div>
-</div>
 
-<div class="container">
+<div class="container p-0 bg container-bord">
+    <div class="container p-0">
 
-
-    <form method="post" asp-action="CreatePurchase">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="row">
-            <div class="form-group col-lg-3 col-md-6">
-                <label asp-for="Purchase.customerName" class="control-label"></label>
-                <input asp-for="Purchase.customerName" class="form-control" placeholder="(Optional)" />
-            </div>
-
-            <div class="form-group  col-lg-3">
-                <label asp-for="Purchase.date" class="control-label"></label>
-                <input asp-for="Purchase.date" class="form-control dateInput" readonly />
+        <div class="container p-0  bg-custom-color">
+            <div>
+                <div class="container p-2">
+                    <h1>Create New Purchase</h1>
+                </div>
             </div>
         </div>
 
-        <table class="table mt-4 border text-center" id="purchaseTable">
-            <thead>
-                <tr>
-                    <th class="text-center">Product Id</th>
-                    <th class="text-center">Name</th>
-                    <th class="text-center">Category</th>
-                    <th class="text-center">Stock</th>
-                    <th class="text-center">Price</th>
-                    <th>Order Quantity</th>
-                    <th>
+
+        <form method="post" asp-action="CreatePurchase">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row pt-5 px-3">
+                <div class="form-group col-lg-3 col-md-6">
+                    <label asp-for="Purchase.customerName" class="control-label"></label>
+                    <input asp-for="Purchase.customerName" class="form-control" placeholder="(Optional)" />
+                </div>
+
+                <div class="form-group  col-lg-3">
+                    <label asp-for="Purchase.date" class="control-label"></label>
+                    <input asp-for="Purchase.date" class="form-control dateInput" readonly />
+
+                </div>
+
+                            
+                    <div class="form-group text-end ">
                         <button type="button" id="AddProductBtn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                             Select Product
                         </button>
-                    </th>
-                </tr>
-            </thead>
+                    </div>
 
-            <tbody>
+                
+               
+            </div>
+
+            
+
+            <div class="card p-3">
+                <div class="table-responsive">
+                    <table class="table table table table-bordered text-center hover  mt-4" id="purchaseTable">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Product Id</th>
+                                <th class="text-center">Name</th>
+                                <th class="text-center">Category</th>
+                                <th class="text-center">Stock</th>
+                                <th class="text-center">Price</th>
+                                <th>Order Quantity</th>
+                                
+                            </tr>
+                        </thead>
+
+                        <tbody>
       
-                <!--PRODUCT WILL DISPLAY HERE-->
+                            <!--PRODUCT WILL DISPLAY HERE-->
 
-            </tbody>
+                        </tbody>
 
-        </table>
-         <div class="mt-4">
-            <a asp-action="SwitchToDboardTab" asp-route-tabName="DBoard_Purchase" class=" btn btn-secondary">Cancel</a>
-            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
-        </div>
+                    </table>
+                </div>
+            </div>
+
+             <div class="modal-footer text-end mt-2 px-3">
+                <a asp-action="SwitchToDboardTab" asp-route-tabName="DBoard_Purchase" class=" btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+            </div>
        
-    </form>
+        </form>
+    </div>
 </div>
-
 <!-- Modal for selecting Products  / Select Product - INDEX-->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">

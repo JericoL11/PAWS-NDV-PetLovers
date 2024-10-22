@@ -13,57 +13,58 @@
     </div>
 }
 
-<div class="container">
-    <table class="table" id="PetFollowUpTable">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Pet Name</th>
-                <th>Owner Name</th>
-                <th>Service</th>
-                <th>Date</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.IPetFollowUps)
-            {
+<div class="card p-3">
+    <div class="table-responsive text-center">
+        <table class="table table-bordered text-center hover" id="PetFollowUpTable">
+            <thead>
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Diagnostics.pet.petName)</td>
-
-                    @{
-                        var ownerName = $"{item.Diagnostics.pet.owner.fname} {item.Diagnostics.pet.owner.lname}";
-                    }
-                    <td>@ownerName</td>
-
-                    @{
-                        var Services = Model.Services.FirstOrDefault(s => s.serviceId == item.serviceId);
-
-                    }
-                    <td>@Services.serviceName</td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.date)
-                    </td>
-
-
-                    <td>
-
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-secondary me-1" data-id="@item.Id" data-bs-toggle="modal" data-bs-target="#staticBackdropCancel">
-                            Cancel
-                        </button>
-                        <button type="button" class="btn btn-success me-1" data-id="@item.Id" data-bs-toggle="modal" data-bs-target="#staticBackdropAttended">
-                            Attend
-                        </button>
-                    </td>
+                    <th class="text-center">Id</th>
+                    <th class="text-center">Pet Name</th>
+                    <th class="text-center">Owner Name</th>
+                    <th class="text-center">Service</th>
+                    <th class="text-center">Date</th>
+                    <th class="text-center">Actions</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.IPetFollowUps)
+                {
+                    <tr>
+                        <td class="text-center">@Html.DisplayFor(modelItem => item.Id)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Diagnostics.pet.petName)</td>
 
+                        @{
+                            var ownerName = $"{item.Diagnostics.pet.owner.fname} {item.Diagnostics.pet.owner.lname}";
+                        }
+                        <td>@ownerName</td>
+
+                        @{
+                            var Services = Model.Services.FirstOrDefault(s => s.serviceId == item.serviceId);
+
+                        }
+                        <td>@Services.serviceName</td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.date)
+                        </td>
+
+
+                        <td>
+
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-secondary me-1" data-id="@item.Id" data-bs-toggle="modal" data-bs-target="#staticBackdropCancel">
+                                Cancel
+                            </button>
+                            <button type="button" class="btn btn-success me-1" data-id="@item.Id" data-bs-toggle="modal" data-bs-target="#staticBackdropAttended">
+                                Attend
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
 
 

@@ -3,41 +3,45 @@
 @{
     ViewData["Title"] = "Create";
 }
+<div class="container p-0 bg container-bord">
+    <div class="container p-0">
 
-<div class="bg-secondary bg-opacity-10 py-2 mb-3">
-    <div class="container">
-        <h1>Create New Owner</h1>
-    </div>
-</div>
+        <div class="container p-0  bg-custom-color">
+            <div>
+                <div class="container p-2">
+                    <h1>Create New Owner</h1>
+                </div>
+            </div>
+        </div>
 
-<div class="container">
-    <form method="post" asp-action="CreatePost">
-        <!-- Owner Information -->
-        <div class="card">
-            <div class="owner">
-                <div class="row">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    
+        <form method="post" asp-action="CreatePost">
+      
+            <div class="card p-3">
+                <div class="owner">
+                    <div class="row">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                    <div class="form-group col-md-4 col-sm-12">
+                    <div class="form-group col-md-4 col-sm-12" id="apppad">
                         <label asp-for="Owner.fname" class="control-label"></label>
                         <input asp-for="Owner.fname" class="form-control bg-light" />
                         <span asp-validation-for="Owner.fname" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group col-md-4 col-sm-12">
+                    <div class="form-group col-md-4 col-sm-12" id="apppad">
                         <label asp-for="Owner.lname" class="control-label"></label>
                         <input asp-for="Owner.lname" class="form-control bg-light" />
                         <span asp-validation-for="Owner.lname" class="text-danger"></span>
                     </div>
 
 
-                    <div class="form-group col-md-4 col-sm-12">
+                    <div class="form-group col-md-4 col-sm-12"id="apppad">
                         <label asp-for="Owner.mname" class="control-label"></label>
                         <input asp-for="Owner.mname" class="form-control bg-light" />
                         <span asp-validation-for="Owner.mname" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group col-md-4 col-sm-12">
+                    <div class="form-group col-md-4 col-sm-12" id="apppad">
                         <label asp-for="Owner.gender" class="control-label"></label>
                         <select asp-for="Owner.gender" class="form-select bg-light">
                             <option value="" selected>Select Gender</option>
@@ -47,25 +51,25 @@
                         <span asp-validation-for="Owner.gender" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group col-md-4 col-sm-12">
+                    <div class="form-group col-md-4 col-sm-12" id="apppad">
                         <label asp-for="Owner.contact" class="control-label"></label>
                         <input id="contact" asp-for="Owner.contact" class="form-control bg-light" />
                         <span asp-validation-for="Owner.contact" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group col-md-4 col-sm-12">
+                    <div class="form-group col-md-4 col-sm-12" id="apppad">
                         <label asp-for="Owner.email" class="control-label"></label>
                         <input asp-for="Owner.email" class="form-control bg-light" />
                         <span asp-validation-for="Owner.email" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group col-md-4 col-sm-12">
+                    <div class="form-group col-md-4 col-sm-12" id="apppad">
                         <label asp-for="Owner.address" class="control-label"></label>
                         <input asp-for="Owner.address" class="form-control bg-light" />
                         <span asp-validation-for="Owner.address" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group col-md-4 col-sm-12 visually-hidden">
+                    <div class="form-group col-md-4 col-sm-12 visually-hidden" id="apppad">
                         <label asp-for="Owner.registeredDate" class="control-label"></label>
                         <input asp-for="Owner.registeredDate" class="form-control bg-light dateInput" readonly />
                     </div>
@@ -73,14 +77,15 @@
             </div>
         </div>
 
-   
-            @* Pets *@
+            <!-- Pets Section -->
             <div class="bg-secondary bg-opacity-10 py-2 my-3">
                 <div class="container">
                     <h1>Pets</h1>
                 </div>
             </div>
-            @* table *@
+
+
+            <!-- Pets Table -->
             <table id="PetTable" class="table table-striped">
                 <thead>
                     <tr>
@@ -91,7 +96,9 @@
                         <th><p style="margin:0;">Birth date</p></th>
                         <th><p style="margin:0;">Age</p></th>
                         <th><p style="margin:0;">Color</p></th>
-                        <th colspan="2"><button type="button" class="btn btn-success" id="addRow">Add Row</button></th>
+                        <th colspan="2">
+                            <button type="button" class="btn btn-success" id="addRow">Add Row</button>
+                        </th>
                     </tr>
                 </thead>
 
@@ -138,7 +145,6 @@
                         </div>
                     </tr>
                 </tbody>
-     
             </table>
 
     <div class="form-group mt-4 text-end">
@@ -161,9 +167,6 @@
 
 
 </div>
-
-
-
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

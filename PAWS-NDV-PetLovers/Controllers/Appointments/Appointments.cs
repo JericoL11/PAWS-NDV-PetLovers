@@ -27,6 +27,10 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             {
                 vcm.activeAppointTab = AppointmentTab.followUp;
             }
+            if (tabName == "monitoring")
+            {
+                vcm.activeAppointTab = AppointmentTab.monitoring;
+            }
             return View(vcm);
         }
 
@@ -42,6 +46,11 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
                 case "followUp":
                     vm.activeAppointTab = AppointmentTab.followUp;
+                    break;
+
+
+                case "monitoring":
+                    vm.activeAppointTab = AppointmentTab.monitoring;
                     break;
 
                 default:

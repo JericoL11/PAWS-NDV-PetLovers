@@ -3,152 +3,159 @@
     ViewData["Title"] = "Edit";
 }
 @*this index view is abandoned *@
-<div class="bg-secondary bg-opacity-10 py-2 mb-3">
-    <div class="container">
-        <h1>Diagnostic Billing</h1>
-    </div>
-</div>
 
-<div class="container">
-    <form method="post" asp-action="Edit">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="container p-0 bg container-bord">
+    <div class="container p-0">
 
-        <div class="container">
-            <h3>Pet Information</h3>
+        <div class="container p-0  bg-custom-color">
+            <div>
+                <div class="container p-2">
+                    <h1>Diagnostics Billing</h1>
+                </div>
+            </div> 
         </div>
-        <div class="row">
+
+
+        <form method="post" asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="container">
+                <h3>Pet Information</h3>
+            </div>
+            <div class="row">
     
-            <div class="form-group col-lg-3 col-md-6">
-                <label asp-for="Diagnostics.diagnostic_Id" class="control-label"></label>
-                <input class="form-control" asp-for="Diagnostics.diagnostic_Id" readonly />
-            </div>
-            <div class="form-group col-lg-3 col-md-6">
-                <label asp-for="Diagnostics.petId" class="control-label"></label>
-                <input asp-for="Diagnostics.petId" class="form-control" readonly />
+                <div class="form-group col-lg-3 col-md-6">
+                    <label asp-for="Diagnostics.diagnostic_Id" class="control-label"></label>
+                    <input class="form-control" asp-for="Diagnostics.diagnostic_Id" readonly />
+                </div>
+                <div class="form-group col-lg-3 col-md-6">
+                    <label asp-for="Diagnostics.petId" class="control-label"></label>
+                    <input asp-for="Diagnostics.petId" class="form-control" readonly />
+                </div>
+
+                <div class="form-group col-lg-3 col-md-6">
+                    <label asp-for="Diagnostics.pet.petName" class="control-label"></label>
+                    <input asp-for="Diagnostics.pet.petName" class="form-control" readonly />
+                </div>
+
+                <div class="form-group col-lg-3 col-md-6">
+                    <label asp-for="Diagnostics.pet.breed" class="control-label"></label>
+                    <input asp-for="Diagnostics.pet.breed" class="form-control" readonly />
+                </div>
+
+                <div class="form-group col-lg-3 col-md-6">
+                    <label asp-for="Diagnostics.pet.gender" class="control-label"></label>
+                    <input asp-for="Diagnostics.pet.gender" class="form-control" readonly />
+                </div>
+
+                <div class="form-group col-lg-3 col-md-6">
+                    <label asp-for="Diagnostics.pet.age" class="control-label"></label>
+                    <input asp-for="Diagnostics.pet.age" class="form-control" readonly />
+                </div>
+
+                <div class="form-group col-lg-3 col-md-6">
+                    <label asp-for="Diagnostics.pet.bdate" class="control-label"></label>
+                    <input asp-for="Diagnostics.pet.bdate" class="form-control" readonly />
+                </div>
+
+                <div class="form-group col-lg-3 col-md-6">
+                    <label class="control-label">Owner ID - Name</label>
+                    <input value="@($"{Model.Diagnostics.pet.owner.id} - {Model.Diagnostics.pet.owner.fname} {Model.Diagnostics.pet.owner.lname}")" class="form-control" readonly />
+                </div>
             </div>
 
-            <div class="form-group col-lg-3 col-md-6">
-                <label asp-for="Diagnostics.pet.petName" class="control-label"></label>
-                <input asp-for="Diagnostics.pet.petName" class="form-control" readonly />
+            <div class="row mt-3">
+                <div class="form-group col-lg-3">
+                    <!-- Hidden Field for Date -->
+                    <label asp-for="Diagnostics.date" class="control-label"></label>
+                    <input asp-for="Diagnostics.date" class="form-control dateInput" value="@Model.Diagnostics.date" readonly />
+                </div>
+                <div class="form-group col-lg-3">
+                    <!-- Hidden Field for Date -->
+                    <label asp-for="Diagnostics.weight" class="control-label"></label>
+                    <input asp-for="Diagnostics.weight" class="form-control bg-light decimal-input" placeholder="Input weight" value="@Model.Diagnostics.weight" required />
+                </div>
             </div>
-
-            <div class="form-group col-lg-3 col-md-6">
-                <label asp-for="Diagnostics.pet.breed" class="control-label"></label>
-                <input asp-for="Diagnostics.pet.breed" class="form-control" readonly />
-            </div>
-
-            <div class="form-group col-lg-3 col-md-6">
-                <label asp-for="Diagnostics.pet.gender" class="control-label"></label>
-                <input asp-for="Diagnostics.pet.gender" class="form-control" readonly />
-            </div>
-
-            <div class="form-group col-lg-3 col-md-6">
-                <label asp-for="Diagnostics.pet.age" class="control-label"></label>
-                <input asp-for="Diagnostics.pet.age" class="form-control" readonly />
-            </div>
-
-            <div class="form-group col-lg-3 col-md-6">
-                <label asp-for="Diagnostics.pet.bdate" class="control-label"></label>
-                <input asp-for="Diagnostics.pet.bdate" class="form-control" readonly />
-            </div>
-
-            <div class="form-group col-lg-3 col-md-6">
-                <label class="control-label">Owner ID - Name</label>
-                <input value="@($"{Model.Diagnostics.pet.owner.id} - {Model.Diagnostics.pet.owner.fname} {Model.Diagnostics.pet.owner.lname}")" class="form-control" readonly />
-            </div>
-        </div>
-
-        <div class="row mt-3">
-            <div class="form-group col-lg-3">
-                <!-- Hidden Field for Date -->
-                <label asp-for="Diagnostics.date" class="control-label"></label>
-                <input asp-for="Diagnostics.date" class="form-control dateInput" value="@Model.Diagnostics.date" readonly />
-            </div>
-            <div class="form-group col-lg-3">
-                <!-- Hidden Field for Date -->
-                <label asp-for="Diagnostics.weight" class="control-label"></label>
-                <input asp-for="Diagnostics.weight" class="form-control bg-light decimal-input" placeholder="Input weight" value="@Model.Diagnostics.weight" required />
-            </div>
-        </div>
 
 
        
 
 
-        <div class="bg-secondary bg-opacity-10 py-2 mt-3">
-            <h3 class="ps-3">Pet Service</h3>
-        </div>
-        <table class="table  border mt-2">
-            <thead>
-                <tr>
-                    <th>Service Name</th>
-                    <th>Details</th>
-                    <th>Service Price</th>
-                </tr>
-            </thead>
-            <tbody>
-
-                @for (int i = 0; i < Model.Diagnostics.IdiagnosticDetails.Count; i++)
-                {
+            <div class="bg-secondary bg-opacity-10 py-2 mt-3">
+                <h3 class="ps-3">Pet Service</h3>
+            </div>
+            <table class="table  border mt-2">
+                <thead>
                     <tr>
-                        @if(Model.Appointment.IAppDetails.Count > 0)
-                        {
-                            <td>
-                                @Html.DisplayFor(model => Model.Appointment.IAppDetails[i].Services.serviceName)
-                            </td>
-                        }
-                        <td>
-                            @Html.DisplayFor(model => Model.Diagnostics.IdiagnosticDetails[i].Services.serviceName)
-                        </td>
-
-                        <td>
-                            <textarea class="form-control bg-light" rows="5" style="resize: none;" name="Diagnostics.IdiagnosticDetails[@i].details">@Model.Diagnostics.IdiagnosticDetails[i].details</textarea>
-                        </td>
-
-                        <td>
-                            <!-- Display service price formatted as currency -->
-                            @{
-                                double price = (double)Model.Diagnostics.IdiagnosticDetails[i].totalServicePayment;
-                                var decimalAdded = price.ToString("N2");
-                                var displayPrice = $"P{decimalAdded}";
-                            }
-                            <span>@displayPrice</span>
-                        </td>
-                        @* Holds the diagnosticDet_Id *@
-                        <input type="hidden" name="Diagnostics.IdiagnosticDetails[@i].diagnosticDet_Id" value="@Model.Diagnostics.IdiagnosticDetails[i].diagnosticDet_Id" />
+                        <th>Service Name</th>
+                        <th>Details</th>
+                        <th>Service Price</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
 
-        <div class="fixed-bottom visually-hidden">
-            <div class="form-group fw-bold">
-                <span class="bg-secondary bg-opacity-10 px-2">
-                    Total Payment:
-                  @*   @{
-                        double payment = (double)Model.Diagnostics.totalServicePayment;
-                        var currency = payment.ToString("N2");
-                        var totalPayment = $"P{currency}";
+                    @for (int i = 0; i < Model.Diagnostics.IdiagnosticDetails.Count; i++)
+                    {
+                        <tr>
+                            @if(Model.Appointment.IAppDetails.Count > 0)
+                            {
+                                <td>
+                                    @Html.DisplayFor(model => Model.Appointment.IAppDetails[i].Services.serviceName)
+                                </td>
+                            }
+                            <td>
+                                @Html.DisplayFor(model => Model.Diagnostics.IdiagnosticDetails[i].Services.serviceName)
+                            </td>
+
+                            <td>
+                                <textarea class="form-control bg-light" rows="5" style="resize: none;" name="Diagnostics.IdiagnosticDetails[@i].details">@Model.Diagnostics.IdiagnosticDetails[i].details</textarea>
+                            </td>
+
+                            <td>
+                                <!-- Display service price formatted as currency -->
+                                @{
+                                    double price = (double)Model.Diagnostics.IdiagnosticDetails[i].totalServicePayment;
+                                    var decimalAdded = price.ToString("N2");
+                                    var displayPrice = $"P{decimalAdded}";
+                                }
+                                <span>@displayPrice</span>
+                            </td>
+                            @* Holds the diagnosticDet_Id *@
+                            <input type="hidden" name="Diagnostics.IdiagnosticDetails[@i].diagnosticDet_Id" value="@Model.Diagnostics.IdiagnosticDetails[i].diagnosticDet_Id" />
+                        </tr>
                     }
-                    @totalPayment
-                </span> *@
-            </div>
-        </div>
+                </tbody>
+            </table>
 
-        <div class="mt-5 text-end button-container">
-
-              <a asp-action="Index" asp-controller="BillingDashboard" class="btn btn-secondary px-3">Cancel</a>
-                @* General Saving for Edit *@
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdropSelectedProduct">
-                    Buy Products
-                </button>
-                <input type="submit" value="Save" class="btn btn-primary px-4" />
+            <div class="fixed-bottom visually-hidden">
+                <div class="form-group fw-bold">
+                    <span class="bg-secondary bg-opacity-10 px-2">
+                        Total Payment:
+                      @*   @{
+                            double payment = (double)Model.Diagnostics.totalServicePayment;
+                            var currency = payment.ToString("N2");
+                            var totalPayment = $"P{currency}";
+                        }
+                        @totalPayment *@
+                    </span>
+                </div>
             </div>
+
+            <div class="mt-5 text-end button-container">
+
+                  <a asp-action="Index" asp-controller="BillingDashboard" class="btn btn-secondary px-3">Cancel</a>
+                    @* General Saving for Edit *@
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdropSelectedProduct">
+                        Buy Products
+                    </button>
+                    <input type="submit" value="Save" class="btn btn-primary px-4" />
+                </div>
 
      
-    </form>
+        </form>
 
-
+    </div>
+</div>
 @{
    #region == source for purchase == 
    /*
@@ -349,6 +356,7 @@
         */
 #endregion
 }
+
 
 
 <script src="~/js/TransactionsDT/modalProductTable.js" defer></script>
