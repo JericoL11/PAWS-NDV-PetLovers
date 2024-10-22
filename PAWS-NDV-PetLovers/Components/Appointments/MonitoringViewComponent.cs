@@ -15,10 +15,20 @@ namespace PAWS_NDV_PetLovers.Components.Appointments
         }
 
 
-
-        public async Task<IViewComponentResult> InvokeAsync()
+        //adding of parameters naka, when viewd, all data will be gone
+        public async Task<IViewComponentResult> InvokeAsync( bool? logical_dateError, bool? null_dateError)
         {
 
+            if (null_dateError == true)
+            {
+                ModelState.AddModelError("", "The end date cannot be earlier than the start date.");
+
+            }
+            if (logical_dateError == true)
+            {
+                ModelState.AddModelError("", "Both the start date and end date are required.");
+            }
+         
             return View(await GetAppointments());
         }
 

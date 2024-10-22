@@ -37,14 +37,26 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                         // Validate the date range
                         if (!startDate.HasValue || !endDate.HasValue)
                         {
-                            ModelState.AddModelError("", "Both the start date and end date are required.");
-                            return View(await GetAppointments());
+                            var vcm = new AppointmentVm();
+                            vcm.reportType = reportType;
+                            vcm.startDate = startDate.Value.Date;
+                            vcm.endDate = endDate.Value.Date;
+                            vcm.SelectType = SelectType; 
+                            vcm.Status = Status;
+                            vcm.Filtered = true;
+                            vcm.activeAppointTab = AppointmentTab.monitoring;
+                            vcm.null_dateError = true;
+
+                            
+                            return RedirectToAction("Dashboard", "Appointments", vcm);
                         }
 
                         if (startDate > endDate)
                         {
-                            ModelState.AddModelError("", "The end date cannot be earlier than the start date.");
-                            return View(await GetAppointments());
+                            var vcm = new AppointmentVm();
+                            vcm.activeAppointTab = AppointmentTab.monitoring;
+                            vcm.logical_dateError = true;
+                            return RedirectToAction("Dashboard", "Appointments", vcm);
                         }
 
                         // Fetch filtered appointments based on the date range
@@ -54,24 +66,20 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
 
                     if (SelectType == "all")
                     {
-
-
-                        ///wala magawas ang error
                         // Validate the date range
                         if (!startDate.HasValue || !endDate.HasValue)
                         {
-                            ModelState.AddModelError("", "Both the start date and end date are required.");
-
                             var vcm = new AppointmentVm();
                             vcm.activeAppointTab = AppointmentTab.monitoring;
+                            vcm.null_dateError = true;
                             return RedirectToAction("Dashboard","Appointments", vcm);
                         }
 
                         if (startDate > endDate)
                         {
-                            ModelState.AddModelError("", "The end date cannot be earlier than the start date.");
                             var vcm = new AppointmentVm();
                             vcm.activeAppointTab = AppointmentTab.monitoring;
+                            vcm.logical_dateError = true;
                             return RedirectToAction("Dashboard", "Appointments", vcm);
                         }
                         // Fetch all appointments without any date filtering
@@ -86,18 +94,18 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                         // Validate the date range
                         if (!startDate.HasValue || !endDate.HasValue)
                         {
-                            ModelState.AddModelError("", "Both the start date and end date are required.");
                             var vcm = new AppointmentVm();
                             vcm.activeAppointTab = AppointmentTab.monitoring;
-                            return RedirectToAction("Dashboard", vcm);
+                            vcm.null_dateError = true;
+                            return RedirectToAction("Dashboard", "Appointments", vcm);
                         }
 
                         if (startDate > endDate)
                         {
-                            ModelState.AddModelError("", "The end date cannot be earlier than the start date.");
                             var vcm = new AppointmentVm();
                             vcm.activeAppointTab = AppointmentTab.monitoring;
-                            return RedirectToAction("Dashboard", vcm);
+                            vcm.logical_dateError = true;
+                            return RedirectToAction("Dashboard", "Appointments", vcm);
                         }
 
                         // Fetch filtered appointments based on the date range
@@ -111,18 +119,18 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                         // Validate the date range
                         if (!startDate.HasValue || !endDate.HasValue)
                         {
-                            ModelState.AddModelError("", "Both the start date and end date are required.");
                             var vcm = new AppointmentVm();
                             vcm.activeAppointTab = AppointmentTab.monitoring;
-                            return RedirectToAction("Dashboard", vcm);
+                            vcm.null_dateError = true;
+                            return RedirectToAction("Dashboard", "Appointments", vcm);
                         }
 
                         if (startDate > endDate)
                         {
-                            ModelState.AddModelError("", "The end date cannot be earlier than the start date.");
                             var vcm = new AppointmentVm();
                             vcm.activeAppointTab = AppointmentTab.monitoring;
-                            return RedirectToAction("Dashboard", vcm);
+                            vcm.logical_dateError = true;
+                            return RedirectToAction("Dashboard", "Appointments", vcm);
                         }
                         // Fetch all appointments without any date filtering
                         return View(await GetAllFollowUp(reportType, startDate, endDate, Status, SelectType, true));
@@ -177,14 +185,18 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 // Validate the date range
                 if (!startDate.HasValue || !endDate.HasValue)
                 {
-                    ModelState.AddModelError("", "Both the start date and end date are required.");
-                    return View(await GetFollowUp());
+                    var vcm = new AppointmentVm();
+                    vcm.activeAppointTab = AppointmentTab.monitoring;
+                    vcm.null_dateError = true;
+                    return RedirectToAction("Dashboard", "Appointments", vcm);
                 }
 
                 if (startDate > endDate)
                 {
-                    ModelState.AddModelError("", "The end date cannot be earlier than the start date.");
-                    return View(await GetFollowUp());
+                    var vcm = new AppointmentVm();
+                    vcm.activeAppointTab = AppointmentTab.monitoring;
+                    vcm.logical_dateError = true;
+                    return RedirectToAction("Dashboard", "Appointments", vcm);
                 }
 
                 // Fetch filtered appointments based on the date range
@@ -197,14 +209,18 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 // Validate the date range
                 if (!startDate.HasValue || !endDate.HasValue)
                 {
-                    ModelState.AddModelError("", "Both the start date and end date are required.");
-                    return View(await GetFollowUp());
+                    var vcm = new AppointmentVm();
+                    vcm.activeAppointTab = AppointmentTab.monitoring;
+                    vcm.null_dateError = true;
+                    return RedirectToAction("Dashboard", "Appointments", vcm);
                 }
 
                 if (startDate > endDate)
                 {
-                    ModelState.AddModelError("", "The end date cannot be earlier than the start date.");
-                    return View(await GetFollowUp());
+                    var vcm = new AppointmentVm();
+                    vcm.activeAppointTab = AppointmentTab.monitoring;
+                    vcm.logical_dateError = true;
+                    return RedirectToAction("Dashboard", "Appointments", vcm);
                 }
                 // Fetch all appointments without any date filtering
                 return View(await GetAllFollowUp(reportType, startDate, endDate, Status, SelectType, true));

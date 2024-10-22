@@ -1,8 +1,12 @@
-﻿@model PAWS_NDV_PetLovers.ViewModels.ReportsVm
+﻿@{
+    #region == Abandone View ==
+
+
+ @* @model PAWS_NDV_PetLovers.ViewModels.ReportsVm
 @{
     ViewData["Title"] = "AppointmentsReport";
 }
-
+THIS VIEW IS ABANDONED
 
 <div class="bg-custom-color bg-secondary bg-opacity-10 mb-3 py-2">
     <div class="container">
@@ -285,6 +289,9 @@
    
     </div>
 </div>
+ *@
+#endregion
+}
 
 
 
@@ -315,12 +322,4 @@
       </form>
     */
     #endregion
-}
-
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-
 }

@@ -17,22 +17,17 @@
             </div>
 
             <div class="container mt-3">
-                <ul class="nav p-1">
+                <ul class="nav">
                     <li>
-                        <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="booking" class="@(Model.activeAppointTab == PAWS_NDV_PetLovers.ViewModels.AppointmentTab.booking ? "active" : string.Empty) btn btn-success btn-booking  px-4">Booking</a>
+                        <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="booking" class="@(Model.activeAppointTab == PAWS_NDV_PetLovers.ViewModels.AppointmentTab.booking ? "active" : string.Empty) btn btn-outline-success btn-booking">Booking</a>
                     </li>
 
                     <li>
-                        <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="followUp" class="@(Model.activeAppointTab == PAWS_NDV_PetLovers.ViewModels.AppointmentTab.followUp ? "active" : string.Empty) btn btn-success btn-followup mx-2 px-4">Follow-up</a>
+                        <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="followUp" class="@(Model.activeAppointTab == PAWS_NDV_PetLovers.ViewModels.AppointmentTab.followUp ? "active" : string.Empty) btn btn-outline-success btn-followup">Follow-up</a>
                     </li>
-
-                <li>
-                    <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="followUp" class="@(Model.activeAppointTab == PAWS_NDV_PetLovers.ViewModels.AppointmentTab.followUp ? "active" : string.Empty) btn btn-outline-success px-4">Follow-up</a>
-                </li>
-
-            <li>
-                <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="monitoring" class="@(Model.activeAppointTab == PAWS_NDV_PetLovers.ViewModels.AppointmentTab.monitoring ? "active" : string.Empty) btn btn-outline-success px-4">Monitoring</a>
-            </li>
+                    <li>
+                        <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="monitoring" class="@(Model.activeAppointTab == PAWS_NDV_PetLovers.ViewModels.AppointmentTab.monitoring ? "active" : string.Empty) btn btn-outline-success">Monitoring</a>
+                    </li>
             </ul>
         </div>
 
@@ -47,9 +42,9 @@
                     @await Component.InvokeAsync("FollowUp", new {updated = Model.updated})
                     break;
 
-            case PAWS_NDV_PetLovers.ViewModels.AppointmentTab.monitoring:
-                @await Component.InvokeAsync("Monitoring")
-            break;
+                case PAWS_NDV_PetLovers.ViewModels.AppointmentTab.monitoring:
+                @await Component.InvokeAsync("Monitoring", new { logical_dateError = Model.logical_dateError, null_dateError = Model.null_dateError })
+                break;
 
             default:
                 @await Component.InvokeAsync("Booking", new { updated = Model.updated, created = Model.created })
