@@ -124,17 +124,17 @@
                 </li>
 
                 <li class="mb-2">
-                    <a class="nav-link collapsed  d-flex align-items-center  p-2" data-bs-toggle="collapse" data-bs-target="#reports-collapse" aria-expanded="true collapse">
+                <a class="nav-link collapsed  d-flex align-items-center  p-2"  asp-action="ProductMgmtReport" asp-controller="PawsReport">
                         <i class="fa-solid fa-flag" id="icon"></i><div class="px-3">Reports</div>
-                       <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i>
+                       @* <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i> *@
  
                     </a>
-                <div class="collapse" id="reports-collapse" data-bs-parent="#accordion">
+                @* <div class="collapse" id="reports-collapse" data-bs-parent="#accordion">
                      <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3  big">
                         <li><a class="link-l mb-1 px-5" asp-action="AppointmentsReport" asp-controller="PawsReport">Appointments</a></li>
                         <li><a class="link-l mb-1 px-5" asp-action="ProductMgmtReport" asp-controller="PawsReport">Product Mgmt. </a></li>
                     </ul>
-                </div>
+                </div> *@
                 </li>
 
                 <li class="border-top my-3"></li>
@@ -285,7 +285,7 @@
     </script>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/DataTables/datatables.min.js" defer></script>
+    <script src="~/DataTables/datatables.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 

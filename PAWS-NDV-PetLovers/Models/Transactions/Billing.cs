@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using PAWS_NDV_PetLovers.Models.Records;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -33,5 +34,9 @@ namespace PAWS_NDV_PetLovers.Models.Transactions
         public Diagnostics? diagnostics { get; set; }
 
         public Purchase? purchase { get; set; }
+
+
+        public IList<StockAdjustment>? stockAdjustments { get; set; }
+
     }
 }

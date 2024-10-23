@@ -1,0 +1,44 @@
+﻿@model PAWS_NDV_PetLovers.ViewModels.ReportsVm
+@{
+    ViewData["Title"] = "Stock Adjustment Report";
+}
+
+<div class="container mt-4">
+    <table class="table table-bordered ReportsTable">
+         <thead>
+             <tr>
+                 <th>Date</th>
+                 <th>Product Name</th>
+                 <th>Source</th>
+                 <th>Quantity</th>
+             </tr>
+         </thead>
+         <tbody>
+            @foreach(var stock in Model.IstockAdjustment)
+            {
+                if (stock.source == "Sales")
+                {
+                    <tr class="bg-danger bg-opacity-10">
+                        <td>@stock.date.ToString("MMM. dd, yyyy")</td>
+                        <td>@stock.productsNav.productName</td>
+                        <td> @stock.source</td>
+                        <td>-@stock.stock</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr class="bg-success bg-opacity-10">
+                        <td>@stock.date.ToString("MMM. dd, yyyy")</td>
+                        <td>@stock.productsNav.productName</td>
+                        <td>@stock.source</td>
+                        <td>+@stock.stock</td>
+                    </tr>
+                }
+               
+            }
+            
+         </tbody>
+     </table>
+</div>
+
+<script src="~/js/ReportsTable/ReportsTable.js"defer></script>

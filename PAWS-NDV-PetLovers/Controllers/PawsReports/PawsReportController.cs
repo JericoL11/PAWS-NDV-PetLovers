@@ -18,7 +18,7 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
         }
 
 
-        ///THE VUEW IF THIS REPORST IS LOCATED IN THE VIEWCOMPOENENTS MONITORING
+        #region == these methods are used in component > Monitoring > Default == 
         [HttpGet]
         public async Task<IActionResult> AppointmentsReport()
         {
@@ -182,61 +182,8 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
         }
 
 
-        [HttpGet]
-        public async Task<IActionResult> ProductMgmtReport()
-        {
-            return View(await GetProducts());
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ProductMgmtReport(string SelectType, string? Status)
-        {
-            if (SelectType != "allCategory")
-            {
-                var checkCategory = await _context.Categories
-                        .FirstOrDefaultAsync(c => c.categoryName == SelectType);
-
-                if (checkCategory != null)
-                {
-                    switch (Status)
-                    {
-                        case "Low":
-                            return View(await GetLowStockProducts(SelectType, Status, true));
-
-                        case "High":
-                            return View(await GetHighStockProducts(SelectType, Status, true));
-
-
-                        case "All":
-                            return View(await GetAllStockProducts(SelectType, Status, true));
-
-                    }
-                }
-            }
-            else
-            {
-                switch (Status)
-                {
-                    case "Low":
-                        return View(await GetAllcategoryLowProducts(SelectType, Status, true));
-
-                    case "High":
-                        return View(await GetAllcategoryHighProducts(SelectType, Status, true));
-
-                    case "All":
-                        return View(await GetAllCategoryProducts(SelectType, Status, true));
-
-                }
-                return View(await GetAllCategoryProducts(SelectType, Status, true));
-            }
-
-
-            return View();
-        }
-
-
-        #region == functions for Appointment Reports ==
+        
+        #region == functions for Appointment Reports  >> Monitoring ==
 
         private AppointmentVm ValidateDateRange(DateTime? startDate, DateTime? endDate, string reportType, string SelectType)
         {
@@ -298,7 +245,7 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                         && d.remarks != "Cancelled")
                  .ToListAsync();
 
-             return new AppointmentVm
+            return new AppointmentVm
             {
                 IEAppointment = appointment,
                 Status = Status,
@@ -310,7 +257,7 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 activeAppointTab = AppointmentTab.monitoring
 
             };
-       
+
         }
 
         public async Task<AppointmentVm> GetCustomAppointments(string? reportType, DateTime? startDate, DateTime? endDate, string? Status, string? SelectType, bool Filtered)
@@ -336,7 +283,7 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                     reportType = reportType,
                     activeAppointTab = AppointmentTab.monitoring
                 };
-               
+
             }
             else
             {
@@ -359,12 +306,12 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                     reportType = reportType,
                     activeAppointTab = AppointmentTab.monitoring
                 };
-             
+
             }
         }
         #endregion
 
-        #region == Functions for Follow Up == 
+        #region == Functions for Follow Up >> Monitoring == 
 
         public async Task<AppointmentVm> GetFollowUp()
         {
@@ -464,6 +411,8 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
 
         #endregion
 
+        #endregion
+
         #region == functions for Product Management == 
 
         public async Task GetAllCategory()
@@ -500,7 +449,8 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 .ToListAsync(),
                 Status = Status,
                 SelectType = SelectType,
-                Filtered = filtered
+                Filtered = filtered,
+                activeProdMgmtTab = ProdMgmtTab.stockLevel
             };
             return vm;
 
@@ -516,7 +466,8 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 .ToListAsync(),
                 Status = Status,
                 SelectType = SelectType,
-                Filtered = filtered
+                Filtered = filtered,
+                activeProdMgmtTab = ProdMgmtTab.stockLevel
             };
             return vm;
 
@@ -532,7 +483,8 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 .ToListAsync(),
                 Status = Status,
                 SelectType = SelectType,
-                Filtered = filtered
+                Filtered = filtered,
+                activeProdMgmtTab = ProdMgmtTab.stockLevel
             };
             return vm;
 
@@ -548,7 +500,8 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 .ToListAsync(),
                 Status = Status,
                 SelectType = SelectType,
-                Filtered = filtered
+                Filtered = filtered,
+                activeProdMgmtTab = ProdMgmtTab.stockLevel
             };
             return vm;
         }
@@ -564,7 +517,8 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 .ToListAsync(),
                 Status = Status,
                 SelectType = SelectType,
-                Filtered = filtered
+                Filtered = filtered,
+                activeProdMgmtTab = ProdMgmtTab.stockLevel
             };
             return vm;
         }
@@ -579,7 +533,8 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 .ToListAsync(),
                 Status = Status,
                 SelectType = SelectType,
-                Filtered = filtered
+                Filtered = filtered,
+                activeProdMgmtTab = ProdMgmtTab.stockLevel
             };
             return vm;
         }
@@ -587,5 +542,97 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
 
         //end of stock levels
         #endregion
+
+
+        //Product Management
+
+        [HttpGet]
+        public async Task<IActionResult> ProductMgmtReport(ReportsVm vm)
+        {
+            //default
+            if(vm.activeProdMgmtTab == null)
+            {
+                vm.activeProdMgmtTab = ProdMgmtTab.stockAdjust;
+            }
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ProductMgmtReport(string SelectType, string? Status)
+        {
+            if (SelectType != "allCategory")
+            {
+                var checkCategory = await _context.Categories
+                        .FirstOrDefaultAsync(c => c.categoryName == SelectType);
+
+                if (checkCategory != null)
+                {
+                    switch (Status)
+                    {
+                        case "Low":
+                            return RedirectToAction("ProductMgmtReport", "PawsReport", await GetLowStockProducts(SelectType, Status, true));
+
+                        case "High":
+                            return RedirectToAction("ProductMgmtReport", "PawsReport", await GetHighStockProducts(SelectType, Status, true));
+
+
+                        case "All":
+                            return RedirectToAction("ProductMgmtReport", "PawsReport", await GetAllStockProducts(SelectType, Status, true));
+
+                    }
+                }
+            }
+            else
+            {
+                switch (Status)
+                {
+                    case "Low":
+                        return RedirectToAction("ProductMgmtReport", "PawsReport", await GetAllcategoryLowProducts(SelectType, Status, true));
+
+                    case "High":
+                        return RedirectToAction("ProductMgmtReport", "PawsReport", await GetAllcategoryHighProducts(SelectType, Status, true));
+
+                    case "All":
+                        return RedirectToAction("ProductMgmtReport", "PawsReport", await GetAllCategoryProducts(SelectType, Status, true));
+
+                }
+                return View(await GetAllCategoryProducts(SelectType, Status, true));
+            }
+
+
+            return View();
+        }
+
+
+        public IActionResult SwitchToTab(string tabName)
+        {
+            var vm = new ReportsVm();
+            switch (tabName)
+            {
+                case "stockAdjust":
+                    vm.activeProdMgmtTab = ProdMgmtTab.stockAdjust;
+                    break;
+
+                case "stockLevel":
+                    vm.activeProdMgmtTab = ProdMgmtTab.stockLevel;
+                    break;
+
+                case "transacSum":
+                    vm.activeProdMgmtTab = ProdMgmtTab.transacSum;
+                    break;
+
+                default:
+                    vm.activeProdMgmtTab = ProdMgmtTab.stockAdjust;
+                    break;
+            }
+            return RedirectToAction("ProductMgmtReport", vm);
+        }
+
     }
+
+
+
+
 }

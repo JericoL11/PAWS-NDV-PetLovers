@@ -93,40 +93,36 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,productName,supplierPrice,sellingPrice,quantity,registeredDate,lastUpdate,CategoryId")]Product product)
+        public async Task<IActionResult> Edit(Product product)
         {
             await SetCategoryListAsync();
 
-
-            if(id != product.id)
+            // Check if addQnty has a value
+            if (product.stockAdjustmentNav.Count > 0)
             {
-                return NotFound();
+                //In the view, only the stock was inputed, here's the remaining necessary column that needs to be updated.
+                product.stockAdjustmentNav[0].productId = product.id;
+                product.stockAdjustmentNav[0].date = DateTime.Now;
+                product.stockAdjustmentNav[0].source = "Order";
+
+                // Update the quantity in the product
+                product.quantity += product.stockAdjustmentNav[0].stock;
+
+                _context.StockAdjustments.Add(product.stockAdjustmentNav[0]);
             }
 
-            try
-            {
-                product.lastUpdate = DateTime.Now;
+            // Update the last update time
+            product.lastUpdate = DateTime.Now;
 
-                _context.Products.Update(product);
-                await _context.SaveChangesAsync();
+            // Save the updated product
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync();
 
-                TempData["SuccessMessage"] = "Updated Successfully";
-              
-
-                return RedirectToAction("Edit",product.id);
-            }
-            catch(DbUpdateConcurrencyException)
-            {
-                if (!ProductExist(product.id)) 
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            TempData["SuccessMessage"] = "Product updated successfully!";
+            return RedirectToAction("Index");
         }
+
+   
         [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {

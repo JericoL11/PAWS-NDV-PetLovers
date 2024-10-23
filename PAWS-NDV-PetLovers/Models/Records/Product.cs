@@ -33,9 +33,7 @@ namespace PAWS_NDV_PetLovers.Models.Records
         [DataType(DataType.Date)]
         public DateTime? lastUpdate { get; set; }
 
- /*      [Display(Name = "Expiry Date")]
-        [DataType(DataType.Date)]
-        public DateTime? expiryDate { get; set; } */
+
        
         [ForeignKey("Category")]
         [Display(Name ="Category")]
@@ -43,5 +41,11 @@ namespace PAWS_NDV_PetLovers.Models.Records
 
         //navigation property
         public Category? category { get; set; }
+
+        public IList<StockAdjustment>? stockAdjustmentNav { get; set; }
+
+        [NotMapped] // This prevents it from being mapped to a database column
+        public int? addQnty { get; set; }
+     
     }
 }
