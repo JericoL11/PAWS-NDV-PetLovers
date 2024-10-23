@@ -1,0 +1,43 @@
+﻿@model PAWS_NDV_PetLovers.ViewModels.ReportsVm
+@{
+    ViewData["Title"] = "Dashboard - Report";
+}
+<div class="container p-0 bg container-bord">
+    <div class="container p-0">
+        <div class="container p-0  bg-custom-color">
+            <div>
+                <div class="container p-2">
+                    <h1>Reports</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-4">
+    <ul class="nav">
+        <li>
+            <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="stockAdjust" class="@(Model.activeReportTab == PAWS_NDV_PetLovers.ViewModels.ReportTab.stockAdjust ? "active" : string.Empty) btn btn-outline-success btn-booking">Stock Adjustment</a>
+        </li>
+        <li>
+            <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="stockLevel" class="@(Model.activeReportTab == PAWS_NDV_PetLovers.ViewModels.ReportTab.stockLevel ? "active" : string.Empty) btn btn-outline-success btn-booking">Stock Levels</a>
+        </li>
+        <li>
+            <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="transacSum" class="@(Model.activeReportTab == PAWS_NDV_PetLovers.ViewModels.ReportTab.transacSum ? "active" : string.Empty) btn btn-outline-success btn-booking">Transaction Summary</a>
+        </li>
+    </ul>
+</div>
+
+@switch (Model.activeReportTab)
+{
+    case PAWS_NDV_PetLovers.ViewModels.ReportTab.stockAdjust:
+        @await Component.InvokeAsync("StockAdjustments")
+        break;
+
+    case PAWS_NDV_PetLovers.ViewModels.ReportTab.stockLevel:
+        @await Component.InvokeAsync("StockLevels", new { vcm = Model })
+        break;
+
+    case PAWS_NDV_PetLovers.ViewModels.ReportTab.transacSum:
+        @await Component.InvokeAsync("TransacSummary", new {vcm = Model})
+        break;
+}
