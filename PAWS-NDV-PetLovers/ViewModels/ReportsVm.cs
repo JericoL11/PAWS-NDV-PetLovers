@@ -30,5 +30,18 @@ namespace PAWS_NDV_PetLovers.ViewModels
         
 
         public IEnumerable<Product> IProducts { get; set; }
+
+        public IEnumerable <StockAdjustment> IstockAdjustment { get; set; }
+
+
+        public ProdMgmtTab activeProdMgmtTab { get; set; }
+    }
+
+
+    public enum ProdMgmtTab
+    {
+        stockAdjust,
+        stockLevel,
+        transacSum
     }
 }
