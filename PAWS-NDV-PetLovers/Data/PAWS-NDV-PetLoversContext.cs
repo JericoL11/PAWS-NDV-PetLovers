@@ -25,6 +25,8 @@ namespace PAWS_NDV_PetLovers.Data
 
         public DbSet<Services> Services { get; set; } = default!;
 
+        public DbSet<StockAdjustment> StockAdjustments { get; set; } = default!;
+
         //appointments
         public DbSet<Appointment> Appointments { get; set; } = default!;
 

@@ -562,6 +562,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
 
             // Get the related purchase
             var purchase = await _context.Purchases
+                .Include(p => p.purchaseDetails)
                 .FirstOrDefaultAsync(p => p.diagnosisId_holder == diagnosticId && string.IsNullOrEmpty(p.status));
 
 
@@ -573,7 +574,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             if (purchase != null)
             {
                 purchase.status = complete;
-
                 _context.Update(purchase);
             }
 
@@ -600,7 +600,33 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             _context.Billings.Add(billingEntry);
 
             // Save changes to the database
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(); // Save billing first to get billingId
+
+
+
+            if (purchase != null)
+            {
+                var stockAdjustments = new List<StockAdjustment>();
+
+                foreach (var detail in purchase.purchaseDetails)
+                {
+                    //stockAdjustment Entry
+                    var stockAdjustment = new StockAdjustment
+                    {
+                        source = "Sales",
+                        date = billingEntry.date,
+                        stock = detail.quantity,
+                        productId = detail.productId,
+                        billing_Id = billingEntry.billingId
+
+                    };
+                    //pass the entry to the Object
+                    stockAdjustments.Add(stockAdjustment);
+                }
+
+                _context.StockAdjustments.AddRange(stockAdjustments);
+                await _context.SaveChangesAsync();
+            }
 
             // Redirect to the index view after successful payment
             return RedirectToAction("Index");
@@ -989,13 +1015,14 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> BillPaymentPurchase(int? purchaseId,string? customerName, [Bind("Billing")] TransactionsVm tvm)
+        public async Task<IActionResult> BillPaymentPurchase(int? purchaseId, string? customerName, [Bind("Billing")] TransactionsVm tvm)
         {
             // Extract the Billing object from the ViewModel
             var Billing = tvm.Billing;
 
             // Get the related purchase
             var purchase = await _context.Purchases
+                .Include(p => p.purchaseDetails) // Include purchase details to get products
                 .FirstOrDefaultAsync(p => p.purchaseId == purchaseId && string.IsNullOrEmpty(p.status));
 
             // Define the complete status
@@ -1004,23 +1031,20 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             // Update the status of the purchase if it exists
             if (purchase != null)
             {
-
                 purchase.status = complete;
-        
-            }
 
-            if (string.IsNullOrWhiteSpace(customerName))
-            {
-                purchase.customerName = "NA";
-            }
-            else
-            {
-                purchase.customerName = customerName;
-            }
-         
-            _context.Update(purchase);
-            await _context.SaveChangesAsync();
+                if (string.IsNullOrWhiteSpace(customerName))
+                {
+                    purchase.customerName = "NA";
+                }
+                else
+                {
+                    purchase.customerName = customerName;
+                }
 
+                _context.Update(purchase);
+                await _context.SaveChangesAsync();
+            }
 
             // Create a new billing entry
             var billingEntry = new Billing
@@ -1030,20 +1054,43 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                 grandTotal = Billing.grandTotal,
                 cashReceive = Billing.cashReceive,
                 changeAmount = Billing.cashReceive - Billing.grandTotal,
-                PurchaseId = purchase?.purchaseId // Assigning the foreign key to Purchases (ensure you have this property in Purchase model)
+                PurchaseId = purchase?.purchaseId // Assigning the foreign key to Purchases
             };
-
 
             // Add the new billing entry to the context
             _context.Billings.Add(billingEntry);
+            await _context.SaveChangesAsync(); // Save billing first to get billingId
 
-            // Save changes to the database
-            await _context.SaveChangesAsync();
+            // Create Stock Adjustment entries
+            if (purchase != null)
+            {
+
+                //noted here. not referring to navigation
+                var stockAdjustments = new List<StockAdjustment>();
+
+                foreach (var detail in purchase.purchaseDetails)
+                {
+                    var stockAdjustment = new StockAdjustment
+                    {
+                        source = "Sales",
+                        date = billingEntry.date, 
+                        stock = detail.quantity, 
+                        productId = detail.productId, 
+                        billing_Id = billingEntry.billingId 
+                    };
+
+                    stockAdjustments.Add(stockAdjustment);
+                }
+
+                // Add all stock adjustments to the context
+                _context.StockAdjustments.AddRange(stockAdjustments);
+                await _context.SaveChangesAsync(); // Save the stock adjustments
+            }
 
             // Redirect to the index view after successful payment
-            return RedirectToAction("Index" , new TransactionsVm { activeBoardTab =DBoardTab.DBoard_Purchase});
-
+            return RedirectToAction("Index", new TransactionsVm { activeBoardTab = DBoardTab.DBoard_Purchase });
         }
+
     }
 }
        

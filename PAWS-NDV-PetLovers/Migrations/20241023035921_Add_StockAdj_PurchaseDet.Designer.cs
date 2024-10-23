@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PAWS_NDV_PetLovers.Data;
 
@@ -11,9 +12,11 @@ using PAWS_NDV_PetLovers.Data;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     [DbContext(typeof(PAWS_NDV_PetLoversContext))]
-    partial class PAWS_NDV_PetLoversContextModelSnapshot : ModelSnapshot
+    [Migration("20241023035921_Add_StockAdj_PurchaseDet")]
+    partial class Add_StockAdj_PurchaseDet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -324,16 +327,13 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("stockAdj_Id"));
 
-                    b.Property<int?>("billingNavbillingId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("billing_Id")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("date")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("productId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("purchaseDet_Id")
                         .HasColumnType("int");
 
                     b.Property<string>("source")
@@ -344,9 +344,9 @@ namespace PAWS_NDV_PetLovers.Migrations
 
                     b.HasKey("stockAdj_Id");
 
-                    b.HasIndex("billingNavbillingId");
-
                     b.HasIndex("productId");
+
+                    b.HasIndex("purchaseDet_Id");
 
                     b.ToTable("StockAdjustments");
                 });
@@ -572,15 +572,15 @@ namespace PAWS_NDV_PetLovers.Migrations
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Records.StockAdjustment", b =>
                 {
-                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.Billing", "billingNav")
-                        .WithMany("stockAdjustments")
-                        .HasForeignKey("billingNavbillingId");
-
                     b.HasOne("PAWS_NDV_PetLovers.Models.Records.Product", "productsNav")
                         .WithMany("stockAdjustmentNav")
                         .HasForeignKey("productId");
 
-                    b.Navigation("billingNav");
+                    b.HasOne("PAWS_NDV_PetLovers.Models.Transactions.PurchaseDetails", "PurchaseDetails")
+                        .WithMany("stockAdjustments")
+                        .HasForeignKey("purchaseDet_Id");
+
+                    b.Navigation("PurchaseDetails");
 
                     b.Navigation("productsNav");
                 });
@@ -673,11 +673,6 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.Navigation("stockAdjustmentNav");
                 });
 
-            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Billing", b =>
-                {
-                    b.Navigation("stockAdjustments");
-                });
-
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Diagnostics", b =>
                 {
                     b.Navigation("IPetFollowUps");
@@ -688,6 +683,11 @@ namespace PAWS_NDV_PetLovers.Migrations
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Purchase", b =>
                 {
                     b.Navigation("purchaseDetails");
+                });
+
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.PurchaseDetails", b =>
+                {
+                    b.Navigation("stockAdjustments");
                 });
 #pragma warning restore 612, 618
         }
