@@ -7,6 +7,7 @@ using PAWS_NDV_PetLovers.ViewModels;
 
 namespace PAWS_NDV_PetLovers.Controllers.Transactions
 {
+    [ServiceFilter(typeof(AuthFilter))]
     public class PurchaseController : Controller
     {
 

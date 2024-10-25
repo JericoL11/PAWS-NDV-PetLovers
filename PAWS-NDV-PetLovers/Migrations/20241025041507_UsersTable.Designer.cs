@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PAWS_NDV_PetLovers.Data;
 
@@ -11,9 +12,11 @@ using PAWS_NDV_PetLovers.Data;
 namespace PAWS_NDV_PetLovers.Migrations
 {
     [DbContext(typeof(PAWS_NDV_PetLoversContext))]
-    partial class PAWS_NDV_PetLoversContextModelSnapshot : ModelSnapshot
+    [Migration("20241025041507_UsersTable")]
+    partial class UsersTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -351,53 +354,6 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.ToTable("StockAdjustments");
                 });
 
-            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Records.UserAccount", b =>
-                {
-                    b.Property<int>("acc_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("acc_Id"));
-
-                    b.Property<bool>("IsPasswordChanged")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("bdate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("contact")
-                        .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)");
-
-                    b.Property<string>("email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("fname")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lname")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("mname")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("passWord")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("userName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("userType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("acc_Id");
-
-                    b.ToTable("UserAccounts");
-                });
-
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Transactions.Billing", b =>
                 {
                     b.Property<int>("billingId")
@@ -548,6 +504,100 @@ namespace PAWS_NDV_PetLovers.Migrations
                     b.HasIndex("purchaseId");
 
                     b.ToTable("PurchaseDetails");
+                });
+
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Users.Admin", b =>
+                {
+                    b.Property<int>("admin_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("admin_Id"));
+
+                    b.Property<DateTime?>("bdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("contact")
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
+
+                    b.Property<string>("email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("fname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("mname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("passWord")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("admin_Id");
+
+                    b.ToTable("Admins");
+                });
+
+            modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Users.Staff", b =>
+                {
+                    b.Property<int>("staff_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("staff_Id"));
+
+                    b.Property<int?>("admin_Id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("bdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("contact")
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
+
+                    b.Property<DateTime?>("createdDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("fname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("mname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("passWord")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("staff_Id");
+
+                    b.ToTable("Staff");
                 });
 
             modelBuilder.Entity("PAWS_NDV_PetLovers.Models.Appointments.Appointment", b =>

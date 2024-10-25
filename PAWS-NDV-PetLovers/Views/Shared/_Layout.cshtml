@@ -225,7 +225,7 @@
                             <li><a class="dropdown-item">Account</a></li>
 
                             <li><hr class="dropdown-divider" /></li>
-                            <li><a class="dropdown-item">Logout</a></li>
+                            <li><a asp-action="Logout" asp-controller="Logins" class="dropdown-item">Logout</a></li>
 
                         </ul>
 
@@ -245,7 +245,6 @@
 
     </div>
 
-   
     @*
     <footer class="border-top footer text-muted">
             <div class="container">
@@ -282,6 +281,7 @@
                 this.classList.add('active');
             });
         });
+
     </script>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -292,7 +292,7 @@
 
 
     @await RenderSectionAsync("Scripts", required: false)
-
+    
 
   <script>
 
@@ -330,7 +330,8 @@
 
             });
             *@
-    </script> 
+    </script>
+   
  
     @* add-form-script *@
     @* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> *@

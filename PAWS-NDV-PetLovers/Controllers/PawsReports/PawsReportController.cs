@@ -4,10 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.ViewModels;
 using System.ComponentModel.DataAnnotations;
-using static PAWS_NDV_PetLovers.ViewModels.ReportsVm;
+
 
 namespace PAWS_NDV_PetLovers.Controllers.PawsReports
 {
+    [ServiceFilter(typeof(AuthFilter))]
     public class PawsReportController : Controller
     {
         private readonly PAWS_NDV_PetLoversContext _context;
@@ -552,7 +553,7 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
             //default
             if(vm.activeReportTab == null)
             {
-                vm.activeReportTab = ReportTab.stockAdjust;
+                vm.activeReportTab = ReportTab.stockLevel;
             }
 
             return View(vm);
@@ -611,9 +612,9 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
             var vm = new ReportsVm();
             switch (tabName)
             {
-                case "stockAdjust":
+               /* case "stockAdjust":
                     vm.activeReportTab = ReportTab.stockAdjust;
-                    break;
+                    break;*/
 
                 case "stockLevel":
                     vm.activeReportTab = ReportTab.stockLevel;
@@ -624,7 +625,7 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                     break;
 
                 default:
-                    vm.activeReportTab = ReportTab.stockAdjust;
+                    vm.activeReportTab = ReportTab.stockLevel;
                     break;
             }
             return RedirectToAction("Dashboard", vm);

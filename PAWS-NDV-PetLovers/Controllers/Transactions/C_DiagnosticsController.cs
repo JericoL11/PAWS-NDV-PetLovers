@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace PAWS_NDV_PetLovers.Controllers.Transactions
 {
-
+    [ServiceFilter(typeof(AuthFilter))]
     public class C_DiagnosticsController : Controller
     {
 

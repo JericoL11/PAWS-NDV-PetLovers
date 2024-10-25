@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PAWS_NDV_PetLovers.Data;
+using PAWS_NDV_PetLovers.Models.Records;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,21 @@ builder.Services.AddDbContext<PAWS_NDV_PetLoversContext>(options =>
    options.UseSqlServer(builder.Configuration.GetConnectionString("PAWS-NDV-PetLoversContext") ??
    // -- for error message
    throw new InvalidOperationException("Connection string not found 'PAWS-NDV-PetLoversContext' not found")));
+
+
+// Add session services
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set your desired session timeout
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+
+});
+
+/*builder.Services.AddScoped<AuthFilter>(); //autofilter*/
+
+builder.Services.AddScoped<AuthFilter>(); // Register other services such as MVC controllers
+
 
 var app = builder.Build();
 
@@ -27,10 +43,14 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+
+// Add session and authorization middlewares
+app.UseSession();
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Owners}/{action=Index}/{id?}");
+    pattern: "{controller=Logins}/{action=Login}/{id?}");
 
 app.Run();

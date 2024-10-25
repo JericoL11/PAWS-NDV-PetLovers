@@ -6,6 +6,7 @@ using System.Runtime.Intrinsics.X86;
 
 namespace PAWS_NDV_PetLovers.Controllers.Appointments
 {
+    [ServiceFilter(typeof(AuthFilter))]
     public class ServicesController : Controller
     {
         private readonly PAWS_NDV_PetLoversContext _context;

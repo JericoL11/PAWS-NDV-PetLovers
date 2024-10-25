@@ -32,8 +32,6 @@ namespace PAWS_NDV_PetLovers.ViewModels
 
         public IEnumerable<Product> IProducts { get; set; }
 
-        public IEnumerable <StockAdjustment> IstockAdjustment { get; set; }
-
         public IEnumerable<Billing>IBilling { get; set; }
 
         public ReportTab activeReportTab { get; set; }
@@ -42,7 +40,7 @@ namespace PAWS_NDV_PetLovers.ViewModels
 
     public enum ReportTab
     {
-        stockAdjust,
+     /*   stockAdjust,*/
         stockLevel,
         transacSum
     }

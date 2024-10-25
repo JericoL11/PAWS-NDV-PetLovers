@@ -14,6 +14,7 @@ using PAWS_NDV_PetLovers.ViewModels;
 
 namespace PAWS_NDV_PetLovers.Controllers.Records
 {
+    [ServiceFilter(typeof(AuthFilter))]
     public class OwnersController : Controller
     {
         private readonly PAWS_NDV_PetLoversContext _context;

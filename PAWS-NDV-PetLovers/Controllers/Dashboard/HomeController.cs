@@ -5,6 +5,7 @@ using PAWS_NDV_PetLovers.ViewModels;
 
 namespace PAWS_NDV_PetLovers.Controllers.Dashboard
 {
+    [ServiceFilter(typeof(AuthFilter))]
     public class HomeController : Controller
     {
         private readonly PAWS_NDV_PetLoversContext _context;
@@ -13,6 +14,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Dashboard
         {
             _context = context;
         }
+
         public async Task <IActionResult> Index()
         {
             var currentDate = DateTime.Now;
