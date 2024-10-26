@@ -38,7 +38,7 @@ namespace PAWS_NDV_PetLovers.Models.Records
         [Display(Name = "User-Type")]
         public string? userType { get; set; }
         [Display(Name = "Status")]
-        public string? status { get; set; }
+        public bool IsActive { get; set; }
 
         public bool IsPasswordChanged { get; set; } // New property to track password change
     }
