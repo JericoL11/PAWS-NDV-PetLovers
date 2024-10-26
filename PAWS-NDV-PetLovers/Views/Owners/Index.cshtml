@@ -18,7 +18,7 @@
 
 
 
-<div class="container-fluid bg p-0 container-bord">
+<div class="container p-0 bg container-bord">
 
     <div class="container  p-0">
 
@@ -34,34 +34,20 @@
             <a class="btn btn-primary btn-md mb-4  me-2 bg-custom-btn " asp-action="Create">Add new Owner</a>
             <a class="btn btn-primary btn-md mb-4 px-4 bg-custom-btn" asp-action="Index" asp-controller="Pets">View Pet List</a>
         </div>
+
             <div class="card p-3">
-                <div class="table-responsive">
-                <table class="table table-bordered hover" id="OwnerTable">
-                    <thead> 
+               <div class="table-responsive">
+                    <table class="table table-bordered text-center hover" id="OwnerTable">
+                       <thead>
 
                         <tr class="text-center">
-                            <th>
-                                @Html.DisplayNameFor(model => model.id)
-                            </th>
-                            <th>
-                               <span style="margin:0">Full Name</span>
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.gender)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.contact)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.email)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.address)
-                   
-                            </th>
-                            <th>
-                               @Html.DisplayNameFor(model => model.registeredDate)
-                            </th>
+                            <th class="text-center"> Owner Id</th>
+                            <th class="text-center"> Fullname</th>
+                            <th class="text-center"> Gender</th>
+                            <th class="text-center"> Contact</th>
+                            <th class="text-center"> Email</th>
+                            <th class="text-center"> Address</th>
+                            <th class="text-center"> Registered Date</th>
                             <th>Actions</th>
                         </tr>
                     </thead>

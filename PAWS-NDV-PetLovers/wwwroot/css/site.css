@@ -645,13 +645,22 @@ table {
     box-shadow: none;
 }
 
-    .btn-success:hover,
+    /*.btn-success:hover,
     .btn-success:active{
         background-color: #efc65de8 !important;
         color: black;
         border-color: #efc65de8;
-    }
+    }*/
 
 
 /*BUTTONS COLOR AND HOVER END*/
+
+    .btn-success.active,
+    .btn-success.field-focused {
+        background-color: #efc65de8 !important; /* Background color white */
+        color: black;
+        /*border-color: white;*/
+    }
+
+
 

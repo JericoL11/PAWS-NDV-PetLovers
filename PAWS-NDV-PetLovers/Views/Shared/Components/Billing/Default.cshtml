@@ -4,7 +4,7 @@
     ViewData["Title"] = "Billing VC";
 }
 
-<div class="container">
+<div class="container mt-2 mb-2">
     @* Diagnostic Services Table *@
     <span class="fw-bold">Billing Summary</span>
     <table class="table text-center">
@@ -85,9 +85,9 @@
                 </div>
             </div>
 
-            <div class="mt-2">
+            <div class="mt-2 mb-3">
                 <input type="hidden" name="diagnosticId" value="@Model.Diagnostics.diagnostic_Id" />
-                <input type="submit" class="btn btn-primary" value="Pay Now" />
+                <input type="submit" class="btn btn-primary " value="Pay Now" />
             </div>
         </form>
     </div>

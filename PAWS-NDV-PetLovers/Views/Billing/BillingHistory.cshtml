@@ -16,11 +16,11 @@
         </div>
 
 
-   <ul class="nav mt-3 mx-3">
-        <li><a role="presentation" asp-action="SwitchToHistoryTab" asp-route-tabName="All" class="@(Model.activeHistoryTab == PAWS_NDV_PetLovers.ViewModels.BillingHistoryTab.All ? "active" : string.Empty) btn btn-success">All</a></li>
-        <li><a role="presentation" asp-action="SwitchToHistoryTab" asp-route-tabName="Diagnostics" class="@(Model.activeHistoryTab == PAWS_NDV_PetLovers.ViewModels.BillingHistoryTab.Diagnostics ? "active" : string.Empty) btn btn-success">Diagnostics</a></li>
-        <li><a role="presentation" asp-action="SwitchToHistoryTab" asp-route-tabName="Purchase" class="@(Model.activeHistoryTab == PAWS_NDV_PetLovers.ViewModels.BillingHistoryTab.Purchase ? "active" : string.Empty) btn btn-success">Purchase</a></li>
-    </ul>
+        <div class="btn-group btn-group-toggle pt-4 mx-3" data-toggle="buttons">
+            <a role="presentation" asp-action="SwitchToHistoryTab" asp-route-tabName="All" class="@(Model.activeHistoryTab == PAWS_NDV_PetLovers.ViewModels.BillingHistoryTab.All ? "active" : string.Empty) btn btn-success">All</a>
+            <a role="presentation" asp-action="SwitchToHistoryTab" asp-route-tabName="Diagnostics" class="@(Model.activeHistoryTab == PAWS_NDV_PetLovers.ViewModels.BillingHistoryTab.Diagnostics ? "active" : string.Empty) btn btn-success">Diagnostics</a>
+            <a role="presentation" asp-action="SwitchToHistoryTab" asp-route-tabName="Purchase" class="@(Model.activeHistoryTab == PAWS_NDV_PetLovers.ViewModels.BillingHistoryTab.Purchase ? "active" : string.Empty) btn btn-success">Purchase</a>
+        </div>
 
 
         @switch (Model.activeHistoryTab)

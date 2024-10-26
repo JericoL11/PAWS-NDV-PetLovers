@@ -25,12 +25,9 @@
                
                     <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="monitoring" class="@(Model.activeAppointTab == PAWS_NDV_PetLovers.ViewModels.AppointmentTab.monitoring ? "active" : string.Empty) btn btn-success btn-monitoring">Monitoring</a>
                  
-            </div>
+            </div> 
 
-           
-
-
-            @switch (Model.activeAppointTab)
+         @switch (Model.activeAppointTab)
             {
                 case PAWS_NDV_PetLovers.ViewModels.AppointmentTab.booking:
                     @await Component.InvokeAsync("Booking", new { updated = Model.updated, created = Model.created })

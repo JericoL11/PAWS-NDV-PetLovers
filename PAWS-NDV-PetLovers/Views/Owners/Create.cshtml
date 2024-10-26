@@ -4,6 +4,7 @@
     ViewData["Title"] = "Create";
 }
 <div class="container p-0 bg container-bord">
+
     <div class="container p-0">
 
         <div class="container p-0  bg-custom-color">
@@ -73,9 +74,9 @@
                         <label asp-for="Owner.registeredDate" class="control-label"></label>
                         <input asp-for="Owner.registeredDate" class="form-control bg-light dateInput" readonly />
                     </div>
+                    </div>
                 </div>
             </div>
-        </div>
 
             <!-- Pets Section -->
             <div class="bg-secondary bg-opacity-10 py-2 my-3">
@@ -86,37 +87,34 @@
 
 
             <!-- Pets Table -->
-            <table id="PetTable" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th><p style="margin:0;">Pet Name</p></th>
-                        <th><p style="margin:0;">Gender</p></th>
-                        <th><p style="margin:0;">Specie</p></th>
-                        <th><p style="margin:0;">Breed</p></th>
-                        <th><p style="margin:0;">Birth date</p></th>
-                        <th><p style="margin:0;">Age</p></th>
-                        <th><p style="margin:0;">Color</p></th>
-                        <th colspan="2">
-                            <button type="button" class="btn btn-success" id="addRow">Add Row</button>
-                        </th>
-                    </tr>
-                </thead>
+                <table id="PetTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th><p style="margin:0;">Pet Name</p></th>
+                            <th><p style="margin:0;">Gender</p></th>
+                            <th><p style="margin:0;">Specie</p></th>
+                            <th><p style="margin:0;">Breed</p></th>
+                            <th><p style="margin:0;">Birth date</p></th>
+                            <th><p style="margin:0;">Age</p></th>
+                            <th><p style="margin:0;">Color</p></th>
+                            <th colspan="2">
+                                <button type="button" class="btn btn-success" id="addRow">Add Row</button>
+                            </th>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    <tr class="detailRow">
-                        <div class="row">
+                    <tbody>
+                        <tr class="detailRow">
                             <td class="col-2">
-                                <input name="Owner.Pets[0].petName" class="form-control " required placeholder="Enter Pet Name" />
+                                <input name="Owner.Pets[0].petName" class="form-control" required placeholder="Enter Pet Name" />
                             </td>
-
-                             <td class="col-2">
+                            <td class="col-2">
                                 <select name="Owner.Pets[0].gender" class="form-select bg-light" required>
                                     <option value="" selected hidden>----</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                 </select>
                             </td>
-
                             <td class="col-1">
                                 <select name="Owner.Pets[0].species" class="form-select bg-light" required>
                                     <option value="" selected hidden>----</option>
@@ -128,7 +126,7 @@
                                 <input name="Owner.Pets[0].breed" class="form-control bg-light" required />
                             </td>
                             <td class="col-1">
-                            <input name="Owner.Pets[0].bdate" class="form-control bg-light birthdate" type="date" required />
+                                <input name="Owner.Pets[0].bdate" class="form-control bg-light birthdate" type="date" required />
                             </td>
                             <td class="text-center">
                                 <input name="Owner.Pets[0].age" class="form-control bg-light age" type="text" readonly />
@@ -137,35 +135,33 @@
                                 <input name="Owner.Pets[0].color" class="form-control bg-light" required />
                             </td>
                             <td>
-                            <input type="date" name="Owner.Pets[0].registeredDate" class="form-control bg-light maxDate" id="dateInput" hidden readonly />
+                                <input type="date" name="Owner.Pets[0].registeredDate" class="form-control bg-light maxDate" id="dateInput" hidden readonly />
                             </td>
                             <td class="col-1">
                                 <button type="button" class="btn btn-outline-danger removeRow">Remove</button>
-                            </td>   
-                        </div>
-                    </tr>
-                </tbody>
-            </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
-    <div class="form-group mt-4 text-end">
-      
-            @if(Model.btnCnl != null)
-            {
-                <input type="hidden" name="btnCnl" value="@Model.btnCnl" />
-                <a asp-action="Dashboard" asp-controller="Appointments" class="btn btn-secondary ms-3 ">Cancel</a>
-            }
-            else
-            {
-              <a asp-action="Index" class="btn btn-secondary ms-3 ">Cancel</a>
-            }
        
-        <input type="submit" value="Create" class="btn btn-primary " />
+
+                <div class="form-group mt-4 text-end mb-4 me-4">
+      
+                    @if(Model.btnCnl != null)
+                    {
+                        <input type="hidden" name="btnCnl" value="@Model.btnCnl" />
+                        <a asp-action="Dashboard" asp-controller="Appointments" class="btn btn-secondary ms-3 ">Cancel</a>
+                    }
+                    else
+                    {
+                      <a asp-action="Index" class="btn btn-secondary ms-3  ">Cancel</a>
+                    }
+       
+                     <input type="submit" value="Create" class="btn btn-primary  " />
+                </div>
+        </form>
     </div>
- </form>
-        </div>
-
-
-
 </div>
 @section Scripts {
     @{
