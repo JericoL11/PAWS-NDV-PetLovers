@@ -52,7 +52,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Login
                 if (!userAccount.IsPasswordChanged)
                 {
                     HttpContext.Session.SetString("PasswordChanged", "false");
-                    return RedirectToAction("Account", "UserAccounts");
+                    return RedirectToAction("SignUp", "UserAccounts");
                 }
                 else
                 {
@@ -98,7 +98,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Login
                     userName = username,
                     passWord = password,
                     userType = "Admin",
-                    IsActive = true
+                    IsActive = true,
+                    dateCreated = DateTime.Now
                 };
 
                 _context.UserAccounts.Add(adminEntry);

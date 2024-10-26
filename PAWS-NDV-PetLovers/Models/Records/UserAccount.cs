@@ -37,6 +37,11 @@ namespace PAWS_NDV_PetLovers.Models.Records
 
         [Display(Name = "User-Type")]
         public string? userType { get; set; }
+
+        [Display(Name = "Created Date")]
+        [DataType(DataType.Date)]
+        public DateTime? dateCreated { get; set; }
+
         [Display(Name = "Status")]
         public bool IsActive { get; set; }
 

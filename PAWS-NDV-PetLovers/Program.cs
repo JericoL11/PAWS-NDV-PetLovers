@@ -23,9 +23,10 @@ builder.Services.AddSession(options =>
 
 });
 
-/*builder.Services.AddScoped<AuthFilter>(); //autofilter*/
+// Other service registrations...
+builder.Services.AddHttpContextAccessor(); // register IHttpContextAccessor 
 
-builder.Services.AddScoped<AuthFilter>(); // Register other services such as MVC controllers
+builder.Services.AddScoped<AuthFilter>(); // register AuthFilter
 
 
 var app = builder.Build();

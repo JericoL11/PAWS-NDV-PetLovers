@@ -1,37 +1,35 @@
-﻿@model PAWS_NDV_PetLovers.Models.Records.UserAccount
+﻿@model PAWS_NDV_PetLovers.ViewModels.UserAccountVm
 @{
-    ViewData["Title"] = "User Account";
+    ViewData["Title"] = "Account Index";
 }
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-6 mt-5">
-            <div class="card">
-                <div class="card-header">
-                    User Account
-                </div>
-                <div class="card-body">
-                    <form method="post" asp-action="Account">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group">
-                            <label asp-for="email" class="control-label"></label>
-                            <input name="email" type="email" class="form-control w-75" required />
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="passWord" class="control-label"></label>
-                            <input name="passWord" class="form-control  w-75" required>
-                        </div>
 
-                        <div class="form-group">
-                            <label for="confirmpassWord" class="control-label">Confirm password</label>
-                            <input name="confirmpassWord" class="form-control  w-75" required>
-                        </div>
-
-                        <div class="form-group mt-3">
-                            <input type="submit" value="Save" class="btn btn-primary px-4" />
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+<div class="bg-custom-color">
+    <div class="container">
+        <h1>Account</h1>
     </div>
 </div>
+
+<div class="container mt-2">
+    <ul class="nav">
+        <li>
+            <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="accountList" class="@(Model.activeAccountTab == PAWS_NDV_PetLovers.ViewModels.AccountTab.accountList ? "active" : string.Empty) btn btn-outline-success ">Account List</a>
+        </li>
+
+        <li>
+            <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="createStaff" class="@(Model.activeAccountTab == PAWS_NDV_PetLovers.ViewModels.AccountTab.createStaff ? "active" : string.Empty) btn btn-outline-success">Create New Staff</a>
+        </li>
+        
+
+    </ul>
+</div>
+
+@switch (Model.activeAccountTab)
+{
+    case PAWS_NDV_PetLovers.ViewModels.AccountTab.accountList:
+        @await Component.InvokeAsync("AccountList")
+        break;
+
+    case PAWS_NDV_PetLovers.ViewModels.AccountTab.createStaff:
+        @await Component.InvokeAsync("CreateStaff", new {isNull = Model.isNull})
+        break;
+}

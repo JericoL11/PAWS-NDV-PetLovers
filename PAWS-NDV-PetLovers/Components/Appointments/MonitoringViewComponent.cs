@@ -33,7 +33,6 @@ namespace PAWS_NDV_PetLovers.Components.Appointments
                 return View(vcm);
             }
 
-
             if (vcm.reportType == "booking")
             {
                 if (vcm.Status != null)

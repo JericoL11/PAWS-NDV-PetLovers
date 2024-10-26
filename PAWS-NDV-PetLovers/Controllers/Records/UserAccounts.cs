@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.Models.Records;
 using PAWS_NDV_PetLovers.PawsSevices;
+using PAWS_NDV_PetLovers.ViewModels;
 
 namespace PAWS_NDV_PetLovers.Controllers.Records
 {
@@ -20,14 +21,107 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             return View();
         }
 
-        public IActionResult Account()
+
+        public IActionResult Account(UserAccountVm vm)
         {
+            if (vm.activeAccountTab == null)
+            {
+                vm.activeAccountTab = AccountTab.accountList;
+            }
+            return View(vm);
+        }
+
+        public IActionResult SwitchToTab(string tabName)
+        {
+            var vm = new UserAccountVm();
+
+            switch (tabName)
+            {
+                case "accountList":
+                    vm.activeAccountTab = AccountTab.accountList;
+                    break;
+
+                case "createStaff":
+                    vm.activeAccountTab = AccountTab.createStaff;
+                    break;
+
+                default:
+                    vm.activeAccountTab = AccountTab.accountList;
+                    break;
+            }
+
+            return RedirectToAction(nameof(Account), vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateStaff(string fname, string lname)
+        {
+            var vm = new UserAccountVm();
+
+            if (string.IsNullOrWhiteSpace(fname) || string.IsNullOrWhiteSpace(lname))
+            {
+
+                vm.isNull = true;
+                vm.activeAccountTab = AccountTab.createStaff;
+
+                return RedirectToAction("Account", vm);
+            }
+
+
+            var username_Passsowrd = $"ndv.{fname}{lname}";
+
+            var hashData = HashingService.HashData(username_Passsowrd);
+
+           //capitalizing first letter
+           var Fname = char.ToUpper(fname[0]) +fname.Substring(1);
+            var Lname = char.ToUpper(lname[0]) + lname.Substring(1);
+
+            if (ModelState.IsValid)
+            {
+                var userAccount = new UserAccount
+                {
+                    fname = Fname,
+                    lname = Lname,
+                    userName = username_Passsowrd,
+                    passWord = hashData,
+                    IsActive = true,
+                    dateCreated = DateTime.Now,
+                    userType = "Staff"
+                };
+
+                _context.UserAccounts.Add(userAccount);
+                await _context.SaveChangesAsync();
+            }
+
+            vm.activeAccountTab = AccountTab.accountList;
+         
+            return RedirectToAction("Account", vm );
+        }
+
+        public async Task<IActionResult> SignUp()
+        {
+
+            //get id from login session
+            var id = HttpContext.Session.GetInt32("UserId");
+
+            var staffAcc = await _context.UserAccounts.FirstOrDefaultAsync(u => u.acc_Id == id);
+
+            if (!(string.IsNullOrEmpty(staffAcc.fname) && string.IsNullOrEmpty(staffAcc.lname)))
+            {
+                return View(new UserAccount
+                {
+                    fname = staffAcc.fname,
+                    lname = staffAcc.lname
+                });
+            }
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task <IActionResult> Account(string? email,string? passWord, string? confirmpassWord)
+        public async Task <IActionResult> SignUp(string? passWord, string? confirmpassWord, UserAccount userAcct)
         {
             //get id from login session
             var id =  HttpContext.Session.GetInt32("UserId");
@@ -36,19 +130,19 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             if (string.IsNullOrWhiteSpace(passWord) || string.IsNullOrWhiteSpace(confirmpassWord))
             {
                 ModelState.AddModelError("", "Please input Password");
-                return View();
+                return View(userAcct);
             }
 
             if (passWord.Count() <= 8)
             {
                 ModelState.AddModelError("","Password below 8 characters is invalid");
-                return View();
+                return View(userAcct);
             }
 
             if(passWord != confirmpassWord)
             {
                 ModelState.AddModelError("", "Password doesn't match");
-                return View();
+                return View(userAcct);
             }
 
             //check
@@ -61,9 +155,14 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 var hashing = HashingService.HashData(passWord);
 
                 //updateUser
-                userAccount.email = email;
+                userAccount.fname = userAcct.fname;
+                userAccount.lname = userAcct.lname;
+                userAccount.mname = userAcct.mname;
+                userAccount.contact = userAcct.contact;
+                userAccount.email = userAcct.email;
                 userAccount.passWord = hashing;
                 userAccount.IsPasswordChanged = true;
+                userAccount.bdate = userAcct.bdate;
 
                 await _context.SaveChangesAsync();
                 HttpContext.Session.SetString("PasswordChanged", "true");
@@ -76,5 +175,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             }
          
         }
+
+    
     }
 }
