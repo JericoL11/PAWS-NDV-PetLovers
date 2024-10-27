@@ -8,7 +8,7 @@ public class AuthFilter : ActionFilterAttribute
 {
     private readonly PAWS_NDV_PetLoversContext _context;
 
-    public AuthFilter(PAWS_NDV_PetLoversContext context)
+  /*  public AuthFilter(PAWS_NDV_PetLoversContext context)
     {
         _context = context;
     }
@@ -64,7 +64,7 @@ public class AuthFilter : ActionFilterAttribute
 
         // List of controllers where all actions are restricted for staff
         var restrictedControllersForStaff = new List<string>
-    { 
+    {
         "Services"  // Staff cannot access any action in Services controller
     };
 
@@ -85,5 +85,5 @@ public class AuthFilter : ActionFilterAttribute
             // Continue with the action if no restrictions apply
             base.OnActionExecuting(context);
         }
-    }
+    }*/
 }

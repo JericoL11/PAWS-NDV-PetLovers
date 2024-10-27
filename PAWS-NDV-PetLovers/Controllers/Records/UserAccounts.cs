@@ -31,6 +31,47 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             return View(vm);
         }
 
+        //admin actions
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ManageAccount(int userId, string action)
+        {
+            var userAccount = await _context.UserAccounts.FindAsync(userId);
+
+            if (userAccount != null)
+            {
+                switch (action)
+                {
+                    case "Reset":
+                        var hashData = HashingService.HashData(userAccount.userName);
+                        userAccount.passWord = hashData;
+                        userAccount.IsPasswordChanged = false;
+                        break;
+
+                    case "Deactivate":
+                        userAccount.IsActive = false;
+                        break;
+
+                    case "Activate":
+                        userAccount.IsActive = true;
+                        break;
+
+                    case "Delete":
+                        _context.UserAccounts.Remove(userAccount);
+                        break;
+
+                    default:
+                        // Handle unknown action if necessary
+                        break;
+                }
+
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Account));
+        }
+
         public IActionResult SwitchToTab(string tabName)
         {
             var vm = new UserAccountVm();
@@ -59,15 +100,25 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         {
             var vm = new UserAccountVm();
 
+         
             if (string.IsNullOrWhiteSpace(fname) || string.IsNullOrWhiteSpace(lname))
             {
-
                 vm.isNull = true;
                 vm.activeAccountTab = AccountTab.createStaff;
 
                 return RedirectToAction("Account", vm);
             }
 
+            //name already exist
+            var userAccountCheck = await _context.UserAccounts.FirstOrDefaultAsync(u => u.fname == fname && u.lname == lname && u.IsActive == true);
+
+            if (userAccountCheck != null)
+            {
+                vm.isExist = true;
+                vm.activeAccountTab = AccountTab.createStaff;
+
+                return RedirectToAction("Account", vm);
+            }
 
             var username_Passsowrd = $"ndv.{fname}{lname}";
 
@@ -107,12 +158,24 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
             var staffAcc = await _context.UserAccounts.FirstOrDefaultAsync(u => u.acc_Id == id);
 
+
             if (!(string.IsNullOrEmpty(staffAcc.fname) && string.IsNullOrEmpty(staffAcc.lname)))
             {
-                return View(new UserAccount
+             
+                return View(new UserAccountVm
                 {
-                    fname = staffAcc.fname,
-                    lname = staffAcc.lname
+                    userAccount = staffAcc
+                });
+            }
+
+            if ((string.IsNullOrEmpty(staffAcc.email)
+                && string.IsNullOrEmpty(staffAcc.contact)
+                && string.IsNullOrEmpty(staffAcc.bdate.ToString())) 
+                && staffAcc.IsPasswordChanged == false)
+            {
+                return View(new UserAccountVm
+                {
+                    fromReset = true,
                 });
             }
 
@@ -121,8 +184,10 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task <IActionResult> SignUp(string? passWord, string? confirmpassWord, UserAccount userAcct)
+        public async Task <IActionResult> SignUp(string? passWord, string? confirmpassWord, UserAccountVm userAcctVm)
         {
+            var userAcct = userAcctVm.userAccount;
+
             //get id from login session
             var id =  HttpContext.Session.GetInt32("UserId");
 
@@ -130,19 +195,27 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             if (string.IsNullOrWhiteSpace(passWord) || string.IsNullOrWhiteSpace(confirmpassWord))
             {
                 ModelState.AddModelError("", "Please input Password");
-                return View(userAcct);
+                return View( new UserAccountVm{
+                    userAccount = userAcct
+                });
             }
 
             if (passWord.Count() <= 8)
             {
                 ModelState.AddModelError("","Password below 8 characters is invalid");
-                return View(userAcct);
+                return View(new UserAccountVm
+                {
+                    userAccount = userAcct
+                });
             }
 
             if(passWord != confirmpassWord)
             {
                 ModelState.AddModelError("", "Password doesn't match");
-                return View(userAcct);
+                return View(new UserAccountVm
+                {
+                    userAccount = userAcct
+                });
             }
 
             //check

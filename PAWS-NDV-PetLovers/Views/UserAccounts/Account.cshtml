@@ -30,6 +30,6 @@
         break;
 
     case PAWS_NDV_PetLovers.ViewModels.AccountTab.createStaff:
-        @await Component.InvokeAsync("CreateStaff", new {isNull = Model.isNull})
+        @await Component.InvokeAsync("CreateStaff", new {vm = Model})
         break;
 }

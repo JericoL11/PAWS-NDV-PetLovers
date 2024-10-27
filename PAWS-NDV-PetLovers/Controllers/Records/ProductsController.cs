@@ -115,7 +115,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             await SetCategoryListAsync();
 
             // Check if addQnty has a value
-            if (product.stockAdjustmentNav.Count > 0)
+            if (product.stockAdjustmentNav[0].stock != 0 )
             {
                 //In the view, only the stock was inputed, here's the remaining necessary column that needs to be updated.
                 product.stockAdjustmentNav[0].productId = product.id;

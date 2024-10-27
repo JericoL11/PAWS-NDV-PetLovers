@@ -1,4 +1,4 @@
-﻿    using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using PAWS_NDV_PetLovers.Data;
@@ -37,6 +37,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         public async Task<IActionResult> Create([Bind("id,categoryName,description,registeredDate,Products")] Category category)
         {
 
+            var registerDate = DateTime.Now;
+
             if (category == null)
              {
                  return NotFound();
@@ -48,6 +50,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                  return View(category);
 
              }
+
 
             /*check product*/
             // Use a HashSet to track pet names and check for duplicates
@@ -62,9 +65,34 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 }
             }
 
-                _context.Add(category);
-                await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Successfully Created!";
+            //add registerDate individualyy
+            foreach(var product in category.Products)
+            {
+                product.registeredDate = registerDate;
+            }
+
+            _context.Add(category);
+            await _context.SaveChangesAsync();
+
+
+            var stockAdjustments = new List<StockAdjustment>();
+            foreach (var product in category.Products)
+            {
+                //Entry
+                var stockAdjustment = new StockAdjustment
+                {
+                    source = "Order",
+                    date = (DateTime)product.registeredDate,
+                    stock = (int)product.quantity,
+                    productId = product.id,
+                };
+                stockAdjustments.Add(stockAdjustment);
+
+            }
+            _context.StockAdjustments.AddRange(stockAdjustments);
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Successfully Created!";
 
                 return RedirectToAction(nameof(Index));
         }

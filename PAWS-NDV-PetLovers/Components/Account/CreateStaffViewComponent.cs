@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PAWS_NDV_PetLovers.Data;
+using PAWS_NDV_PetLovers.ViewModels;
 
 namespace PAWS_NDV_PetLovers.Components.Account
 {
@@ -12,13 +13,18 @@ namespace PAWS_NDV_PetLovers.Components.Account
             _context = context;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(bool isNull)
+        public async Task<IViewComponentResult> InvokeAsync(UserAccountVm vm)
         {
 
-            if (isNull)
+            if (vm.isNull)
             {
                 ModelState.AddModelError("", "Please fill-up username or password");
            
+            }
+
+            if (vm.isExist)
+            {
+                ModelState.AddModelError("", "This name is already in use and currently active.");
             }
             return View();
         }
