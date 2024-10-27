@@ -93,7 +93,7 @@
                     </a>
                     <div class="collapse" id="recordmanagement-collapse" data-bs-parent="#accordion">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3 small">
-                       @*       @if (Context.Session.GetString("UserRole") == "Admin")
+                            @if (Context.Session.GetString("UserRole") == "Admin")
                             {
                                 <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Owners">Client</a></li>
                             }
@@ -102,11 +102,11 @@
                             @if (Context.Session.GetString("UserRole") == "Admin")
                             {
                                 <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Services">Service</a></li>
-                            } *@
-
+                            } 
+@* 
                         <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Owners">Client</a></li>
                         <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Products">Product</a></li>
-                        <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Services">Service</a></li>
+                        <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Services">Service</a></li> *@
 
                         </ul>
                     </div>
@@ -228,12 +228,12 @@
 
                
                     <ul class="dropdown-menu dropdown-menu-end text-small shadow"  aria-labelledby="dropdownUser3">
-                        <li><a class="dropdown-item">Profile</a></li>
-                      @*   @if (Context.Session.GetString("UserRole") == "Admin")
+                        <li><a class="dropdown-item" asp-action="Profile" asp-controller="UserAccounts">Profile</a></li>
+                        @if (Context.Session.GetString("UserRole") == "Admin")
                         {
                             <li><a asp-action="Account" asp-controller="UserAccounts" class="dropdown-item">Account</a></li>
-                        } *@
-                        <li><a asp-action="Account" asp-controller="UserAccounts" class="dropdown-item">Account</a></li>
+                        }
+                     
                         <li><hr class="dropdown-divider" /></li>
                             <li><a asp-action="Logout" asp-controller="Logins" class="dropdown-item">Logout</a></li>
 

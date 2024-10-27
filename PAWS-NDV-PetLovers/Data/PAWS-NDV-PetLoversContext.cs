@@ -29,6 +29,8 @@ namespace PAWS_NDV_PetLovers.Data
 
         public DbSet<UserAccount> UserAccounts { get; set; } = default!;
 
+        public DbSet<PasswordResetRequest> PasswordResetRequests { get; set; }
+
         //appointments
         public DbSet<Appointment> Appointments { get; set; } = default!;
 
