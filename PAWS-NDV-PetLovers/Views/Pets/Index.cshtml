@@ -19,7 +19,7 @@
 
         <div class="d-flex justify-content-end pt-3 px-3">
             @* <a class="btn btn-primary btn-md mb-4  me-2" asp-action="Create">Add new Pet</a> *@
-            <a class="btn btn-primary btn-md mb-4 px-4 " asp-action="Index" asp-controller="Owners">View Owner List</a>
+            <a class="btn btn-primary btn-cancel btn-md mb-4 px-4 " asp-action="Index" asp-controller="Owners">View Owner List</a>
         </div>
 
         <div class="card p-3">
@@ -100,7 +100,7 @@
                                         </td>
                                         <td class="btn-group">
                                             <a asp-action="Edit" class="btn btn-success me-3" asp-route-id="@item.id">Update</a> 
-                                            <a asp-action="Details" class="btn btn-warning px-4" asp-route-id="@item.id">View</a> 
+                                            <a asp-action="Details" class="btn btn-warning btn-cancel px-4" asp-route-id="@item.id">View</a> 
                                            @*  <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.id">Delete</a> *@ 
                                         </td>
                             </tr>

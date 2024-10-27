@@ -113,12 +113,18 @@ html {
 }*/
 
 
+.image-container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
+}
 
-
-
+#sidebarlogo {
+    width: 110px;
+    height: 110px;
+}
 /*NJ CSS SIDEBAR*/
-
 /*TAG ALL AREA*/
 button {
     border-color: transparent;
@@ -129,6 +135,7 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     display: flex;
     min-height: 100vh;
+
 }
 
 /*6/10/24*/
@@ -402,7 +409,8 @@ html {
 
 .bg-pets {
     border-top: 1px solid #469387;
-    background-color: rgba(70, 147, 135, 0.2);
+    border-bottom: 1px solid #469387;
+    background-color: #aad7d7 !important;
 }
 
 .container-bord {
@@ -413,7 +421,23 @@ html {
 }
 
 
+.bg-logcard {
+    background-color: #A6D5C6;
 
+}
+
+.log-card{
+    border-color: white !important;
+    border: 3px solid;
+}
+
+.btn-login,
+.btn-login.active,
+.btn-login:hover{
+    background-color: #469387;
+    border-color: #469387;
+
+}
 /*APPOINTMENTS AREA END*/
 
 
@@ -477,7 +501,7 @@ html {
     height: 100vh; /* Full height */
     overflow-y: auto; /* Enable vertical scrolling */
     padding: 15px;
-    z-index: 100000;
+    z-index: 1000;
 }
 
 
@@ -539,7 +563,7 @@ html {
     #sidebar {
         display: none; /* Hide sidebar on mobile */
     }
-
+     
     /* Main Content Area */
     #subbody {
         margin-left: 0px; /* Space for sidebar */
@@ -563,10 +587,42 @@ table thead tr {
     background-color: #d3f7f1a8;
 }
 
+
+
 table {
     border-color: #469387;
     background-color: white;
     
+}
+
+.table-bord{
+    border-color:black;
+}
+
+.btn-newbooking,
+.btn-newpet
+{
+    border-color: #469387 !important;
+    background-color: #469387 !important;
+    font-weight:bold;
+    font-size:15px;
+}
+
+    .btn-newbooking:hover
+    .btn-newpet:hover{
+        border-color: #469387 !important;
+        background-color: #efc65de8 !important;
+        font-weight: bold;
+        font-size: 15px;
+        color: black;
+    }
+
+.btn-diagnosis {
+        border-color: #469387 !important;
+        background-color: #efc65de8 !important;
+        font-weight: bold;
+        font-size: 15px;
+        color: black;
 }
 
 .bg-custom-color {
@@ -580,12 +636,12 @@ table {
     border-top: 2px solid #469387;
     background-color: #aad7d7 !important;
 }
+.no-colo{
+    background-color:transparent;
+}
 
-
-.modal-f{
-    margin-left:150px;
-    margin-top:50px;
-    
+.modal-f {
+    z-index: 100000;
 }
 /*End Here*/
 
@@ -595,18 +651,42 @@ table {
 
 */
 /*BUTTONS COLOR ,HOVER, OUTLINE */
+
 .btn-cancel,
-.btn-cancel:hover,
-.btn-cancel:active,
-.btn-cancel:focus{
-    background-color: lightcoral;
-    font-weight: bold;
-    font-size: 15px;
-    border-color:lightcoral;
+.btn-cancel.active,
+.btn-cancel.focus,
+.btn-cancel:hover{
+    background-color: transparent;
+    border-color:gray;
     color:black;
-    outline:none;
-    box-shadow:none;
+    font-size:15px;
+    font-weight:bold;
 }
+
+.btn-newbooking {
+    background-color: gray !important;
+    border-color: gray !important;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.btn-view,
+.btn-view.active,
+.btn-view.focus {
+    background-color: gray;
+    color: white;
+    border-color: gray;
+    font-size: 15px;
+    font-weight: bold;
+}
+    .btn-view:hover {
+        background-color: gray;
+        color: black;
+        border-color: gray;
+        font-size: 15px;
+        font-weight: bold;
+    }
 
 .btn-appointment,
 .btn-appointment:hover,
@@ -622,17 +702,28 @@ table {
 }
 
 .btn-exrecord,
-.btn-exrecord:hover,
 .btn-exrecord:active,
-.btn-exrecord:focus{
-    background-color: #469387;
-    border-color: #469387;
-    color: white;
+.btn-exrecord:focus {
+    background-color: transparent;
+    border-color: gray;
+    color: black;
     font-weight: bold;
     font-size: 15px;
-    outline:none;
-    box-shadow:none;
+    outline: none;
+    box-shadow: none;
 }
+
+    .btn-exrecord:hover {
+        color: black;
+        background-color: #808080;
+        border-color: gray;
+        color: white;
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+
+
 
 .btn-success{
 
@@ -645,22 +736,100 @@ table {
     box-shadow: none;
 }
 
-    /*.btn-success:hover,
+    .btn-success:hover {
+        background-color: #efc65de8 !important;
+        border-color: #469387 !important;
+        color: black;
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+.btn-confirm,
+.btn-confirm.active{
+    background-color: #469387 !important;
+    border-color: #469387 !important;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    outline: none;
+    box-shadow: none;
+}
+
+
+.btn-danger {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.btn-update,
+.btn-update:hover,
+.btn-update.active  {
+    background-color: blue !important;
+    border-color: #469387 !important;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.btn-diagnosis,
+.btn-diagnosis:hover,
+.btn-diagnosis.active{
+    background-color: gold !important;
+    border-color: gold !important;
+    color: black;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+
+.btn-history,
+.btn-history.active,
+.btn-history:hover,
+.btn-cancel,
+.btn-cancel.active,
+.btn-cancel:hover
+.btn-view,
+.btn-view.active
+.btn-view:hover{
+    background-color: gray !important;
+    border-color: gray !important;
+    color: white !important;
+    font-weight: bold;
+    font-size: 15px;
+}
+/*.btn-success:hover,
     .btn-success:active{
         background-color: #efc65de8 !important;
         color: black;
         border-color: #efc65de8;
     }*/
-
-
 /*BUTTONS COLOR AND HOVER END*/
+.btn-success.active,
+.btn-success.field-focused {
+    background-color: #efc65de8 !important; /* Background color white */
+    color: black;
+    /*border-color: white;*/
+}
 
-    .btn-success.active,
-    .btn-success.field-focused {
-        background-color: #efc65de8 !important; /* Background color white */
-        color: black;
-        /*border-color: white;*/
-    }
+.bg-newpet {
+    background-color: #d3f7f1a8;
+}
 
 
+.log-body {
+    background-color: #469387;
+    background-image: url(../Images/pawsbgwopacity.png);
+    background-size: cover; /* Ensures background image covers the entire container */
+    background-repeat: no-repeat; /* Prevents image repetition */
+    background-position: center; /* Centers the background image */
+    min-height: 100vh; /* Makes sure it covers the full viewport height */
+    width: 100%; /* Ensures it spans the full viewport width */
+    display: flex; /* Flexbox for easier content centering */
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    overflow: hidden; /* Hides any overflow to keep it neat */
+    padding: 0; /* Removes padding for a snug fit */
+    margin: 0; /* Removes margin for a snug fit */
+
+}
 

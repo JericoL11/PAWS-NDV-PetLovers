@@ -41,8 +41,11 @@
 
     <div class="flex-shrink-0 fixed-sticky left-0 top-0" id="sidebar">
 
+        <div class="image-container" >
+            <img src="~/Images/Ndv_logo.png" id="sidebarlogo" />
+        </div>
         <div class="header-box px-1 pt-1 pb-1 justify-content-between text-center">
-            <h1 class="fs-4">
+            <h1 class="fs-4 fw-bold">
                 <span class="bg-white text-dark rounded shadow px-2">NDV</span>
                 <span class="text-white"> Pet Lovers</span>
             </h1>
@@ -137,7 +140,7 @@
                 </div> *@
                 </li>
 
-                <li class="border-top my-3"></li>
+              
                 
             </ul>
         </div>
@@ -205,7 +208,7 @@
     }
    
     <div class="container-fluid p-0" id="subbody">
-        <nav class="navbar" style="position: sticky; top: 0; z-index:10000;">
+        <nav class="navbar" style="position: sticky; top: 0; z-index:1000;">
             <div class="d-flex w-100 align-items-center">
                 <a class="navbar-brand fs-5"></a>
                     <button class="btn px-2 py-2 open-btn d-md-none">
@@ -234,7 +237,7 @@
 
         </nav>
 
-        <div class="container-fluid">
+        <div class="container p-0">
                 <div>
                     <main role="main" class="container" id="renderbody">
                         @RenderBody()

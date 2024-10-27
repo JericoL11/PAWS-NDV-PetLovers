@@ -1,38 +1,43 @@
 ﻿@{
     Layout = "_Login.cshtml";
 }
-<div class="container vh-100 d-flex justify-content-center align-items-center">
-    <div class="card w-100" style="max-width: 800px; border-radius: 20px; overflow: hidden;">
+<div class="container d-flex justify-content-center align-items-center">
+    <div class="card w-100 log-card" style="max-width: 800px; border-radius: 20px; overflow: hidden;">
         <div class="row g-0">
-            <div class="col-md-5 d-flex align-items-center justify-content-center bg-primary text-white">
-                <img src="~/Images/Ndv_logo.png" alt="Logo" class="img-fluid" style="max-width: 250px; height: auto;">
+
+            <div class="col-12 col-md-5 d-flex align-items-center justify-content-center bg-logcard text-white">
+                <img src="~/Images/logologin.png" alt="Logo" class="img-fluid" style="max-width: 280px; height: auto;">
             </div>
-            <div class="col-md-7">
+
+            <div class="col-12 col-md-7">
                 <div class="card-body border-0">
                     <div class="p-4">
                         <h2 class="card-title mb-4">Login</h2>
+
                         <form asp-action="Login" method="post" asp-controller="Logins">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control " id="Username" name="userName" placeholder="Email or username" >
+                                <input type="text" class="form-control " id="Username" name="userName" placeholder="Email or username">
                                 <label for="Username">Email or username</label>
                             </div>
                             <div class="form-floating mb-3 position-relative">
-                                <input type="password" class="form-control" id="Password" name="passWord" placeholder="Password" >
+                                <input type="password" class="form-control" id="Password" name="passWord" placeholder="Password">
                                 <label for="Password">Password</label>
                                 <span class="position-absolute top-50 end-0 translate-middle-y me-3" onclick="togglePasswordVisibility()" style="cursor: pointer;">
                                     <i class="fas fa-eye" id="togglePasswordIcon"></i>
                                 </span>
                             </div>
-                            <button type="submit" class="btn btn-primary w-100">Login</button>
+                            <button type="submit" class="btn btn-primary btn-login w-100">Login</button>
                         </form>
+
                     </div>
-                   
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 <script>

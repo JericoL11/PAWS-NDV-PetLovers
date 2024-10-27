@@ -4,29 +4,32 @@
     ViewData["Title"] = "Diagnostics VC";
 }
 
-<div class="container">
-    <table class="table" id="diagnosticTable">
-        <thead>
-            <tr>
-                <th>Services</th>
-                <th>Details</th>
-                <th class="text-end"> 
-                    <a asp-action="EditDetails" name="" asp-route-id="@Model.Diagnostics.diagnostic_Id" asp-controller="Billing" class="btn btn-outline-primary px-3">Edit Details</a>
-                 </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Diagnostics.IdiagnosticDetails)
-            {
-                <tr>
-                    <td>@item.Services.serviceName</td>
 
-                    <td> 
-                        <textarea class="form-control bg-light" rows="5" style="resize: none;" readonly>@item.details</textarea>
-                    </td>
-                    
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-bordered text-center hover" id="diagnosticTable">
+            <thead>
+                <tr>
+                    <th>Services</th>
+                    <th>Details</th>
+                    <th class="text-end"> 
+                        <a asp-action="EditDetails" name="" asp-route-id="@Model.Diagnostics.diagnostic_Id" asp-controller="Billing" class="btn btn-outline-primary px-3">Edit Details</a>
+                     </th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Diagnostics.IdiagnosticDetails)
+                {
+                    <tr>
+                        <td>@item.Services.serviceName</td>
+
+                        <td> 
+                            <textarea class="form-control bg-light" rows="5" style="resize: none;" readonly>@item.details</textarea>
+                        </td>
+                    
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

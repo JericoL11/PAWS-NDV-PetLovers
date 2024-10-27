@@ -14,7 +14,7 @@
 }
 <div class="text-end">
     <!-- Set current date as default -->
-    <a asp-action="Create" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")" class="btn btn-primary px-4 bg-custom-btn me-3">
+    <a asp-action="Create" asp-route-date="@DateTime.Now.ToString("yyyy-MM-dd")" class="btn btn-primary btn-confirm px-4  me-3">
         Add New Booking
     </a>
     <!-- <a asp-action="AppointmentHistory" class="btn btn-success px-4">History</a> -->
@@ -44,7 +44,7 @@
                         <td class="text-center">
                             @Html.DisplayFor(modelItem => item.fname) @Html.Raw(" ") @Html.DisplayFor(modelItem => item.lname)
                         </td>
-                        <td>
+                        <td class="text-center">
                             @{
                                 // Get distinct service names
                                 var services = item.IAppDetails
@@ -70,7 +70,7 @@
                                 }
                             </span>
                         </td>
-                        <td>@Html.DisplayFor(modelItem => item.contact)</td>
+                        <td class="text-center">@Html.DisplayFor(modelItem => item.contact)</td>
                         <td>@item.date.ToString("MMM. dd, yyyy")</td>
                         <td>@Html.DisplayFor(modelItem => item.time)</td>
                         <td class="remarks-cell"></td>
@@ -87,7 +87,7 @@
 
 
 
-                                    <button type="button" class="btn btn-secondary btn-sm me-1" style="background-color:lightcoral;border-color:lightcoral;color:black;font-weight:bold;font-size:15px;" data-id="@item.AppointId" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                    <button type="button" class="btn btn-secondary btn-cancel btn-sm me-1" data-id="@item.AppointId" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                         Cancel
                                     </button>
 
@@ -175,11 +175,11 @@
             </div>
             <div class="modal-footer">
 
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Close</button>
 
                 <form asp-action="Delete" asp-controller="Appointments" method="post">
                     <input type="hidden" name="id" id="appointmentId" />
-                    <input type="submit" value="Confirm" class="btn btn-primary" />
+                    <input type="submit" value="Confirm" class="btn btn-primary btn-confirm" />
                 </form>
             </div>
         </div>

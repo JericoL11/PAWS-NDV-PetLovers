@@ -15,42 +15,42 @@
             </div>
         </div>
 
-        <form asp-action="Edit" method="post">
+        <form asp-action="Edit" method="post" class="p-3">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input asp-for="Appointment.AppointId" hidden />
-            <div class="row">
+            <div class="row p-0">
                 @* appointments *@
-                <div class="form-group col-lg-4">
+                <div class="form-group col-lg-4" id="apppad">
                     <label asp-for="Appointment.fname" class="control-label"></label>
                     <input asp-for="Appointment.fname" class="form-control" />
                     <span asp-validation-for="Appointment.fname" class="text-danger"></span>
                 </div>
 
-                <div class="form-group col-lg-4">
+                <div class="form-group col-lg-4" id="apppad">
                     <label asp-for="Appointment.lname" class="control-label"></label>
                     <input asp-for="Appointment.lname" class="form-control" />
                     <span asp-validation-for="Appointment.lname" class="text-danger"></span>
                 </div>
 
-                <div class="form-group col-lg-4">
+                <div class="form-group col-lg-4" id="apppad"> 
                     <label asp-for="Appointment.mname" class="control-label"></label>
                     <input asp-for="Appointment.mname" class="form-control" />
                     <span asp-validation-for="Appointment.mname" class="text-danger"></span>
                 </div>
 
-                <div class="form-group col-lg-4">
+                <div class="form-group col-lg-4" id="apppad">
                     <label asp-for="Appointment.contact" class="control-label"></label>
                     <input id="contact" asp-for="Appointment.contact" class="form-control" />
                     <span asp-validation-for="Appointment.contact" class="text-danger"></span>
                 </div>
 
-                <div class="form-group col-lg-4">
+                <div class="form-group col-lg-4" id="apppad">
                     <label asp-for="Appointment.date" class="control-label"></label>
                     <input asp-for="Appointment.date" class="form-control minDate" id="appointmentDate" type="date" />
                     <span asp-validation-for="Appointment.date" class="text-danger"></span>
                 </div>
 
-                <div class="form-group col-lg-4">
+                <div class="form-group col-lg-4" id="apppad">
                     <label asp-for="Appointment.time" class="control-label"></label>
                     <select id="timeDropdown" name="Appointment.time" class="form-select" required>
                         <!-- Times will be loaded here -->
@@ -59,9 +59,16 @@
                 </div>
 
                 <!-- Services Table -->
-                <div class="row mt-4">
-                    <div class="col-8">
-                        <h4>Select Service</h4>
+                <div class="container p-0 pt-5">
+                    <div class="container p-0">
+
+                        <div class="container p-0  bg-pets">
+                            <div>
+                                <div class="container p-2">
+                                    <h1>Select Service</h1>
+                                </div>
+                            </div>
+                        </div>
                         <table class="table mt-2" id="DetailsTable">
                         <thead>
                             <tr>
