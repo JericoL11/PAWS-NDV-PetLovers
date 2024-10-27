@@ -95,11 +95,11 @@
                     </div>
           @*   </div> *@
 
-                    @switch (Model.activeBillingTab)
-                    {
-                        case PAWS_NDV_PetLovers.ViewModels.BillingTab.Diagnosis:
-                            @await Component.InvokeAsync("Diagnostics", new {id = Model.Diagnostics.diagnostic_Id})
-                        break;
+    @switch (Model.activeBillingTab)
+    {
+        case PAWS_NDV_PetLovers.ViewModels.BillingTab.Diagnosis:
+            @await Component.InvokeAsync("Diagnostics", new {id = Model.Diagnostics.diagnostic_Id})  //Service on View
+        break;
 
                         case PAWS_NDV_PetLovers.ViewModels.BillingTab.Purchase:
                             @await Component.InvokeAsync("Purchase", new { id = Model.Diagnostics.diagnostic_Id, errorMessage = Model.errorMessage, RemoveErrorMessage = Model.RemoveErrorMessage})

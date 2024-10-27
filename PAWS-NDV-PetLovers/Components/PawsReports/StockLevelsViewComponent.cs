@@ -34,7 +34,7 @@ namespace PAWS_NDV_PetLovers.Components.ProductMgmt
                             Status = vcm.Status,
                             SelectType = vcm.SelectType,
                             Filtered = vcm.Filtered,
-                            activeProdMgmtTab = ProdMgmtTab.stockLevel
+                            activeReportTab = ReportTab.stockLevel
                         });
 
                     case "High":
@@ -49,7 +49,7 @@ namespace PAWS_NDV_PetLovers.Components.ProductMgmt
                             Status = vcm.Status,
                             SelectType = vcm.SelectType,
                             Filtered = vcm.Filtered,
-                            activeProdMgmtTab = ProdMgmtTab.stockLevel
+                            activeReportTab = ReportTab.stockLevel
                         });
 
 
@@ -64,7 +64,7 @@ namespace PAWS_NDV_PetLovers.Components.ProductMgmt
                             Status = vcm.Status,
                             SelectType = vcm.SelectType,
                             Filtered = vcm.Filtered,
-                            activeProdMgmtTab = ProdMgmtTab.stockLevel
+                            activeReportTab = ReportTab.stockLevel
                         });
                 }
             }
@@ -83,7 +83,7 @@ namespace PAWS_NDV_PetLovers.Components.ProductMgmt
                             Status = vcm.Status,
                             SelectType = vcm.SelectType,
                             Filtered = vcm.Filtered,
-                            activeProdMgmtTab = ProdMgmtTab.stockLevel
+                            activeReportTab = ReportTab.stockLevel
                         });
                         
                     case "High":
@@ -97,7 +97,7 @@ namespace PAWS_NDV_PetLovers.Components.ProductMgmt
                             Status = vcm.Status,
                             SelectType = vcm.SelectType,
                             Filtered = vcm.Filtered,
-                            activeProdMgmtTab = ProdMgmtTab.stockLevel
+                            activeReportTab = ReportTab.stockLevel
                         });
                       
 
@@ -111,7 +111,7 @@ namespace PAWS_NDV_PetLovers.Components.ProductMgmt
                             Status = vcm.Status,
                             SelectType = vcm.SelectType,
                             Filtered = vcm.Filtered,
-                            activeProdMgmtTab = ProdMgmtTab.stockLevel
+                            activeReportTab = ReportTab.stockLevel
                         });
                 }
             }

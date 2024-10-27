@@ -25,6 +25,7 @@ namespace PAWS_NDV_PetLovers.ViewModels
         public Appointment? Appointment { get; set; }
 
 
+        public IEnumerable<StockAdjustment> IstockAdjustment { get; set; }
         public string? btnCnl { get; set; }
     }
 }

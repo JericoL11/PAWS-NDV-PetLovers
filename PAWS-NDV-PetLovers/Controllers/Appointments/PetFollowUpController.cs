@@ -5,6 +5,7 @@ using PAWS_NDV_PetLovers.ViewModels;
 
 namespace PAWS_NDV_PetLovers.Controllers.Appointments
 {
+    [ServiceFilter(typeof(AuthFilter))]
     public class PetFollowUpController : Controller
     {
         private readonly PAWS_NDV_PetLoversContext _context;

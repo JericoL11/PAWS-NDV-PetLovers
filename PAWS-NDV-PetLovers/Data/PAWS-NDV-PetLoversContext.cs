@@ -27,6 +27,8 @@ namespace PAWS_NDV_PetLovers.Data
 
         public DbSet<StockAdjustment> StockAdjustments { get; set; } = default!;
 
+        public DbSet<UserAccount> UserAccounts { get; set; } = default!;
+
         //appointments
         public DbSet<Appointment> Appointments { get; set; } = default!;
 
@@ -44,8 +46,6 @@ namespace PAWS_NDV_PetLovers.Data
         public DbSet<PurchaseDetails> PurchaseDetails { get; set; } = default!;
 
         public DbSet<Billing> Billings { get; set; } = default!;
-
-
 
         #region == fluent API == 
 

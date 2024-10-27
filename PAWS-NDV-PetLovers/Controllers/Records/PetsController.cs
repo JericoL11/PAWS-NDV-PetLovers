@@ -9,10 +9,9 @@ using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.Models.Records;
 using PAWS_NDV_PetLovers.ViewModels;
 
-
-
 namespace PAWS_NDV_PetLovers.Controllers.Records
 {
+    [ServiceFilter(typeof(AuthFilter))]
     public class PetsController : Controller
     {
         private readonly PAWS_NDV_PetLoversContext _context;

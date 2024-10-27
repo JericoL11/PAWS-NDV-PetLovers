@@ -4,10 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.ViewModels;
 using System.ComponentModel.DataAnnotations;
-using static PAWS_NDV_PetLovers.ViewModels.ReportsVm;
+
 
 namespace PAWS_NDV_PetLovers.Controllers.PawsReports
 {
+    [ServiceFilter(typeof(AuthFilter))]
     public class PawsReportController : Controller
     {
         private readonly PAWS_NDV_PetLoversContext _context;
@@ -450,7 +451,7 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 Status = Status,
                 SelectType = SelectType,
                 Filtered = filtered,
-                activeProdMgmtTab = ProdMgmtTab.stockLevel
+                activeReportTab = ReportTab.stockLevel
             };
             return vm;
 
@@ -467,7 +468,7 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 Status = Status,
                 SelectType = SelectType,
                 Filtered = filtered,
-                activeProdMgmtTab = ProdMgmtTab.stockLevel
+                activeReportTab = ReportTab.stockLevel
             };
             return vm;
 
@@ -484,7 +485,7 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 Status = Status,
                 SelectType = SelectType,
                 Filtered = filtered,
-                activeProdMgmtTab = ProdMgmtTab.stockLevel
+                activeReportTab = ReportTab.stockLevel
             };
             return vm;
 
@@ -501,7 +502,7 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 Status = Status,
                 SelectType = SelectType,
                 Filtered = filtered,
-                activeProdMgmtTab = ProdMgmtTab.stockLevel
+                activeReportTab = ReportTab.stockLevel
             };
             return vm;
         }
@@ -518,7 +519,7 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 Status = Status,
                 SelectType = SelectType,
                 Filtered = filtered,
-                activeProdMgmtTab = ProdMgmtTab.stockLevel
+                activeReportTab = ReportTab.stockLevel
             };
             return vm;
         }
@@ -534,7 +535,7 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 Status = Status,
                 SelectType = SelectType,
                 Filtered = filtered,
-                activeProdMgmtTab = ProdMgmtTab.stockLevel
+                activeReportTab = ReportTab.stockLevel
             };
             return vm;
         }
@@ -545,14 +546,14 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
 
 
         //Product Management
-
+        #region == Product Management Methods == 
         [HttpGet]
-        public async Task<IActionResult> ProductMgmtReport(ReportsVm vm)
+        public async Task<IActionResult> Dashboard(ReportsVm vm)
         {
             //default
-            if(vm.activeProdMgmtTab == null)
+            if(vm.activeReportTab == null)
             {
-                vm.activeProdMgmtTab = ProdMgmtTab.stockAdjust;
+                vm.activeReportTab = ReportTab.stockLevel;
             }
 
             return View(vm);
@@ -572,14 +573,14 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                     switch (Status)
                     {
                         case "Low":
-                            return RedirectToAction("ProductMgmtReport", "PawsReport", await GetLowStockProducts(SelectType, Status, true));
+                            return RedirectToAction("Dashboard", "PawsReport", await GetLowStockProducts(SelectType, Status, true));
 
                         case "High":
-                            return RedirectToAction("ProductMgmtReport", "PawsReport", await GetHighStockProducts(SelectType, Status, true));
+                            return RedirectToAction("Dashboard", "PawsReport", await GetHighStockProducts(SelectType, Status, true));
 
 
                         case "All":
-                            return RedirectToAction("ProductMgmtReport", "PawsReport", await GetAllStockProducts(SelectType, Status, true));
+                            return RedirectToAction("Dashboard", "PawsReport", await GetAllStockProducts(SelectType, Status, true));
 
                     }
                 }
@@ -589,13 +590,13 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
                 switch (Status)
                 {
                     case "Low":
-                        return RedirectToAction("ProductMgmtReport", "PawsReport", await GetAllcategoryLowProducts(SelectType, Status, true));
+                        return RedirectToAction("Dashboard", "PawsReport", await GetAllcategoryLowProducts(SelectType, Status, true));
 
                     case "High":
-                        return RedirectToAction("ProductMgmtReport", "PawsReport", await GetAllcategoryHighProducts(SelectType, Status, true));
+                        return RedirectToAction("Dashboard", "PawsReport", await GetAllcategoryHighProducts(SelectType, Status, true));
 
                     case "All":
-                        return RedirectToAction("ProductMgmtReport", "PawsReport", await GetAllCategoryProducts(SelectType, Status, true));
+                        return RedirectToAction("Dashboard", "PawsReport", await GetAllCategoryProducts(SelectType, Status, true));
 
                 }
                 return View(await GetAllCategoryProducts(SelectType, Status, true));
@@ -611,28 +612,60 @@ namespace PAWS_NDV_PetLovers.Controllers.PawsReports
             var vm = new ReportsVm();
             switch (tabName)
             {
-                case "stockAdjust":
-                    vm.activeProdMgmtTab = ProdMgmtTab.stockAdjust;
-                    break;
+               /* case "stockAdjust":
+                    vm.activeReportTab = ReportTab.stockAdjust;
+                    break;*/
 
                 case "stockLevel":
-                    vm.activeProdMgmtTab = ProdMgmtTab.stockLevel;
+                    vm.activeReportTab = ReportTab.stockLevel;
                     break;
 
                 case "transacSum":
-                    vm.activeProdMgmtTab = ProdMgmtTab.transacSum;
+                    vm.activeReportTab = ReportTab.transacSum;
                     break;
 
                 default:
-                    vm.activeProdMgmtTab = ProdMgmtTab.stockAdjust;
+                    vm.activeReportTab = ReportTab.stockLevel;
                     break;
             }
-            return RedirectToAction("ProductMgmtReport", vm);
+            return RedirectToAction("Dashboard", vm);
         }
+        #endregion
 
+
+        //Transaction Summary
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> TransacSumm(DateTime? startDate, DateTime? endDate)
+        {
+            if(startDate > endDate)
+            {
+                var vcm = new ReportsVm
+                {
+                    startDate = startDate, endDate = endDate, logical_dateError = true ,activeReportTab = ReportTab.transacSum
+                };
+
+                return RedirectToAction("Dashboard", "PawsReport", vcm);
+            }
+
+      /*      var billing = await _context.Billings
+               .Where(d => (!startDate.HasValue || d.date >= startDate)
+                        && (!endDate.HasValue || d.date <= endDate))
+               .Include(b => b.purchase)
+               .Include(b => b.diagnostics)
+               .ToListAsync();*/
+
+            var vm = new ReportsVm
+            {
+               /* IBilling = billing,*/   //Cannot pass to the dashboard, VC is the KEY!
+                startDate = startDate,
+                endDate = endDate,
+                activeReportTab = ReportTab.transacSum,
+                Filtered = true
+            };
+
+            return RedirectToAction("Dashboard", "PawsReport", vm);
+        }
     }
-
-
-
 
 }

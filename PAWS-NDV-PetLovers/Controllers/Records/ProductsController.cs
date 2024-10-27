@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.Models.Records;
+using PAWS_NDV_PetLovers.ViewModels;
 using System.Drawing;
 
 namespace PAWS_NDV_PetLovers.Controllers.Records
 {
+    [ServiceFilter(typeof(AuthFilter))]
     public class ProductsController : Controller
     {
         private readonly PAWS_NDV_PetLoversContext _context;
@@ -15,6 +17,21 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         {
             this._context = context;
         }
+
+
+
+        //Stock Adjustments
+        public async Task<IActionResult> StockAdjustment()
+        {
+            var stocks =  new RecordsVm
+            {
+                IstockAdjustment = await _context.StockAdjustments.Include(s => s.productsNav).ToListAsync()
+            };
+
+            return View(stocks);
+        }
+
+
         public async Task<IActionResult> Index()
         {
 

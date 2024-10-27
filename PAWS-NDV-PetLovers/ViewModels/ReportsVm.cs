@@ -1,5 +1,6 @@
 ﻿using PAWS_NDV_PetLovers.Models.Appointments;
 using PAWS_NDV_PetLovers.Models.Records;
+using PAWS_NDV_PetLovers.Models.Transactions;
 
 namespace PAWS_NDV_PetLovers.ViewModels
 {
@@ -31,16 +32,15 @@ namespace PAWS_NDV_PetLovers.ViewModels
 
         public IEnumerable<Product> IProducts { get; set; }
 
-        public IEnumerable <StockAdjustment> IstockAdjustment { get; set; }
+        public IEnumerable<Billing>IBilling { get; set; }
 
-
-        public ProdMgmtTab activeProdMgmtTab { get; set; }
+        public ReportTab activeReportTab { get; set; }
     }
 
 
-    public enum ProdMgmtTab
+    public enum ReportTab
     {
-        stockAdjust,
+     /*   stockAdjust,*/
         stockLevel,
         transacSum
     }
