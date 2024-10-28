@@ -121,7 +121,7 @@
                                         @if (ownerExists != null)
                                         {
                                             <!-- Complete Button for owners -->
-                                            <a asp-action="Edit" asp-controller="Owners" asp-route-id="@item.ownerId" class="btn btn-success btn-sm me-1">
+                                            <a asp-action="Edit" asp-controller="Owners" asp-route-id="@item.ownerId" asp-route-btnCnl="1" class="btn btn-success btn-sm me-1">
                                                 Attend
                                             </a>
                                         }

@@ -173,10 +173,22 @@
                 </table>
             </div>
 
-            <div class="form-group justify-content-end">
-                <input type="submit" value="Save" class="btn btn-primary px-5" />
-                <a class="btn btn-md btn-secondary my-2 px-5" asp-action="Index">Back</a>
-            </div>
+
+            @if(Model.btnCnl != null)
+            {
+                <div class="form-group justify-content-end">
+                    <input type="submit" value="Save" class="btn btn-primary px-5" />
+                    <a class="btn btn-md btn-secondary my-2 px-5" asp-action="Dashboard" asp-controller="Appointments">Back</a>
+                </div>
+            }
+            else
+            {
+                <div class="form-group justify-content-end">
+                    <input type="submit" value="Save" class="btn btn-primary px-5" />
+                    <a class="btn btn-md btn-secondary my-2 px-5" asp-action="Index">Back</a>
+                </div>
+            }
+         
 
         </form>
 

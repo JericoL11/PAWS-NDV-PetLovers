@@ -210,7 +210,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
 
         // GET: Owners/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, string? btnCnl)
         {
             
 
@@ -235,7 +235,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             var data = new RecordsVm
             {
                 Owner = updatedOwner,
-                IPets = updatedOwner.Pets
+                IPets = updatedOwner.Pets,
+                btnCnl = btnCnl
             };
 
 

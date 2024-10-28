@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.Models.Records;
 using PAWS_NDV_PetLovers.PawsSevices;
@@ -24,9 +26,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         [HttpGet]
         public async Task<IActionResult> Profile()
         {
-            var id = HttpContext.Session.GetInt32("UserId");
-            
-            var userAccount = await _context.UserAccounts.FirstOrDefaultAsync(u => u.acc_Id == id);
+            var userAccount = await _context.UserAccounts.FirstOrDefaultAsync(u => u.acc_Id == UserId());
 
             if(userAccount == null)
             {
@@ -37,6 +37,138 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             {
                 userAccount = userAccount
             });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit()
+        {
+            var userAccount = await _context.UserAccounts.FindAsync(UserId());
+
+            var vm = new UserAccountVm
+            {
+                userAccount = userAccount
+            };
+            return View(vm);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Edit([Bind("userAccount")]UserAccountVm vm)
+        {
+            var userAccount = vm.userAccount;
+
+            var findUser = await _context.UserAccounts.FindAsync(UserId());
+
+            if (findUser == null)
+            {
+                ModelState.AddModelError("", "Unable to Update. Please contact the Admin");
+
+                var model = new UserAccountVm
+                { userAccount = userAccount };
+
+                return View(model);
+            }
+
+
+            if (userAccount.contact.Count() < 11)
+            {
+                ModelState.AddModelError("", "Phone number must be at least 11 digits");
+
+                var model = new UserAccountVm
+                { userAccount = userAccount };
+
+                return View(model);
+            }
+            
+            //if true
+            findUser.fname = userAccount.fname;
+            findUser.lname = userAccount.lname;
+            findUser.mname = userAccount.mname;
+            findUser.bdate = userAccount.bdate;
+            findUser.email = userAccount.email;
+            findUser.contact = userAccount.contact;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Profile));
+
+        }
+        public int? UserId()
+        {
+            return (int)HttpContext.Session.GetInt32("UserId");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(string? oldPassword, string? password, string? ConfirmPassword)
+        {
+            var hashedPassword = HashingService.HashData(oldPassword);
+
+            var userAccount = await _context.UserAccounts.FindAsync(UserId());
+
+            if (userAccount == null)
+            {
+                return NotFound();
+            }
+
+            if (userAccount.passWord != hashedPassword)
+            {
+                // Add error to ModelState to display on the page
+                ModelState.AddModelError("", "Old password is incorrect");
+
+                // Return the same view with HasPasswordError set to true, so the modal opens
+                var model = new UserAccountVm
+                {
+                    userAccount = userAccount,
+                    HasPasswordError = true
+                };
+                return View("Profile", model);
+            }
+
+            else if (password != ConfirmPassword)
+            {
+
+                ModelState.AddModelError("", "Password are not match");
+
+                var model = new UserAccountVm
+                {
+                    userAccount = userAccount,
+                    HasPasswordError = true
+                };
+                return View("Profile", model);
+            }
+            else
+            {
+
+                if (password.Count() <= 8)
+                {
+                    ModelState.AddModelError("", "Password below 8 characters is invalid");
+
+                    var mdl = new UserAccountVm
+                    {
+                        userAccount = userAccount,
+                        HasPasswordError = true
+                    };
+                    return View("Profile", mdl);
+
+                }
+
+                var newPassword = HashingService.HashData(password);
+
+                //update passwort
+                userAccount.passWord = newPassword;
+                var model = new UserAccountVm
+                {
+                    userAccount = userAccount
+                };
+
+                await _context.SaveChangesAsync();
+                return View("Profile", model);
+
+
+
+
+            }
         }
 
         public IActionResult Account(UserAccountVm vm)
@@ -54,7 +186,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ManageAccount(int userId, string action)
         {
-            var userAccount = await _context.UserAccounts.FindAsync(userId);
+            var userAccount = await _context.UserAccounts.FindAsync(UserId());
 
             if (userAccount != null)
             {
@@ -170,10 +302,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         public async Task<IActionResult> SignUp()
         {
 
-            //get id from login session
-            var id = HttpContext.Session.GetInt32("UserId");
-
-            var staffAcc = await _context.UserAccounts.FirstOrDefaultAsync(u => u.acc_Id == id);
+            var staffAcc = await _context.UserAccounts.FirstOrDefaultAsync(u => u.acc_Id == UserId());
 
 
             if (!(string.IsNullOrEmpty(staffAcc.fname) && string.IsNullOrEmpty(staffAcc.lname)))
@@ -205,9 +334,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         {
             var userAcct = userAcctVm.userAccount;
 
-            //get id from login session
-            var id =  HttpContext.Session.GetInt32("UserId");
-
             //conditions
             if (string.IsNullOrWhiteSpace(passWord) || string.IsNullOrWhiteSpace(confirmpassWord))
             {
@@ -236,7 +362,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             }
 
             //check
-            var userAccount = await _context.UserAccounts.FirstOrDefaultAsync(u => u.acc_Id == id);
+            var userAccount = await _context.UserAccounts.FirstOrDefaultAsync(u => u.acc_Id == UserId());
 
             //if found
             if (userAccount != null)

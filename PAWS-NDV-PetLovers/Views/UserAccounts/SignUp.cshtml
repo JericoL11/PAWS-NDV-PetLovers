@@ -47,25 +47,26 @@
                         <h5 class="card-title text-secondary mt-5 mb-4 fw-semibold">Account Details</h5>
 
 
-                        <div class="mb-4">
-                            <div class="form-floating mb-3 position-relative">
-                                <input type="password" class="form-control Password" name="passWord" id="Password" placeholder="Password" required>
-                                <label for="Password">Password</label>
-                                <span class="position-absolute top-50 end-0 translate-middle-y me-3" onclick="togglePasswordVisibility('Password', 'togglePasswordIcon')" style="cursor: pointer;">
-                                    <i class="fas fa-eye" id="togglePasswordIcon"></i>
-                                </span>
-                            </div>
+                    <div class="mb-4">
+                        <div class="form-floating mb-3 position-relative">
+                            <input type="password" class="form-control password-field" name="passWord" placeholder="New Password" required>
+                            <label>New Password</label>
+                            <span class="position-absolute top-50 end-0 translate-middle-y me-3 toggle-password-icon" style="cursor: pointer;">
+                                <i class="fas fa-eye"></i>
+                            </span>
                         </div>
+                    </div>
 
-                        <div class="mb-4">
-                            <div class="form-floating mb-3 position-relative">
-                                <input type="password" class="form-control Password" name="ConfirmPassword" id="ConfirmPassword" placeholder="Confirm Password" required>
-                                <label for="ConfirmPassword">Confirm Password</label>
-                                <span class="position-absolute top-50 end-0 translate-middle-y me-3" onclick="togglePasswordVisibility('ConfirmPassword', 'toggleConfirmPasswordIcon')" style="cursor: pointer;">
-                                    <i class="fas fa-eye" id="toggleConfirmPasswordIcon"></i>
-                                </span>
-                            </div>
+                    <div class="mb-4">
+                        <div class="form-floating mb-3 position-relative">
+                            <input type="password" class="form-control password-field" name="ConfirmPassword" placeholder="Confirm Password" required>
+                            <label>Confirm Password</label>
+                            <span class="position-absolute top-50 end-0 translate-middle-y me-3 toggle-password-icon" style="cursor: pointer;">
+                                <i class="fas fa-eye"></i>
+                            </span>
                         </div>
+                    </div>
+               
 
                         <!-- Save Button with Icon -->
                         <div class="text-center mt-5">
@@ -73,9 +74,7 @@
                                 <i class="bi bi-save me-2"></i> Save Changes
                             </button>
                         </div>
-                    </div>
-                    
-              
+                </div>
             </div>
         </div>
     </form>
