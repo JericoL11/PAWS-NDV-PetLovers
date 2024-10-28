@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.Models.Records;
+using PAWS_NDV_PetLovers.PawsSevices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,14 @@ builder.Services.AddDbContext<PAWS_NDV_PetLoversContext>(options =>
    // -- for error message
    throw new InvalidOperationException("Connection string not found 'PAWS-NDV-PetLoversContext' not found")));
 
+// Register services
+/*builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));*/
+builder.Services.AddScoped<EmailService>();
+
+
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 // Add session services
 builder.Services.AddSession(options =>
@@ -44,6 +53,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+//smtp gmail
+app.UseSwagger();
+app.UseSwaggerUI();
+app.MapControllers();
 
 // Add session and authorization middlewares
 app.UseSession();
