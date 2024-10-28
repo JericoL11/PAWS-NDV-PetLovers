@@ -3,6 +3,33 @@
 
 // Write your JavaScript code.
 
+//password Hide/Show
+function togglePasswordVisibility() {
+    // Define the password fields and icons
+    const passwordFields = [
+        { inputId: 'Password', iconId: 'togglePasswordIcon' },
+        { inputId: 'ConfirmPassword', iconId: 'toggleConfirmPasswordIcon' }
+    ];
+
+    // Loop through each field and toggle visibility
+    passwordFields.forEach(field => {
+        const passwordInput = document.getElementById(field.inputId);
+        const toggleIcon = document.getElementById(field.iconId);
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
+    });
+}
+
+
+
 //Reports
 $(document).ready(function () {
     // Function to toggle the status dropdown based on the selectType value

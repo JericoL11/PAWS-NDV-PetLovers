@@ -20,57 +20,61 @@ namespace PAWS_NDV_PetLovers.Controllers.Login
             await UserAccount();
             return View();
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(string? userName, string? passWord)
         {
-
-            // Redirect to the home page or another authenticated area
+         
             return RedirectToAction("Index", "Home");
+           /* if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(passWord))
+            {
+                ModelState.AddModelError("", "Please enter your username and password.");
+                return View();
+            }
 
-            #region -- temp comments --
-            /*var hashPassword = HashingService.HashData(passWord);
-
-            var userAccount = await _context.UserAccounts.FirstOrDefaultAsync(a => a.userName == userName && a.passWord == hashPassword);
-
+            var hashPassword = HashingService.HashData(passWord);
+            var userAccount = await _context.UserAccounts
+                                    .FirstOrDefaultAsync(a => a.userName == userName && a.passWord == hashPassword);
 
             if (userAccount != null)
             {
-                // If authentication is successful:
+                // Set authentication session and role
                 HttpContext.Session.SetString("IsAuthenticated", "true");
-                HttpContext.Session.SetString($"UserName", $"{userName}");
+                HttpContext.Session.SetString("UserName", userName); //optional for dashboar display
+                HttpContext.Session.SetString("UserRole", userAccount.userType ?? ""); // Store user role
+                HttpContext.Session.SetInt32("UserId", userAccount.acc_Id);
 
-                // Set a cookie to indicate the user is logged in
-                Response.Cookies.Append("UserAuthCookie", "true");
+                if (!userAccount.IsActive)
+                {
+                    ModelState.AddModelError("", "Account has been deactivated");
+                    return View();
+                }
 
-                // Redirect to the home page or another authenticated area
-                return RedirectToAction("Index", "Home");
-
+                // Check if the password has been changed
+                if (!userAccount.IsPasswordChanged)
+                {
+                    HttpContext.Session.SetString("PasswordChanged", "false");
+                    return RedirectToAction("SignUp", "UserAccounts");
+                }
+                else
+                {
+                    HttpContext.Session.SetString("PasswordChanged", "true");
+                    return RedirectToAction("Index", "Home");
+                }
             }
             else
             {
-                ModelState.AddModelError("", "Username or Password is Incorrect.");
+                ModelState.AddModelError("", "Username or password is incorrect.");
                 return View();
             }*/
-            #endregion
         }
+
 
         public IActionResult Logout()
         {
+            // Clear all session data
+            HttpContext.Session.Clear();
 
-
-            #region -- temp comments -- 
-            // Clear session data
-           /* HttpContext.Session.Clear();
-            // Remove authentication cookie
-            Response.Cookies.Delete("UserAuthCookie");
-
-            // Optionally, add headers to prevent caching
-            Response.Headers.Add("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
-            Response.Headers.Add("Pragma", "no-cache");
-            Response.Headers.Add("Expires", "0");*/
-            #endregion
             // Redirect to the login page
             return RedirectToAction("Login", "Logins");
 
@@ -95,7 +99,9 @@ namespace PAWS_NDV_PetLovers.Controllers.Login
                 {
                     userName = username,
                     passWord = password,
-                    userType = "Admin"
+                    userType = "Admin",
+                    IsActive = true,
+                    dateCreated = DateTime.Now
                 };
 
                 _context.UserAccounts.Add(adminEntry);

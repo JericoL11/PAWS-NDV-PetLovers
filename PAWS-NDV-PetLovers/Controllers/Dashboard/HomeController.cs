@@ -54,5 +54,10 @@ namespace PAWS_NDV_PetLovers.Controllers.Dashboard
             };
             return View(vm);
         }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }

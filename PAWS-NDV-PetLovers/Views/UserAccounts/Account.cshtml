@@ -1,0 +1,35 @@
+﻿@model PAWS_NDV_PetLovers.ViewModels.UserAccountVm
+@{
+    ViewData["Title"] = "Account Index";
+}
+
+<div class="bg-custom-color">
+    <div class="container">
+        <h1>Account</h1>
+    </div>
+</div>
+
+<div class="container mt-2">
+    <ul class="nav">
+        <li>
+            <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="accountList" class="@(Model.activeAccountTab == PAWS_NDV_PetLovers.ViewModels.AccountTab.accountList ? "active" : string.Empty) btn btn-outline-success ">Account List</a>
+        </li>
+
+        <li>
+            <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="createStaff" class="@(Model.activeAccountTab == PAWS_NDV_PetLovers.ViewModels.AccountTab.createStaff ? "active" : string.Empty) btn btn-outline-success">Create New Staff</a>
+        </li>
+        
+
+    </ul>
+</div>
+
+@switch (Model.activeAccountTab)
+{
+    case PAWS_NDV_PetLovers.ViewModels.AccountTab.accountList:
+        @await Component.InvokeAsync("AccountList")
+        break;
+
+    case PAWS_NDV_PetLovers.ViewModels.AccountTab.createStaff:
+        @await Component.InvokeAsync("CreateStaff", new {vm = Model})
+        break;
+}

@@ -18,9 +18,17 @@
         <li>
             <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="stockLevel" class="@(Model.activeReportTab == PAWS_NDV_PetLovers.ViewModels.ReportTab.stockLevel ? "active" : string.Empty) btn btn-outline-success btn-booking">Stock Levels</a>
         </li>
+
         <li>
             <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="transacSum" class="@(Model.activeReportTab == PAWS_NDV_PetLovers.ViewModels.ReportTab.transacSum ? "active" : string.Empty) btn btn-outline-success btn-booking">Transaction Summary</a>
         </li>
+       @*  @if (Context.Session.GetString("UserRole") == "Admin")
+        {
+            <li>
+                <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="transacSum" class="@(Model.activeReportTab == PAWS_NDV_PetLovers.ViewModels.ReportTab.transacSum ? "active" : string.Empty) btn btn-outline-success btn-booking">Transaction Summary</a>
+            </li>
+        } *@
+     
     </ul>
 </div>
 
