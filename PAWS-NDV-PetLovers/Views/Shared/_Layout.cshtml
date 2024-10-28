@@ -228,7 +228,7 @@
 
                
                     <ul class="dropdown-menu dropdown-menu-end text-small shadow"  aria-labelledby="dropdownUser3">
-                        <li><a class="dropdown-item">Profile</a></li>
+                        <li><a class="dropdown-item" asp-action="Profile" asp-controller="UserAccounts">Profile</a></li>
                         @if (Context.Session.GetString("UserRole") == "Admin")
                         {
                             <li><a asp-action="Account" asp-controller="UserAccounts" class="dropdown-item">Account</a></li>

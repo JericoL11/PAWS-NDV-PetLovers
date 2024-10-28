@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PAWS_NDV_PetLovers.Data;
 using PAWS_NDV_PetLovers.Models.Records;
 using PAWS_NDV_PetLovers.PawsSevices;
+using System.Net.Mail;
 
 namespace PAWS_NDV_PetLovers.Controllers.Login
 {
@@ -146,12 +147,21 @@ namespace PAWS_NDV_PetLovers.Controllers.Login
             _context.PasswordResetRequests.Add(passwordResetRequest);
             await _context.SaveChangesAsync();
 
-            // Send the reset code to the user's email
-            await _emailService.SendResetCodeAsync(email, resetCode);
-
-            ViewBag.Message = "A password reset link has been sent to your email.";
-            return View("ForgotPasswordConfirmation"); // Confirmation view
+            // Try to send the reset code to the user's email
+            try
+            {
+                await _emailService.SendResetCodeAsync(email, resetCode);
+                ViewBag.Message = "A password reset link has been sent to your email.";
+                return View("ForgotPasswordConfirmation"); // Confirmation view
+            }
+            catch (Exception ex) when (ex is SmtpException || ex is HttpRequestException)
+            {
+                // Notify the user
+                ModelState.AddModelError("", "Please check your internet connection and try again.");
+                return View();
+            }
         }
+
         // Forgot Password Confirmation GET action - shows confirmation message
         [HttpGet]
         public IActionResult ForgotPasswordConfirmation()

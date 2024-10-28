@@ -15,8 +15,12 @@ builder.Services.AddDbContext<PAWS_NDV_PetLoversContext>(options =>
    throw new InvalidOperationException("Connection string not found 'PAWS-NDV-PetLoversContext' not found")));
 
 // Register services
-/*builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));*/
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddScoped<EmailService>();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 
 
 builder.Services.AddControllers();

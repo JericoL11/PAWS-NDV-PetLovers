@@ -21,6 +21,23 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             return View();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            var id = HttpContext.Session.GetInt32("UserId");
+            
+            var userAccount = await _context.UserAccounts.FirstOrDefaultAsync(u => u.acc_Id == id);
+
+            if(userAccount == null)
+            {
+                return NotFound();
+            }
+
+            return View(new UserAccountVm
+            {
+                userAccount = userAccount
+            });
+        }
 
         public IActionResult Account(UserAccountVm vm)
         {

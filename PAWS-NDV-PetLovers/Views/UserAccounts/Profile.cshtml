@@ -1,0 +1,42 @@
+﻿@model PAWS_NDV_PetLovers.ViewModels.UserAccountVm
+@{
+    ViewData["Title"] = "Profile"; 
+}
+<div class="bg-custom-color">
+    <div class="container">
+        <h1>Profile</h1>
+    </div>
+</div>
+
+<div class="container">
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.userAccount.acc_Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.userAccount.acc_Id)
+        </dd>
+        <dt class="col-sm-2">
+            Fullname 
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.userAccount.fname)
+            @Html.Raw(' ')
+            @Html.DisplayFor(model => model.userAccount.mname)
+            @Html.Raw(' ')
+            @Html.DisplayFor(model => model.userAccount.lname)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.userAccount.email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.userAccount.email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.userAccount.bdate)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.userAccount.bdate.Value.Date.ToString("MMM. dd, yyyy"))
+        </dd>
+    </dl>
+</div>
