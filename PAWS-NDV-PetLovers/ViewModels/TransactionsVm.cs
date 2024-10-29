@@ -43,6 +43,8 @@ namespace PAWS_NDV_PetLovers.ViewModels
         //billing display
         public IEnumerable<Billing>? IBilling { get; set; }
 
+        public IEnumerable<Owner> IOwner { get; set; }
+
         //add on Product
 
         public IEnumerable<Product>? IProducts { get; set; }
@@ -64,7 +66,9 @@ namespace PAWS_NDV_PetLovers.ViewModels
         public bool? RemoveErrorMessage { get; set; }
 
         public bool? PaymentErrorMessage { get; set; }
+        public string? btnCnl { get; set; }
 
+   
     }
     public enum BillingTab
     {

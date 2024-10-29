@@ -88,6 +88,9 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             findUser.email = userAccount.email;
             findUser.contact = userAccount.contact;
 
+
+            HttpContext.Session.SetString("fullName", $"{userAccount.fname} {userAccount.lname}");
+
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Profile));
@@ -166,8 +169,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 return View("Profile", model);
 
 
-
-
             }
         }
 
@@ -186,7 +187,9 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ManageAccount(int userId, string action)
         {
-            var userAccount = await _context.UserAccounts.FindAsync(UserId());
+
+           
+            var userAccount = await _context.UserAccounts.FindAsync(userId);
 
             if (userAccount != null)
             {
@@ -330,10 +333,19 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task <IActionResult> SignUp(string? passWord, string? confirmpassWord, UserAccountVm userAcctVm)
+        public async Task <IActionResult> SignUp(string phoneNumber,string? passWord, string? confirmpassWord, UserAccountVm userAcctVm)
         {
             var userAcct = userAcctVm.userAccount;
 
+
+            if(userAcct.contact.Length < 11)
+            {
+                ModelState.AddModelError("", "Contact number below 11 is not valid");
+                return View(new UserAccountVm
+                {
+                    userAccount = userAcct
+                });
+            }
             //conditions
             if (string.IsNullOrWhiteSpace(passWord) || string.IsNullOrWhiteSpace(confirmpassWord))
             {
@@ -343,6 +355,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 });
             }
 
+            
             if (passWord.Count() <= 8)
             {
                 ModelState.AddModelError("","Password below 8 characters is invalid");
@@ -382,7 +395,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
                 await _context.SaveChangesAsync();
                 HttpContext.Session.SetString("PasswordChanged", "true");
-
+                HttpContext.Session.SetString("fullName", $"{userAccount.fname} {userAccount.lname}");
                 return RedirectToAction("Index", "Home");
             }
             else

@@ -95,7 +95,7 @@
                         <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3 small">
                             @if (Context.Session.GetString("UserRole") == "Admin")
                             {
-                                <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Owners">Client</a></li>
+                                <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Owners">Owners</a></li>
                             }
 
                             <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Products">Product</a></li>
@@ -118,12 +118,12 @@
                     <a class="nav-link collapsed  d-flex align-items-center  p-2" data-bs-toggle="collapse" data-bs-target="#transaction-collapse" aria-expanded="true collapse">
                         <i class="fa-solid fa-file-invoice" id="icon"></i><div class="px-3">Transaction</div>
                         <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i>
-
                     </a>
                     <div class="collapse" id="transaction-collapse" data-bs-parent="#accordion">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3  big">
-                            <li><a class="link-l mb-1 px-5" asp-action="CreatePurchase" asp-controller="Billing">Purchasing</a></li>
-                            <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Billing">Invoice</a></li>
+                            <li><a class="link-l mb-1 px-5" asp-action="Diagnosis" asp-controller="Billing">Diagnosis</a></li>
+                            <li><a class="link-l mb-1 px-5" asp-action="CreatePurchase" asp-controller="Billing">Purchase Product</a></li>
+                            <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Billing">Billing Invoice</a></li>
                             <li><a class="link-l mb-1 px-5" asp-action="BillingHistory" asp-controller="Billing">History</a></li>
                            
                         </ul>
@@ -212,14 +212,23 @@
     }
 
     <div class="container-fluid p-0" id="subbody">
-        <nav class="navbar" style="position: sticky; top: 0; z-index:10000;">
+        <nav class="navbar" style="position: sticky; top: 0; z-index:1000;">
             <div class="d-flex w-100 align-items-center">
                 <a class="navbar-brand fs-5"></a>
+               <div class="text-end text-white fw-bold">
+                    <span>@Context.Session.GetString("UserRole"): @Context.Session.GetString("fullName")</span>
+               </div>
                 <button class="btn px-2 py-2 open-btn d-md-none">
                     <i class="fa-solid fa-bars" style="color: white;"></i>
                 </button>
 
+                <div class="text-end">
+                    <p>
+                        
+                    </p>
 
+                </div>
+                
                 <div class="dropdown ms-auto">
                     <a class="d-flex align-items-center justify-content-center p-3 link-light tex-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
 

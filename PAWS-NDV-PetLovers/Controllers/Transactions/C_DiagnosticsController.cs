@@ -22,7 +22,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             this._context = context;
         }
 
-
+/*   This function was transfer to the Billing named CreateDiagnosis
         [HttpGet]
         public async Task<IActionResult> Create(int? petId)
         {
@@ -41,7 +41,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             {
                 return NotFound();
             }
-
+          
 
             var appointment = await _context.Appointments
                  .Include(a => a.IAppDetails)
@@ -75,6 +75,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
 
             return View(tVm);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -126,7 +127,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
 
             // Redirect to the Billing page
             return RedirectToAction("Index", "Billing");
-        }
+        }*/
         /*ownerfk must not be fk to avoid duplicate insertion of OWNER FK*/
         #region == Abandoned methods (for source) ==
 

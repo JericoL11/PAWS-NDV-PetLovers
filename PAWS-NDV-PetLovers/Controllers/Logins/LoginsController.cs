@@ -47,6 +47,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Login
                 HttpContext.Session.SetString("UserRole", userAccount.userType ?? ""); // Store user role
                 HttpContext.Session.SetInt32("UserId", userAccount.acc_Id);
 
+                HttpContext.Session.SetString("fullName", $"{userAccount.fname} {userAccount.lname}");
+
                 if (!userAccount.IsActive)
                 {
                     ModelState.AddModelError("", "Account has been deactivated");
@@ -90,7 +92,10 @@ namespace PAWS_NDV_PetLovers.Controllers.Login
             var userAccount = await _context.UserAccounts.ToListAsync
                 ();
 
-            if (!(userAccount.Count() > 0))
+
+            var adminCheck = userAccount.Any(a => a.userType == "Admin");
+
+            if (!userAccount.Any() || !adminCheck)
             {
                 const string username = "admin";
                 string password = "admin";
