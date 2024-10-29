@@ -121,9 +121,7 @@
                                     {
                                         @if (ownerExists != null)
                                         {
-                                          
-
-                                            <a asp-action="CreateDiagnosis" asp-controller="Billing" asp-route-id="@item.ownerId" asp-route-btnCnl="1" class="btn btn-success btn-sm me-1">
+                                            <a asp-action="CreateDiagnosis" asp-controller="Billing" asp-route-id="@item.ownerId" asp-route-btnCnl="booking" class="btn btn-success btn-sm me-1">
                                                 Attend
                                             </a>
                                         }

@@ -26,9 +26,9 @@ namespace PAWS_NDV_PetLovers.Models.Records
         [EmailAddress]
         public string? email { get; set; }
 
-        [Display(Name = "Birth Date")]
+      /*  [Display(Name = "Birth Date")]
         [DataType(DataType.Date)]
-        public DateTime? bdate { get; set; }
+        public DateTime? bdate { get; set; }*/
 
         [Display(Name = "Contact #")]
         [MaxLength(11)]

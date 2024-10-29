@@ -36,8 +36,8 @@
                             <p>@Html.DisplayFor(model => model.userAccount.email)</p>
                         </div>
                         <div class="col-6">
-                            <p class="fw-semibold text-muted mb-0">Birthdate</p>
-                            <p>@(Model.userAccount.bdate.HasValue ? Model.userAccount.bdate.Value.ToString("MMM. dd, yyyy") : "Not provided")</p>
+                            <p class="fw-semibold text-muted mb-0">Contact #</p>
+                            <p>@Html.DisplayFor(model => model.userAccount.contact)</p>
                         </div>
                     </div>
            @*  </div> *@

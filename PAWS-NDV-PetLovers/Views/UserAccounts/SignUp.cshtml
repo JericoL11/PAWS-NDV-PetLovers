@@ -1,6 +1,7 @@
 ﻿@model PAWS_NDV_PetLovers.ViewModels.UserAccountVm
 @{
     ViewData["Title"] = "SignUp";
+    Layout = "_Login.cshtml";
 }
 <div class="container">
     <form method="post" asp-action="SignUp" class="p-4">
@@ -28,11 +29,7 @@
                             </div>
                             <div class="col-md-6 mb-4">
                                 <label asp-for="userAccount.mname" class="form-label text-muted">Middle Name</label>
-                                <input asp-for="userAccount.mname" class="form-control border-secondary" placeholder="Enter your middle name" required />
-                            </div>
-                            <div class="col-md-6 mb-4">
-                                <label asp-for="userAccount.bdate" class="form-label text-muted">Birth Date</label>
-                                <input asp-for="userAccount.bdate" type="date" class="form-control border-secondary" required />
+                                <input asp-for="userAccount.mname" class="form-control border-secondary" placeholder="Enter your middle name"  />
                             </div>
                             <div class="col-md-6 mb-4">
                                 <label asp-for="userAccount.contact" class="form-label text-muted">Contact</label>

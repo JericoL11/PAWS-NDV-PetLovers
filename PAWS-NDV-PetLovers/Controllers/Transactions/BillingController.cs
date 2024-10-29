@@ -1116,7 +1116,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
         }
 
         [HttpGet]
-        public async Task<IActionResult> CreateDiagnosis(int id, string? btnCnl, List<int> serviceId)
+        public async Task<IActionResult> CreateDiagnosis(int id, string? btnCnl, int? followupId)
         {
            
             if(id == null)
@@ -1137,6 +1137,23 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
              .FirstOrDefaultAsync(a => a.ownerId == id && string.IsNullOrEmpty(a.remarks));
 
 
+            var followUp = await _context.PetFollowUps.Include(f => f.Diagnostics).FirstOrDefaultAsync(f => f.Id == followupId);
+
+
+            if (followUp != null)
+            {
+                //vm instantiationn
+                TransactionsVm aVm = new TransactionsVm
+                {
+                    Owner = owner,
+                    Services = await _context.Services.Where(s => string.IsNullOrEmpty(s.status)).ToListAsync(),
+                    PetFollowUps = followUp,
+                    btnCnl = btnCnl,
+                    AppointType = "followUp"
+                    /*  SelectedServices = idList*/
+                };
+                return View(aVm);
+            }
             if (appointment != null)
             {
                 //vm instantiationn
@@ -1146,9 +1163,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                     Services = await _context.Services.Where(s => string.IsNullOrEmpty(s.status)).ToListAsync(),
                     Appointment = appointment,
                     btnCnl = btnCnl,
-                  /*  SelectedServices = idList*/
-
-
+                    AppointType = "booking"
+                    /*  SelectedServices = idList*/
                 };
 
                 return View(aVm);
@@ -1167,7 +1183,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
      
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateDiagnosis(int? appointId, [Bind("Diagnostics")] TransactionsVm tvm)
+        public async Task<IActionResult> CreateDiagnosis(int? appointId, int? followUpId ,[Bind("Diagnostics")] TransactionsVm tvm)
         {
             var diagnostics = tvm.Diagnostics;
 
@@ -1176,6 +1192,17 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             var appointment = await _context.Appointments
                 .Include(a => a.IAppDetails) // Include appointment details for comparison
                 .FirstOrDefaultAsync(a => a.AppointId == appointId);
+
+
+            var petfollowUp = await _context.PetFollowUps.FindAsync(followUpId);
+
+
+            if (petfollowUp != null)
+            {
+                // Update remarks and save changes
+                petfollowUp.status = "Attended";
+                _context.Update(petfollowUp);
+            }
 
             if (appointment != null)
             {
@@ -1208,9 +1235,13 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                     _context.Update(followUp); // Update the follow-up entry with the IDs
                 }
             }
-
+            
+           
             // Add the new Diagnostics entity and save changes
             _context.Add(diagnostics);
+
+
+
             await _context.SaveChangesAsync();
 
             // Redirect to the Billing page

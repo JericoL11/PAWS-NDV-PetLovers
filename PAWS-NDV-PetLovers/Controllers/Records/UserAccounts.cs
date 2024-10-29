@@ -84,7 +84,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             findUser.fname = userAccount.fname;
             findUser.lname = userAccount.lname;
             findUser.mname = userAccount.mname;
-            findUser.bdate = userAccount.bdate;
             findUser.email = userAccount.email;
             findUser.contact = userAccount.contact;
 
@@ -272,7 +271,9 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 return RedirectToAction("Account", vm);
             }
 
-            var username_Passsowrd = $"ndv.{fname}{lname}";
+            var fullname = $"{fname}{lname}";
+
+            var username_Passsowrd = $"ndv.{fullname.ToLower()}";
 
             var hashData = HashingService.HashData(username_Passsowrd);
 
@@ -319,8 +320,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
             if ((string.IsNullOrEmpty(staffAcc.email)
                 && string.IsNullOrEmpty(staffAcc.contact)
-                && string.IsNullOrEmpty(staffAcc.bdate.ToString())) 
-                && staffAcc.IsPasswordChanged == false)
+                && staffAcc.IsPasswordChanged == false))
             {
                 return View(new UserAccountVm
                 {
@@ -391,7 +391,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 userAccount.email = userAcct.email;
                 userAccount.passWord = hashing;
                 userAccount.IsPasswordChanged = true;
-                userAccount.bdate = userAcct.bdate;
 
                 await _context.SaveChangesAsync();
                 HttpContext.Session.SetString("PasswordChanged", "true");

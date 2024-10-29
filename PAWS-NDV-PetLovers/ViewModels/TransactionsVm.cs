@@ -17,6 +17,7 @@ namespace PAWS_NDV_PetLovers.ViewModels
 
         public Billing? Billing { get; set; }
 
+        public PetFollowUps PetFollowUps {get;set;}
 
         //For displaying name in diagnostic Appointments
         public Appointment? Appointment { get; set; }
@@ -68,6 +69,7 @@ namespace PAWS_NDV_PetLovers.ViewModels
         public bool? PaymentErrorMessage { get; set; }
         public string? btnCnl { get; set; }
 
+        public string? AppointType { get;set; }
    
     }
     public enum BillingTab

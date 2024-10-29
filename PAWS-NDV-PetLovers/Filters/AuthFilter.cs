@@ -58,7 +58,7 @@ public class AuthFilter : ActionFilterAttribute
         // List of specific pages staff users cann  ot access
         var restrictedActionsForStaff = new List<(string controller, string action)>
     {
-        ("Owners", "Index"),          // Staff cannot access Admin Dashboard
+           // Staff cannot access PawsReport TransacSumm
         ("PawsReport", "TransacSumm"),
         ("UserAccounts","Account"),
         ("ManageAccount","UserAccounts"),
@@ -67,7 +67,7 @@ public class AuthFilter : ActionFilterAttribute
         ("Diagnosis","Billing"),
         ("Billing","Diagnosis"),
         ("Billing","CreateDiagnosis"),
-        // Staff cannot access PawsReport TransacSumm
+       
     };
 
         // List of controllers where all actions are restricted for staff

@@ -95,13 +95,13 @@
                         <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3 small">
                             @if (Context.Session.GetString("UserRole") == "Admin")
                             {
-                                <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Owners">Owners</a></li>
+                                <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Owners">Clients</a></li>
                             }
-
                             <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Products">Product</a></li>
                             @if (Context.Session.GetString("UserRole") == "Admin")
                             {
                                 <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Services">Service</a></li>
+                                 <li><a asp-action="Account" asp-controller="UserAccounts" class="link-l mb-1 px-5">Accounts</a></li>
                             } 
 @* 
                         <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Owners">Client</a></li>
@@ -215,19 +215,14 @@
         <nav class="navbar" style="position: sticky; top: 0; z-index:1000;">
             <div class="d-flex w-100 align-items-center">
                 <a class="navbar-brand fs-5"></a>
-               <div class="text-end text-white fw-bold">
-                    <span>@Context.Session.GetString("UserRole"): @Context.Session.GetString("fullName")</span>
-               </div>
+            
                 <button class="btn px-2 py-2 open-btn d-md-none">
                     <i class="fa-solid fa-bars" style="color: white;"></i>
                 </button>
-
-                <div class="text-end">
-                    <p>
-                        
-                    </p>
-
+                <div class="text-end text-white fw-bold">
+                    <span>@Context.Session.GetString("UserRole"): @Context.Session.GetString("fullName")</span>
                 </div>
+             
                 
                 <div class="dropdown ms-auto">
                     <a class="d-flex align-items-center justify-content-center p-3 link-light tex-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
@@ -238,11 +233,7 @@
                
                     <ul class="dropdown-menu dropdown-menu-end text-small shadow"  aria-labelledby="dropdownUser3">
                         <li><a class="dropdown-item" asp-action="Profile" asp-controller="UserAccounts">Profile</a></li>
-                        @if (Context.Session.GetString("UserRole") == "Admin")
-                        {
-                            <li><a asp-action="Account" asp-controller="UserAccounts" class="dropdown-item">Account</a></li>
-                        }
-                     
+                      
                         <li><hr class="dropdown-divider" /></li>
                             <li><a asp-action="Logout" asp-controller="Logins" class="dropdown-item">Logout</a></li>
 
