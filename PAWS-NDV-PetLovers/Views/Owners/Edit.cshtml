@@ -3,11 +3,24 @@
     ViewData["Title"] = "Edit";
 }
 
-@* Owner *@
+<!-- Alert Placeholder -->
+<div id="alertPlaceholder">
+    @if (TempData["SuccessMessage"] != null)
+    {
 
+        //bootstrap not for modal
+        <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 50000;">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+</div>
+@* Owner *@
 
 <div class="container p-0 bg container-bord">
     <div class="container p-0">
+
 
         <div class="container p-0  bg-custom-color">
             <div>
@@ -18,19 +31,8 @@
         </div>
 
 
-        <!-- Alert Placeholder -->
-        <div id="alertPlaceholder" ></div>
 
-        @if (TempData["SuccessMessage"] != null)
-        {
-
-            //bootstrap not for modal
-            <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
-                @TempData["SuccessMessage"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        }
-
+    
         <form asp-action="Edit">
             <div class="card p-3 ">
                 <div class="row ">
@@ -143,36 +145,26 @@
                                 </tr>
                             </thead>
 
-                            <tbody>
-                                @foreach (var item in Model.IPets)
-                                {
-                                    <tr>
-                                        <td>@Html.DisplayFor(modelItem => item.id)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.petName)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.species)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.gender)</td>
-                                        <td>@item.bdate?.ToString("MMM. dd, yyyy")</td>
-                                        <td>@Html.DisplayFor(modelItem => item.age)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.breed)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.color)</td>
-                                        <td>@item.registeredDate?.ToString("MMM. dd, yyyy")</td>
-                                        <td>
-
-                                        <a asp-action="DiagnosHistory" asp-controller="Pets" asp-route-id="@item.id" asp-route-ownerId="@item.ownerId" class="btn btn-warning btn-history">History</a>
-                                          
-                                            @* <a asp-action="Details" asp-controller="Pets" class="btn btn-info btn-md" asp-route-id="@item.id">Details</a> *@
-                             
-                                            <a asp-controller="C_Diagnostics"
-                                               asp-route-petId="@item.id"
-                                               asp-action="Create" class="btn btn-primary btn-diagnosis"> Diagnosis
-                                           </a>
-
-                                          
-                                            @*  <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.id">Delete</a> *@
-                                        <a asp-action="Edit" asp-controller="Pets" class="btn btn-success btn-update btn-md" asp-route-id="@item.id">Update</a>
-                                        
-                                        </td>
-                                    </tr>
+                    <tbody>
+                        @foreach (var item in Model.IPets)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.id)</td>
+                                <td>@Html.DisplayFor(modelItem => item.petName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.species)</td>
+                                <td>@Html.DisplayFor(modelItem => item.gender)</td>
+                                <td>@item.bdate?.ToString("MMM. dd, yyyy")</td>
+                                <td>@Html.DisplayFor(modelItem => item.age)</td>
+                                <td>@Html.DisplayFor(modelItem => item.breed)</td>
+                                <td>@Html.DisplayFor(modelItem => item.color)</td>
+                                <td>@item.registeredDate?.ToString("MMM. dd, yyyy")</td>
+                                <td>
+                                    <a asp-action="Edit" asp-controller="Pets" class="btn btn-success btn-md" asp-route-id="@item.id">Update</a>
+                                    @* <a asp-action="Details" asp-controller="Pets" class="btn btn-info btn-md" asp-route-id="@item.id">Details</a> *@
+                                   <a asp-action="DiagnosHistory" asp-controller="Pets" asp-route-id="@item.id" asp-route-ownerId="@item.ownerId" class="btn btn-warning">History</a>
+                                    @*  <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.id">Delete</a> *@
+                                </td>
+                            </tr>
 
 
                                 }
@@ -181,11 +173,24 @@
                     </div>
                 </div>
 
-            <div class="form-group text-end mx-3 mb-3">
-                <a class="btn btn-md btn-secondary btn-cancel my-2 px-5" asp-action="Index">Back</a>
-                <input type="submit" value="Save" class="btn btn-primary btn-confirm px-5" />
-                
 
+        @*     @if(Model.btnCnl != null)
+            {
+                <div class="form-group justify-content-end">
+                    <input type="submit" value="Save" class="btn btn-primary px-5" />
+                    <a class="btn btn-md btn-secondary my-2 px-5" asp-action="Dashboard" asp-controller="Appointments">Back</a>
+                </div>
+            }
+            else
+            {
+                <div class="form-group justify-content-end">
+                    <input type="submit" value="Save" class="btn btn-primary px-5" />
+                    <a class="btn btn-md btn-secondary my-2 px-5" asp-action="Index">Back</a>
+                </div>
+            } *@
+            <div class="form-group justify-content-end">
+                <input type="submit" value="Save" class="btn btn-primary px-5" />
+                <a class="btn btn-md btn-secondary my-2 px-5" asp-action="Index">Back</a>
             </div>
 
         </form>

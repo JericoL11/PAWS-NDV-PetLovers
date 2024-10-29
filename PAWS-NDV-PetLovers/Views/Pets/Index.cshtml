@@ -16,100 +16,91 @@
                 </div>
             </div>
         </div>
-
         <div class="d-flex justify-content-end pt-3 px-3">
-            @* <a class="btn btn-primary btn-md mb-4  me-2" asp-action="Create">Add new Pet</a> *@
-            <a class="btn btn-primary btn-cancel btn-md mb-4 px-4 " asp-action="Index" asp-controller="Owners">View Owner List</a>
+             <a class="btn btn-primary btn-md mb-4 px-4" asp-action="Index" asp-controller="Owners">View Owner List</a>
         </div>
-
-        <div class="card p-3">
-
-            <div class="table-responsive">
-
-                <table class="table table-bordered text-center hover" id="PetTable">
-                    <thead>
-                        <tr>
-                            <th class="text-center">
-                                @Html.DisplayNameFor(model => model.id)
-                            </th>
-                            <th class="text-center">Pet Name  </th>
-                           
-                      
-                            <th class="text-center">
-                                @Html.DisplayNameFor(model => model.species)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.breed)
-                            </th class="text-center">
-                            <th>
-                                @Html.DisplayNameFor(model => model.bdate)
-                            </th>
-                            <th class="text-center">
-                                @Html.DisplayNameFor(model => model.age)
-                            </th>
-                            <th class="text-center">
-                                @Html.DisplayNameFor(model => model.color)
-                            </th>
-                            <th class="text-center">
-                                @Html.DisplayNameFor(model => model.gender)
-                            </th>
-                             <th class="text-center">
-                                @Html.DisplayNameFor(model => model.registeredDate)
-                            </th>
-                            <th class="text-center">
-                                <p style="margin:0;"> Owner Name</p>
-                            </th>
-
-                         <th class="text-center">Actions</th>
-                        </tr>
-                </thead>
-                    <tbody>
-                        @foreach (var item in Model) {
-                            <tr>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.id)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.petName)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.species)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.breed)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.bdate)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.age)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.color)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.gender)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.registeredDate)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.owner.fname)
-                                            @Html.Raw(' ')
-                                            @Html.DisplayFor(Modelitem => item.owner.lname)
-                                        </td>
-                                        <td class="btn-group">
-                                            <a asp-action="Edit" class="btn btn-success me-3" asp-route-id="@item.id">Update</a> 
-                                            <a asp-action="Details" class="btn btn-warning btn-cancel px-4" asp-route-id="@item.id">View</a> 
-                                           @*  <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.id">Delete</a> *@ 
-                                        </td>
-                            </tr>
-                        }
-
-                        </tbody>
-                </table>
-            </div>
-        </div>
+  
+    <table class="table table-striped" id="PetTable">
+        <thead>
+                <tr>
+                <th class="text-center">
+                   Pet Id
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.petName)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.species)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.breed)
+                </th class="text-center">
+            @*     <th>
+                    @Html.DisplayNameFor(model => model.bdate)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.age)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.color)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.gender)
+                </th> *@
+                 <th class="text-center">
+                    <p style="margin:0;"> Owner Name</p>
+                </th>
+                 <th class="text-center">
+                    @Html.DisplayNameFor(model => model.registeredDate)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.id)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.petName)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.species)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.breed)
+                </td>
+             @*    <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.bdate)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.age)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.color)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.gender)
+                </td> *@
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.owner.fname)
+                    @Html.Raw(' ')
+                    @Html.DisplayFor(Modelitem => item.owner.lname)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.registeredDate)
+                </td>
+             
+                <td class="btn-group">
+                    <a asp-action="Edit" class="btn btn-success me-2" asp-route-id="@item.id">Update</a> 
+                    <a asp-action="Details" class="btn btn-warning px-4" asp-route-id="@item.id">View</a> 
+                   @*  <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.id">Delete</a> *@ 
+                </td>
+            </tr>
+    }
+        </tbody>
+        </table>
     </div>
 </div>
 <script src="~/js/RecordsDataTables/PetDataTable.js" defer></script>

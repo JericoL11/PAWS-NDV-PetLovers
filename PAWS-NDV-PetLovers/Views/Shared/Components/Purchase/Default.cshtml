@@ -33,13 +33,11 @@
             </tr>
         </thead>
         <tbody>
-
             @{
                 var Products = Model.IPurchaseDetails
                 .GroupBy(pd => new { pd.productId, pd.product.productName, pd.sellingPrice })
                 .Select(g => new
                 {
-            
                     ProductId = g.Key.productId,
                     ProductName = g.Key.productName,
                     ProductPrice = g.Key.sellingPrice,
@@ -48,7 +46,7 @@
                 .ToList();
             }
 
-            @if(Model.IPurchaseDetails != null)
+            @if (Products != null && Products.Count > 0)
             {
                 @foreach (var item in Products)
                 {
@@ -57,12 +55,15 @@
                         <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
                         <td>@Html.DisplayFor(modelItem => item.ProductPrice)</td>
                         <td>@Html.DisplayFor(modelItem => item.TotalQuantity)</td>
-
                     </tr>
-
                 }
             }
-        
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-secondary text-center">No Products</td>
+                </tr>
+            }
         </tbody>
 
     </table>

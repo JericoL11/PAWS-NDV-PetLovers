@@ -1092,6 +1092,132 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             return RedirectToAction("Index", new TransactionsVm { activeBoardTab = DBoardTab.DBoard_Purchase });
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> Diagnosis(string searchTerm)
+        {
+            // Create an empty list initially
+            List<Owner> owners = new List<Owner>();
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                // Fetch owners based on the search term, with EF's `Where` clause to filter results
+                owners = await _context.Owners
+                    .Where(o => o.fname.Contains(searchTerm) || o.lname.Contains(searchTerm) || o.mname.Contains(searchTerm)) // Adjust this condition based on your requirements
+                    .ToListAsync();
+            }
+
+            var vm = new TransactionsVm
+            {
+                IOwner = owners
+            };
+
+            return View(vm);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CreateDiagnosis(int id, string? btnCnl, List<int> serviceId)
+        {
+           
+            if(id == null)
+            {
+                return NotFound();
+            }
+            
+            var owner = await _context.Owners.Include(o => o.Pets).FirstOrDefaultAsync( o => o.id == id);
+
+            if(owner == null)
+            {
+                return NotFound();
+            }
+
+            var appointment = await _context.Appointments
+             .Include(a => a.IAppDetails)
+             .ThenInclude(a => a.Services)
+             .FirstOrDefaultAsync(a => a.ownerId == id && string.IsNullOrEmpty(a.remarks));
+
+
+            if (appointment != null)
+            {
+                //vm instantiationn
+                TransactionsVm aVm = new TransactionsVm
+                {
+                    Owner = owner,
+                    Services = await _context.Services.Where(s => string.IsNullOrEmpty(s.status)).ToListAsync(),
+                    Appointment = appointment,
+                    btnCnl = btnCnl,
+                  /*  SelectedServices = idList*/
+
+
+                };
+
+                return View(aVm);
+            }
+
+            var vm = new TransactionsVm
+            {
+                Owner = owner,
+                Services = await _context.Services.Where(s => string.IsNullOrEmpty(s.status)).ToListAsync(),
+                btnCnl = btnCnl
+             };
+
+            return View(vm);
+        }
+
+     
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateDiagnosis(int? appointId, [Bind("Diagnostics")] TransactionsVm tvm)
+        {
+            var diagnostics = tvm.Diagnostics;
+
+          
+
+            var appointment = await _context.Appointments
+                .Include(a => a.IAppDetails) // Include appointment details for comparison
+                .FirstOrDefaultAsync(a => a.AppointId == appointId);
+
+            if (appointment != null)
+            {
+                // Update remarks and save changes
+                appointment.remarks = "Completed";
+                _context.Update(appointment);
+            }
+
+            // Filter out diagnostics follow-up entries where the date is null or uninitialized
+            diagnostics.IPetFollowUps = diagnostics.IPetFollowUps
+                .Where(f => f.date != DateTime.MinValue)
+                .ToList();
+
+            if (diagnostics.IPetFollowUps.Count > 0)
+            {
+                // Assign the diagnosticsId and validate serviceId for each follow-up entry
+                foreach (var followUp in diagnostics.IPetFollowUps)
+                {
+
+                    // Check if serviceId is valid before proceeding
+                    var service = await _context.Services.FindAsync(followUp.serviceId);
+
+                    if (service == null)
+                    {
+                        ModelState.AddModelError(string.Empty, "Invalid Service ID selected for the follow-up.");
+                        //need viewmodel here for incase
+                        return View(tvm); // Return the view if there's an error with serviceId
+                    }
+
+                    _context.Update(followUp); // Update the follow-up entry with the IDs
+                }
+            }
+
+            // Add the new Diagnostics entity and save changes
+            _context.Add(diagnostics);
+            await _context.SaveChangesAsync();
+
+            // Redirect to the Billing page
+            return RedirectToAction("Index", "Billing");
+        }
+
+
     }
 }
        

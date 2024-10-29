@@ -12,6 +12,8 @@ namespace PAWS_NDV_PetLovers.ViewModels
         public bool isNull { get; set; }
 
         public bool fromReset {get;set;}
+
+        public bool HasPasswordError { get;set;}
     }
 
     public enum AccountTab

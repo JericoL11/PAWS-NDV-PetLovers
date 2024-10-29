@@ -92,14 +92,16 @@
                                     </button>
 
 
+                                    <a class="btn btn-primary btn-sm me-1"
+                                       style="background-color:#efc65de8;border-color:#efc65de8;color:black; font-weight:bold;font-size:15px;"
+                                       asp-action="Edit"
+                                       asp-route-id="@item.AppointId"
+                                       asp-route-getdate="@item.date.ToString("yyyy-MM-dd")"
+                                       asp-route-time="@item.time.ToString("HH:mm:ss")">Update</a>
+
 
                                     @if (ownerExists == null)
                                     {
-
-                                        <a class="btn btn-primary btn-update btn-sm me-1"                                    
-                                           asp-action="Edit"
-                                           asp-route-id="@item.AppointId"
-                                           asp-route-time="@item.time.ToString("HH:mm:ss")">Update</a>
 
                                         <!-- Register Button -->
 
@@ -119,8 +121,9 @@
                                     {
                                         @if (ownerExists != null)
                                         {
-                                            <!-- Complete Button for owners -->
-                                            <a asp-action="Edit" asp-controller="Owners" asp-route-id="@item.ownerId" class="btn btn-confirm btn-sm me-1">
+                                          
+
+                                            <a asp-action="CreateDiagnosis" asp-controller="Billing" asp-route-id="@item.ownerId" asp-route-btnCnl="1" class="btn btn-success btn-sm me-1">
                                                 Attend
                                             </a>
                                         }
@@ -139,11 +142,11 @@
                                         }
 
                                         var selectedId = string.Join(",", selectedIds);
-                                        var date = item.date.ToString("MM-dd-yyyy");
+                                    
 
                                         <!-- Update Button -->
                                         <a class="btn btn-primary btn-sm me-1" asp-action="Edit" asp-route-id="@item.AppointId"
-                                           asp-route-date="@date" asp-route-serviceId="@selectedId">
+                                           asp-route-getDate="@item.date.Date" asp-route-serviceId="@selectedId">
                                             Update
                                         </a>
                                     }

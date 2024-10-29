@@ -1,42 +1,127 @@
 ﻿@model PAWS_NDV_PetLovers.ViewModels.UserAccountVm
 @{
-    ViewData["Title"] = "Profile"; 
+    ViewData["Title"] = "Profile";
 }
-<div class="bg-custom-color">
-    <div class="container">
-        <h1>Profile</h1>
+
+<div class="container my-5">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary text-white text-center">
+            <h2 class="mb-0">Profile</h2>
+        </div>
+        <div class="card-body">
+            @* <div class="row"> *@
+                <!-- Profile Image and Name -->
+             @*    <div class="col-md-4 text-center">
+                    <img src="~/images/profile-placeholder.png" alt="Profile Image" class="rounded-circle mb-3" style="width: 150px; height: 150px;">
+                    <h5 class="fw-bold">@Html.DisplayFor(model => model.userAccount.fname) @Html.DisplayFor(model => model.userAccount.lname)</h5>
+                </div> *@
+
+                <!-- Profile Details -->
+            <div class="container  text-center">
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="fw-semibold text-muted mb-0">Account ID</p>
+                            <p>@Html.DisplayFor(model => model.userAccount.acc_Id)</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-semibold text-muted mb-0">Full Name</p>
+                            <p>
+                                @Html.DisplayFor(model => model.userAccount.fname) @Html.Raw(" ")
+                                @Html.DisplayFor(model => model.userAccount.mname) @Html.Raw(" ")
+                                @Html.DisplayFor(model => model.userAccount.lname)
+                            </p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-semibold text-muted mb-0">Email</p>
+                            <p>@Html.DisplayFor(model => model.userAccount.email)</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-semibold text-muted mb-0">Birthdate</p>
+                            <p>@(Model.userAccount.bdate.HasValue ? Model.userAccount.bdate.Value.ToString("MMM. dd, yyyy") : "Not provided")</p>
+                        </div>
+                    </div>
+           @*  </div> *@
+        </div>
+
+        <div class="text=end">
+        <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Sb_Changepass">
+                Change Password
+            </button>
+
+            <a asp-action="Edit" class="btn btn-primary">Edit Profile</a>
+        </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="Sb_Changepass" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary">
+                            <h1 class="modal-title fs-5 text-white fw-bold" id="staticBackdropLabel">Change Password</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="post" asp-action="ChangePassword">
+                            <div class="modal-body">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="mb-4">
+                                    <div class="form-floating mb-3 position-relative">
+                                        <input type="password" class="form-control password-field" name="oldPassword" placeholder="Old Password" required>
+                                        <label>Old Password</label>
+                                        <span class="position-absolute top-50 end-0 translate-middle-y me-3 toggle-password-icon" style="cursor: pointer;">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div class="form-floating mb-3 position-relative">
+                                        <input type="password" class="form-control password-field" name="passWord" placeholder="New Password" required>
+                                        <label>New Password</label>
+                                        <span class="position-absolute top-50 end-0 translate-middle-y me-3 toggle-password-icon" style="cursor: pointer;">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div class="form-floating mb-3 position-relative">
+                                        <input type="password" class="form-control password-field" name="ConfirmPassword" placeholder="Confirm Password" required>
+                                        <label>Confirm Password</label>
+                                        <span class="position-absolute top-50 end-0 translate-middle-y me-3 toggle-password-icon" style="cursor: pointer;">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" value="Save" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
     </div>
 </div>
 
-<div class="container">
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.userAccount.acc_Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.userAccount.acc_Id)
-        </dd>
-        <dt class="col-sm-2">
-            Fullname 
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.userAccount.fname)
-            @Html.Raw(' ')
-            @Html.DisplayFor(model => model.userAccount.mname)
-            @Html.Raw(' ')
-            @Html.DisplayFor(model => model.userAccount.lname)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.userAccount.email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.userAccount.email)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.userAccount.bdate)
-        </dt>
-        <dd class="col-sm-10">
-            @Model.userAccount.bdate.Value.Date.ToString("MMM. dd, yyyy"))
-        </dd>
-    </dl>
-</div>
+ 
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+        <script>
+            $(document).ready(function () {
+                var hasPasswordError = @Html.Raw(Json.Serialize(Model.HasPasswordError));
+                if (hasPasswordError) {
+                    var modal = new bootstrap.Modal($('#Sb_Changepass')[0]);
+                    modal.show();
+                }
+            });
+
+        </script>
+    }
+

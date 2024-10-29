@@ -1,4 +1,8 @@
-﻿@model PAWS_NDV_PetLovers.ViewModels.TransactionsVm
+﻿ 
+ @{
+     #region == Abandoned => transfer to method = CreateDiagnosis, Controller =Billing == 
+     /*
+ @model PAWS_NDV_PetLovers.ViewModels.TransactionsVm
 @{
     ViewData["Title"] = "Create Diagnostics";
 }
@@ -115,18 +119,19 @@
                                                                         @service.serviceName
                                                                     </option>
 
-                                                                }
-                                                                else
-                                                                {
-                                                                    <option value="@service.serviceId"
-                                                                            data-price="@service.serviceCharge"
-                                                                            data-follow="@((service.followUp ? "true" : "false"))"
-                                                                            data-service-type="@service.serviceType.ToLower()"
-                                                                            data-service-name="@service.serviceName.ToLower()">
-                                                                        @service.serviceName
-                                                                    </option>
-                                                                }
-                                                            }
+                                                        }
+
+                                                        else
+                                                        {
+                                                            <option value="@service.serviceId"
+                                                                    data-price="@service.serviceCharge"
+                                                                    data-follow="@((service.followUp ? "true" : "false"))"
+                                                                    data-service-type="@service.serviceType.ToLower()"
+                                                                    data-service-name="@service.serviceName.ToLower()">
+                                                                @service.serviceName
+                                                            </option>
+                                                        }
+                                                    }
 
                                                             @* Laboratory services grouped under "Laboratory test" optgroup *@
                                                             @{
@@ -313,7 +318,7 @@
                     followUpDiv.addClass('visually-hidden'); // Hide follow-up div by default if no service selected
                     followUpDiv.find('input').val(''); // Clear input if hidden
                 }
-            */
+            
 
                 // Show or hide the follow-up div based on isFollowUpNeeded
                 if (isFollowUpNeeded) {
@@ -387,3 +392,7 @@
 
     </script>
 }
+*/
+     #endregion
+ }
+ 

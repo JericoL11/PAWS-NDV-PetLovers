@@ -2,8 +2,6 @@
 @{
     ViewData["Title"] = "Create";
 }
-
-
 <div class="container p-0 bg container-bord mb-3">
 
     <div class="container  p-0">
@@ -24,10 +22,7 @@
             <button type="button" class="btn btn-warning btn-cancel" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Existing Record</button>                    
     </div>
 
-         <form asp-action="Create" method="post" class="p-0">
-
-
-           <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <form asp-action="Create" method="post" class="p-0"><div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="row row-appointments">
                 <!-- Owner fields -->

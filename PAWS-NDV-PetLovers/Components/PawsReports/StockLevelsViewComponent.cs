@@ -87,7 +87,7 @@ namespace PAWS_NDV_PetLovers.Components.ProductMgmt
                         });
                         
                     case "High":
-                        await GetAllCategory();
+                
                         return View( new ReportsVm
                         {
                             IProducts = await _context.Products
@@ -102,12 +102,10 @@ namespace PAWS_NDV_PetLovers.Components.ProductMgmt
                       
 
                     case "All":
-                        await GetAllCategory();
+                       
                         return View(new ReportsVm
                         {
-                            IProducts = await _context.Products
-                            .Include(p => p.category)
-                            .ToListAsync(),
+                            IProducts = await _context.Products.ToListAsync(),
                             Status = vcm.Status,
                             SelectType = vcm.SelectType,
                             Filtered = vcm.Filtered,

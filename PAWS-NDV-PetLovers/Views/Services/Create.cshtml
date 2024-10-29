@@ -13,47 +13,50 @@
             </div>
         </div>
 
-        <div class="container p-3 d-flex justify-content-center">
-            <div class="col-12 col-md-8">
-                <!-- Centered and responsive -->
-                <form method="post" asp-action="Create">
-                    <div class="card">
-                        <div class="text-center">
-                            @* --header-- *@
+                        <div class="container p-3 d-flex justify-content-center">
+                            <div class="col-12 col-md-8">
+                                <!-- Centered and responsive -->
+                                                <form method="post" asp-action="Create">
+
+                                                    <div class="card">
+                                                            <div class="text-center">
+                                                                @* --header-- *@
+                                                            </div>
+                                                        <div class="card-body">
+
+
+                                                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                                            <div class="form-group mb-3">
+                                                                <label asp-for="serviceName" class="control-label"></label>
+                                                                <input asp-for="serviceName" class="form-control" />
+                                                                <span asp-validation-for="serviceName" class="text-danger"></span>
+                                                            </div>
+
+                                                            <div class="form-group mb-3">
+                                                                <input class="form-check-input" name="serviceType" asp-for="serviceType" type="checkbox" />
+                                                                <label class="form-check-label" asp-for="serviceType"></label>
+                                                            </div>
+
+                                                            <div class="form-group mb-3">
+                                                                <label asp-for="serviceCharge" class="control-label"></label>
+                                                                <input asp-for="serviceCharge" class="form-control decimal-input" />
+                                                                <span asp-validation-for="serviceCharge" class="text-danger"></span>
+                                                            </div>
+
+                                                            <div class="form-group mb-3">
+                                                                <input class="form-check-input" name="followUp" asp-for="followUp" type="checkbox" />
+                                                                <label class="form-check-label" asp-for="followUp"></label>
+                                                            </div>
+
+                                                            <div class="form-group text-end">
+                                                                <a class="btn btn-secondary btn-cancel" asp-action="Index">Cancel</a>
+                                                                <input type="submit" value="Create" class="btn btn-primary btn-confirm" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                            <div class="form-group mb-3">
-                                <label asp-for="serviceName" class="control-label"></label>
-                                <input asp-for="serviceName" class="form-control" />
-                                <span asp-validation-for="serviceName" class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <input class="form-check-input" name="serviceType" asp-for="serviceType" type="checkbox" />
-                                <label class="form-check-label" asp-for="serviceType"></label>
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <label asp-for="serviceCharge" class="control-label"></label>
-                                <input asp-for="serviceCharge" class="form-control decimal-input" />
-                                <span asp-validation-for="serviceCharge" class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <input class="form-check-input" name="followUp" asp-for="followUp" type="checkbox" />
-                                <label class="form-check-label" asp-for="followUp"></label>
-                            </div>
-
-                            <div class="form-group text-end">
-                                <a class="btn btn-secondary btn-cancel" asp-action="Index">Cancel</a>
-                                <input type="submit" value="Create" class="btn btn-primary btn-confirm" />
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
     </div>
 </div>

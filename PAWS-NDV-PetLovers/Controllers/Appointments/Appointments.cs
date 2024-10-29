@@ -124,13 +124,13 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             return View(vm);
         }
 
-
+        
         public async Task<AppointmentVm> GetCreateViews()
         {
 
             //vm instantiation for owners
             var Owner = await _context.Owners.ToListAsync();
-            var Services = await _context.Services.ToListAsync();
+            var Services = await _context.Services.Where(s => string.IsNullOrEmpty(s.status)).ToListAsync();
 
             var appointments = await _context.Appointments.ToListAsync();
 
@@ -241,7 +241,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
             // Fetch owners, services, and appointments from the database
             var owners = await _context.Owners.ToListAsync();
-            var services = await _context.Services.ToListAsync();
+            var services = await _context.Services.Where(s => string.IsNullOrEmpty(s.status)).ToListAsync();
             var appointments = await _context.Appointments.ToListAsync();
 
             // Retrieve appointments on the selected date
@@ -409,7 +409,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int? id, DateTime? time)
+        public async Task<IActionResult> Edit(int? id, DateTime? time, DateTime getdate)
         {
 
             if (id == null)
@@ -419,7 +419,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
 
             //fetch the appointment with includes
             var appointment = await _context.Appointments
-                .Include(a => a.IAppDetails)
+                .Include(a => a.IAppDetails) 
                 .ThenInclude(a => a.Services)
                 .FirstOrDefaultAsync(a => a.AppointId == id);
 
@@ -432,7 +432,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             await _context.SaveChangesAsync();
 
             //remove time to be seen again in dropdown
-            appointment.date = time.Value.Date;
+            appointment.date = getdate;
             //set the removed time as default
             appointment.time = time.Value;
             //vm instantiationn
