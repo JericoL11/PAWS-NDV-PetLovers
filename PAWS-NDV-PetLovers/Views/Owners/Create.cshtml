@@ -79,17 +79,26 @@
             </div>
 
             <!-- Pets Section -->
-            <div class="bg-secondary bg-opacity-10 py-2 my-3">
-                <div class="container">
-                    <h1>Pets</h1>
+
+            <div class="container p-0  bg-pets">
+                <div>
+                    <div class="container p-2">
+                        <h1>Pets</h1>
+                    </div>
                 </div>
             </div>
 
 
+
             <!-- Pets Table -->
+            <div class="card p-3">
+                <div class="table-responsive">
+                    <div class="form-group pt-3 pb-3 text-end">
+                        <button type="button" class="btn btn-success btn-confirm text-end" id="addRow">Add Row</button>
+                    </div>
                 <table id="PetTable" class="table table-striped">
-                    <thead>
-                        <tr>
+                    <thead >
+                        <tr class="no-col">
                             <th><p style="margin:0;">Pet Name</p></th>
                             <th><p style="margin:0;">Gender</p></th>
                             <th><p style="margin:0;">Specie</p></th>
@@ -97,9 +106,7 @@
                             <th><p style="margin:0;">Birth date</p></th>
                             <th><p style="margin:0;">Age</p></th>
                             <th><p style="margin:0;">Color</p></th>
-                            <th colspan="2">
-                                <button type="button" class="btn btn-success" id="addRow">Add Row</button>
-                            </th>
+                            <th><p style="margin:0;">Actions</p></th>
                         </tr>
                     </thead>
 
@@ -134,16 +141,17 @@
                             <td>
                                 <input name="Owner.Pets[0].color" class="form-control bg-light" required />
                             </td>
-                            <td>
+                            <div>
                                 <input type="date" name="Owner.Pets[0].registeredDate" class="form-control bg-light maxDate" id="dateInput" hidden readonly />
-                            </td>
-                            <td class="col-1">
-                                <button type="button" class="btn btn-outline-danger removeRow">Remove</button>
+                            </div>
+                            <td >
+                                <button type="button" class="btn btn-danger removeRow">Remove</button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-
+                </div>
+            </div>
        
 
                 <div class="form-group mt-4 text-end mb-4 me-4">
@@ -151,14 +159,14 @@
                     @if(Model.btnCnl != null)
                     {
                         <input type="hidden" name="btnCnl" value="@Model.btnCnl" />
-                        <a asp-action="Dashboard" asp-controller="Appointments" class="btn btn-secondary ms-3 ">Cancel</a>
+                        <a asp-action="Dashboard" asp-controller="Appointments" class="btn btn-cancel ms-3 ">Cancel</a>
                     }
                     else
                     {
-                      <a asp-action="Index" class="btn btn-secondary ms-3  ">Cancel</a>
+                      <a asp-action="Index" class="btn btn-cancel ms-3  ">Cancel</a>
                     }
        
-                     <input type="submit" value="Create" class="btn btn-primary  " />
+                     <input type="submit" value="Create" class="btn btn-confirm  " />
                 </div>
         </form>
     </div>

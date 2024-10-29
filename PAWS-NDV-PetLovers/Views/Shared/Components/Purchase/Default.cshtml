@@ -2,15 +2,15 @@
 @{
     ViewData["Title"] = "Purchase VC";
 }
-<div class="container">
-
-    <table class="table">
+<div class="card">
+      <div class="table-responsive">
+        <table class="table table-bordered text-center">
         <thead>
             <tr>
-                <th>Product ID</th>
-                <th>Product Name</th>
-                <th>Price</th>
-                <th>Order Qty</th>
+                <th class="text-center">Product ID</th>
+                <th class="text-center">Product Name</th>
+                <th class="text-center">Price</th>
+                <th class="text-center">Order Qty</th>
                 <th class="text-end">
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdropSelectedProduct">
                         Add Products
@@ -66,7 +66,7 @@
         </tbody>
 
     </table>
-    
+      </div>
     <!-- Modal Remove Product -->
     <div class="modal fade" id="staticBackdropRemove" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">

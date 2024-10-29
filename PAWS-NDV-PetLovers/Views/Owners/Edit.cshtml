@@ -118,7 +118,7 @@
 
                 <div class="d-flex justify-content-end">
                     @*modal button*@
-                    <button type="button" class="btn btn-primary btn-newpet px-2 mb-2 me-3 " asp-action="EditPet" asp-controller="Owners" data-bs-toggle="modal" data-bs-target="#editPetModal" data-id="@Model.Owner.id">
+                    <button type="button" class="btn btn-primary btn-newpet pt-2  mb-2 me-3 " asp-action="EditPet" asp-controller="Owners" data-bs-toggle="modal" data-bs-target="#editPetModal" data-id="@Model.Owner.id">
                         Add New Pet
                     </button>
                 </div>
@@ -157,7 +157,9 @@
                                         <td>@Html.DisplayFor(modelItem => item.color)</td>
                                         <td>@item.registeredDate?.ToString("MMM. dd, yyyy")</td>
                                         <td>
-                                            <a asp-action="Edit" asp-controller="Pets" class="btn btn-success btn-update btn-md" asp-route-id="@item.id">Update</a>
+
+                                        <a asp-action="DiagnosHistory" asp-controller="Pets" asp-route-id="@item.id" asp-route-ownerId="@item.ownerId" class="btn btn-warning btn-history">History</a>
+                                          
                                             @* <a asp-action="Details" asp-controller="Pets" class="btn btn-info btn-md" asp-route-id="@item.id">Details</a> *@
                              
                                             <a asp-controller="C_Diagnostics"
@@ -165,8 +167,10 @@
                                                asp-action="Create" class="btn btn-primary btn-diagnosis"> Diagnosis
                                            </a>
 
-                                           <a asp-action="DiagnosHistory" asp-controller="Pets" asp-route-id="@item.id" asp-route-ownerId="@item.ownerId" class="btn btn-warning btn-history">History</a>
+                                          
                                             @*  <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.id">Delete</a> *@
+                                        <a asp-action="Edit" asp-controller="Pets" class="btn btn-success btn-update btn-md" asp-route-id="@item.id">Update</a>
+                                        
                                         </td>
                                     </tr>
 
@@ -197,7 +201,7 @@
                 <h1 class="modal-title fs-5" id="editPetModalLabel">New Pet</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body ">
                 <div class="petrow p-2">
                     <form method="post" asp-action="addNewPet" id="addPetForm">
                         <div class="row">
@@ -253,13 +257,13 @@
                                 <input asp-for="Pet.ownerId" type="text" class="form-control bg-light" value="@Model.Owner.id" readonly />
                                 <span asp-validation-for="Pet.ownerId" class="text-danger"></span>
                             </div>
-                            <div class="form-group visually-hidden col-lg-4 col-md-6">
+                            <div class="form-group visually-hidden   col-lg-4 col-md-6">
                                 <label asp-for="Pet.registeredDate" class="control-label"></label>
                                 <input type="date" asp-for="Pet.registeredDate" class="form-control bg-light maxDate" id="dateInput" readonly />
                                 <span asp-validation-for="Pet.registeredDate" class="text-danger"></span>
                             </div>
 
-                            <div class="modal-footer">
+                            <div class="modal-footer pt-3">
                                 <button type="button" class="btn btn-secondary btn-cancel px-4" data-bs-dismiss="modal">Close</button>
                                 <input type="submit" value="Save" class="btn btn-primary btn-confirm px-4" id="savePetBtn" />
                                 

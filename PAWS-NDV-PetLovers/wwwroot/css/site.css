@@ -75,6 +75,7 @@
 .nav-link {
     color: white;
     cursor: pointer;
+
 }
 
 .custom-toggler .navbar-toggler-icon {
@@ -273,10 +274,11 @@ html {
 
 
 /*FOR SOLO MENU*/
-.solo-link.active {
+.solo-link.active.focus {
     background-color: #efc65de8;
     color: black;
     border-radius: 10px;
+
 }
 
 
@@ -367,10 +369,13 @@ html {
     border: 1px solid #469387;
 }
 
-.card-body {
-    border: 1px solid #469387;
-    border-radius: 3px;
+.card-body { 
+    border-radius: 5px;
     margin-bottom:20px;
+}
+
+.co-log{
+    border-radius:5px !important;
 }
 /*padding of field*/
 #apppad {
@@ -422,8 +427,7 @@ html {
 
 
 .bg-logcard {
-    background-color: #A6D5C6;
-
+    background-color: #C4E4DB;
 }
 
 .log-card{
@@ -745,7 +749,8 @@ table {
     }
 
 .btn-confirm,
-.btn-confirm.active{
+.btn-confirm.active,
+.btn-confirm:hover{
     background-color: #469387 !important;
     border-color: #469387 !important;
     color: white;
@@ -759,6 +764,9 @@ table {
 .btn-danger {
     font-weight: bold;
     font-size: 15px;
+}
+.no-col{
+    background-color:transparent !important;
 }
 
 .btn-update,

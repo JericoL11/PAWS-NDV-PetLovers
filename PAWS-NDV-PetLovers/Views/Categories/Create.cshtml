@@ -43,13 +43,13 @@
 
                 <!-- Products Table -->
 
-                <div class="form-group text-end pt-3">
+                <div class="form-group text-end pt-4 pb-4">
                     <th colspan="2"><button type="button" class="btn btn-success btn-sm" id="addRow">Add Row</button></th>
                 </div>
                     <div class="table-responsive">
-                    <table id="ProductsTbl" class="table table table-bordered text-center hover  mt-3">
+                    <table id="ProductsTbl" class="table table table-striped text-center hover  mt-3">
                             <thead>
-                                <tr class="text-center">
+                                <tr class="text-center no-col pt-3">
                                     <th><p style="margin:0;">Product Name</p></th>
                                     <th><p style="margin:0;">Supplier Price</p></th>
                                     <th><p style="margin:0;">Selling Price</p></th>
@@ -89,8 +89,8 @@
                 <!-- End of Products Table -->
                 <!-- Form Actions -->
                 <div class="form-group text-end mt-4">
-                    <a asp-action="Index" class="btn btn-secondary ms-3 px-2">Cancel</a>
-                    <input type="submit" value="Create" class="btn btn-primary px-2" id="AddCategoryButton" />
+                    <a asp-action="Index" class="btn btn-secondary btn-cancel ms-3 mx-2 px-2">Cancel</a>
+                    <input type="submit" value="Create" class="btn btn-primary btn-confirm mx-2 px-2" id="AddCategoryButton" />
                 </div>
                 <!-- End of Form Actions -->
             </div>

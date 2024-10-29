@@ -3,15 +3,16 @@
     ViewData["Title"] = "All Billing History";
 }
 
-<div class="container">
-    <table class="table HistoryTbl table-bordered">
+<div class="card p-3">
+    <div class="table-responsive">
+        <table class="table HistoryTbl table-bordered text-center">
         <thead>
-            <tr>
-                <th> Billing Id</th>
-                <th> Name </th>
-                <th> Date</th>
-                <th>Total Payment</th>
-                <th></th>
+            <tr class="">
+                <th class="text-center"> Billing Id</th>
+                <th class="text-center"> Name </th>
+                <th class="text-center"> Date</th>
+                <th class="text-center">Total Payment</th>
+                <th class="text-center"> Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -51,5 +52,6 @@
 
         </tbody>
     </table>
+    </div>
 </div>
 <script src="~/js/History/History.js" defer></script>

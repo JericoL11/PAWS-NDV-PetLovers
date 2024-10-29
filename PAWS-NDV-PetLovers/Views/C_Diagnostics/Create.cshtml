@@ -72,16 +72,19 @@
                     <!-- Diagnostics Details -->
 
                     <div class="card  pt-3">
-                        <div class="table-responsive table-bord">
-                            <table class="table  text-center hover" id="DetailsTable">
-                                <thead class="no-col">
-                                    <tr>
+                        <div class="table-responsive">
+                            <div class="text-end">
+
+                                <button type="button" class="btn btn-success btn-confirm pt-2 px-2" id="addRow">Add Service</button>
+                            </div>
+                                
+                            <table class="table  text-center  hover" id="DetailsTable">
+                                <thead class="pt-4">
+                                    <tr class="no-col">
                                         <th>Service Name</th>
                                         <th>Details</th>
-                                        <th></th>
-                                        <th class="text-end">
-                                            <button type="button" class="btn btn-success px-2" id="addRow">Add Service</button>
-                                        </th>
+                                        <th>Actions</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody >
@@ -177,13 +180,13 @@
 
                                                 @* adding followup if match to vax or consult/checkup *@
 
-                                                <td>
+                                                <div>
                                                     <div class="followUp visually-hidden">
                                                         <label>Next Visit (Optional)</label>
                                                         <input type="date" name="Diagnostics.IPetFollowUps[@i].date" class="form-control bg-light minDate" placeholder="(Optional)" />
                                                         <input type="number" name="Diagnostics.IPetFollowUps[@i].serviceId" value="@detail" class="visually-hidden" />
                                                     </div>
-                                                </td>
+                                                </div>
 
                                                 <td>
                                                     <button type="button" class="btn btn-danger removeRow">Remove</button>
@@ -246,13 +249,13 @@
                                                 </div>
                                             </td>
 
-                                            <td>
+                                            <div>
                                                 <div class="followUp visually-hidden">
                                                     <label>Next Visit (Optional)</label>
                                                     <input type="date" name="Diagnostics.IPetFollowUps[0].date" class="form-control bg-light minDate" placeholder="(Optional)" />
                                                     <input type="number" name="Diagnostics.IPetFollowUps[0].serviceId" value="" class="visually-hidden" />
                                                 </div>
-                                            </td>
+                                            </div>
 
                                             <td>
                                                 <button type="button" class="btn btn-danger removeRow">Remove</button>

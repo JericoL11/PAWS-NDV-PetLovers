@@ -28,7 +28,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Login
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(string? userName, string? passWord)
         {
-
+  
             if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(passWord))
             {
                 ModelState.AddModelError("", "Please enter your username and password.");
