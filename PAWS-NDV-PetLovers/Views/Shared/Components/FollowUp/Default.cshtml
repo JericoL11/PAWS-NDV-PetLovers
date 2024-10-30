@@ -55,9 +55,13 @@
                             <button type="button" class="btn btn-secondary me-1 btn-cancel" data-id="@item.Id" data-bs-toggle="modal" data-bs-target="#staticBackdropCancel">
                                 Cancel
                             </button>
-                            <button type="button" class="btn btn-success me-1" data-id="@item.Id" data-bs-toggle="modal" data-bs-target="#staticBackdropAttended">
+
+                            <a asp-action="CreateDiagnosis" asp-controller="Billing" asp-route-id="@item.Diagnostics.pet.ownerId" asp-route-followupId="@item.Id" asp-route-btnCnl="followUp" class="btn btn-success btn-sm me-1">
                                 Attend
-                            </button>
+                            </a>
+                         @*    <button type="button" class="btn btn-success me-1" data-id="@item.Id" data-bs-toggle="modal" data-bs-target="#staticBackdropAttended">
+                                Attend
+                            </button> *@
                         </td>
                     </tr>
                 }

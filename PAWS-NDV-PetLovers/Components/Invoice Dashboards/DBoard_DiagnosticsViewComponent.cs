@@ -24,6 +24,8 @@ namespace PAWS_NDV_PetLovers.Components.Dashboards
                              .ThenInclude(p => p.owner)
                              .Include(d => d.IdiagnosticDetails)
                              .ThenInclude(dd => dd.Services)
+                             .Include(p => p.IPetFollowUps)
+                             .ThenInclude( p => p.Services)
                              .Where(d => string.IsNullOrEmpty(d.status))
                              .ToListAsync();
             // Optionally, fetch all purchases if needed for other purposes

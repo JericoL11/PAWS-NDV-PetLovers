@@ -72,85 +72,68 @@
 
 
                 <!-- Services Table -->
-                       
-                            <div class="container-fluid mt-4 p-0 ">
-                                <div class="container p-0 pt-3 ">
 
-                                    <div class="container p-0 bg-secustom-color">
 
-                                        <div>
-                                            <div class="container p-2">
-                                                <h1>Service</h1>
-                                            </div>
-                                        </div>
+                <div class="form-group text-end">
 
-                                    </div>
+                    <th class="text-end"><button type="button" class="btn btn-success btn-confirm " id="addRow">Add Row</button> </th>
 
-                                        <div class="card p-3">
-                                             <div class="row">
-                                                <div class="form-group text-end">
-                                               
-                                                        <th class="text-end"><button type="button" class="btn btn-success btn-confirm " id="addRow" >Add Row</button> </th>
-                                               
-                                                </div>   
+                </div>
 
-                                                <div class="table-responsive  text-center p-5"> 
-                                                    <table class="table table table-bordered hover text-center  mt-2" id="DetailsTable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="col-lg-3">Select Service</th>
-                                                            <th colspan="1" class="col-lg-1">Actions</th>
-                                                     
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr class="detailRow">
-                                                            <td>
-                                                                <select name="Appointment.IAppDetails[0].serviceId" class="service-select form-select" required>
-                                                                    <option value="" data-price="0" disabled selected>Select Service</option>
+                <div class="table-responsive  text-center p-5 ">
+                    <div class="container d-flex justify-content-center align-items-center ">
+                        <div class="table-responsive text-center p-5">
+                            <table class="table table-striped hover text-center mt-2" id="DetailsTable">
+                                <thead>
+                                    <tr class="no-col">
+                                        <th class="col-lg-3">Select Service</th>
+                                        <th colspan="1" class="col-lg-1">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="detailRow">
+                                        <td>
+                                            <select name="Appointment.IAppDetails[0].serviceId" class="service-select form-select" required>
+                                                <option value="" data-price="0" disabled selected>Select Service</option>
+                                                @foreach (var service in Model.IlistServices.Where(s => s.serviceType == "NA"))
+                                                {
+                                                    <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-type="@service.serviceType.ToLower()" data-service-name="@service.serviceName.ToLower()">
+                                                        @service.serviceName
+                                                    </option>
+                                                }
 
-                                                                    @foreach (var service in Model.IlistServices.Where(s => s.serviceType == "NA"))
-                                                                    {
-                                                                        <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-type="@service.serviceType.ToLower()" data-service-name="@service.serviceName.ToLower()">
-                                                                            @service.serviceName
-                                                                        </option>
-                                                                    }
+                                                <!-- For displaying laboratory items -->
+                                                @{
+                                                    var checkTypes = Model.IlistServices
+                                                    .Select(s => s.serviceType)
+                                                    .Distinct();
+                                                    var type = string.Join(",", checkTypes).ToLower();
+                                                }
+                                                @if (type.Contains("lab"))
+                                                {
+                                                    <optgroup label="Laboratory test">
+                                                        @foreach (var service in Model.IlistServices.Where(s => s.serviceType != "NA"))
+                                                        {
+                                                            <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-type="@service.serviceType.ToLower()" data-service-name="@service.serviceName.ToLower()">
+                                                                @service.serviceName
+                                                            </option>
+                                                        }
+                                                    </optgroup>
+                                                }
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger removeRow">Remove</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
-                                                                    @* for display laboratory items *@
-                                                                    @{
-                                                                        //check services
-                                                                        var checkTypes = Model.IlistServices
-                                                                        .Select(s => s.serviceType)
-                                                                        .Distinct();
+                </div>
 
-                                                                        var type = string.Join(",", checkTypes).ToLower();
-
-                                                                    }
-                                                                    @if (type.Contains("lab"))
-                                                                    {
-                                                                        <optgroup label="Laboratory test">
-                                                                            @foreach (var service in Model.IlistServices.Where(s => s.serviceType != "NA"))
-                                                                            {
-                                                                                <option value="@service.serviceId" data-price="@service.serviceCharge" data-service-type="@service.serviceType.ToLower()" data-service-name="@service.serviceName.ToLower()">
-                                                                                    @service.serviceName
-                                                                                </option>
-                                                                            }
-                                                                        </optgroup>
-                                                                    }
-
-                                                                </select>
-                                                            </td>
-                                                            <td>
-                                                                <button type="button" class="btn btn-danger removeRow">Remove</button>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                                </div>
-                                             </div>
-                                        </div>
-                                </div>
-                            </div>
+    
 
             <!-- Submit and Cancel buttons -->
             <div class="form-group text-end mt-3 mb-4">

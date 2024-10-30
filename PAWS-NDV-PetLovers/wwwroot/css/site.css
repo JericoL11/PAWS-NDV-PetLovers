@@ -132,7 +132,7 @@ button {
 }
 
 body {
-    background: #A6D5C6;
+    background-color: white ;
     font-family: Arial, Helvetica, sans-serif;
     display: flex;
     min-height: 100vh;
@@ -154,8 +154,8 @@ html {
 
 
 .navbar {
-    outline: 3px solid #469387;
-    border-bottom: 2px solid #ffffff;
+    /*outline: 3px solid #469387;
+    border-bottom: 2px solid #ffffff;*/
     display: flex;
     background-color: #469387;
 }
@@ -413,15 +413,15 @@ html {
 }
 
 .bg-pets {
-    border-top: 1px solid #469387;
-    border-bottom: 1px solid #469387;
-    background-color: #aad7d7 !important;
+    /*border-top: 1px solid #469387;
+    border-bottom: 1px solid #469387;*/
+    background-color: #D7F2DA !important;
 }
 
 .container-bord {
     margin-top: 20px;
     border-radius: 5px;
-    border: 3px solid #469387;
+    /*border: 3px solid #469387;*/
     padding: 10px;
 }
 
@@ -497,7 +497,7 @@ html {
 
 #sidebar {
     background: #469387;
-    border-right: 2px solid #ffffff;
+   /* border-right: 2px solid #ffffff;*/
     position: fixed; /* Make sidebar fixed */
     top: 0;
     left: 0;
@@ -588,7 +588,7 @@ html {
 
 /*External table color*/
 table thead tr {
-    background-color: #d3f7f1a8;
+    background-color: #D7F2DA !important;
 }
 
 
@@ -630,17 +630,17 @@ table {
 }
 
 .bg-custom-color {
-    background-color: #aad7d7 !important;
-    border-bottom: 2px solid #469387;
+    background-color: #D7F2DA !important;
+    /* border-bottom: 2px solid #469387;*/
     border-radius: 3px 3px 0 0;
 }
 
 .bg-secustom-color {
-    border-bottom: 2px solid #469387;
-    border-top: 2px solid #469387;
-    background-color: #aad7d7 !important;
+    /*border-bottom: 2px solid #469387;
+    border-top: 2px solid #469387;*/
+    background-color: #D7F2DA !important;
 }
-.no-colo{
+.no-col{
     background-color:transparent;
 }
 
@@ -750,10 +750,10 @@ table {
 
 .btn-confirm,
 .btn-confirm.active,
-.btn-confirm:hover{
-    background-color: #469387 !important;
-    border-color: #469387 !important;
-    color: white;
+.btn-confirm:hover {
+    background-color: #02BD43 !important;
+    border-color: #02BD43 !important;
+    color: black;
     font-weight: bold;
     font-size: 15px;
     outline: none;
@@ -761,9 +761,13 @@ table {
 }
 
 
-.btn-danger {
+
+.btn-danger,
+.btn-danger.active
+.btn-danger:hover{
     font-weight: bold;
     font-size: 15px;
+    background-color: #CF2411 !important;
 }
 .no-col{
     background-color:transparent !important;
@@ -841,3 +845,64 @@ table {
 
 }
 
+
+
+
+
+
+/* Modern card styling */
+.card-custom {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+    .card-custom:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+/* Header styling with icon support */
+.card-header-custom {
+    background-color: #469387;
+    color: white;
+    padding: 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+    .card-header-custom i {
+        margin-right: 10px;
+    }
+
+.dash-card:hover {
+    background-color: #EFC65D;
+    color:black;
+}
+/* Body styling with a light version of #469387 */
+.card-body-custom {
+    background-color: #dff3f1;
+    color: black;
+    padding: 30px;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+/* Footer styling */
+.card-footer-custom {
+    background-color: #469387;
+    color: white;
+    padding: 15px;
+    font-size: 1rem;
+}
+
+/* Center the content */
+.card-body-custom h1 {
+    margin: 0;
+}
