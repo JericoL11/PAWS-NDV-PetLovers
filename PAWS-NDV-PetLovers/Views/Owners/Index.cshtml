@@ -14,25 +14,25 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
- 
 
 
 
-    <div class="container p-0 bg container-bord">
+
+<div class="container p-0 bg container-bord shadow mb-5 bg-white rounded">
 
         <div class="container  p-0">
 
-        <div class="container p-0  bg-custom-color">
+        <div class="container p-0  bg-custom-color text-center">
             <div>
                 <div class="container p-2">
-                    <h1>Owner Dashboard</h1>
+                    <h1 class="fw-bold">Owner Dashboard</h1>
                 </div>
             </div>
         </div>
 
-        <div class="d-flex justify-content-end pt-3 px-3">
-            <a class="btn btn-primary btn-md mb-4  me-2 bg-custom-btn btn-confirm " asp-action="Create">Add new owner</a>
-            <a class="btn btn-primary btn-md mb-4 px-4 bg-custom-btn btn-cancel" asp-action="Index" asp-controller="Pets">View Pet List</a>
+        <div class="d-flex justify-content-end pt-5 px-3">
+            <a class="btn btn-primary btn-lg mb-4  bg-custom-btn btn-confirm me-2" asp-action="Create">Add new owner</a>
+            <a class="btn btn-primary btn-lg mb-4  bg-custom-btn btn-cancel" asp-action="Index" asp-controller="Pets">View Pet List</a>
         </div>
             <div class="card p-3">
                 <div class="table-responsive">
@@ -40,9 +40,9 @@
                     <thead> 
 
                         <tr class="text-center">
-                            <th class="text-center">
+                           @*  <th>
                                 @Html.DisplayNameFor(model => model.id)
-                            </th>
+                            </th> *@
                             <th class="text-center">
                                <span style="margin:0">Full Name</span>
                             </th>
@@ -62,15 +62,19 @@
                             <th class="text-center">
                                @Html.DisplayNameFor(model => model.registeredDate)
                             </th> 
-                            <th class="text-center">Actions</t>
+                            @if (Context.Session.GetString("UserRole") == "Admin")
+                            {
+                                <th class="text-center">Actions</th>
+                            }
+                         
                         </tr>
                     </thead>
                     <tbody>
                 @foreach (var item in Model) {
                         <tr class="text-center" >
-                            <td class="text-center">
+                           @*  <td class="text-center">
                                 @Html.DisplayFor(modelItem => item.id)
-                            </td>
+                            </td> *@
                             <td>
                                 @Html.DisplayFor(modelItem => item.fname)
                                 @Html.Raw(' ')
@@ -96,22 +100,22 @@
                                     @item.registeredDate?.ToString("MMM. dd, yyyy")
                                 </td>
 
+                           @if(Context.Session.GetString("UserRole") == "Admin")
+                            {
                                 <td class="text-center">
-
-                                    <a asp-action="Edit" class="btn  btn-cancel btn-sm px-3" asp-route-id="@item.id">View</a>
-                                  @*   <a asp-action="Details" class="btn btn-warning btn-sm" asp-route-id="@item.id">Details</a>  *@
-                                 @*    <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.id">Delete</a>     *@
-
-
+                                    <a asp-action="Edit" class="btn btn-confirm btn-sm px-3" asp-route-id="@item.id">View</a>
                                 </td>
-                            </tr>
-                    }
-                        </tbody>
-                        </table>
-                    </div>
+                             }
+                              @*   <a asp-action="Details" class="btn btn-warning btn-sm" asp-route-id="@item.id">Details</a>  *@
+                             @*    <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.id">Delete</a>     *@
+                        </tr>
+                }
+                    </tbody>
+                    </table>
                 </div>
-        </div>
+            </div>
     </div>
+</div>
 
 @section Scripts {
     @{

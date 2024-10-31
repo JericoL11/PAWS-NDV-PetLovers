@@ -291,6 +291,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                     activeBillingTab = BillingTab.Purchase
                 };
 
+                TempData["Title"] = "Successfully Creted";
                 return RedirectToAction("Edit", new { id = diagnosticid, errorMessage = true, viewModel.activeBillingTab });
             }
 
@@ -630,6 +631,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             }
 
             // Redirect to the index view after successful payment
+            TempData["Message"] = "Payment Completed";
             return RedirectToAction("Index");
 
         }
@@ -1089,6 +1091,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             }
 
             // Redirect to the index view after successful payment
+            TempData["Message"] = "Payment Completed";
             return RedirectToAction("Index", new TransactionsVm { activeBoardTab = DBoardTab.DBoard_Purchase });
         }
 
@@ -1103,7 +1106,9 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             {
                 // Fetch owners based on the search term, with EF's `Where` clause to filter results
                 owners = await _context.Owners
-                    .Where(o => o.fname.Contains(searchTerm) || o.lname.Contains(searchTerm) || o.mname.Contains(searchTerm)) // Adjust this condition based on your requirements
+                    .Where(o => o.fname.Contains(searchTerm) || o.lname.Contains(searchTerm) || o.mname.Contains(searchTerm)
+                    || (o.fname + " " + o.lname).Contains(searchTerm)
+                    || (o.fname + o.lname).Contains(searchTerm)) // Adjust this condition based on your requirements
                     .ToListAsync();
             }
 
@@ -1156,7 +1161,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             }
             if (appointment != null)
             {
-                //vm instantiationn
+                TempData["Message"] = "This client has an existing appointment. Selected services will be applied to this form.";
+                //vm instantiationn 
                 TransactionsVm aVm = new TransactionsVm
                 {
                     Owner = owner,
@@ -1243,7 +1249,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
 
 
             await _context.SaveChangesAsync();
-
+            TempData["Message"] = "Successuly Created";
             // Redirect to the Billing page
             return RedirectToAction("Index", "Billing");
         }

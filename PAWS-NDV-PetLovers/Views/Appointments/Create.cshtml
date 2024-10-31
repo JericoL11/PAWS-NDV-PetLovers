@@ -2,14 +2,14 @@
 @{
     ViewData["Title"] = "Create";
 }
-<div class="container p-0 bg container-bord mb-3">
+<div class="container p-0 bg container-bord shadow mb-5 bg-white rounded">
 
     <div class="container  p-0">
 
-        <div class="container p-0 bg-custom-color sticky-header">
+        <div class="container p-0 bg-custom-color text-center">
             <div>
                 <div class="container p-2">
-                    <h1>Set Booking</h1>
+                    <h1 class="fw-bold">Set Booking</h1>
                 </div>
             </div>
         </div>
@@ -19,7 +19,7 @@
     <div class="container p-0 ">
            <div class="pt-4 p-3">
                 <!-- Button trigger modal -->
-            <button type="button" class="btn btn-warning btn-cancel" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Existing Record</button>                    
+            <button type="button" class="btn btn-warning btn-cancel btn-lg" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Existing Record</button>                    
     </div>
 
     <form asp-action="Create" method="post" class="p-0"><div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -71,23 +71,16 @@
                 </div>
 
 
+
                 <!-- Services Table -->
-
-
-                <div class="form-group text-end">
-
-                    <th class="text-end"><button type="button" class="btn btn-success btn-confirm " id="addRow">Add Row</button> </th>
-
-                </div>
-
-                <div class="table-responsive  text-center p-5 ">
-                    <div class="container d-flex justify-content-center align-items-center ">
-                        <div class="table-responsive text-center p-5">
+                <div class="table-responsive  text-center p-0">
+                    <div class="container p-3">
+                        <div class="table-responsive text-center ">
                             <table class="table table-striped hover text-center mt-2" id="DetailsTable">
                                 <thead>
                                     <tr class="no-col">
-                                        <th class="col-lg-3">Select Service</th>
-                                        <th colspan="1" class="col-lg-1">Actions</th>
+                                        <th class="col-lg-8">Select Service</th>
+                                        <th colspan="1" class="col-lg-5">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -123,22 +116,30 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-danger removeRow">Remove</button>
+                                            <button type="button" class="btn btn-danger btn-md removeRow">Remove</button>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
+
+                            <div class="form-group text-end">
+
+                                <th class="text-end"><button type="button" class="btn btn-confirm btn-md" id="addRow">Add Row</button> </th>
+
+                            </div>
                         </div>
                     </div>
+ 
 
                 </div>
 
-    
+                
+        
 
             <!-- Submit and Cancel buttons -->
-            <div class="form-group text-end mt-3 mb-4">
-                <a asp-action="Dashboard" class="btn btn-secondary btn-cancel px-4">Cancel</a>
-                <input type="submit" value="Create" class="btn btn-primary btn-success btn-confirm px-4" />
+            <div class="form-group text-end mt-3 mb-4 pt-5">
+                <a asp-action="Dashboard" class="btn btn-secondary btn-cancel px-4 btn-lg">Cancel</a>
+                <input type="submit" value="Create" class="btn btn-primary btn-success btn-confirm btn-lg px-4" />
             </div>
         </div>
     </form>

@@ -9,7 +9,7 @@
     {
 
         //bootstrap not for modal
-        <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 50000;">
+        <div id="success-alert" class="alert alert-success alert-dismissible fade show text-center" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 50000;">
             @TempData["SuccessMessage"]
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -18,23 +18,22 @@
 </div>
 @* Owner *@
 
-<div class="container p-0 bg container-bord">
+<div class="container p-0 bg container-bord shadow  mb-5 bg-white rounded">
     <div class="container p-0">
 
 
-        <div class="container p-0  bg-custom-color">
+        <div class="container p-0  bg-custom-color text-center">
             <div>
                 <div class="container p-2">
-                    <h1>Edit Owner Profile</h1>
+                    <h1 class="fw-bold">Client Information</h1>
                 </div>
             </div>
         </div>
-
-
-
-    
-        <form asp-action="Edit">
-            <div class="card p-3 ">
+            <div class="pt-5  p-3 text-end">
+                <a class="btn btn-md btn-cancel btn-lg" asp-action="Index">Back to List</a>
+                <a class="btn btn-md btn-update btn-lg" asp-action="EditOwner" asp-route-id="@Model.Owner.id">Edit Client Profile</a>
+            </div>
+            <div class="card p-3">
                 <div class="row ">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -64,17 +63,17 @@
                     </div>
                     <div class="form-group  col-lg-3 col-md-6" id="apppad">
                         <label asp-for="Owner.contact" class="control-label"></label>
-                        <input asp-for="Owner.contact" class="form-control" />
+                    <input asp-for="Owner.contact" class="form-control" readonly />
                         <span asp-validation-for="Owner.contact" class="text-danger"></span>
                     </div>
                     <div class="form-group  col-lg-3 col-md-6" id="apppad">
                         <label asp-for="Owner.email" class="control-label"></label>
-                        <input asp-for="Owner.email" class="form-control" />
+                    <input asp-for="Owner.email" class="form-control" readonly />
                         <span asp-validation-for="Owner.email" class="text-danger"></span>
                     </div>
                     <div class="form-group  col-lg-3 col-md-6" id="apppad">
                         <label asp-for="Owner.address" class="control-label"></label>
-                        <input asp-for="Owner.address" class="form-control" />
+                    <input asp-for="Owner.address" class="form-control" readonly />
                         <span asp-validation-for="Owner.address" class="text-danger"></span>
                     </div>
 
@@ -101,10 +100,7 @@
                         }
 
                     </div>
-
-
-
-
+                   
                 </div>
             </div>
 
@@ -112,15 +108,11 @@
 
             @* add the Pet form here using looop with button edits *@
             @* Pets *@
-            <div class="bg-secondary bg-pets py-2 my-3">
-                <div class="container">
-                    <h1>Pets</h1>
-                </div>
-            </div>
+            
 
-                <div class="d-flex justify-content-end">
+                <div class="form-group text-end p-3 pt-2">
                     @*modal button*@
-                    <button type="button" class="btn btn-primary btn-newpet pt-2  mb-2 me-3 " asp-action="EditPet" asp-controller="Owners" data-bs-toggle="modal" data-bs-target="#editPetModal" data-id="@Model.Owner.id">
+                    <button type="button" class="btn btn-confirm btn-newpet btn-sm " asp-action="EditPet" asp-controller="Owners" data-bs-toggle="modal" data-bs-target="#editPetModal" data-id="@Model.Owner.id">
                         Add New Pet
                     </button>
                 </div>
@@ -159,9 +151,11 @@
                                 <td>@Html.DisplayFor(modelItem => item.color)</td>
                                 <td>@item.registeredDate?.ToString("MMM. dd, yyyy")</td>
                                 <td>
-                                    <a asp-action="Edit" asp-controller="Pets" class="btn btn-success btn-md" asp-route-id="@item.id">Update</a>
+
+                                    <a asp-action="DiagnosHistory" asp-controller="Pets" asp-route-id="@item.id" asp-route-ownerId="@item.ownerId" class="btn btn-cancel  btn-sm">History</a>
+                                    <a asp-action="Edit" asp-controller="Pets" class="btn btn-update btn-sm" asp-route-id="@item.id">Update</a>
                                     @* <a asp-action="Details" asp-controller="Pets" class="btn btn-info btn-md" asp-route-id="@item.id">Details</a> *@
-                                   <a asp-action="DiagnosHistory" asp-controller="Pets" asp-route-id="@item.id" asp-route-ownerId="@item.ownerId" class="btn btn-warning">History</a>
+                                  
                                     @*  <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.id">Delete</a> *@
                                 </td>
                             </tr>
@@ -188,13 +182,6 @@
                     <a class="btn btn-md btn-secondary my-2 px-5" asp-action="Index">Back</a>
                 </div>
             } *@
-            <div class="form-group justify-content-end">
-                <input type="submit" value="Save" class="btn btn-primary px-5" />
-                <a class="btn btn-md btn-secondary my-2 px-5" asp-action="Index">Back</a>
-            </div>
-
-        </form>
-
     </div>
 </div>
 

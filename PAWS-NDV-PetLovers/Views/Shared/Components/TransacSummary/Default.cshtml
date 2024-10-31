@@ -27,24 +27,23 @@
     <div class="mt-3">
         @if (Model.Filtered)
         {
-            <div class="table-responsive">
-                <table class="table table-bordered text-center">
-                    <thead>
-                        <tr>
-                            <th class="text-center">Date</th>
-                            <th class="text-center">Biling Id</th>
-                            <th class="text-center">Name</th>
-                            <th class="text-center">Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if(Model.IBilling.Count() > 0)
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Billing Id</th>
+                        <th>Name</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(Model.IBilling.Count() > 0)
+                    {
+                        @foreach (var transac in Model.IBilling)
                         {
-                            @foreach (var transac in Model.IBilling)
-                            {
-                                <tr>
-                                    <td>@transac.date.ToString("MMM. dd, yyyy")</td>
-                                    <td>@transac.billingId</td>
+                            <tr>
+                                <td>@transac.date.ToString("MMM. dd, yyyy")</td>
+                                <td>@transac.billingId</td>
 
                                     @if (transac.DiagnosticsId != null)
                                     {
@@ -83,8 +82,8 @@
                             </tr>
                         </tfoot>
                     }
-                </table>
-            </div>
+            </table>
+           
         }
     </div>
 </div>

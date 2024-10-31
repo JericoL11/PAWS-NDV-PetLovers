@@ -198,19 +198,19 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                         var hashData = HashingService.HashData(userAccount.userName);
                         userAccount.passWord = hashData;
                         userAccount.IsPasswordChanged = false;
+                        TempData["Message"] = "Account Reset Successful";
                         break;
 
                     case "Deactivate":
                         userAccount.IsActive = false;
+                        TempData["Message"] = "Deactivation Successful";
                         break;
 
                     case "Activate":
+                        TempData["Message"] = "Activation Successful";
                         userAccount.IsActive = true;
                         break;
 
-                    case "Delete":
-                        _context.UserAccounts.Remove(userAccount);
-                        break;
 
                     default:
                         // Handle unknown action if necessary
@@ -299,7 +299,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             }
 
             vm.activeAccountTab = AccountTab.accountList;
-         
+            TempData["Message"] = "Successfully Created";
             return RedirectToAction("Account", vm );
         }
 

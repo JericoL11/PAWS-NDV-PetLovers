@@ -2,6 +2,20 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+function validateDecimalInput(input) {
+    // Allow only numbers and a single decimal point
+    input.value = input.value.replace(/[^0-9.]/g, '');
+
+    // Ensure only one decimal point is present
+    if ((input.value.match(/\./g) || []).length > 1) {
+        input.value = input.value.replace(/\.+$/, "");
+    }
+
+    // Limit the total length to 7 characters
+    if (input.value.length > 7) {
+        input.value = input.value.slice(0, 7);
+    }
+}
 
 //password Hide/Show
 $(document).ready(function () {

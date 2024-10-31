@@ -3,20 +3,30 @@
     ViewData["Title"] = "Index";
 }
 
+<!-- Alert Placeholder -->
+@if (TempData["Message"] != null)
+{
+    //utilize bootstrap, not for modal
+    <div id="success-alert" class="alert alert-success alert-dismissible fade show text-center" role="alert">
+        @TempData["Message"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 
-<div class="container p-0 bg container-bord">
+
+<div class="container p-0 bg container-bord shadow mb-5 bg-white rounded">
     <div class="container p-0">
 
-        <div class="container p-0  bg-custom-color">
+        <div class="container p-0  bg-custom-color text-center">
             <div>
                 <div class="container p-2">
-                    <h1>Service</h1>
+                    <h1 class="fw-bold">Service</h1>
                 </div>
             </div>
         </div>
 
-        <div class="d-flex justify-content-between pt-3 px-3">
-            <a class="btn btn-primary btn-confirm" asp-action="Create"> Add new Service</a>
+        <div class="d-flex justify-content-between pt-3 px-3 pt-5">
+            <a class="btn btn-primary btn-confirm btn-lg" asp-action="Create"> Add new Service</a>
             @* <a class="btn btn-warning" asp-action="VoidServices"> Void Services</a> *@
         </div>
   
@@ -51,7 +61,7 @@
                                     }
           
                                     <td>@Html.DisplayFor(modelItem => item.serviceCharge)</td>
-                                    <td><a class="btn btn-success" asp-route-id="@item.serviceId" asp-action="Edit">Update</a>  
+                                    <td><a class="btn btn-update" asp-route-id="@item.serviceId" asp-action="Edit">Update</a>  
                                        @*  <a class="btn btn-danger" asp-route-id="@item.serviceId" asp-action="Delete">Delete</a></td> *@
                                 </tr>
                             }

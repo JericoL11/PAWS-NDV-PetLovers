@@ -3,21 +3,23 @@
     ViewData["Title"] = "Create";
 }
 
-<div class="container p-0 bg container-bord">
+<div class="container p-0 bg container-bord shadow  mb-5 bg-white rounded">
     <div class="container p-0">
 
-        <div class="container p-0  bg-custom-color">
+        <div class="container p-0  bg-custom-color text-center">
             <div>
                 <div class="container p-2">
-                    <h1>Add New Product</h1>
+                    <h1 class="fw-bold">Add New Product</h1>
                 </div>
             </div>
         </div>
-
-        <div class="px-3 pt-4">
-           <a asp-action="Create" asp-controller="Categories" class="btn btn-primary btn-confirm"> Add Category</a>
+     @*    <div class="pt-4 px-4">
+           <a asp-action="Create" asp-controller="Categories" class="btn btn-primary"> Add Category</a>
         </div>
-            
+ *@
+        <div class="row justify-content-center">
+            <div class="card p-3">
+                <div class="card  ">
                     <form method="post" asp-action="Create">
                        <div class="container p-0">
                            <div class="row p-3">
@@ -66,9 +68,9 @@
                                             <span asp-validation-for="expiryDate" class="text-danger"></span>
                                         </div> *@
                   
-                                    <div class="form-group text-end p-3">
-                                        <a asp-action="Index" class="btn btn-secondary btn-cancel">Cancel</a>
-                                        <input type="submit" class="btn btn-primary btn-confirm" value="Create" />
+                                    <div class="form-group text-end p-3 pt-5">
+                                        <a asp-action="Index" class="btn  btn-cancel btn-lg px-4">Cancel</a>
+                                        <input type="submit" class="btn  btn-confirm btn-lg px-4" value="Create" />
                                     </div>
                             </div>
                        </div>
@@ -79,11 +81,3 @@
        
     </div>
 </div>
-<script>
-    function validateDecimalInput(input) {
-        input.value = input.value.replace(/[^0-9.]/g, ''); // Allow only numbers and periods
-        if ((input.value.match(/\./g) || []).length > 1) {
-            input.value = input.value.replace(/\.+$/, ""); // Remove extra periods
-        }
-    }
-</script>

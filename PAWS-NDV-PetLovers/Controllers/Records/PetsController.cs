@@ -155,7 +155,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
                 _context.Update(pet);
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Update Successfully";
+                TempData["SuccessMessage"] = "Successfully Updated";
                 return RedirectToAction("Edit", pet.id);
             }
             catch (DbUpdateConcurrencyException)

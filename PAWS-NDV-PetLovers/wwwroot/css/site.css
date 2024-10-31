@@ -415,7 +415,7 @@ html {
 .bg-pets {
     /*border-top: 1px solid #469387;
     border-bottom: 1px solid #469387;*/
-    background-color: #D7F2DA !important;
+    background-color: #EFC65D !important;
 }
 
 .container-bord {
@@ -630,7 +630,7 @@ table {
 }
 
 .bg-custom-color {
-    background-color: #D7F2DA !important;
+    background-color: #EFC65D !important;
     /* border-bottom: 2px solid #469387;*/
     border-radius: 3px 3px 0 0;
 }
@@ -751,14 +751,16 @@ table {
 .btn-confirm,
 .btn-confirm.active,
 .btn-confirm:hover {
-    background-color: #02BD43 !important;
-    border-color: #02BD43 !important;
+    background-color: #12B051 !important;
+    border-color: #12B051 !important;
     color: black;
     font-weight: bold;
     font-size: 15px;
     outline: none;
     box-shadow: none;
 }
+
+
 
 
 
@@ -775,10 +777,10 @@ table {
 
 .btn-update,
 .btn-update:hover,
-.btn-update.active  {
-    background-color: blue !important;
-    border-color: #469387 !important;
-    color: white;
+.btn-update.active {
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+    color: black;
     font-weight: bold;
     font-size: 15px;
 }

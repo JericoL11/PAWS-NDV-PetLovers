@@ -67,7 +67,10 @@ public class AuthFilter : ActionFilterAttribute
         ("Diagnosis","Billing"),
         ("Billing","Diagnosis"),
         ("Billing","CreateDiagnosis"),
-       
+        ("Owners","Edit"),
+        ("Pets","DiagnosHistory"),
+        ("Billing","EditDetails")
+
     };
 
         // List of controllers where all actions are restricted for staff

@@ -195,7 +195,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                     return RedirectToAction("Dashboard", "Appointments", vcm); // Redirect to another controller
                 }
 
-                TempData["SuccessMessage"] = "Created Successfully";
+                TempData["SuccessMessage"] = "Successfully Created";
                 return RedirectToAction(nameof(Index));
             }
             else
@@ -207,12 +207,10 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             return View("Create", vm);
         }
 
-
-
         // GET: Owners/Edit/5
         public async Task<IActionResult> Edit(int? id, string? btnCnl)
         {
-            
+
 
             if (id == null)
             {
@@ -242,13 +240,31 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
             return View(data);
         }
+        [HttpGet]
+        public async Task<IActionResult> EditOwner(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        // POST: Owners/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+            var owner = await _context.Owners.FindAsync(id);
+
+            if (owner == null)
+            {
+                return NotFound();
+            }
+
+            return View(owner);
+       
+        }
+
+    // POST: Owners/Edit/5
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,fname,lname,mname,gender,contact,email,address,registeredDate,lastUpdate,Pets")] Owner owner)
+        public async Task<IActionResult> EditOwner(int id, [Bind("id,fname,lname,mname,gender,contact,email,address,registeredDate,lastUpdate,Pets")] Owner owner)
         {
             if (id != owner.id)
             {
@@ -264,12 +280,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                                         .Include(o => o.Pets)
                                         .FirstOrDefaultAsync(o => o.id == id);
 
-                var contactCheck = new RecordsVm
-                {
-                    Owner = owners,
-                    IPets = owners.Pets
-                };
-                return View(contactCheck);
+           
+                return View(owners);
             }
 
             // Update the lastUpdate column
@@ -277,9 +289,23 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
             try
             {
-                _context.Update(owner);
+                    _context.Update(owner);
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Update Successfully";
+
+                // Retrieve the updated data to redisplay the form
+                var updatedOwner = await _context.Owners
+                                        .Include(o => o.Pets)
+                                        .FirstOrDefaultAsync(o => o.id == id);
+
+                var data = new RecordsVm
+                {
+                    Owner = updatedOwner,
+                    IPets = updatedOwner.Pets
+                };
+                TempData["SuccessMessage"] = "Successfully Updated";
+
+                return RedirectToAction("Edit", new {id = owner.id } );
+          
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -293,18 +319,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                 }
             }
 
-            // Retrieve the updated data to redisplay the form
-            var updatedOwner = await _context.Owners
-                                    .Include(o => o.Pets)
-                                    .FirstOrDefaultAsync(o => o.id == id);
-
-            var data = new RecordsVm
-            {
-                Owner = updatedOwner,
-                IPets = updatedOwner.Pets
-            };
-
-            return RedirectToAction("Edit", owner.id);
         }
 
         //edit pet button

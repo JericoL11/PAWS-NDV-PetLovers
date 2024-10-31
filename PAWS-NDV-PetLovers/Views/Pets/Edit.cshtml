@@ -5,16 +5,20 @@
 
 
 
-<div class="bg-secondary bg-opacity-10 py-2 mb-3">
-    <div class="container">
-        <h1>Edit Pet</h1>
+<div class="container-fluid bg p-0 container-bord shadow  mb-5 bg-white rounded">
 
-    </div>
- 
-</div>
+    <div class="container p-0">
 
 
-<div class="main container">
+        <div class="container p-0 bg-custom-color text-center">
+            <div>
+                <div class="container p-2">
+                    <h1 class="fw-bold">Edit Pet</h1>
+                </div>
+            </div>
+        </div>
+
+
     <!-- Alert Placeholder -->
     @if (TempData["SuccessMessage"] != null)
     {
@@ -25,10 +29,10 @@
     }
 
     <div class="d-flex justify-content-end pt-3 px-3 mb-4">
-        <a asp-controller="Owners" asp-action="Edit" class="btn btn-primary btn-md" asp-route-id="@Model.ownerId">View Owner</a>
+        <a asp-controller="Owners" asp-action="Edit" class="btn btn-cancel btn-lg" asp-route-id="@Model.ownerId">View Owner</a>
     </div>
 
-    <div class="card mb-4">
+    <div class="card mb-4 p-3">
         <form method="post" asp-action="Edit">
             <div class="row petrow p-2">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -106,16 +110,16 @@
                 <div class="col-12">
 
                 </div>
-                <div class="btn-group col-1 mt-4">
-                    <a asp-action="Index" class="btn btn-secondary btn-md me-1">Cancel</a>
-                    <input type="submit" value="Save" class="btn btn-md btn-primary" />
+                <div class="form-group text-end p-3">
+                    <a asp-action="Edit" asp-route-id="@Model.ownerId" asp-controller="Owners" class="btn btn-cancel btn-lg px-4">Cancel</a>
+                    <input type="submit" value="Save" class="btn btn-lg btn-confirm px-4" />
                 </div>
                
             </form>
     </div>
 
 </div>
-
+</div>
 
 
 

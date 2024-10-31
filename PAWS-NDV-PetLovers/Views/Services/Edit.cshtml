@@ -3,25 +3,24 @@
     ViewData["Title"] = "Edit";
 }
 
-<div class="container p-0 bg container-bord">
+<div class="container p-0 bg container-bord shadow  mb-5 bg-white rounded">
 
     <div class="container p-0">
 
-        <div class="container p-0  bg-custom-color">
+        <div class="container p-0  bg-custom-color text-center">
             <div>
                 <div class="container p-2">
-                    <h1>Update Service</h1>
+                    <h1 class="fw-bold">Update Service</h1>
                 </div>
             </div>
         </div>
 
 
-
-        <div class="row justify-content-center">
-            <div class="col-6">
-                <form method="post" asp-action="Edit" class="card shadow-sm mt-5">
+        <div class="container p-0">
+            <div class="">
+                <form method="post" asp-action="Edit" class="card p-5">
                     <input asp-for="serviceId" hidden/>
-                    <div class="card-body p-4">
+                    <div class="card p-5">
 
                         <div class="form-group">
                             <label asp-for="serviceName" class="control-label"></label>
@@ -41,8 +40,8 @@
                         </div>
 
                         <div class="form-group mt-4 text-end">
-                            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-                            <input type="submit" value="Update" class="btn btn-primary"/>
+                            <a asp-action="Index" class="btn btn-cancel btn-lg px-4">Cancel</a>
+                            <input type="submit" value="Save" class="btn btn-confirm btn-lg px-4 "/>
                         </div>
                     </div>
                 </form>
