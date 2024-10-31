@@ -1,0 +1,67 @@
+﻿@model PAWS_NDV_PetLovers.Models.Records.Owner
+@{
+    ViewData["Title"] = "Edit Owner";
+}
+<div class="bg-custom-color">
+    <div class="container">
+        <h1>Update Owner</h1>
+    </div>
+</div>
+
+<div class="container">
+    <form asp-action="EditOwner">
+            <div class="card">
+                <div class="row p-2">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group col-lg-3 col-md-6">
+                        <label asp-for="id" class="control-label"></label>
+                        <input type="text" asp-for="id" class="form-control bg-light" readonly />
+                    </div>
+                    <div class="form-group col-lg-3 col-md-6">
+                        <label asp-for="fname" class="control-label"></label>
+                        <input asp-for="fname" class="form-control" readonly />
+                        <span asp-validation-for="fname" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-lg-3 col-md-6">
+                        <label asp-for="lname" class="control-label"></label>
+                        <input asp-for="lname" class="form-control" readonly />
+                        <span asp-validation-for="lname" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-lg-3 col-md-6">
+                        <label asp-for="mname" class="control-label"></label>
+                        <input asp-for="mname" class="form-control" readonly />
+                        <span asp-validation-for="mname" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-lg-3 col-md-6">
+                        <label asp-for="gender" class="control-label"></label>
+                        <input asp-for="gender" class="form-control" readonly />
+                        <span asp-validation-for="gender" class="text-danger"></span>
+                    </div>
+                    <div class="form-group  col-lg-3 col-md-6">
+                        <label asp-for="contact" class="control-label"></label>
+                        <input asp-for="contact" class="form-control" />
+                        <span asp-validation-for="contact" class="text-danger"></span>
+                    </div>
+                    <div class="form-group  col-lg-3 col-md-6">
+                        <label asp-for="email" class="control-label"></label>
+                        <input asp-for="email" class="form-control" />
+                        <span asp-validation-for="email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group  col-lg-3 col-md-6">
+                        <label asp-for="address" class="control-label"></label>
+                        <input asp-for="address" class="form-control" />
+                        <span asp-validation-for="address" class="text-danger"></span>
+                    </div>
+                <div class="form-group col-lg-3">
+                    <label asp-for="registeredDate" class="control-label"></label>
+                    <input type="hidden" asp-for="registeredDate" class="form-control" readonly />
+                    <input value="@Model.registeredDate?.ToString("MMM. dd, yyyy")" class="form-control" readonly />
+                </div>
+                    <div class="button-group">
+                        <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.id">Cancel</a>
+                        <input type="submit" class="btn btn-primary" value="Save" />
+                    </div>
+              </div>
+      </form>
+</div>

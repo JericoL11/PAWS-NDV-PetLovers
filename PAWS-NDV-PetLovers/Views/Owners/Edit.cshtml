@@ -9,7 +9,7 @@
     {
 
         //bootstrap not for modal
-        <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 50000;">
+        <div id="success-alert" class="alert alert-success alert-dismissible fade show text-center" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 50000;">
             @TempData["SuccessMessage"]
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -25,15 +25,14 @@
         <div class="container p-0  bg-custom-color">
             <div>
                 <div class="container p-2">
-                    <h1>Edit Owner Profile</h1>
+                    <h1>Client Information</h1>
                 </div>
             </div>
         </div>
-
-
-
-    
-        <form asp-action="Edit">
+            <div class="my-3 text-end">
+                <a class="btn btn-md btn-secondary" asp-action="Index">Back to List</a>
+                <a class="btn btn-md btn-primary" asp-action="EditOwner" asp-route-id="@Model.Owner.id">Edit Client Profile</a>
+            </div>
             <div class="card">
                 <div class="row p-2">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -64,17 +63,17 @@
                     </div>
                     <div class="form-group  col-lg-3 col-md-6">
                         <label asp-for="Owner.contact" class="control-label"></label>
-                        <input asp-for="Owner.contact" class="form-control" />
+                    <input asp-for="Owner.contact" class="form-control" readonly />
                         <span asp-validation-for="Owner.contact" class="text-danger"></span>
                     </div>
                     <div class="form-group  col-lg-3 col-md-6">
                         <label asp-for="Owner.email" class="control-label"></label>
-                        <input asp-for="Owner.email" class="form-control" />
+                    <input asp-for="Owner.email" class="form-control" readonly />
                         <span asp-validation-for="Owner.email" class="text-danger"></span>
                     </div>
                     <div class="form-group  col-lg-3 col-md-6">
                         <label asp-for="Owner.address" class="control-label"></label>
-                        <input asp-for="Owner.address" class="form-control" />
+                    <input asp-for="Owner.address" class="form-control" readonly />
                         <span asp-validation-for="Owner.address" class="text-danger"></span>
                     </div>
 
@@ -101,10 +100,7 @@
                         }
 
                     </div>
-
-
-
-
+                   
                 </div>
             </div>
 
@@ -184,13 +180,6 @@
                     <a class="btn btn-md btn-secondary my-2 px-5" asp-action="Index">Back</a>
                 </div>
             } *@
-            <div class="form-group justify-content-end">
-                <input type="submit" value="Save" class="btn btn-primary px-5" />
-                <a class="btn btn-md btn-secondary my-2 px-5" asp-action="Index">Back</a>
-            </div>
-
-        </form>
-
     </div>
 </div>
 

@@ -40,9 +40,9 @@
                     <thead> 
 
                         <tr class="text-center">
-                            <th>
+                           @*  <th>
                                 @Html.DisplayNameFor(model => model.id)
-                            </th>
+                            </th> *@
                             <th>
                                <span style="margin:0">Full Name</span>
                             </th>
@@ -62,15 +62,19 @@
                             <th>
                                @Html.DisplayNameFor(model => model.registeredDate)
                             </th> 
-                            <th>Actions</th>
+                            @if (Context.Session.GetString("UserRole") == "Admin")
+                            {
+                                <th>Actions</th>
+                            }
+                         
                         </tr>
                     </thead>
                     <tbody>
                 @foreach (var item in Model) {
                         <tr class="text-center" >
-                            <td class="text-center">
+                           @*  <td class="text-center">
                                 @Html.DisplayFor(modelItem => item.id)
-                            </td>
+                            </td> *@
                             <td>
                                 @Html.DisplayFor(modelItem => item.fname)
                                 @Html.Raw(' ')
@@ -96,14 +100,14 @@
                                 @item.registeredDate?.ToString("MMM. dd, yyyy")
                             </td>
 
-                            <td class="text-center">
-
-                                <a asp-action="Edit" class="btn btn-success btn-sm px-3" asp-route-id="@item.id">View</a>
+                           @if(Context.Session.GetString("UserRole") == "Admin")
+                            {
+                                <td class="text-center">
+                                    <a asp-action="Edit" class="btn btn-success btn-sm px-3" asp-route-id="@item.id">View</a>
+                                </td>
+                             }
                               @*   <a asp-action="Details" class="btn btn-warning btn-sm" asp-route-id="@item.id">Details</a>  *@
                              @*    <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.id">Delete</a>     *@
-
-
-                            </td>
                         </tr>
                 }
                     </tbody>

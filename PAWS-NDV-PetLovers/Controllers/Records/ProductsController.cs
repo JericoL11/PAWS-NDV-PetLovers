@@ -68,7 +68,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             {
                 _context.Add(product);
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Created Successfully";
+                TempData["SuccessMessage"] = "Successfully Created ";
 
                 return RedirectToAction(nameof(Index));
             }
@@ -135,9 +135,9 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             _context.Products.Update(product);
             await _context.SaveChangesAsync();
 
-            TempData["SuccessMessage"] = "Product updated successfully!";
+            TempData["SuccessMessage"] = "Successfully Updated";
             return RedirectToAction("Index");
-        }
+        }   
 
    
         [HttpGet]

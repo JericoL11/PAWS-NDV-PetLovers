@@ -93,35 +93,35 @@
                     </a>
                     <div class="collapse" id="recordmanagement-collapse" data-bs-parent="#accordion">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3 small">
-                            @if (Context.Session.GetString("UserRole") == "Admin")
-                            {
-                                <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Owners">Clients</a></li>
-                            }
+                             <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Owners">Clients</a></li>
                             <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Products">Product</a></li>
                             @if (Context.Session.GetString("UserRole") == "Admin")
                             {
                                 <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Services">Service</a></li>
-                                 <li><a asp-action="Account" asp-controller="UserAccounts" class="link-l mb-1 px-5">Accounts</a></li>
-                            } 
-@* 
+                            <li><a asp-action="Account" asp-controller="UserAccounts" class="link-l mb-1 px-5">Accounts</a></li>
+                        }
+                        @* 
                         <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Owners">Client</a></li>
                         <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Products">Product</a></li>
                         <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Services">Service</a></li> *@
 
-                        </ul>
-                    </div>
-                </li>
+                    </ul>
+                </div>
+            </li>
 
-               
 
-                <li class="mb-2">
-                    <a class="nav-link collapsed  d-flex align-items-center  p-2" data-bs-toggle="collapse" data-bs-target="#transaction-collapse" aria-expanded="true collapse">
-                        <i class="fa-solid fa-file-invoice" id="icon"></i><div class="px-3">Transaction</div>
-                        <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i>
-                    </a>
-                    <div class="collapse" id="transaction-collapse" data-bs-parent="#accordion">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3  big">
+
+            <li class="mb-2">
+                <a class="nav-link collapsed  d-flex align-items-center  p-2" data-bs-toggle="collapse" data-bs-target="#transaction-collapse" aria-expanded="true collapse">
+                    <i class="fa-solid fa-file-invoice" id="icon"></i><div class="px-3">Transaction</div>
+                    <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i>
+                </a>
+                <div class="collapse" id="transaction-collapse" data-bs-parent="#accordion">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3  big">
+                        @if (Context.Session.GetString("UserRole") == "Admin")
+                        {
                             <li><a class="link-l mb-1 px-5" asp-action="Diagnosis" asp-controller="Billing">Diagnosis</a></li>
+                        }
                             <li><a class="link-l mb-1 px-5" asp-action="CreatePurchase" asp-controller="Billing">Purchase Product</a></li>
                             <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Billing">Billing Invoice</a></li>
                             <li><a class="link-l mb-1 px-5" asp-action="BillingHistory" asp-controller="Billing">History</a></li>

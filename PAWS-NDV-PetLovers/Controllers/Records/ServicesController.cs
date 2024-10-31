@@ -120,9 +120,11 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             existingService.serviceName = updatedService.serviceName;
             existingService.serviceCharge = updatedService.serviceCharge;
             existingService.followUp = updatedService.followUp;
+
             try
             {
                 await _context.SaveChangesAsync();
+                TempData["Message"] = "Successfully Updated";
                 return RedirectToAction(nameof(Index));
             }
             catch (DbUpdateConcurrencyException)

@@ -3,6 +3,16 @@
     ViewData["Title"] = "Create Diagnosis";
 }
 
+<!-- Alert Placeholder -->
+@if (TempData["Message"] != null)
+{
+        <!-- utilize bootstrap, not for modal-->
+    <div id="success-alert" class="alert alert-warning alert-dismissible fade show text-justify" role="alert">
+        @TempData["Message"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 <div class="bg-custom-color">
     <div class="container">
         <h1>Create Diagnosis</h1>
@@ -150,8 +160,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Loop through existing services if any -->
-                        <!-- Loop through existing services if any -->
+                 <!-- Loop through existing services if any -->
                         @if (Model.Appointment != null)
                         {
                             <input type="hidden" name="appointId" value="@Model.Appointment.AppointId" />
@@ -175,14 +184,17 @@
                                                                 data-price="@service.serviceCharge"
                                                                 data-service-type="@service.serviceType.ToLower()"
                                                                 data-service-name="@service.serviceName.ToLower()"
+                                                                data-follow="@(service.followUp ? "true" : "false")"
                                                                 selected="selected">
-                                                            @service.serviceName
+                                                                @service.serviceName
                                                         </option>
+
                                                     }
                                                     else
                                                     {
                                                         <option value="@service.serviceId"
                                                                 data-price="@service.serviceCharge"
+                                                                data-follow="@(service.followUp ? "true" : "false")"
                                                                 data-service-type="@service.serviceType.ToLower()"
                                                                 data-service-name="@service.serviceName.ToLower()">
                                                             @service.serviceName
@@ -221,8 +233,7 @@
                                                                 <option value="@service.serviceId"
                                                                         data-price="@service.serviceCharge"
                                                                         data-service-type="@service.serviceType.ToLower()"
-                                                                        data-service-name="@service.serviceName.ToLower()"
-                                                                        selected="selected">
+                                                                        data-service-name="@service.serviceName.ToLower()">
                                                                     @service.serviceName
                                                                 </option>
                                                             }
@@ -255,6 +266,7 @@
                                 </tr>
                             }
                         }
+                     
                         else if (Model.PetFollowUps != null)
                         {
 
@@ -275,6 +287,7 @@
                                                 {
                                                     <option value="@service.serviceId"
                                                             data-price="@service.serviceCharge"
+                                                            data-follow="@((service.followUp ? "true" : "false"))"
                                                             data-service-type="@service.serviceType.ToLower()"
                                                             data-service-name="@service.serviceName.ToLower()"
                                                             selected="selected">
@@ -561,23 +574,7 @@
                 // Log the boolean value
                 console.log('Boolean value of isFollowUpNeeded:', isFollowUpNeeded);
 
-                //for specific display
-                // Ensure selectedService is available and is a string
-                /*if (selectedService) {
-                    selectedService = selectedService.toLowerCase(); // Convert to lowercase for easier matching
-
-                    // Show follow-up date input if service matches "vac", "check", or "consult"
-                    if (selectedService.includes("vac") || selectedService.includes("check") || selectedService.includes("consult")) {
-                        followUpDiv.removeClass('visually-hidden'); // Show follow-up div
-                    } else {
-                        followUpDiv.addClass('visually-hidden'); // Hide follow-up div
-                        followUpDiv.find('input').val(''); // Clear input if hidden
-                    }
-                } else {
-                    followUpDiv.addClass('visually-hidden'); // Hide follow-up div by default if no service selected
-                    followUpDiv.find('input').val(''); // Clear input if hidden
-                }
-            */
+             
 
                 // Show or hide the follow-up div based on isFollowUpNeeded
                 if (isFollowUpNeeded) {

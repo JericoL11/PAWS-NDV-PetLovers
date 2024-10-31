@@ -13,10 +13,10 @@
                 </div>
             </div>
         </div>
-        <div class="pt-4 px-4">
+     @*    <div class="pt-4 px-4">
            <a asp-action="Create" asp-controller="Categories" class="btn btn-primary"> Add Category</a>
         </div>
-
+ *@
         <div class="row justify-content-center">
             <div class="card col-5">
                 <div class="card-body p-3">
@@ -75,11 +75,3 @@
             </div>
     </div>
 </div>
-<script>
-    function validateDecimalInput(input) {
-        input.value = input.value.replace(/[^0-9.]/g, ''); // Allow only numbers and periods
-        if ((input.value.match(/\./g) || []).length > 1) {
-            input.value = input.value.replace(/\.+$/, ""); // Remove extra periods
-        }
-    }
-</script>
