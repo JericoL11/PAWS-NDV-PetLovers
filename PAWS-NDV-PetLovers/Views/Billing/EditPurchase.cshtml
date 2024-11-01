@@ -502,11 +502,28 @@
                     alert('Cash tendered must be equal to or greater than the total payment.');
                 }
             });
-
             // If the user confirms, submit the form
             $('#confirmPaymentBtn').on('click', function () {
                 $('#paymentForm').off('submit').submit(); // Allow form submission
             });
+
+            // Initialize DataTable on modal open to ensure alignment
+            $('#staticBackdrop').on('shown.bs.modal', function () {
+                if ($.fn.DataTable.isDataTable('#modalProductTbl')) {
+                    $('#modalProductTbl').DataTable().destroy();
+                }
+
+                $('#modalProductTbl').DataTable({
+                    "ordering": true,
+                    "paging": true,
+                    "searching": true,
+                    "info": true,
+                    "autoWidth": true
+
+                });
+            });
+
+         
         });
 
 
