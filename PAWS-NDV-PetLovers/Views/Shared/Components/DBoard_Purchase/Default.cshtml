@@ -14,14 +14,14 @@
                 <th>Customer Name</th>
                 <th>Date</th>
                 <th>Total Payment</th>
-                <th></th>
-                <th></th>
+                <th>Actions</th>
           
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.IPurchase)
             {
+                <input type="hidden" name="purchaseId" value="@item.purchaseId" />
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.purchaseId)</td>
                     <td>@Html.DisplayFor(modelItem =>item.customerName)</td>
@@ -33,18 +33,21 @@
                         }
                         @totalPayment.ToString("C") 
                     </td>
+                 
                     <td>
-                        <a class="btn btn-outline-primary px-3" asp-action="EditPurchase" asp-route-purchaseId="@item.purchaseId">Modify</a>
-                    </td>
-                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-outline-primary me-2" asp-action="EditPurchase" asp-route-purchaseId="@item.purchaseId">Modify</a>
                             @if (totalPayment == 0)
                             {
                                 <form method="post" asp-action="DeletePurchase">
-                                    <input class="visually-hidden" name="purchaseId" value="@item.purchaseId" />
                                     <input type="submit" value="Delete" class="btn btn-outline-danger" />
                                 </form>
                             }
+                         </div>
                     </td>
+
+                 
+                      
                 </tr>
             }
         </tbody>

@@ -20,7 +20,7 @@
                     <tr>
                         <td>@acc.acc_Id</td>
                         <td>@acc.userName</td>
-                        <td>@acc.dateCreated</td>
+                        <td>@acc.dateCreated?.ToString("MMM. dd, yyyy")</td>
                         <td>
                             <form id="actionForm_@acc.acc_Id" method="post" asp-controller="UserAccounts" asp-action="ManageAccount">
                                 <input type="hidden" name="action" class="actionInput" value="">
