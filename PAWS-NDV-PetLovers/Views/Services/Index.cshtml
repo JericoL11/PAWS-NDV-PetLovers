@@ -36,7 +36,7 @@
                     <table class="table table-bordered text-center hover mt-4" id="ServicesTbl">
                         <thead>
                             <tr class="text-center">
-                                <th>Service ID</th>
+                                <th class="visually-hidden">Service ID</th>
                                 <th>Name</th>
                                 <th>Charge</th>
                                 <th class="col-lg-2">Settings</th>
@@ -47,7 +47,7 @@
                             @foreach ( var item in Model)
                             {
                                 <tr class="text-center">
-                                    <td>@Html.DisplayFor(modelItem => item.serviceId)</td>
+                                    <td class="visually-hidden">@Html.DisplayFor(modelItem => item.serviceId)</td>
 
                                     @if(item.serviceType != "NA"){
                                         <td>@Html.DisplayFor(modelItem => item.serviceName)

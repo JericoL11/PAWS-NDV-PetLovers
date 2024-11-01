@@ -41,7 +41,7 @@
                 <table class="table table-bordered text-center hover" id="ProductTable">
                     <thead>
                         <tr>
-                            <th class="text-center">@Html.DisplayNameFor(model => model.id)</th>
+                            <th class="text-center visually-hidden">@Html.DisplayNameFor(model => model.id)</th>
                             <th class="text-center">@Html.DisplayNameFor(model => model.productName)</th>
                             <th class="text-center">@Html.DisplayNameFor(model => model.CategoryId)</th>
                             <th class="text-center">@Html.DisplayNameFor(model => model.sellingPrice)</th>
@@ -53,7 +53,7 @@
                         @foreach(var item in Model)
                         {
                             <tr>
-                                <td class="text-center">@Html.DisplayFor(modelItem => item.id)</td>
+                                <td class="text-center visually-hidden">@Html.DisplayFor(modelItem => item.id)</td>
                                 <td class="text-center">@Html.DisplayFor(modelItem => item.productName)</td>
                                 <td class="text-center">@Html.DisplayFor(modelItem => item.category.categoryName)</td>
                                 <td class="text-center">@Html.DisplayFor(modelItem => item.sellingPrice)</td>

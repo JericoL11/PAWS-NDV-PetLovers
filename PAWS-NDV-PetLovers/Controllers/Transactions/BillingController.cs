@@ -1011,6 +1011,8 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                 _context.Remove(Purchase);
             }
 
+            TempData["Message"] = "Successfully Deleted";
+
              await _context.SaveChangesAsync();
             return RedirectToAction("Index", new TransactionsVm { activeBoardTab = DBoardTab.DBoard_Purchase });
         }
