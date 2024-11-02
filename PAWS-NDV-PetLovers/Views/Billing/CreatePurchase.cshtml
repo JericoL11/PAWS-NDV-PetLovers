@@ -7,81 +7,94 @@
 
 
 
-<div class="container p-0 bg container-bord">
+<div class="container p-0 bg container-bord shadow mb-5 bg-white rounded">
 
 
-    <div class="container p-0  bg-custom-color">
-        <div>
-            <div class="container p-2">
-                <h1>Create New Purchase</h1>
+    <div class="container p-0 ">
+
+        <div class="container p-0  bg-custom-color text-center">
+            <div>
+                <div class="container p-2">
+                    <h1 class="fw-bold">Create New Purchase</h1>
+                </div>
             </div>
         </div>
+
     </div>
+
 
         <form method="post" asp-action="CreatePurchase">
 
-            <div class="container d-flex justify-content-center">
+            <div class="container ">
                 
-                <div class="w-75 text-center pt-5 pb-5 px-3">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                    <div class="row justify-content-center align-items-center">
-                        <div class="form-group col-lg-5 col-md-12 col-sm-12 d-flex align-items-center" id="apppad">
-                            <label asp-for="Purchase.customerName" class="control-label mr-2"></label>
+                <!-- Center-aligned wrapper for the form content -->
+                <div class="d-flex justify-content-center align-items-center vh-10 pt-5">
+                   
+
+                        <!-- Validation Summary -->
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+                        <!-- Customer Name Field -->
+                        <div class="form-group mb-3 me-3">
+                            <label asp-for="Purchase.customerName" class="control-label"></label>
                             <input asp-for="Purchase.customerName" class="form-control" placeholder="(Optional)" />
                         </div>
 
-                        <div class="form-group col-lg-4 col-md-12 col-sm-12 d-flex align-items-center" id="apppad">
-                            <label asp-for="Purchase.date" class="control-label mr-2"></label>
-                            <input asp-for="Purchase.date" class="form-control dateInput" readonly />
+                        <!-- Date Field -->
+                        <div class="form-group mb-3 me-3">
+                            <label asp-for="Purchase.date" class="control-label"></label>
+                            <input type="hidden" asp-for="Purchase.date" class="form-control dateInput" />
+                            <input class="form-control" value="@DateTime.Now.ToString("MMM. dd, yyyy")" readonly />
                         </div>
-
-                        <div class="form-group col-lg-3 col-md-12 col-sm-12 d-inline pt-3 align-items-center text-end">
-                            <button type="button" id="AddProductBtn" class="btn btn-success btn-confirm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                         
+                        <!-- Select Product Button -->
+                        <div class="form-group mt-2">
+                            <button type="button" id="AddProductBtn" class="btn btn-confirm btn-sm " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                 Select Product
                             </button>
                         </div>
+                    
+                </div>
+
+
+
+            
+            
+
+                <div class="card p-3">
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-center hover  mt-4" id="purchaseTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Product Id</th>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">Category</th>
+                                    <th class="text-center">Stock</th>
+                                    <th class="text-center">Price</th>
+                                    <th>Order Quantity</th>
+                                
+                                </tr>
+                            </thead>
+
+                            <tbody>
+      
+                                <!--PRODUCT WILL DISPLAY HERE-->
+
+                            </tbody>
+
+                        </table>
                     </div>
                 </div>
-            </div>
 
-
-
-            
-            
-
-            <div class="card p-3">
-                <div class="table-responsive">
-                    <table class="table table-bordered text-center hover  mt-4" id="purchaseTable">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Product Id</th>
-                                <th class="text-center">Name</th>
-                                <th class="text-center">Category</th>
-                                <th class="text-center">Stock</th>
-                                <th class="text-center">Price</th>
-                                <th>Order Quantity</th>
-                                
-                            </tr>
-                        </thead>
-
-                        <tbody>
-      
-                            <!--PRODUCT WILL DISPLAY HERE-->
-
-                        </tbody>
-
-                    </table>
+                 <div class="modal-footer text-end mt-2 px-3">
+                    <a asp-action="SwitchToDboardTab" asp-route-tabName="DBoard_Purchase" class=" btn  btn-cancel btn-lg px-4">Cancel</a>
+                    <button type="submit" class="btn  btn-confirm btn-lg px-4" data-bs-dismiss="modal">Save</button>
                 </div>
-            </div>
-
-             <div class="modal-footer text-end mt-2 px-3">
-                <a asp-action="SwitchToDboardTab" asp-route-tabName="DBoard_Purchase" class=" btn btn-secondary btn-cancel">Cancel</a>
-                <button type="submit" class="btn btn-primary btn-confirm" data-bs-dismiss="modal">Save</button>
             </div>
        
         </form>
-    </div>
+    
 </div>
 <!-- Modal for selecting Products  / Select Product - INDEX-->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -131,10 +144,10 @@
 
                     <div class="modal-footer">
                         <div class="text-danger me-2" id="selectionWarning" style="display:none;">Product is already selected.</div>
-                        <button type="button" class="btn btn-secondary btn-cancel bg-opacity-10" id="ViewSelectedProduct">Cancel</button>
+                        <button type="button" class="btn btn-cancel btn-sm " id="ViewSelectedProduct">Cancel</button>
 
                         @* <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> *@
-                        <button type="button" class="btn btn-primary btn-confirm" id="SelectProductButton">Add</button>
+                        <button type="button" class="btn  btn-confirm btn-sm" id="SelectProductButton">Add</button>
                     </div>
                 </form>
             </div>
@@ -278,6 +291,21 @@
             if ('@ViewData["RemoveErrorMessage"]' !== '') {
                 $('#staticBackdropRemove').modal('show');
             }
+            // Initialize DataTable on modal open to ensure alignment
+            $('#staticBackdrop').on('shown.bs.modal', function () {
+                if ($.fn.DataTable.isDataTable('#modalProductTbl')) {
+                    $('#modalProductTbl').DataTable().destroy();
+                }
+
+                $('#modalProductTbl').DataTable({
+                    "ordering": true,
+                    "paging": true,
+                    "searching": true,
+                    "info": true,
+                    "autoWidth": true
+
+                });
+            });
         });
 
     </script>

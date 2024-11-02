@@ -29,7 +29,7 @@
                 </div>
             </div>
         </div>
-            <div class="pt-5  p-3 text-end">
+            <div class="pt-5  p-3 ">
                 <a class="btn btn-md btn-cancel btn-lg" asp-action="Index">Back to List</a>
                 <a class="btn btn-md btn-update btn-lg" asp-action="EditOwner" asp-route-id="@Model.Owner.id">Edit Client Profile</a>
             </div>
@@ -189,8 +189,8 @@
 <div class="modal fade" id="editPetModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editPetModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header bg-newpet">
-                <h1 class="modal-title fs-5" id="editPetModalLabel">New Pet</h1>
+            <div class="modal-header text-center">
+                <h1 class="modal-title fs-5 fw-bold " id="editPetModalLabel">New Pet</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body ">
@@ -201,12 +201,12 @@
                             <input type="hidden" asp-for="Pet.id" />
                             <div id="errorMessages" class="alert alert-danger" style="display:none;"></div>
                             <!-- Form Fields -->
-                            <div class="form-group col-lg-4 col-md-6">
+                            <div class="form-group col-lg-4 col-md-6" id="apppad">
                                 <label asp-for="Pet.petName" class="control-label"></label>
                                 <input asp-for="Pet.petName" class="form-control bg-light" />
                                 <span asp-validation-for="Pet.petName" class="text-danger"></span>
                             </div>
-                            <div class="form-group col-lg-4 col-md-6">
+                            <div class="form-group col-lg-4 col-md-6" id="apppad">
                                 <label asp-for="Pet.species" class="control-label"></label>
                                 <select asp-for="Pet.species" class="form-select bg-light" required>
                                     <option value="" selected hidden>----</option>
@@ -215,12 +215,12 @@
                                 </select>
                                 <span asp-validation-for="Pet.species" class="text-danger"></span>
                             </div>
-                            <div class="form-group col-lg-4 col-md-6">
+                            <div class="form-group col-lg-4 col-md-6" id="apppad">
                                 <label asp-for="Pet.breed" class="control-label"></label>
                                 <input asp-for="Pet.breed" class="form-control bg-light" />
                                 <span asp-validation-for="Pet.breed" class="text-danger"></span>
                             </div>
-                            <div class="form-group col-lg-4 col-md-6">
+                            <div class="form-group col-lg-4 col-md-6" id="apppad">
                                 <label class="control-label" asp-for="Pet.gender"></label>
                                 <select asp-for="Pet.gender" class="form-select bg-light" required>
                                     <option value="" hidden>----</option>
@@ -229,27 +229,27 @@
                                 </select>
                                 <span asp-validation-for="Pet.gender" class="text-danger"></span>
                             </div>
-                            <div class="form-group col-lg-4 col-md-6">
+                            <div class="form-group col-lg-4 col-md-6" id="apppad">
                                 <label asp-for="Pet.bdate" class="control-label"></label>
                                 <input asp-for="Pet.bdate" class="form-control bg-light birthdate" />
                                 <span asp-validation-for="Pet.bdate" class="text-danger"></span>
                             </div>
-                            <div class="form-group col-lg-4 col-md-6">
+                            <div class="form-group col-lg-4 col-md-6" id="apppad">
                                 <label asp-for="Pet.age" class="control-label"></label>
                                 <input asp-for="Pet.age" type="text" class="form-control bg-light age" readonly />
                                 <span asp-validation-for="Pet.age" class="text-danger"></span>
                             </div>
-                            <div class="form-group col-lg-4 col-md-6">
+                            <div class="form-group col-lg-4 col-md-6" id="apppad">
                                 <label asp-for="Pet.color" class="control-label"></label>
                                 <input asp-for="Pet.color" class="form-control bg-light" />
                                 <span asp-validation-for="Pet.color" class="text-danger"></span>
                             </div>
-                            <div class="form-group visually-hidden col-lg-4 col-md-6">
+                            <div class="form-group visually-hidden col-lg-4 col-md-6" id="apppad">
                                 <label asp-for="Pet.ownerId" class="control-label bg-light"></label>
                                 <input asp-for="Pet.ownerId" type="text" class="form-control bg-light" value="@Model.Owner.id" readonly />
                                 <span asp-validation-for="Pet.ownerId" class="text-danger"></span>
                             </div>
-                            <div class="form-group visually-hidden   col-lg-4 col-md-6">
+                            <div class="form-group visually-hidden   col-lg-4 col-md-6" id="apppad">
                                 <label asp-for="Pet.registeredDate" class="control-label"></label>
                                 <input type="date" asp-for="Pet.registeredDate" class="form-control bg-light maxDate" id="dateInput" readonly />
                                 <span asp-validation-for="Pet.registeredDate" class="text-danger"></span>

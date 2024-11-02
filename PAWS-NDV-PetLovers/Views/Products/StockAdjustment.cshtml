@@ -14,28 +14,25 @@
             </div>
         </div>
 
-            <div class="container p-3 pt-5">
-             <a class="btn btn-cancel btn-lg" asp-action="Index">Back to Product List</a>
-            </div>
-
-
-        <div class="card p-3">
-            <div class="table-responsive">
-                 <table class="table table-bordered text-center" id="StockAdjTable">
+           <div class="card p-3">
+             <div class="table-responsive"> 
+                <table class="table table-bordered text-center" id="StockAdjTable">
                         <thead>
-                            <tr class="text-center">
+                            <tr>
+                                <th class="text-center">Product Id</th>
                                 <th class="text-center">Date</th>
                                 <th class="text-center">Product Name</th>
                                 <th class="text-center">Source</th>
                                 <th class="text-center">Quantity</th>
                             </tr>
                         </thead>
-                        <tbody class="text-center">
+                        <tbody>
                             @foreach (var stock in Model.IstockAdjustment)
                             {
                                 if (stock.source == "Sales")
                                 {
-                                    <tr class="bg-danger bg-opacity-10 text-center">
+                                    <tr class="bg-danger bg-opacity-10">
+                                        <td class="visually-hidden">@stock.stockAdj_Id</td>
                                         <td>@stock.date.ToString("MMM. dd, yyyy")</td>
                                         <td>@stock.productsNav.productName</td>
                                         <td> @stock.source</td>
@@ -44,7 +41,8 @@
                                 }
                                 else
                                 {
-                                    <tr class="bg-success bg-opacity-10 text-center">
+                                    <tr class="bg-success bg-opacity-10">
+                                        <td class="visually-hidden">@stock.stockAdj_Id</td>
                                         <td>@stock.date.ToString("MMM. dd, yyyy")</td>
                                         <td>@stock.productsNav.productName</td>
                                         <td>@stock.source</td>
@@ -52,13 +50,13 @@
                                     </tr>
                                 }
 
-                            }
+                                            }
 
-                        </tbody>
+                             </tbody>
                 </table>
             </div>
-        </div>
-</div>
+           </div>
+    </div>
 </div>
 
 <script src="~/js/stockAdjTable/StockAdjTable.js" defer></script>

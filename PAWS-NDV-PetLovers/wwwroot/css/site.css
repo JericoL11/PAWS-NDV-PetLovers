@@ -157,8 +157,10 @@ html {
     /*outline: 3px solid #469387;
     border-bottom: 2px solid #ffffff;*/
     display: flex;
-    background-color: #469387;
+    background-color: #D7F2DA;
+    color: black !important;
 }
+
 
 .fa-bars {
     padding: 5px;
@@ -501,7 +503,7 @@ html {
     position: fixed; /* Make sidebar fixed */
     top: 0;
     left: 0;
-    width: 300px; /* Fixed width for sidebar */
+    width: 270px; /* Fixed width for sidebar */
     height: 100vh; /* Full height */
     overflow-y: auto; /* Enable vertical scrolling */
     padding: 15px;
@@ -511,7 +513,7 @@ html {
 
 /* Main Content Area */
 #subbody {
-    margin-left: 300px; /* Space for sidebar */
+    margin-left: 270px; /* Space for sidebar */
     padding: 15px;
     height: 100vh; /* Full height */
     overflow-y: auto; /* Enable vertical scrolling */
@@ -591,7 +593,9 @@ table thead tr {
     background-color: #D7F2DA !important;
 }
 
-
+.bg-payment {
+    background-color: #D7F2DA !important;
+}
 
 table {
     border-color: #469387;
@@ -630,9 +634,11 @@ table {
 }
 
 .bg-custom-color {
-    background-color: #EFC65D !important;
+    background-color: #469387 !important;
     /* border-bottom: 2px solid #469387;*/
     border-radius: 3px 3px 0 0;
+    color:white !important;
+    padding-top:10px;
 }
 
 .bg-secustom-color {
@@ -751,9 +757,9 @@ table {
 .btn-confirm,
 .btn-confirm.active,
 .btn-confirm:hover {
-    background-color: #12B051 !important;
-    border-color: #12B051 !important;
-    color: black;
+    background-color: #198754 !important;
+    border-color: #198754 !important;
+    color: white;
     font-weight: bold;
     font-size: 15px;
     outline: none;
@@ -780,7 +786,7 @@ table {
 .btn-update.active {
     background-color: #007bff !important;
     border-color: #007bff !important;
-    color: black;
+    color: white;
     font-weight: bold;
     font-size: 15px;
 }
@@ -883,10 +889,6 @@ table {
         margin-right: 10px;
     }
 
-.dash-card:hover {
-    background-color: #EFC65D;
-    color:black;
-}
 /* Body styling with a light version of #469387 */
 .card-body-custom {
     background-color: #dff3f1;

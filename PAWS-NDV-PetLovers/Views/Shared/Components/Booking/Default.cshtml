@@ -26,7 +26,7 @@
         <table class="table table-bordered text-center hover " id="AppointmentsTable">
             <thead>
                 <tr>
-                    <th class="text-center">Appointment ID</th>
+                   
                     <th class="text-center">Name</th>
                     <th class="text-center">Service</th>
                     <th class="text-center">Contact No.</th>
@@ -40,7 +40,7 @@
                 @foreach (var item in Model.IAppointments)
                 {
                     <tr>
-                        <td class="text-center mt-auto">@Html.DisplayFor(modelItem => item.AppointId)</td>
+                        <td class="text-center visually-hidden">@item.AppointId</td>
                         <td class="text-center">
                             @Html.DisplayFor(modelItem => item.fname) @Html.Raw(" ") @Html.DisplayFor(modelItem => item.lname)
                         </td>
@@ -169,7 +169,7 @@
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header bg-danger bg-opacity-50">
+            <div class="modal-header ">
                 <h1 class="modal-title fs-5 fw-bold" id="staticBackdropLabel">Warning</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>

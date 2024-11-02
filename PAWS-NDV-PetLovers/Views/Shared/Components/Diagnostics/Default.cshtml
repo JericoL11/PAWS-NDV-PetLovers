@@ -4,17 +4,22 @@
     ViewData["Title"] = "Diagnostics VC";
 }
 
-<div class="container">
-    <table class="table" id="diagnosticTable">
+<div class="container p-3">
+    <div class="text-end">
+        <a asp-action="EditDetails" name="" asp-route-id="@Model.Diagnostics.diagnostic_Id" asp-controller="Billing" class="btn btn-update px-3">Edit Details</a>
+    </div>
+
+    <div class="card p-0">
+        <div class="table-responsive">
+            <table class="table table-striped" id="diagnosticTable">
+
         <thead>
-            <tr>
+            <tr class="no-col text-center">
                 <th>Services</th>
                 @if (Context.Session.GetString("UserRole") == "Admin")
                 {
                      <th>Details</th>
-                    <th class="text-end">
-                        <a asp-action="EditDetails" name="" asp-route-id="@Model.Diagnostics.diagnostic_Id" asp-controller="Billing" class="btn btn-update px-3">Edit Details</a>
-                    </th>
+                    
                 }
                 
             </tr>
@@ -25,11 +30,11 @@
                 @foreach (var item in Model.Diagnostics.IdiagnosticDetails)
                 {
                      <tr>
-                            <td>@item.Services.serviceName</td>
+                            <td class="text-center col-lg-5">@item.Services.serviceName</td>
                         @if (Context.Session.GetString("UserRole") == "Admin")
                         {
                             <td>
-                                <textarea class="form-control bg-light" rows="5" style="resize: none;" readonly>@item.details</textarea>
+                                <textarea class="form-control bg-light col-lg-6" rows="5" style="resize: none;" readonly>@item.details</textarea>
                             </td>
                         }
                      </tr>
@@ -38,4 +43,6 @@
           
         </tbody>
     </table>
+        </div>
+    </div>
 </div>

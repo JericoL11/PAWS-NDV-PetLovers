@@ -16,7 +16,8 @@
                 </div>
             </div>
 
-            <div class="btn-group btn-group-toggle pt-4 mx-3" data-toggle="buttons">
+
+            <div class="btn-group btn-group-toggle pt-4 mx-3 " data-toggle="buttons">
                   
                     <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="booking" class="@(Model.activeAppointTab == PAWS_NDV_PetLovers.ViewModels.AppointmentTab.booking ? "active" : string.Empty) btn btn-success btn-lg ">Booking</a>
                  
@@ -26,6 +27,7 @@
                     <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="monitoring" class="@(Model.activeAppointTab == PAWS_NDV_PetLovers.ViewModels.AppointmentTab.monitoring ? "active" : string.Empty) btn btn-success btn-lg">Monitoring</a>
                  
             </div> 
+
 
             @switch (Model.activeAppointTab)
             {

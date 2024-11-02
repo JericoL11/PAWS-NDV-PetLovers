@@ -22,7 +22,7 @@
                     <tr>
                         <td>@acc.acc_Id</td>
                         <td>@acc.userName</td>
-                        <td>@acc.dateCreated</td>
+                        <td>@acc.dateCreated?.ToString("MMM. dd, yyyy")</td>
                         <td>
                             <form id="actionForm_@acc.acc_Id" method="post" asp-controller="UserAccounts" asp-action="ManageAccount" >
                                 <input type="hidden" name="action" class="actionInput" value="">
@@ -66,8 +66,8 @@
 <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header bg-warning bg-opacity-50">
-                <h5 class="modal-title" id="confirmationModalLabel">Confirm Action</h5>
+            <div class="modal-header ">
+                <h5 class="modal-title" id="confirmationModalLabel"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

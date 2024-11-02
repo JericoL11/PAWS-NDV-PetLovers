@@ -28,7 +28,7 @@
         </div>
     }
 
-    <div class="d-flex justify-content-end pt-3 px-3 mb-4">
+    <div class="d-flex justify-content-end pt-3 px-3 mb-1">
         <a asp-controller="Owners" asp-action="Edit" class="btn btn-cancel btn-lg" asp-route-id="@Model.ownerId">View Owner</a>
     </div>
 
@@ -114,8 +114,9 @@
                     <a asp-action="Edit" asp-route-id="@Model.ownerId" asp-controller="Owners" class="btn btn-cancel btn-lg px-4">Cancel</a>
                     <input type="submit" value="Save" class="btn btn-lg btn-confirm px-4" />
                 </div>
-               
+               </div>
             </form>
+        
     </div>
 
 </div>

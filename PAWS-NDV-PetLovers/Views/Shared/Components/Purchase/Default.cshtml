@@ -4,6 +4,13 @@
 }
 <div class="card">
       <div class="table-responsive">
+
+          <div class="text-end p-3">
+            <button type="button" class="btn btn-confirm btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdropSelectedProduct">
+                Add Products
+            </button>
+          </div>
+
         <table class="table table-bordered text-center">
         <thead>
             <tr>
@@ -12,9 +19,7 @@
                 <th class="text-center">Price</th>
                 <th class="text-center">Order Qty</th>
                 <th class="text-end">
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdropSelectedProduct">
-                        Add Products
-                    </button>
+                   
                 </th>
                 @if(Model.IPurchaseDetails.Count() > 0)
                 {
@@ -361,6 +366,21 @@
                     $('#ProdId_Receiver').val(productId);
                 });
 
+                // Initialize DataTable on modal open to ensure alignment
+                $('#staticBackdrop').on('shown.bs.modal', function () {
+            if ($.fn.DataTable.isDataTable('#modalProductTbl')) {
+                        $('#modalProductTbl').DataTable().destroy();
+                    }
+
+                    $('#modalProductTbl').DataTable({
+                        "ordering": true,
+                        "paging": true,
+                        "searching": true,
+                        "info": true,
+                        "autoWidth": true
+
+                    });
+                });
 
                 // Remove row from the table
                 $(document).on('click', '.removeRow', function () {

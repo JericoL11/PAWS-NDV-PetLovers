@@ -169,7 +169,7 @@
                                     <td>
                                         <div class="form-group mt-2">
                                             <!-- Use the value attribute in the select to set the selected service ID -->
-                                            <select name="Diagnostics.IdiagnosticDetails[@i].serviceId" class="form-select service-select" required value="@detail">
+                                            <select name="Diagnostics.IdiagnosticDetails[@i].serviceId" class="form-select service-select text-center" required value="@detail">
                                                 <option value="" data-price="0" disabled>Select Service</option>
 
                                                 <!-- Loop through NA-type services -->
@@ -466,7 +466,7 @@
                     {
                         <div class="form-group justify-content-end">
                             <a class="btn  btn-cancel btn-lg px-4" asp-action="SwitchToTab" asp-route-tabName="booking" asp-controller="Appointments">Cancel</a>
-                            <input type="submit" value="Save" class="btn btn-primary btn-lg px-4" />
+                            <input type="submit" value="Save" class="btn btn-confirm btn-lg px-4" />
                         </div>
                     }
                     else if (Model.btnCnl == "followUp")

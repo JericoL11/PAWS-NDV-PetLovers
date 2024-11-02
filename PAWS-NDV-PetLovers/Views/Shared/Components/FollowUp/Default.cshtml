@@ -19,8 +19,8 @@
             <thead>
                 <tr>
                     <th class="text-center">Id</th>
-                    <th class="text-center col-lg-3">Pet Name</th>
-                    <th class="text-center col-lg-3">Owner Name</th>
+                    <th class="text-center">Pet Name</th>
+                    <th class="text-center">Owner Name</th>
                     <th class="text-center">Service</th>
                     <th class="text-center">Date</th>
                     <th class="text-center col-lg-2">Actions</th>
@@ -30,7 +30,7 @@
                 @foreach (var item in Model.IPetFollowUps)
                 {
                     <tr>
-                        <td class="text-center">@Html.DisplayFor(modelItem => item.Id)</td>
+                        <td class="text-center visually-hidden">@Html.DisplayFor(modelItem => item.Id)</td>
                         <td>@Html.DisplayFor(modelItem => item.Diagnostics.pet.petName)</td>
 
                         @{
