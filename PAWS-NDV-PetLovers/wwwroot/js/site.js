@@ -21,7 +21,7 @@ function validateDecimalInput(input) {
 $(document).ready(function () {
     $('.toggle-password-icon').on('click', function () {
         const inputField = $(this).closest('.position-relative').find('.password-field');
-        const iconElement = $(this).find('i');
+        const iconElement = $(this).find('.togglePasswordIcon');
 
         // Toggle password visibility
         if (inputField.attr('type') === 'password') {

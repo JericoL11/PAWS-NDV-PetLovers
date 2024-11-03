@@ -49,7 +49,7 @@
                             <input type="password" class="form-control password-field" name="passWord" placeholder="New Password" required>
                             <label>New Password</label>
                             <span class="position-absolute top-50 end-0 translate-middle-y me-3 toggle-password-icon" style="cursor: pointer;">
-                                <i class="fas fa-eye"></i>
+                                <i class="fas fa-eye togglePasswordIcon"></i>
                             </span>
                         </div>
                     </div>
@@ -59,18 +59,23 @@
                             <input type="password" class="form-control password-field" name="ConfirmPassword" placeholder="Confirm Password" required>
                             <label>Confirm Password</label>
                             <span class="position-absolute top-50 end-0 translate-middle-y me-3 toggle-password-icon" style="cursor: pointer;">
-                                <i class="fas fa-eye"></i>
+                                <i class="fas fa-eye togglePasswordIcon"></i>
                             </span>
                         </div>
                     </div>
                
 
                         <!-- Save Button with Icon -->
+                        
+
                         <div class="text-center mt-5">
                             <button type="submit" class="btn btn-primary px-5 py-2 fw-bold shadow-sm rounded-pill">
                                 <i class="bi bi-save me-2"></i> Save Changes
                             </button>
-                        </div>
+                 
+                        <p class="mt-2"> or </p>
+                        <a asp-action="Logout" asp-controller="Logins" class="">Logout</a>
+                    </div>
                 </div>
             </div>
         </div>
