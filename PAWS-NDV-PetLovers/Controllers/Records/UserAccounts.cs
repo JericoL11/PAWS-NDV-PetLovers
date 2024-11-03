@@ -377,6 +377,19 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
             //check
             var userAccount = await _context.UserAccounts.FirstOrDefaultAsync(u => u.acc_Id == UserId());
 
+            //Any = it doesn’t process or load unnecessary data.
+            var emailExists = await _context.UserAccounts
+              .AnyAsync(u => u.email == userAcct.email);
+
+
+            if (emailExists)
+            {
+                ModelState.AddModelError("","Email address already exist");
+                return View(new UserAccountVm
+                {
+                    userAccount = userAcct
+                });
+            }
             //if found
             if (userAccount != null)
             {
