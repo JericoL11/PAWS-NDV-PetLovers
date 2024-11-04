@@ -4,13 +4,13 @@
 }
 @* add nag details ug delete bai *@
 
-<div class="container p-0 bg container-bord">
+<div class="container p-0 bg container-bord shadow  mb-5 bg-white rounded">
     <div class="container p-0">
 
-        <div class="container p-0  bg-custom-color">
+        <div class="container p-0  bg-custom-color text-center">
             <div>
                 <div class="container p-2">
-                    <h1>Add New Category</h1>
+                    <h1 class="fw-bold">Add New Category</h1>
                 </div>
             </div>
         </div>
@@ -18,7 +18,7 @@
 
 
         <form method="post" asp-action="Create">
-            <div class="card p-3">
+            <div class="card p-3 pt-4">
                 <!-- Owner -->
                 <div class="row">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -42,14 +42,10 @@
                 <!-- End of Category -->
 
                 <!-- Products Table -->
-
-                <div class="form-group text-end pt-3">
-                    <th colspan="2"><button type="button" class="btn btn-success btn-sm" id="addRow">Add Row</button></th>
-                </div>
                     <div class="table-responsive">
-                    <table id="ProductsTbl" class="table table table-bordered text-center hover  mt-3">
+                    <table id="ProductsTbl" class="table table table-striped text-center hover  mt-3">
                             <thead>
-                                <tr class="text-center">
+                                <tr class="text-center no-col pt-3">
                                     <th><p style="margin:0;">Product Name</p></th>
                                     <th><p style="margin:0;">Supplier Price</p></th>
                                     <th><p style="margin:0;">Selling Price</p></th>
@@ -85,12 +81,16 @@
                             </tbody>
                         </table>
                     </div>
+
+                        <div class="form-group text-end pt-4 pb-4">
+                            <th colspan="2"><button type="button" class="btn btn-confirm btn-sm" id="addRow">Add Row</button></th>
+                        </div>
                
                 <!-- End of Products Table -->
                 <!-- Form Actions -->
                 <div class="form-group text-end mt-4">
-                    <a asp-action="Index" class="btn btn-secondary ms-3 px-2">Cancel</a>
-                    <input type="submit" value="Create" class="btn btn-primary px-2" id="AddCategoryButton" />
+                    <a asp-action="Index" class="btn btn-secondary btn-cancel btn-lg">Cancel</a>
+                    <input type="submit" value="Create" class="btn  btn-confirm btn-lg" id="AddCategoryButton" />
                 </div>
                 <!-- End of Form Actions -->
             </div>

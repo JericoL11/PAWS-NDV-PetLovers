@@ -5,13 +5,16 @@
 <div class="container vh-100 d-flex justify-content-center align-items-center">
     <div class="card w-100" style="max-width: 800px; border-radius: 20px; overflow: hidden;">
         <div class="row g-0">
-            <div class="col-md-5 d-flex align-items-center justify-content-center bg-primary text-white">
-                <img src="~/Images/Ndv_logo.png" alt="Logo" class="img-fluid" style="max-width: 250px; height: auto;">
+
+            <div class="col-12 col-md-5 d-flex align-items-center justify-content-center  text-white">
+                <img src="~/Images/logologin.png" alt="Logo" class="img-fluid" style="max-width: 280px; height: auto;">
             </div>
-            <div class="col-md-7">
+
+            <div class="col-12 col-md-7 bg-logcard ">
                 <div class="card-body border-0">
                     <div class="p-4">
-                        <h2 class="card-title mb-4">Login</h2>
+                        <h2 class="card-title fw-bold mb-4">Login</h2>
+
                         <form asp-action="Login" method="post" asp-controller="Logins">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -36,8 +39,9 @@
                             </div>
 
                             <!-- Login Button -->
-                            <button type="submit" class="btn btn-primary w-100">Login</button>
+                            <button type="submit" class="btn btn-success w-100">Login</button>
                         </form>
+
                     </div>
                 </div>
             </div>

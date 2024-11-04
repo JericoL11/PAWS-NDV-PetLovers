@@ -14,103 +14,110 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
- 
 
 
 
-<div class="container-fluid bg p-0 container-bord">
 
-    <div class="container  p-0">
+<div class="container p-0 bg container-bord shadow mb-5 bg-white rounded">
 
-        <div class="container p-0  bg-custom-color">
+        <div class="container  p-0">
+
+        <div class="container p-0  bg-custom-color text-center">
             <div>
                 <div class="container p-2">
-                    <h1>Client Dashboard</h1>
+                    <h1 class="fw-bold">Client Dashboard</h1>
                 </div>
             </div>
         </div>
 
-        <div class="d-flex justify-content-end pt-3 px-3">
-            <a class="btn btn-primary btn-md mb-4  me-2 bg-custom-btn " asp-action="Create">Add new Client</a>
-            <a class="btn btn-primary btn-md mb-4 px-4 bg-custom-btn" asp-action="Index" asp-controller="Pets">View Pet List</a>
+        <div class="d-flex justify-content-end pt-5 px-3 ">
+            <a class="btn  btn-lg btn-confirm  me-2" asp-action="Create">Add new Client</a>
+            <a class="btn btn-cancel btn-lg" asp-action="Index" asp-controller="Pets">View Pet List</a>
         </div>
             <div class="card p-3">
                 <div class="table-responsive">
-                <table class="table table-bordered hover" id="OwnerTable">
-                    <thead> 
 
-                        <tr class="text-center">
-                            <th class="visually-hidden">
-                                @Html.DisplayNameFor(model => model.id)
-                            </th>
-                            <th>
-                               <span style="margin:0">Full Name</span>
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.gender)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.contact)
-                            </th>
-                          @*   <th>
-                                @Html.DisplayNameFor(model => model.email)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.address)
+                    <table class="table table-bordered hover" id="OwnerTable">
+
+                        <thead> 
+
+                            <tr class="text-center">
+
+                                <th class="visually-hidden">
+                                    @Html.DisplayNameFor(model => model.id)
+                                </th>
+                                <th class="text-center">
+                                   <span style="margin:0">Full Name</span>
+                                </th>
+                                <th class="text-center">
+                                    @Html.DisplayNameFor(model => model.gender)
+                                </th>
+                                <th class="text-center">
+                                    @Html.DisplayNameFor(model => model.contact)
+                                </th>
+
+                                      @*   <th>
+                                            @Html.DisplayNameFor(model => model.email)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.address)
                    
-                            </th>*@
-                            <th>
-                               @Html.DisplayNameFor(model => model.registeredDate)
-                            </th> 
-                            @if (Context.Session.GetString("UserRole") == "Admin")
-                            {
-                                <th>Actions</th>
-                            }
+                                        </th>*@
+                                <th class="text-center">
+                                   @Html.DisplayNameFor(model => model.registeredDate)
+                                </th> 
+                                @if (Context.Session.GetString("UserRole") == "Admin")
+                                {
+                                    <th class="text-center">Actions</th>
+                                }
                          
-                        </tr>
-                    </thead>
-                    <tbody>
-                @foreach (var item in Model) {
-                        <tr class="text-center" >
-                            <td class="text-center visually-hidden">
-                                @Html.DisplayFor(modelItem => item.id)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.fname)
-                                @Html.Raw(' ')
-                                @Html.DisplayFor(modelItem => item.mname)
-                                @Html.Raw(' ')
-                                @Html.DisplayFor(modelItem => item.lname)
-                            </td>
-         
-                            <td>
-                                @Html.DisplayFor(modelItem => item.gender)
-                            </td>
-                            <td class="text-center">
-                                @Html.DisplayFor(modelItem => item.contact)
-                            </td>
-                          @*   <td>
-                                @Html.DisplayFor(modelItem => item.email)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.address)
-                            </td> *@
+                            </tr>
 
-                            <td>
-                                @item.registeredDate?.ToString("MMM. dd, yyyy")
-                            </td>
+                        </thead>
 
-                           @if(Context.Session.GetString("UserRole") == "Admin")
-                            {
-                                <td class="text-center">
-                                    <a asp-action="Edit" class="btn btn-success btn-sm px-3" asp-route-id="@item.id">View</a>
+                        <tbody>
+                            @foreach (var item in Model) {
+                            <tr class="text-center" >
+                                <td class="text-center visually-hidden">
+                                    @Html.DisplayFor(modelItem => item.id)
                                 </td>
-                             }
-                              @*   <a asp-action="Details" class="btn btn-warning btn-sm" asp-route-id="@item.id">Details</a>  *@
-                             @*    <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.id">Delete</a>     *@
-                        </tr>
-                }
-                    </tbody>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.fname)
+                                    @Html.Raw(' ')
+                                    @Html.DisplayFor(modelItem => item.mname)
+                                    @Html.Raw(' ')
+                                    @Html.DisplayFor(modelItem => item.lname)
+                                </td>
+         
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.gender)
+                                </td>
+                                <td class="text-center">
+                                    @Html.DisplayFor(modelItem => item.contact)
+                                </td>
+                              @*   <td>
+                                    @Html.DisplayFor(modelItem => item.email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.address)
+                                </td> *@
+
+                                    <td>
+                                        @item.registeredDate?.ToString("MMM. dd, yyyy")
+                                    </td>
+
+                               @if(Context.Session.GetString("UserRole") == "Admin")
+                                {
+                                    <td class="text-center">
+                                        <a asp-action="Edit" class="btn btn-confirm btn-sm px-3" asp-route-id="@item.id">View</a>
+                                    </td>
+                                 }
+                                  @*   <a asp-action="Details" class="btn btn-warning btn-sm" asp-route-id="@item.id">Details</a>  *@
+                                 @*    <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.id">Delete</a>     *@
+                            </tr>
+                    }
+                        </tbody>
+
                     </table>
                 </div>
             </div>

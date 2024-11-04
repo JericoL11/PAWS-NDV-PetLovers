@@ -22,45 +22,48 @@ this index view is abandoned *@
       @*    <a asp-action="DiagnosticHistory" class="btn btn-secondary">Diagnostic Transaction</a> *@
          <a asp-action="PurchaseHistory" class="btn btn-secondary">Purchase</a>
 
-
-        <table class="table" id="History">
-             <thead>
-                 <tr>
-                    <th class="text-center">Diagnostic Id</th>
-                    <th class="text-center">Name</th>
-                    <th class="text-center">Date</th>
-                    <th class="text-center">Services</th>
-                    <th class="text-center">Total Payment</th>
-                 </tr>
-             </thead>
-             <tbody>
-                @foreach(var diagnosis in Model.IDiagnostics)
-                {
-                    <tr>
-                        <td class="text-center">@Html.DisplayFor(modelItem => diagnosis.diagnostic_Id)</td>
-                        <td class="text-center">
-                            @{
-                                var fullName = $"{diagnosis.pet.owner.fname} {diagnosis.pet.owner.fname}";
+         <div class="card p-3">
+             <div class="table-responsive">
+            <table class="table table-bordered hover" id="History">
+                 <thead>
+                     <tr>
+                        <th class="text-center">Diagnostic Id</th>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Date</th>
+                        <th class="text-center">Services</th>
+                        <th class="text-center">Total Payment</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                    @foreach(var diagnosis in Model.IDiagnostics)
+                    {
+                        <tr>
+                            <td class="text-center">@Html.DisplayFor(modelItem => diagnosis.diagnostic_Id)</td>
+                            <td class="text-center">
+                                @{
+                                    var fullName = $"{diagnosis.pet.owner.fname} {diagnosis.pet.owner.fname}";
                             
-                            }
-                            <span>@fullName</span>
-                        </td>
-                         <td class="text-center">@Html.DisplayFor(modelItem => diagnosis.date)</td>
-                         <td class="text-center">
-                            @{
-                                var services = diagnosis.IdiagnosticDetails.Select(p => p.Services.serviceName).ToList();
+                                }
+                                <span>@fullName</span>
+                            </td>
+                             <td class="text-center">@Html.DisplayFor(modelItem => diagnosis.date)</td>
+                             <td class="text-center">
+                                @{
+                                    var services = diagnosis.IdiagnosticDetails.Select(p => p.Services.serviceName).ToList();
 
-                                var joinServices = string.Join(", ", services);
-                            }
-                            <span>@joinServices</span>
-                         </td>
-                         @* <td class="text-center">@Html.DisplayFor(modelItem => diagnosis.totalServicePayment)</td> *@
-                    </tr>
-                }
+                                    var joinServices = string.Join(", ", services);
+                                }
+                                <span>@joinServices</span>
+                             </td>
+                             @* <td class="text-center">@Html.DisplayFor(modelItem => diagnosis.totalServicePayment)</td> *@
+                        </tr>
+                    }
 
           
-             </tbody>
-         </table>
+                 </tbody>
+             </table>
+            </div>
+        </div>
     </div>
 </div>
 

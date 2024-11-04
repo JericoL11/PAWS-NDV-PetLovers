@@ -4,32 +4,30 @@
 }
 
 
-<div class="container-fluid bg p-0 container-bord">
+<div class="container-fluid bg p-0 container-bord shadow  mb-5 bg-white rounded">
     <div class="container p-0">
 
 
-            <div class="container p-0 bg-custom-color">
+            <div class="container p-0 bg-custom-color text-center ">
                 <div>
                     <div class="container p-2">
-                        <h1>Appointments</h1>
+                        <h1 class="fw-bold">Appointments</h1>
                     </div>
                 </div>
             </div>
 
-            <div class="container mt-3">
-                <ul class="nav">
-                    <li>
-                        <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="booking" class="@(Model.activeAppointTab == PAWS_NDV_PetLovers.ViewModels.AppointmentTab.booking ? "active" : string.Empty) btn btn-outline-success btn-booking">Booking</a>
-                    </li>
 
-                    <li>
-                        <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="followUp" class="@(Model.activeAppointTab == PAWS_NDV_PetLovers.ViewModels.AppointmentTab.followUp ? "active" : string.Empty) btn btn-outline-success btn-followup">Follow-up</a>
-                    </li>
-                    <li>
-                        <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="monitoring" class="@(Model.activeAppointTab == PAWS_NDV_PetLovers.ViewModels.AppointmentTab.monitoring ? "active" : string.Empty) btn btn-outline-success">Monitoring</a>
-                    </li>
-            </ul>
-        </div>
+            <div class="btn-group btn-group-toggle pt-4 mx-3 " data-toggle="buttons">
+                  
+                    <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="booking" class="@(Model.activeAppointTab == PAWS_NDV_PetLovers.ViewModels.AppointmentTab.booking ? "active" : string.Empty) btn btn-success btn-lg ">Booking</a>
+                 
+                 
+                    <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="followUp" class="@(Model.activeAppointTab == PAWS_NDV_PetLovers.ViewModels.AppointmentTab.followUp ? "active" : string.Empty) btn btn-success btn-lg">Follow-up</a>
+               
+                    <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="monitoring" class="@(Model.activeAppointTab == PAWS_NDV_PetLovers.ViewModels.AppointmentTab.monitoring ? "active" : string.Empty) btn btn-success btn-lg">Monitoring</a>
+                 
+            </div> 
+
 
             @switch (Model.activeAppointTab)
             {

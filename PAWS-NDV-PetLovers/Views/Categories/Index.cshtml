@@ -11,19 +11,20 @@
     </div>
 }
 
-<div class="container p-0 bg container-bord">
+<div class="container p-0 bg container-bord shadow  mb-5 bg-white rounded">
     <div class="container p-0">
 
-        <div class="container p-0  bg-custom-color">
+        <div class="container p-0  bg-custom-color text-center">
             <div>
                 <div class="container p-2">
-                    <h1>Category Dashboard</h1>
+                    <h1 class="fw-bold">Category Dashboard</h1>
                 </div>
             </div>
         </div>
-        <div class="form-group p-3 text-end">
-            <a asp-action="Index" asp-controller="products" class="btn btn-primary">View Products</a>
-            <a asp-action="Create" class="btn btn-primary me-2">Add Category</a>
+
+        <div class="form-group pt-5 px-3 text-end">
+            <a asp-action="Index" asp-controller="products" class="btn  btn-cancel btn-lg">View Products</a>
+            <a asp-action="Create" class="btn btn-primary btn-confirm btn-lg">Add Category</a>
         </div>
 
         <div class="card p-3">
@@ -46,7 +47,7 @@
                             <td class="text-center">@Html.DisplayFor(m => item.categoryName)</td>
                             <td class="text-center">@Html.DisplayFor(m => item.description)</td>
                             <td class="text-center">@Html.DisplayFor(m => item.registeredDate)</td>
-                            <td><a class="btn btn-success" asp-action="Edit" asp-route-id="@item.id">Update</a> 
+                            <td><a class="btn btn-  btn-sm " asp-action="Edit" asp-route-id="@item.id">Update</a> 
                                 @* <a asp-action="Details" class="btn btn-warning" asp-route-id="@item.id">Details</a> *@
                             @*  <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.id" >Delete</a> *@
                             </td>

@@ -3,23 +3,25 @@
 @{
     ViewData["Title"] = "Create";
 }
-<div class="container p-0 bg container-bord">
+<div class="container p-0 bg container-bord shadow  mb-5 bg-white rounded">
+
     <div class="container p-0">
 
-        <div class="container p-0  bg-custom-color">
+        <div class="container p-0  bg-custom-color text-center">
             <div>
                 <div class="container p-2">
-                    <h1>Create New Client</h1>
+                    <h1 class="fw-bold">Create New Client</h1>
                 </div>
             </div>
         </div>
 
     
-        <form method="post" asp-action="CreatePost">
+        <form method="post" asp-action="CreatePost" >
       
             <div class="card p-3">
                 <div class="owner">
-                    <div class="row">
+
+                    <div class=" row">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                     <div class="form-group col-md-4 col-sm-12" id="apppad">
@@ -73,50 +75,52 @@
                         <label asp-for="Owner.registeredDate" class="control-label"></label>
                         <input asp-for="Owner.registeredDate" class="form-control bg-light dateInput" readonly />
                     </div>
+
+                    </div>
                 </div>
             </div>
-        </div>
 
-            <!-- Pets Section -->
-            <div class="bg-secondary bg-opacity-10 py-2 my-3">
-                <div class="container">
-                    <h1>Pets</h1>
+
+            <div class="pt-4"></div>
+            <div class="container p-0  bg-custom-color text-center">
+                <div>
+                    <div class="container p-2">
+                        <h1 class="fw-bold">Pet</h1>
+                    </div>
                 </div>
             </div>
 
 
             <!-- Pets Table -->
-            <table id="PetTable" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th><p style="margin:0;">Pet Name</p></th>
-                        <th><p style="margin:0;">Gender</p></th>
-                        <th><p style="margin:0;">Specie</p></th>
-                        <th><p style="margin:0;">Breed</p></th>
-                        <th><p style="margin:0;">Birth date</p></th>
-                        <th><p style="margin:0;">Age</p></th>
-                        <th><p style="margin:0;">Color</p></th>
-                        <th colspan="2">
-                            <button type="button" class="btn btn-success" id="addRow">Add Row</button>
-                        </th>
-                    </tr>
-                </thead>
+            <div class="card p-3 pt-5">        
+                <div class="table-responsive">
+                    
+                <table id="PetTable" class="table table-striped text-center">
+                    <thead >
+                        <tr class="no-col">
+                            <th><p style="margin:0;">Pet Name</p></th>
+                            <th><p style="margin:0;">Gender</p></th>
+                            <th><p style="margin:0;">Specie</p></th>
+                            <th><p style="margin:0;">Breed</p></th>
+                            <th><p style="margin:0;">Birth date</p></th>
+                            <th><p style="margin:0;">Age</p></th>
+                            <th><p style="margin:0;">Color</p></th>
+                            <th><p style="margin:0;">Actions</p></th>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    <tr class="detailRow">
-                        <div class="row">
+                    <tbody>
+                        <tr class="detailRow">
                             <td class="col-2">
-                                <input name="Owner.Pets[0].petName" class="form-control " required placeholder="Enter Pet Name" />
+                                <input name="Owner.Pets[0].petName" class="form-control" required placeholder="Enter Pet Name" />
                             </td>
-
-                             <td class="col-2">
+                            <td class="col-2">
                                 <select name="Owner.Pets[0].gender" class="form-select bg-light" required>
                                     <option value="" selected hidden>----</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                 </select>
                             </td>
-
                             <td class="col-1">
                                 <select name="Owner.Pets[0].species" class="form-select bg-light" required>
                                     <option value="" selected hidden>----</option>
@@ -128,7 +132,7 @@
                                 <input name="Owner.Pets[0].breed" class="form-control bg-light" required />
                             </td>
                             <td class="col-1">
-                            <input name="Owner.Pets[0].bdate" class="form-control bg-light birthdate" type="date" required />
+                                <input name="Owner.Pets[0].bdate" class="form-control bg-light birthdate" type="date" required />
                             </td>
                             <td class="text-center">
                                 <input name="Owner.Pets[0].age" class="form-control bg-light age" type="text" readonly />
@@ -136,36 +140,38 @@
                             <td>
                                 <input name="Owner.Pets[0].color" class="form-control bg-light" required />
                             </td>
-                            <td>
-                            <input type="date" name="Owner.Pets[0].registeredDate" class="form-control bg-light maxDate" id="dateInput" hidden readonly />
+                            <div>
+                                <input type="date" name="Owner.Pets[0].registeredDate" class="form-control bg-light maxDate" id="dateInput" hidden readonly />
+                            </div>
+                            <td >
+                                <button type="button" class="btn btn-danger removeRow">Remove</button>
                             </td>
-                            <td class="col-1">
-                                <button type="button" class="btn btn-outline-danger removeRow">Remove</button>
-                            </td>   
-                        </div>
-                    </tr>
-                </tbody>
-            </table>
-
-    <div class="form-group mt-4 text-end">
-      
-            @if(Model.btnCnl != null)
-            {
-                <input type="hidden" name="btnCnl" value="@Model.btnCnl" />
-                <a asp-action="Dashboard" asp-controller="Appointments" class="btn btn-secondary ms-3 ">Cancel</a>
-            }
-            else
-            {
-              <a asp-action="Index" class="btn btn-secondary ms-3 ">Cancel</a>
-            }
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+                <div class="form-group pb-5 text-end">
+                    <button type="button" class="btn btn-confirm btn-sm text-end" id="addRow">Add Row</button>
+                </div>
+            </div>
        
-        <input type="submit" value="Create" class="btn btn-primary " />
+
+                <div class="form-group mt-5 text-end mb-4 p-3">
+      
+                    @if(Model.btnCnl != null)
+                    {
+                        <input type="hidden" name="btnCnl" value="@Model.btnCnl" />
+                        <a asp-action="Dashboard" asp-controller="Appointments" class="btn btn-cancel btn-lg px-4 ">Cancel</a>
+                    }
+                    else
+                    {
+                      <a asp-action="Index" class="btn btn-cancel btn-lg px-4">Cancel</a>
+                    }
+       
+                     <input type="submit" value="Create" class="btn btn-confirm btn-lg px-4  " />
+                </div>
+        </form>
     </div>
- </form>
-        </div>
-
-
-
 </div>
 @section Scripts {
     @{

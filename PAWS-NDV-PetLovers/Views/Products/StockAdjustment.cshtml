@@ -3,51 +3,60 @@
     ViewData["Title"] = "Stock Adjustment";
 }
 
-<div class="bg-custom-color">
-    <div class="container">
-        <h1>Stock Adjustments</h1>
+<div class="container p-0 bg container-bord shadow  mb-5 bg-white rounded">
+    <div class="container p-0">
+
+        <div class="container p-0  bg-custom-color text-center ">
+            <div>
+                <div class="container p-2">
+                    <h1 class="fw-bold">Stock Adjustments</h1>
+                </div>
+            </div>
+        </div>
+
+           <div class="card p-3">
+             <div class="table-responsive"> 
+                <table class="table table-bordered text-center" id="StockAdjTable">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Product Id</th>
+                                <th class="text-center">Date</th>
+                                <th class="text-center">Product Name</th>
+                                <th class="text-center">Source</th>
+                                <th class="text-center">Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var stock in Model.IstockAdjustment)
+                            {
+                                if (stock.source == "Sales")
+                                {
+                                    <tr>
+                                        <td>@stock.productId</td>
+                                        <td>@stock.date.ToString("MMM. dd, yyyy")</td>
+                                        <td>@stock.productsNav.productName</td>
+                                        <td> @stock.source</td>
+                                        <td class="text-danger">-@stock.stock</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>@stock.productId</td>
+                                        <td>@stock.date.ToString("MMM. dd, yyyy")</td>
+                                        <td>@stock.productsNav.productName</td>
+                                        <td>@stock.source</td>
+                                        <td class="text-success fw-bold">+@stock.stock</td>
+                                    </tr>
+                                }
+
+                             }
+
+                             </tbody>
+                </table>
+            </div>
+           </div>
     </div>
 </div>
-<div class="container mt-4">
-    <a class="btn btn-secondary" asp-action="Index">Back to Product List</a>
 
-    <table class="table table-bordered" id="StockAdjTable">
-        <thead>
-            <tr>
-                <th class="visually-hidden">Product Id</th>
-                <th>Date</th>
-                <th>Product Name</th>
-                <th>Source</th>
-                <th>Quantity</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var stock in Model.IstockAdjustment)
-            {
-                if (stock.source == "Sales")
-                {
-                    <tr class="bg-danger bg-opacity-10">
-                        <td class="visually-hidden">@stock.stockAdj_Id</td>
-                        <td>@stock.date.ToString("MMM. dd, yyyy")</td>
-                        <td>@stock.productsNav.productName</td>
-                        <td> @stock.source</td>
-                        <td>-@stock.stock</td>
-                    </tr>
-                }
-                else
-                {
-                    <tr class="bg-success bg-opacity-10">
-                        <td class="visually-hidden">@stock.stockAdj_Id</td>
-                        <td>@stock.date.ToString("MMM. dd, yyyy")</td>
-                        <td>@stock.productsNav.productName</td>
-                        <td>@stock.source</td>
-                        <td>+@stock.stock</td>
-                    </tr>
-                }
-
-            }
-
-        </tbody>
-    </table>
-</div>
 <script src="~/js/stockAdjTable/StockAdjTable.js" defer></script>

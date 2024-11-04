@@ -36,15 +36,17 @@
 
     <div class="flex-shrink-0 fixed-sticky left-0 top-0" id="sidebar">
 
+        <div class="image-container" >
+            <img src="~/Images/Ndv_logo.png" id="sidebarlogo" />
+        </div>
         <div class="header-box px-1 pt-1 pb-1 justify-content-between text-center">
-            <h1 class="fs-4">
+            <h1 class="fs-4 fw-bold">
                 <span class="bg-white text-dark rounded shadow px-2">NDV</span>
                 <span class="text-white"> Pet Lovers</span>
             </h1>
         </div>
 
-        <a href="" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-        </a>
+        <a href="" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom fw-bold"> </a>
       @*   <div id="accordion"> *@
             <ul class="list-unstyled ps-0  ">
 
@@ -131,20 +133,21 @@
                 </li>
 
                 <li class="mb-2">
-                <a class="nav-link collapsed  d-flex align-items-center  p-2"  asp-action="Dashboard" asp-controller="PawsReport">
-                        <i class="fa-solid fa-flag" id="icon"></i><div class="px-3">Reports</div>
+                    <a class="nav-link collapsed  d-flex align-items-center  p-2"  asp-action="Dashboard" asp-controller="PawsReport">
+                            <i class="fa-solid fa-flag" id="icon"></i><div class="px-3">Reports</div>
                        @* <i class="fa-solid fa-greater-than rotate-icon" style="font-size: 11px;" aria-expanded="true"></i> *@
  
                     </a>
-                @* <div class="collapse" id="reports-collapse" data-bs-parent="#accordion">
-                     <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3  big">
-                        <li><a class="link-l mb-1 px-5" asp-action="AppointmentsReport" asp-controller="PawsReport">Appointments</a></li>
-                        <li><a class="link-l mb-1 px-5" asp-action="ProductMgmtReport" asp-controller="PawsReport">Product Mgmt. </a></li>
-                    </ul>
-                </div> *@
+
+                        @* <div class="collapse" id="reports-collapse" data-bs-parent="#accordion">
+                             <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3  big">
+                                <li><a class="link-l mb-1 px-5" asp-action="AppointmentsReport" asp-controller="PawsReport">Appointments</a></li>
+                                <li><a class="link-l mb-1 px-5" asp-action="ProductMgmtReport" asp-controller="PawsReport">Product Mgmt. </a></li>
+                            </ul>
+                        </div> *@
                 </li>
 
-                <li class="border-top my-3"></li>
+              
                 
             </ul>
         </div>
@@ -212,41 +215,53 @@
     }
 
     <div class="container-fluid p-0" id="subbody">
-        <nav class="navbar" style="position: sticky; top: 0; z-index:1000;">
+        <nav class="navbar p-2" style="position: sticky; top: 0; z-index:1000;">
             <div class="d-flex w-100 align-items-center">
                 <a class="navbar-brand fs-5"></a>
             
+
                 <button class="btn px-2 py-2 open-btn d-md-none">
-                    <i class="fa-solid fa-bars" style="color: white;"></i>
+
+                    <i class="fa-solid fa-bars text-black" ></i>
+
                 </button>
-                <div class="text-end text-white fw-bold">
+
+
+
+                <div class="text-end text-black fw-bold">
+
                     <span>@Context.Session.GetString("UserRole"): @Context.Session.GetString("fullName")</span>
+
                 </div>
+
              
                 
-                <div class="dropdown ms-auto">
-                    <a class="d-flex align-items-center justify-content-center p-3 link-light tex-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="dropdown ms-auto text-black ">
 
-                        <i class="fa-solid fa-user" id="icon"></i>
-                    </a>
+                        <a class="d-flex align-items-center justify-content-center p-3 link-dark tex-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
 
-               
-                    <ul class="dropdown-menu dropdown-menu-end text-small shadow"  aria-labelledby="dropdownUser3">
-                        <li><a class="dropdown-item" asp-action="Profile" asp-controller="UserAccounts">Profile</a></li>
+                            <i class="fa-solid fa-user text-black" id="icon"></i>
+                        </a>
+
+
+                    <ul class="dropdown-menu dropdown-menu-end text-small  shadow bg-dropuser  " aria-labelledby="dropdownUser3">
+                                <li><a class="dropdown-item" asp-action="Profile" asp-controller="UserAccounts">Profile</a></li>
                       
-                        <li><hr class="dropdown-divider" /></li>
-                            <li><a asp-action="Logout" asp-controller="Logins" class="dropdown-item">Logout</a></li>
+                                <li><hr class="dropdown-divider" /> </li>
+                                    <li><a asp-action="Logout" asp-controller="Logins" class="dropdown-item">Logout</a></li>
 
-                        </ul>
+                            </ul>
 
                     </div>
+
+
             </div>
 
         </nav>
 
-        <div class="container-fluid">
+        <div class="container ">
                 <div>
-                    <main role="main" class="container" id="renderbody">
+                    <main role="main" class="container my-3 pt-3" id="renderbody">
                         @RenderBody()
                     </main>
                 </div>

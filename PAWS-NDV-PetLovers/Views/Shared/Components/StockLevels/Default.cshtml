@@ -2,14 +2,15 @@
 @{
     ViewData["Title"] = "Stock Level Report";
 }
-    <form method="post" asp-action="ProductMgmtReport" asp-controller="PawsReport" class="p-3">
+<form method="post" asp-action="ProductMgmtReport" asp-controller="PawsReport" class="p-3">
 
-        <div class="row mt-1">
-            <div class="form-group mt-auto col-auto">
+    <div class="container d-flex justify-content-center">
+        <div class=" w-60 text-center row mt-1">
+            <div class="form-group mt-auto col-auto col-lg-5">
 
                 @if (Model.SelectType == "allCategory")
                 {
-                    <select id="selectType" name="SelectType" class="form-control bg-light me-4 form-select"  asp-items="@ViewBag.CategoryList"  required>
+                    <select id="selectType" name="SelectType" class="form-control bg-light me-4 form-select" asp-items="@ViewBag.CategoryList" required>
                         <option value="" hidden>-- Select --</option>
                         <option value="allCategory" selected>All Category</option>
                         @*  <option value="expiration">Product Expiration</option> *@
@@ -33,11 +34,11 @@
 
             </div>
 
-            <div id="statusVisibility" class=" form-group mt-auto  col-auto statusVisibility">
+            <div id="statusVisibility" class="form-group mt-auto col-auto statusVisibility pt-1">
                 @switch (Model.Status)
                 {
                     case "Low":
-                        <select name="Status" class="form-control bg-light me-4  form-select" required>
+                        <select name="Status" class="form-control bg-light me-4 form-select" required>
                             <option value="" hidden>--Status</option>
                             <option value="Low" selected>Low</option>
                             <option value="High">High</option>
@@ -46,7 +47,7 @@
                         break;
 
                     case "High":
-                        <select name="Status" class="form-control bg-light me-4  form-select" required>
+                        <select name="Status" class="form-control bg-light me-4 form-select" required>
                             <option value="" hidden>--Status</option>
                             <option value="Low">Low</option>
                             <option value="High" selected>High</option>
@@ -55,7 +56,7 @@
                         break;
 
                     case "All":
-                        <select name="Status" class="form-control bg-light me-4  form-select" required>
+                        <select name="Status" class="form-control bg-light me-4 form-select" required>
                             <option value="" hidden>--Status</option>
                             <option value="Low">Low</option>
                             <option value="High">High</option>
@@ -64,7 +65,7 @@
                         break;
 
                     default:
-                        <select name="Status" class="form-control bg-light me-4  form-select" required>
+                        <select name="Status" class="form-control bg-light me-4 form-select" required>
                             <option value="" hidden selected>--Status</option>
                             <option value="Low">Low</option>
                             <option value="High">High</option>
@@ -73,109 +74,35 @@
                         break;
                 }
             </div>
-            <div class="col-lg-3">
-                <input type="submit" value="View" class="btn btn-primary" />
+            <div class="form-group col-lg-2 pt-3">
+                <input type="submit" value="View" class="btn btn-primary btn-cancel" />
             </div>
         </div>
+    </div>
+</form>
 
-    </form>
+<div class="card p-3">
+    <div class="table-responsive text-center">
+        <table class="table table-bordered hover text-center">
+            <thead>
+                <tr>
+                    <th class="text-center">Product Name</th>
+                    <th class="text-center">Category</th>
+                    <th class="text-center">Stocks</th>
+                </tr>
+            </thead>
+            <tbody>
 
-    <div class="card p-3">
-
-        <div class="mt-4">
-            <div class="table-responsive text-center">
-                <table class="table table-bordered hover text-center">
-                    <thead>
-                    <th class="mx-3">Product Name</th>
-                    <th class="mx-3">Category</th>
-                    <th class="mx-3">Stocks</th>
-                    </thead>
-                    <tbody>
-
-                        @if (Model.Filtered)
+                @if (Model.Filtered)
+                {
+                    if (Model.Status != null)
+                    {
+                        @switch (Model.Status)
                         {
-                            if (Model.Status != null)
-                            {
-                                @switch (Model.Status)
-                                {
-                                    case "Low":
-                                        if (Model.IProducts.Count() > 0)
-                                        {
-                                            @foreach (var stock in Model.IProducts)
-                                            {
-                                                <tr class="bg-danger bg-opacity-10">
-                                                    <td>@stock.productName</td>
-                                                    <td>@stock.category.categoryName</td>
-                                                    <td>@stock.quantity</td>
-                                                </tr>
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <tr>
-                                                <td colspan="3" class="text-center">No Products found</td>
-                                            </tr>
-                                        }
-                                        break;
-
-                                    case "High":
-                                        if (Model.IProducts.Count() > 0)
-                                        {
-                                            @foreach (var stock in Model.IProducts)
-                                            {
-                                                <tr>
-                                                    <td>@stock.productName</td>
-                                                    <td>@stock.category.categoryName</td>
-                                                    <td>@stock.quantity</td>
-                                                </tr>
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <tr>
-                                                <td colspan="3" class="text-center">No Products found</td>
-                                            </tr>
-                                        }
-                                        break;
-
-                                    case "All":
-                                        if (Model.IProducts.Count() > 0)
-                                        {
-                                            @foreach (var stock in Model.IProducts)
-                                            {
-                                            if (stock.quantity <= 10)
-                                            {
-                                                <tr class="bg-danger bg-opacity-10">
-                                                    <td>@stock.productName</td>
-                                                    <td>@stock.category.categoryName</td>
-                                                    <td>@stock.quantity</td>
-                                                </tr>
-                                            }
-                                            <tr>
-                                                <td>@stock.productName</td>
-                                                <td>@stock.category.categoryName</td>
-                                                <td>@stock.quantity</td>
-                                            </tr>
-                                          
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <tr>
-                                                <td colspan="3" class="text-center">No Products found</td>
-                                            </tr>
-                                        }
-                                        break;
-                                }
-
-                            }
-                            else
-                            {
+                            case "Low":
                                 if (Model.IProducts.Count() > 0)
                                 {
                                     @foreach (var stock in Model.IProducts)
-                                    {
-                                    if (stock.quantity <= 10)
                                     {
                                         <tr class="bg-danger bg-opacity-10">
                                             <td>@stock.productName</td>
@@ -183,6 +110,20 @@
                                             <td>@stock.quantity</td>
                                         </tr>
                                     }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="3" class="text-center">No Products found</td>
+                                    </tr>
+                                }
+                                break;
+
+                            case "High":
+                                if (Model.IProducts.Count() > 0)
+                                {
+                                    @foreach (var stock in Model.IProducts)
+                                    {
                                         <tr>
                                             <td>@stock.productName</td>
                                             <td>@stock.category.categoryName</td>
@@ -195,15 +136,75 @@
                                     <tr>
                                         <td colspan="3" class="text-center">No Products found</td>
                                     </tr>
-
                                 }
+                                break;
 
-                            }
-
+                            case "All":
+                                if (Model.IProducts.Count() > 0)
+                                {
+                                    foreach (var stock in Model.IProducts)
+                                    {
+                                        if (stock.quantity <= 10)
+                                        {
+                                            <tr class="bg-danger bg-opacity-10">
+                                                <td>@stock.productName</td>
+                                                <td>@stock.category.categoryName</td>
+                                                <td>@stock.quantity</td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td>@stock.productName</td>
+                                                <td>@stock.category.categoryName</td>
+                                                <td>@stock.quantity</td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="3" class="text-center">No Products found</td>
+                                    </tr>
+                                }
+                                break;
                         }
+                    }
+                    else
+                    {
+                        if (Model.IProducts.Count() > 0)
+                        {
+                            foreach (var stock in Model.IProducts)
+                            {
+                                if (stock.quantity <= 10)
+                                {
+                                    <tr class="bg-danger bg-opacity-10">
+                                        <td>@stock.productName</td>
+                                        <td>@stock.category.categoryName</td>
+                                        <td>@stock.quantity</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>@stock.productName</td>
+                                        <td>@stock.category.categoryName</td>
+                                        <td>@stock.quantity</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3" class="text-center">No Products found</td>
+                            </tr>
+                        }
+                    }
+                }
 
-                    </tbody>
-                </table>
-            </div>
-        </div>
+            </tbody>
+        </table>
     </div>
+</div>

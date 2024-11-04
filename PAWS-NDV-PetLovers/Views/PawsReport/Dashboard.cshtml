@@ -2,40 +2,43 @@
 @{
     ViewData["Title"] = "Dashboard - Report";
 }
-<div class="container p-0 bg container-bord">
+
+<div class="container-fluid bg p-0 container-bord shadow  mb-5 bg-white rounded">
     <div class="container p-0">
-        <div class="container p-0  bg-custom-color">
+
+        <div class="container p-0 bg-custom-color text-center">
             <div>
                 <div class="container p-2">
-                    <h1>Reports</h1>
+                    <h1 class="fw-bold">Reports</h1>
                 </div>
             </div>
         </div>
+
+            <div class="btn-group btn-group-toggle pt-4 mx-3" data-toggle="buttons">
+                
+                    <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="stockLevel" class="@(Model.activeReportTab == PAWS_NDV_PetLovers.ViewModels.ReportTab.stockLevel ? "active" : string.Empty) btn btn-success btn-booking ">Stock Levels</a>
+               
+
+                @if (Context.Session.GetString("UserRole") == "Admin")
+                {
+                    
+                        <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="transacSum" class="@(Model.activeReportTab == PAWS_NDV_PetLovers.ViewModels.ReportTab.transacSum ? "active" : string.Empty) btn btn-success btn-booking">Transaction Summary</a>
+                    
+                }
+     
+            </div>
+       
+   
+
+            @switch (Model.activeReportTab)
+            {
+                case PAWS_NDV_PetLovers.ViewModels.ReportTab.stockLevel:
+                    @await Component.InvokeAsync("StockLevels", new { vcm = Model })
+                    break;
+
+                case PAWS_NDV_PetLovers.ViewModels.ReportTab.transacSum:
+                    @await Component.InvokeAsync("TransacSummary", new {vcm = Model})
+                    break;
+            }
     </div>
 </div>
-<div class="container mt-4">
-    <ul class="nav">
-        <li>
-            <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="stockLevel" class="@(Model.activeReportTab == PAWS_NDV_PetLovers.ViewModels.ReportTab.stockLevel ? "active" : string.Empty) btn btn-outline-success btn-booking">Stock Levels</a>
-        </li>
-
-        @if (Context.Session.GetString("UserRole") == "Admin")
-        {
-            <li>
-                <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="transacSum" class="@(Model.activeReportTab == PAWS_NDV_PetLovers.ViewModels.ReportTab.transacSum ? "active" : string.Empty) btn btn-outline-success btn-booking">Transaction Summary</a>
-            </li>
-        }
-     
-    </ul>
-</div>
-
-@switch (Model.activeReportTab)
-{
-    case PAWS_NDV_PetLovers.ViewModels.ReportTab.stockLevel:
-        @await Component.InvokeAsync("StockLevels", new { vcm = Model })
-        break;
-
-    case PAWS_NDV_PetLovers.ViewModels.ReportTab.transacSum:
-        @await Component.InvokeAsync("TransacSummary", new {vcm = Model})
-        break;
-}

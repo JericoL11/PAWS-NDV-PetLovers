@@ -2,19 +2,24 @@
 @{
     ViewData["Title"] = "Purchase VC";
 }
-<div class="container">
+<div class="card">
+      <div class="table-responsive">
 
-    <table class="table">
+          <div class="text-end p-3">
+            <button type="button" class="btn btn-confirm btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdropSelectedProduct">
+                Add Products
+            </button>
+          </div>
+
+        <table class="table table-bordered text-center">
         <thead>
             <tr>
-                <th>Product ID</th>
-                <th>Product Name</th>
-                <th>Price</th>
-                <th>Order Qty</th>
+                <th class="text-center">Product ID</th>
+                <th class="text-center">Product Name</th>
+                <th class="text-center">Price</th>
+                <th class="text-center">Order Qty</th>
                 <th class="text-end">
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdropSelectedProduct">
-                        Add Products
-                    </button>
+                   
                 </th>
                 @if(Model.IPurchaseDetails.Count() > 0)
                 {
@@ -67,7 +72,7 @@
         </tbody>
 
     </table>
-    
+      </div>
     <!-- Modal Remove Product -->
     <div class="modal fade" id="staticBackdropRemove" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">

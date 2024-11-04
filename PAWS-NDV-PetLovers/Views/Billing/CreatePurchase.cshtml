@@ -5,126 +5,149 @@
 
 
 
-<div class="container p-0  bg-custom-color">
-    <div>
-        <div class="container p-2">
-            <h1>Create New Purchase</h1>
+
+
+<div class="container p-0 bg container-bord shadow mb-5 bg-white rounded">
+
+
+    <div class="container p-0 ">
+
+        <div class="container p-0  bg-custom-color text-center">
+            <div>
+                <div class="container p-2">
+                    <h1 class="fw-bold">Create New Purchase</h1>
+                </div>
+            </div>
         </div>
+
     </div>
-</div>
 
-
-<div class="container p-0 bg container-bord">
 
         <form method="post" asp-action="CreatePurchase">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="row pt-5 px-3">
-                <div class="form-group col-lg-3 col-md-6">
-                    <label asp-for="Purchase.customerName" class="control-label"></label>
-                    <input asp-for="Purchase.customerName" class="form-control" placeholder="(Optional)" />
+
+            <div class="container ">
+                
+
+                <!-- Center-aligned wrapper for the form content -->
+                <div class="d-flex justify-content-center align-items-center vh-10 pt-5">
+                   
+
+                        <!-- Validation Summary -->
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+                        <!-- Customer Name Field -->
+                        <div class="form-group mb-3 me-3">
+                            <label asp-for="Purchase.customerName" class="control-label"></label>
+                            <input asp-for="Purchase.customerName" class="form-control" placeholder="(Optional)" />
+                        </div>
+
+                        <!-- Date Field -->
+                        <div class="form-group mb-3 me-3">
+                            <label asp-for="Purchase.date" class="control-label"></label>
+                            <input type="hidden" asp-for="Purchase.date" class="form-control dateInput" />
+                            <input class="form-control" value="@DateTime.Now.ToString("MMM. dd, yyyy")" readonly />
+                        </div>
+                         
+                        <!-- Select Product Button -->
+                        <div class="form-group mt-2">
+                            <button type="button" id="AddProductBtn" class="btn btn-confirm btn-sm " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                Select Product
+                            </button>
+                        </div>
+                    
                 </div>
 
-                <div class="form-group  col-lg-3">
-                    <label asp-for="Purchase.date" class="control-label"></label>
-                    <input type="hidden" asp-for="Purchase.date" class="form-control dateInput" />
-                    <input class="form-control" value="@DateTime.Now.ToString("MMM. dd, yyyy")" readonly />
-                </div>
-                
-                <div class="form-group text-end ">
-                    <button type="button" id="AddProductBtn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        Select Product
-                    </button>
-                </div>
 
-                
-               
-            </div>
 
             
+            
 
-            <div class="card p-3">
-                <div class="table-responsive">
-                    <table class="table table table table-bordered text-center hover  mt-4" id="purchaseTable">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Product Id</th>
-                                <th class="text-center">Name</th>
-                                <th class="text-center">Category</th>
-                                <th class="text-center">Stock</th>
-                                <th class="text-center">Price</th>
-                                <th>Order Quantity</th>
-                                <th>Action</th>
+                <div class="card p-3">
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-center hover  mt-4" id="purchaseTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Product Id</th>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">Category</th>
+                                    <th class="text-center">Stock</th>
+                                    <th class="text-center">Price</th>
+                                    <th>Order Quantity</th>
                                 
-                            </tr>
-                        </thead>
+                                </tr>
+                            </thead>
 
-                        <tbody>
+                            <tbody>
       
-                            <!--PRODUCT WILL DISPLAY HERE-->
+                                <!--PRODUCT WILL DISPLAY HERE-->
 
-                        </tbody>
+                            </tbody>
 
-                    </table>
+                        </table>
+                    </div>
                 </div>
-            </div>
 
-             <div class="modal-footer text-end mt-2 px-3">
-                <a asp-action="SwitchToDboardTab" asp-route-tabName="DBoard_Purchase" class=" btn btn-secondary">Cancel</a>
-                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+                 <div class="modal-footer text-end mt-2 px-3">
+                    <a asp-action="SwitchToDboardTab" asp-route-tabName="DBoard_Purchase" class=" btn  btn-cancel btn-lg px-4">Cancel</a>
+                    <button type="submit" class="btn  btn-confirm btn-lg px-4" data-bs-dismiss="modal">Save</button>
+                </div>
             </div>
        
         </form>
-    </div>
+    
 </div>
 <!-- Modal for selecting Products  / Select Product - INDEX-->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-primary">
+            <div class="modal-header">
                 @* <h1 class="modal-title fs-5" id="staticBackdropLabel">Select Product</h1>  *@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
-                    <table class="table hover" id="modalProductTbl">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Select</th>
-                                <th class="text-center">Id</th>
-                                <th class="text-center">Name</th>
-                                <th class="text-center">Category</th>
-                                <th class="text-center">Stock</th>
-                                <th class="text-center">Price</th>
-                                <th class="text-center">Order Quantity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            @{
-                                var Iproducts = Model.IProducts.Where(p => p.quantity > 0).Select(p => p);
-                            }
-                            @foreach (var product in @Iproducts)
-                            {
+                    <div class="card p-3">
+                        <div class="table-responsive text-center">
+                         <table class="table table-bordered text-center hover" id="modalProductTbl">
+                            <thead>
                                 <tr>
-                                    <td class="text-center"><input type="checkbox" class="selectProduct form-check-input" data-id="@product.id" data-name="@product.productName" data-category="@product.category.categoryName" data-qty="@product.quantity" data-price="@product.sellingPrice" /></td>
-                                    <td class="text-center">@product.id</td>
-                                    <td class="text-center">@product.productName</td>
-                                    <td class="text-center">@product.category.categoryName</td>
-                                    <td class="text-center">@product.quantity</td>
-                                    <td class="text-center">@product.sellingPrice</td>
-                                    <td><input type="number" class="form-control orderQtyInput orderItemQty" min="1" max="@product.quantity" value="1" /></td>
+                                    <th class="text-center">Select</th>
+                                    <th class="text-center">Id</th>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">Category</th>
+                                    <th class="text-center">Stock</th>
+                                    <th class="text-center">Price</th>
+                                    <th class="text-center">Order Quantity</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody class="text-center">
 
+                                @{
+                                    var Iproducts = Model.IProducts.Where(p => p.quantity > 0).Select(p => p);
+                                }
+                                @foreach (var product in @Iproducts)
+                                {
+                                    <tr>
+                                        <td class="text-center"><input type="checkbox" class="selectProduct form-check-input" data-id="@product.id" data-name="@product.productName" data-category="@product.category.categoryName" data-qty="@product.quantity" data-price="@product.sellingPrice" /></td>
+                                        <td class="text-center">@product.id</td>
+                                        <td class="text-center">@product.productName</td>
+                                        <td class="text-center">@product.category.categoryName</td>
+                                        <td class="text-center">@product.quantity</td>
+                                        <td class="text-center">@product.sellingPrice</td>
+                                        <td><input type="number" class="form-control orderQtyInput orderItemQty" min="1" max="@product.quantity" value="1" /></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
 
                     <div class="modal-footer">
                         <div class="text-danger me-2" id="selectionWarning" style="display:none;">Product is already selected.</div>
-                        <button type="button" class="btn btn-secondary bg-opacity-10" id="ViewSelectedProduct">Cancel</button>
+                        <button type="button" class="btn btn-cancel btn-sm " id="ViewSelectedProduct">Cancel</button>
 
                         @* <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> *@
-                        <button type="button" class="btn btn-primary" id="SelectProductButton">Add</button>
+                        <button type="button" class="btn  btn-confirm btn-sm" id="SelectProductButton">Add</button>
                     </div>
                 </form>
             </div>

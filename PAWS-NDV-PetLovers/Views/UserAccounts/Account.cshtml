@@ -12,33 +12,44 @@
     </div>
 }
 
-<div class="bg-custom-color">
-    <div class="container">
-        <h1>Account</h1>
+
+
+
+
+<div class="container p-0 bg container-bord shadow  mb-5 bg-white rounded">
+    <div class="container p-0">
+        <div class="container p-0 bg-custom-color text-center">
+            <div>
+                <div class="container p-2">
+                    <h1 class="fw-bold">Account</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-group btn-group-toggle pt-4 mx-3" data-toggle="buttons">
+            
+                
+                    <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="accountList" class="@(Model.activeAccountTab == PAWS_NDV_PetLovers.ViewModels.AccountTab.accountList ? "active" : string.Empty) btn btn-success ">Account List</a>
+                
+
+                
+                    <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="createStaff" class="@(Model.activeAccountTab == PAWS_NDV_PetLovers.ViewModels.AccountTab.createStaff ? "active" : string.Empty) btn btn-success">Create New Staff</a>
+                
+        </div>
+
+        @switch (Model.activeAccountTab)
+        {
+            case PAWS_NDV_PetLovers.ViewModels.AccountTab.accountList:
+                @await Component.InvokeAsync("AccountList")
+                break;
+
+            case PAWS_NDV_PetLovers.ViewModels.AccountTab.createStaff:
+                @await Component.InvokeAsync("CreateStaff", new { vm = Model })
+                break;
+        }
+
     </div>
 </div>
 
-<div class="container mt-2">
-    <ul class="nav">
-        <li>
-            <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="accountList" class="@(Model.activeAccountTab == PAWS_NDV_PetLovers.ViewModels.AccountTab.accountList ? "active" : string.Empty) btn btn-outline-success ">Account List</a>
-        </li>
 
-        <li>
-            <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="createStaff" class="@(Model.activeAccountTab == PAWS_NDV_PetLovers.ViewModels.AccountTab.createStaff ? "active" : string.Empty) btn btn-outline-success">Create New Staff</a>
-        </li>
-        
-
-    </ul>
-</div>
-
-@switch (Model.activeAccountTab)
-{
-    case PAWS_NDV_PetLovers.ViewModels.AccountTab.accountList:
-        @await Component.InvokeAsync("AccountList")
-        break;
-
-    case PAWS_NDV_PetLovers.ViewModels.AccountTab.createStaff:
-        @await Component.InvokeAsync("CreateStaff", new {vm = Model})
-        break;
-}
+   

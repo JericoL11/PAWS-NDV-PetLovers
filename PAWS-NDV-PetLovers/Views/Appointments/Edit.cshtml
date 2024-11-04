@@ -3,128 +3,87 @@
     ViewData["Title"] = "Edit";
 }
 
-
 <div class="container p-0 bg container-bord">
     <div class="container p-0">
 
-        <div class="container p-0  bg-custom-color">
+        <div class="container p-0 bg-custom-color text-center">
             <div>
                 <div class="container p-2">
-                    <h1>Update Appointment</h1>
+                    <h1 class="fw-bold">Update Appointment</h1>
                 </div>
             </div>
         </div>
 
-        <form asp-action="Edit" method="post">
+        <form asp-action="Edit" method="post" class="container p-0">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input asp-for="Appointment.AppointId" hidden />
-            <div class="row">
-                @* appointments *@
-                <div class="form-group col-lg-4">
-                    <label asp-for="Appointment.fname" class="control-label"></label>
-                    <input asp-for="Appointment.fname" class="form-control" />
-                    <span asp-validation-for="Appointment.fname" class="text-danger"></span>
-                </div>
 
-                <div class="form-group col-lg-4">
-                    <label asp-for="Appointment.lname" class="control-label"></label>
-                    <input asp-for="Appointment.lname" class="form-control" />
-                    <span asp-validation-for="Appointment.lname" class="text-danger"></span>
-                </div>
+            <div class="container p-0">
+                <div class="row p-3">
+                    @* appointments *@
+                    <div class="form-group col-lg-4" id="apppad">
+                        <label asp-for="Appointment.fname" class="control-label"></label>
+                        <input asp-for="Appointment.fname" class="form-control" />
+                        <span asp-validation-for="Appointment.fname" class="text-danger"></span>
+                    </div>
 
-                <div class="form-group col-lg-4">
-                    <label asp-for="Appointment.mname" class="control-label"></label>
-                    <input asp-for="Appointment.mname" class="form-control" />
-                    <span asp-validation-for="Appointment.mname" class="text-danger"></span>
-                </div>
+                    <div class="form-group col-lg-4" id="apppad">
+                        <label asp-for="Appointment.lname" class="control-label"></label>
+                        <input asp-for="Appointment.lname" class="form-control" />
+                        <span asp-validation-for="Appointment.lname" class="text-danger"></span>
+                    </div>
 
-                <div class="form-group col-lg-4">
-                    <label asp-for="Appointment.contact" class="control-label"></label>
-                    <input id="contact" asp-for="Appointment.contact" class="form-control" />
-                    <span asp-validation-for="Appointment.contact" class="text-danger"></span>
-                </div>
+                    <div class="form-group col-lg-4" id="apppad">
+                        <label asp-for="Appointment.mname" class="control-label"></label>
+                        <input asp-for="Appointment.mname" class="form-control" />
+                        <span asp-validation-for="Appointment.mname" class="text-danger"></span>
+                    </div>
 
-                <div class="form-group col-lg-4">
-                    <label asp-for="Appointment.date" class="control-label"></label>
-                    <input asp-for="Appointment.date" class="form-control minDate" id="appointmentDate" type="date" />
-                    <span asp-validation-for="Appointment.date" class="text-danger"></span>
-                </div>
+                    <div class="form-group col-lg-4" id="apppad">
+                        <label asp-for="Appointment.contact" class="control-label"></label>
+                        <input id="contact" asp-for="Appointment.contact" class="form-control" />
+                        <span asp-validation-for="Appointment.contact" class="text-danger"></span>
+                    </div>
 
-                <div class="form-group col-lg-4">
-                    <label asp-for="Appointment.time" class="control-label"></label>
-                    <select id="timeDropdown" name="Appointment.time" class="form-select" required>
-                        <!-- Times will be loaded here -->
-                    </select>
-                    <span asp-validation-for="Appointment.time" class="text-danger"></span>
-                </div>
+                    <div class="form-group col-lg-4" id="apppad">
+                        <label asp-for="Appointment.date" class="control-label"></label>
+                        <input asp-for="Appointment.date" class="form-control minDate" id="appointmentDate" type="date" />
+                        <span asp-validation-for="Appointment.date" class="text-danger"></span>
+                    </div>
 
-                <!-- Services Table -->
-                <div class="row mt-4">
-                    <div class="col-8">
-                        <h4>Select Service</h4>
-                        <table class="table mt-2" id="DetailsTable">
-                        <thead>
-                            <tr>
-                                <th>Service Name</th>
-                                @* <th>Details</th> *@
-                                <th class="text-end">
-                                    <button type="button" class="btn btn-success px-2" id="addRow">Add Service</button>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Loop through existing services if any -->
-                           @if(Model.Appointment != null && Model.Appointment.IAppDetails.Any())
-                            {
-                                for (int i = 0; i < Model.Appointment.IAppDetails.Count(); i++)
-                                {
-                                    var detail = Model.Appointment.IAppDetails.ElementAt(i).serviceID;
+                    <div class="form-group col-lg-4" id="apppad">
+                        <label asp-for="Appointment.time" class="control-label"></label>
+                        <select id="timeDropdown" name="Appointment.time" class="form-select" required>
+                            <!-- Times will be loaded here -->
+                        </select>
+                        <span asp-validation-for="Appointment.time" class="text-danger"></span>
+                    </div>
 
-                                    <tr class="detailRow">
-                                        <td>
-                                            <div class="form-group mt-2">
-                                                <select name="Appointment.IAppDetails[@i].serviceID" class="form-select service-select" required>
-                                                    <option value="" data-price="0" disabled>Select Service</option>
 
-                                                    <!-- Loop through NA-type services and set the selected service -->
-                                                    @foreach (var service in Model.Services.Where(s => s.serviceType == "NA"))
-                                                    {
-                                                        if (service.serviceId == detail)
-                                                        {
-                                                            <option value="@service.serviceId"
-                                                                    data-price="@service.serviceCharge"
-                                                                    data-service-type="@service.serviceType.ToLower()"
-                                                                    data-service-name="@service.serviceName.ToLower()"
-                                                                    selected="selected">
-                                                                @service.serviceName
-                                                            </option>
-                                                        }
-                                                        else
-                                                        {
-                                                            <option value="@service.serviceId"
-                                                                    data-price="@service.serviceCharge"
-                                                                    data-service-type="@service.serviceType.ToLower()"
-                                                                    data-service-name="@service.serviceName.ToLower()">
-                                                                @service.serviceName
-                                                            </option>
-                                                        }
-                                                    }
+                    <!-- Services Table -->
 
-                                                    @* Laboratory services grouped under "Laboratory test" optgroup *@
-                                                    @{
-                                                        // Get all distinct service types for conditional rendering
-                                                        var checkTypes = Model.Services
-                                                        .Select(s => s.serviceType)
-                                                        .Distinct();
-
-                                                        // Convert types to lowercase for easier comparison
-                                                        var type = string.Join(",", checkTypes).ToLower();
-                                                    }
-
-                                                    @if (type.Contains("lab"))
-                                                    {
-                                                        <optgroup label="Laboratory test">
-                                                            @foreach (var service in Model.Services.Where(s => s.serviceType != "NA"))
+                    <div class="table-responsive p-3">
+                            <table class="table table-striped text-center" id="DetailsTable">
+                                <thead>
+                                    <tr class="no-col pt-4 text-center">
+                                        <th class="col-lg-8">Service Name</th>
+                                        <th class="col-lg-4">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Loop through existing services if any -->
+                                    @if (Model.Appointment != null && Model.Appointment.IAppDetails.Any())
+                                    {
+                                        for (int i = 0; i < Model.Appointment.IAppDetails.Count(); i++)
+                                        {
+                                            var detail = Model.Appointment.IAppDetails.ElementAt(i).serviceID;
+                                            <tr class="detailRow">
+                                                <td>
+                                                    <div class="form-group mt-2">
+                                                        <select name="Appointment.IAppDetails[@i].serviceID" class="form-select service-select" required>
+                                                            <option value="" data-price="0" disabled>Select Service</option>
+                                                            <!-- Loop through NA-type services and set the selected service -->
+                                                            @foreach (var service in Model.Services.Where(s => s.serviceType == "NA"))
                                                             {
                                                                 if (service.serviceId == detail)
                                                                 {
@@ -146,84 +105,125 @@
                                                                     </option>
                                                                 }
                                                             }
-                                                        </optgroup>
-                                                    }
-                                                </select>
-                                            </div>
-                                        </td>
 
+                                                            @* Laboratory services grouped under "Laboratory test" optgroup *@
+                                                            @{
+                                                                // Get all distinct service types for conditional rendering
+                                                                var checkTypes = Model.Services
+                                                                .Select(s => s.serviceType)
+                                                                .Distinct();
 
-                                        <td>
-                                            <button type="button" class="btn btn-danger removeRow">Remove</button>
-                                        </td>
-                                    </tr>
-                                }
-                            }
-                            else
-                            {
-                                <tr class="detailRow">
-                                    <td>
-                                        <div class="form-group mt-2">
-                                                <select name="Diagnostics.IdiagnosticDetails[0].serviceId" class="form-control service-select" required>
-                                                    <option value="" data-price="0" disabled selected>Select Service</option>
-
-                                                    @foreach (var service in Model.Services.Where(s => s.serviceType == "NA"))
-                                                    {
-                                                        <option value="@service.serviceId"
-                                                                data-price="@service.serviceCharge"
-                                                                data-follow="@((service.followUp ? "true" : "false"))"
-                                                                data-service-type="@service.serviceType.ToLower()"
-                                                                data-service-name="@service.serviceName.ToLower()">
-                                                            @service.serviceName
-                                                        </option>
-                                                    }
-
-                                                    @* for display laboratory items *@
-                                                    @{
-                                                        //check services
-                                                        var checkTypes = Model.Services
-                                                        .Select(s => s.serviceType)
-                                                        .Distinct();
-
-                                                        var type = string.Join(",", checkTypes).ToLower();
-
-                                                    }
-                                                    @if (type.Contains("lab"))
-                                                    {
-                                                        <optgroup label="Laboratory test">
-                                                            @foreach (var service in Model.Services.Where(s => s.serviceType != "NA"))
-                                                            {
-                                                                <option value="@service.serviceId"
-                                                                        data-price="@service.serviceCharge"
-                                                                        data-follow="@((service.followUp ? "true" : "false"))"
-                                                                        data-service-type="@service.serviceType.ToLower()"
-                                                                        data-service-name="@service.serviceName.ToLower()">
-                                                                    @service.serviceName
-                                                                </option>
+                                                                // Convert types to lowercase for easier comparison
+                                                                var type = string.Join(",", checkTypes).ToLower();
                                                             }
-                                                        </optgroup>
-                                                    }
 
-                                                </select>
-                                        </div>
-                                    </td>
+                                                            @if (type.Contains("lab"))
+                                                            {
+                                                                <optgroup label="Laboratory test">
+                                                                    @foreach (var service in Model.Services.Where(s => s.serviceType != "NA"))
+                                                                    {
+                                                                        if (service.serviceId == detail)
+                                                                        {
+                                                                            <option value="@service.serviceId"
+                                                                                    data-price="@service.serviceCharge"
+                                                                                    data-service-type="@service.serviceType.ToLower()"
+                                                                                    data-service-name="@service.serviceName.ToLower()"
+                                                                                    selected="selected">
+                                                                                @service.serviceName
+                                                                            </option>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <option value="@service.serviceId"
+                                                                                    data-price="@service.serviceCharge"
+                                                                                    data-service-type="@service.serviceType.ToLower()"
+                                                                                    data-service-name="@service.serviceName.ToLower()">
+                                                                                @service.serviceName
+                                                                            </option>
+                                                                        }
+                                                                    }
+                                                                </optgroup>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger removeRow">Remove</button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr class="detailRow">
+                                            <td>
+                                                <div class="form-group mt-2">
+                                                    <select name="Diagnostics.IdiagnosticDetails[0].serviceId" class="form-control service-select" required>
+                                                        <option value="" data-price="0" disabled selected>Select Service</option>
+                                                        @foreach (var service in Model.Services.Where(s => s.serviceType == "NA"))
+                                                        {
+                                                            <option value="@service.serviceId"
+                                                                    data-price="@service.serviceCharge"
+                                                                    data-follow="@((service.followUp ? "true" : "false"))"
+                                                                    data-service-type="@service.serviceType.ToLower()"
+                                                                    data-service-name="@service.serviceName.ToLower()">
+                                                                @service.serviceName
+                                                            </option>
+                                                        }
+
+                                                        @* for display laboratory items *@
+                                                        @{
+                                                            var checkTypes = Model.Services
+                                                            .Select(s => s.serviceType)
+                                                            .Distinct();
+
+                                                            var type = string.Join(",", checkTypes).ToLower();
+                                                        }
+                                                        @if (type.Contains("lab"))
+                                                        {
+                                                            <optgroup label="Laboratory test">
+                                                                @foreach (var service in Model.Services.Where(s => s.serviceType != "NA"))
+                                                                {
+                                                                    <option value="@service.serviceId"
+                                                                            data-price="@service.serviceCharge"
+                                                                            data-follow="@((service.followUp ? "true" : "false"))"
+                                                                            data-service-type="@service.serviceType.ToLower()"
+                                                                            data-service-name="@service.serviceName.ToLower()">
+                                                                        @service.serviceName
+                                                                    </option>
+                                                                }
+                                                            </optgroup>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger removeRow">Remove</button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
 
 
-                                    <td>
-                                        <button type="button" class="btn btn-danger removeRow">Remove</button>
-                                    </td>
-                                </tr>
-                            }
 
-                    </tbody>
-                </table>
-            </div>
-            <div class="form-group mt-4">
-                    <a class="btn btn-secondary" asp-action="ResetDateTime" asp-route-id="@Model.Appointment.AppointId" asp-route-prevSched="@Model.Appointment.time.ToString("HH:mm:ss")">Cancel</a>
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-    </form>
+                            <div class=" text-end pb-5">
+                                <button type="button" class="btn btn-success btn-confirm px-2" id="addRow">Add Service</button>
+                            </div>
+
+                            <div class="form-group text-end pt-5">
+                                <a class="btn btn-cancel btn-lg px-4" asp-action="ResetDateTime" asp-route-id="@Model.Appointment.AppointId" asp-route-prevSched="@Model.Appointment.time.ToString("HH:mm:ss")">Cancel</a>
+                                <input type="submit" value="Save" class="btn btn-confirm btn-lg px-4" />
+                            </div>
+                    </div>
+                </div>
+
+            
+            </form>
+        </div>
+    </div>
 </div>
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

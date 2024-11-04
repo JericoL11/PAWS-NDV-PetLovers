@@ -9,7 +9,7 @@
     //utilize bootstrap, not for modal
     <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
         @TempData["SuccessMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-cancel" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
 
@@ -18,12 +18,12 @@
         <table class="table table-bordered text-center hover" id="PetFollowUpTable">
             <thead>
                 <tr>
-                    <th class="text-center visually-hidden">Id</th>
+                    <th class="text-center">Id</th>
                     <th class="text-center">Pet Name</th>
                     <th class="text-center">Owner Name</th>
                     <th class="text-center">Service</th>
                     <th class="text-center">Date</th>
-                    <th class="text-center">Actions</th>
+                    <th class="text-center col-lg-2">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,7 +52,7 @@
                         <td>
 
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-secondary me-1" data-id="@item.Id" data-bs-toggle="modal" data-bs-target="#staticBackdropCancel">
+                            <button type="button" class="btn btn-secondary me-1 btn-cancel" data-id="@item.Id" data-bs-toggle="modal" data-bs-target="#staticBackdropCancel">
                                 Cancel
                             </button>
 

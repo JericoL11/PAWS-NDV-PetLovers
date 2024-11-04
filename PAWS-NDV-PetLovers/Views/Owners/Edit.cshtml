@@ -18,67 +18,67 @@
 </div>
 @* Owner *@
 
-<div class="container p-0 bg container-bord">
+<div class="container p-0 bg container-bord shadow  mb-5 bg-white rounded">
     <div class="container p-0">
 
 
-        <div class="container p-0  bg-custom-color">
+        <div class="container p-0  bg-custom-color text-center">
             <div>
                 <div class="container p-2">
-                    <h1>Client Information</h1>
+                    <h1 class="fw-bold">Client Information</h1>
                 </div>
             </div>
         </div>
-            <div class="my-3 text-end">
-                <a class="btn btn-md btn-secondary" asp-action="Index">Back to List</a>
-                <a class="btn btn-md btn-primary" asp-action="EditOwner" asp-route-id="@Model.Owner.id">Edit Client Profile</a>
+            <div class="pt-5  p-3 ">
+                <a class="btn btn-md btn-cancel btn-lg" asp-action="Index">Back to List</a>
+                <a class="btn btn-md btn-update btn-lg" asp-action="EditOwner" asp-route-id="@Model.Owner.id">Edit Client Profile</a>
             </div>
-            <div class="card">
-                <div class="row p-2">
+            <div class="card p-3">
+                <div class="row ">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                    <div class="form-group col-lg-3 col-md-6">
+                    <div class="form-group col-lg-3 col-md-6" id="apppad">
                         <label asp-for="Owner.id" class="control-label"></label>
                         <input type="text" asp-for="Owner.id" class="form-control bg-light" readonly />
                     </div>
-                    <div class="form-group col-lg-3 col-md-6">
+                    <div class="form-group col-lg-3 col-md-6" id="apppad">
                         <label asp-for="Owner.fname" class="control-label"></label>
                         <input asp-for="Owner.fname" class="form-control" readonly />
                         <span asp-validation-for="Owner.fname" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-lg-3 col-md-6">
+                    <div class="form-group col-lg-3 col-md-6" id="apppad">
                         <label asp-for="Owner.lname" class="control-label"></label>
                         <input asp-for="Owner.lname" class="form-control" readonly />
                         <span asp-validation-for="Owner.lname" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-lg-3 col-md-6">
+                    <div class="form-group col-lg-3 col-md-6" id="apppad">
                         <label asp-for="Owner.mname" class="control-label"></label>
                         <input asp-for="Owner.mname" class="form-control" readonly />
                         <span asp-validation-for="Owner.mname" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-lg-3 col-md-6">
+                    <div class="form-group col-lg-3 col-md-6" id="apppad">
                         <label asp-for="Owner.gender" class="control-label"></label>
                         <input asp-for="Owner.gender" class="form-control" readonly />
                         <span asp-validation-for="Owner.gender" class="text-danger"></span>
                     </div>
-                    <div class="form-group  col-lg-3 col-md-6">
+                    <div class="form-group  col-lg-3 col-md-6" id="apppad">
                         <label asp-for="Owner.contact" class="control-label"></label>
                     <input asp-for="Owner.contact" class="form-control" readonly />
                         <span asp-validation-for="Owner.contact" class="text-danger"></span>
                     </div>
-                    <div class="form-group  col-lg-3 col-md-6">
+                    <div class="form-group  col-lg-3 col-md-6" id="apppad">
                         <label asp-for="Owner.email" class="control-label"></label>
                     <input asp-for="Owner.email" class="form-control" readonly />
                         <span asp-validation-for="Owner.email" class="text-danger"></span>
                     </div>
-                    <div class="form-group  col-lg-3 col-md-6">
+                    <div class="form-group  col-lg-3 col-md-6" id="apppad">
                         <label asp-for="Owner.address" class="control-label"></label>
                     <input asp-for="Owner.address" class="form-control" readonly />
                         <span asp-validation-for="Owner.address" class="text-danger"></span>
                     </div>
 
 
-                    <div class="form-group col-lg-3">
+                    <div class="form-group col-lg-3" id="apppad">
                         <label asp-for="Owner.registeredDate" class="control-label"></label>
                         <input type="hidden" asp-for="Owner.registeredDate" class="form-control" readonly />
                         <input value="@Model.Owner.registeredDate?.ToString("MMM. dd, yyyy")" class="form-control" readonly />
@@ -108,35 +108,34 @@
 
             @* add the Pet form here using looop with button edits *@
             @* Pets *@
-            <div class="bg-secondary bg-opacity-10 py-2 my-3">
-                <div class="container">
-                    <h1>Pets</h1>
+            
+
+                <div class="form-group text-end p-3 pt-2">
+                    @*modal button*@
+                    <button type="button" class="btn btn-confirm btn-newpet btn-sm " asp-action="EditPet" asp-controller="Owners" data-bs-toggle="modal" data-bs-target="#editPetModal" data-id="@Model.Owner.id">
+                        Add New Pet
+                    </button>
                 </div>
-            </div>
-            <div class="d-flex justify-content-end">
-                @*modal button*@
-                <button type="button" class="btn btn-primary px-2 mb-2 " asp-action="EditPet" asp-controller="Owners" data-bs-toggle="modal" data-bs-target="#editPetModal" data-id="@Model.Owner.id">
-                    Add New Pet
-                </button>
-            </div>
-            <div class="card p-2">
 
-                <table class="table table-striped text-center" id="PetTable">
-                    <thead>
-                        <tr>
-                            <th><p>Pet Id</p></th>
-                            <th><p>Pet name</p></th>
-                            <th><p>Specie</p></th>
-                            <th><p>Gender</p></th>
-                            <th><p>Birth date</p></th>
-                            <th><p>Age</p></th>
-                            <th><p>Breed</p></th>
-                            <th><p>Color</p></th>
-                            <th><p>Registered Date</p></th>
-                            <th></th>
 
-                        </tr>
-                    </thead>
+                <div class="card p-3">
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-center" id="PetTable">
+                            <thead>
+                                <tr>
+                                    <th>Pet Id</th>
+                                    <th>Pet name</th>
+                                    <th>Specie</th>
+                                    <th>Gender</th>
+                                    <th>Birth date</th>
+                                    <th>Age</th>
+                                    <th>Breed</th>
+                                    <th>Color</th>
+                                    <th>Registered Date</th>
+                                    <th>Actions</th>
+
+                                </tr>
+                            </thead>
 
                     <tbody>
                         @foreach (var item in Model.IPets)
@@ -152,18 +151,21 @@
                                 <td>@Html.DisplayFor(modelItem => item.color)</td>
                                 <td>@item.registeredDate?.ToString("MMM. dd, yyyy")</td>
                                 <td>
-                                    <a asp-action="Edit" asp-controller="Pets" class="btn btn-success btn-md" asp-route-id="@item.id">Update</a>
+
+                                    <a asp-action="DiagnosHistory" asp-controller="Pets" asp-route-id="@item.id" asp-route-ownerId="@item.ownerId" class="btn btn-cancel  btn-sm">History</a>
+                                    <a asp-action="Edit" asp-controller="Pets" class="btn btn-update btn-sm" asp-route-id="@item.id">Update</a>
                                     @* <a asp-action="Details" asp-controller="Pets" class="btn btn-info btn-md" asp-route-id="@item.id">Details</a> *@
-                                   <a asp-action="DiagnosHistory" asp-controller="Pets" asp-route-id="@item.id" asp-route-ownerId="@item.ownerId" class="btn btn-warning">History</a>
+                                  
                                     @*  <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.id">Delete</a> *@
                                 </td>
                             </tr>
 
 
-                        }
-                    </tbody>
-                </table>
-            </div>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
 
         @*     @if(Model.btnCnl != null)
@@ -187,11 +189,11 @@
 <div class="modal fade" id="editPetModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editPetModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="editPetModalLabel">New Pet</h1>
+            <div class="modal-header text-center">
+                <h1 class="modal-title fs-5 fw-bold " id="editPetModalLabel">New Pet</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body ">
                 <div class="petrow p-2">
                     <form method="post" asp-action="addNewPet" id="addPetForm">
                         <div class="row">
@@ -199,12 +201,12 @@
                             <input type="hidden" asp-for="Pet.id" />
                             <div id="errorMessages" class="alert alert-danger" style="display:none;"></div>
                             <!-- Form Fields -->
-                            <div class="form-group col-lg-4 col-md-6">
+                            <div class="form-group col-lg-4 col-md-6" id="apppad">
                                 <label asp-for="Pet.petName" class="control-label"></label>
                                 <input asp-for="Pet.petName" class="form-control bg-light" />
                                 <span asp-validation-for="Pet.petName" class="text-danger"></span>
                             </div>
-                            <div class="form-group col-lg-4 col-md-6">
+                            <div class="form-group col-lg-4 col-md-6" id="apppad">
                                 <label asp-for="Pet.species" class="control-label"></label>
                                 <select asp-for="Pet.species" class="form-select bg-light" required>
                                     <option value="" selected hidden>----</option>
@@ -213,12 +215,12 @@
                                 </select>
                                 <span asp-validation-for="Pet.species" class="text-danger"></span>
                             </div>
-                            <div class="form-group col-lg-4 col-md-6">
+                            <div class="form-group col-lg-4 col-md-6" id="apppad">
                                 <label asp-for="Pet.breed" class="control-label"></label>
                                 <input asp-for="Pet.breed" class="form-control bg-light" />
                                 <span asp-validation-for="Pet.breed" class="text-danger"></span>
                             </div>
-                            <div class="form-group col-lg-4 col-md-6">
+                            <div class="form-group col-lg-4 col-md-6" id="apppad">
                                 <label class="control-label" asp-for="Pet.gender"></label>
                                 <select asp-for="Pet.gender" class="form-select bg-light" required>
                                     <option value="" hidden>----</option>
@@ -227,35 +229,36 @@
                                 </select>
                                 <span asp-validation-for="Pet.gender" class="text-danger"></span>
                             </div>
-                            <div class="form-group col-lg-4 col-md-6">
+                            <div class="form-group col-lg-4 col-md-6" id="apppad">
                                 <label asp-for="Pet.bdate" class="control-label"></label>
                                 <input asp-for="Pet.bdate" class="form-control bg-light birthdate" />
                                 <span asp-validation-for="Pet.bdate" class="text-danger"></span>
                             </div>
-                            <div class="form-group col-lg-4 col-md-6">
+                            <div class="form-group col-lg-4 col-md-6" id="apppad">
                                 <label asp-for="Pet.age" class="control-label"></label>
                                 <input asp-for="Pet.age" type="text" class="form-control bg-light age" readonly />
                                 <span asp-validation-for="Pet.age" class="text-danger"></span>
                             </div>
-                            <div class="form-group col-lg-4 col-md-6">
+                            <div class="form-group col-lg-4 col-md-6" id="apppad">
                                 <label asp-for="Pet.color" class="control-label"></label>
                                 <input asp-for="Pet.color" class="form-control bg-light" />
                                 <span asp-validation-for="Pet.color" class="text-danger"></span>
                             </div>
-                            <div class="form-group visually-hidden col-lg-4 col-md-6">
+                            <div class="form-group visually-hidden col-lg-4 col-md-6" id="apppad">
                                 <label asp-for="Pet.ownerId" class="control-label bg-light"></label>
                                 <input asp-for="Pet.ownerId" type="text" class="form-control bg-light" value="@Model.Owner.id" readonly />
                                 <span asp-validation-for="Pet.ownerId" class="text-danger"></span>
                             </div>
-                            <div class="form-group visually-hidden col-lg-4 col-md-6">
+                            <div class="form-group visually-hidden   col-lg-4 col-md-6" id="apppad">
                                 <label asp-for="Pet.registeredDate" class="control-label"></label>
                                 <input type="date" asp-for="Pet.registeredDate" class="form-control bg-light maxDate" id="dateInput" readonly />
                                 <span asp-validation-for="Pet.registeredDate" class="text-danger"></span>
                             </div>
 
-                            <div class="modal-footer">
-                                <input type="submit" value="Save" class="btn btn-primary px-4" id="savePetBtn" />
-                                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Close</button>
+                            <div class="modal-footer pt-3">
+                                <button type="button" class="btn btn-secondary btn-cancel px-4" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" value="Save" class="btn btn-primary btn-confirm px-4" id="savePetBtn" />
+                                
                             </div>
                         </div>
                     </form>

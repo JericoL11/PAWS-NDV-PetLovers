@@ -2,14 +2,16 @@
 @{
     ViewData["Title"] = "Account List VC";
 }
-<div class="container">
-    <table class="table mt-4">
+
+<div class="card p-3">
+    <div class="table-responsive">
+    <table class="table table-bordered mt-4 text-center">
         <thead>
             <tr>
-                <th>Account Id</th>
-                <th>Username</th>
-                <th>Date Created</th>
-                <th></th>
+                <th class="text-center col-lg-2">Account Id</th>
+                <th class="text-center">Username</th>
+                <th class="text-center col-lg-3">Date Created</th>
+                <th class="text-center col-lg-3">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -22,34 +24,26 @@
                         <td>@acc.userName</td>
                         <td>@acc.dateCreated?.ToString("MMM. dd, yyyy")</td>
                         <td>
-                            <form id="actionForm_@acc.acc_Id" method="post" asp-controller="UserAccounts" asp-action="ManageAccount">
+                            <form id="actionForm_@acc.acc_Id" method="post" asp-controller="UserAccounts" asp-action="ManageAccount" >
                                 <input type="hidden" name="action" class="actionInput" value="">
                                 <input type="hidden" name="userId" value="@acc.acc_Id">
 
                                 @if (acc.IsActive)
                                 {
-                                    <div class="dropdown">
-                                        <button class="btn btn-primary dropdown-toggle" type="button" id="actionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Actions
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="actionDropdown">
-                                            <li><a class="dropdown-item" href="#" onclick="showConfirmationModal('Reset', '#actionForm_@acc.acc_Id')">Reset</a></li>
-                                            <li><a class="dropdown-item" href="#" onclick="showConfirmationModal('Deactivate', '#actionForm_@acc.acc_Id')">Deactivate</a></li>
+                                    
+                                            <a class="btn btn-update btn-sm px-4" href="#" onclick="showConfirmationModal('Reset', '#actionForm_@acc.acc_Id')">Reset</a>
+                                            <a class="btn btn-danger btn-sm" href="#" onclick="showConfirmationModal('Deactivate', '#actionForm_@acc.acc_Id')">Deactivate</a>
                                            @*  <li><a class="dropdown-item text-danger" href="#" onclick="showConfirmationModal('Delete', '#actionForm_@acc.acc_Id')">Delete</a></li> *@
-                                        </ul>
-                                    </div>
+                                       
+                                    
                                 }
                                 else
                                 {
-                                    <div class="dropdown">
-                                        <button class="btn btn-danger dropdown-toggle" type="button" id="actionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Actions
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="actionDropdown">
-                                            <li><a class="dropdown-item" href="#" onclick="showConfirmationModal('Activate', '#actionForm_@acc.acc_Id')">Activate</a></li>
+                                    
+                                        
+                                           <a class="btn btn-confirm btn-sm px-4" href="#" onclick="showConfirmationModal('Activate', '#actionForm_@acc.acc_Id')">Activate</a>
                                           @*   <li><a class="dropdown-item text-danger" href="#" onclick="showConfirmationModal('Delete', '#actionForm_@acc.acc_Id')">Delete</a></li> *@
-                                        </ul>
-                                    </div>
+                                       
                                 }
                             </form>
 
@@ -66,21 +60,22 @@
         </tbody>
     </table>
 </div> 
+</div>
 
 <!-- Confirmation Modal -->
 <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmationModalLabel">Confirm Action</h5>
+            <div class="modal-header ">
+                <h5 class="modal-title" id="confirmationModalLabel"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <p id="confirmationMessage">Are you sure you want to proceed?</p>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="confirmActionBtn">Confirm</button>
+            <div class="modal-footer text-end">
+                <button type="button" class="btn btn-cancel btn-lg px-4 " data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-confirm btn-lg px-4" id="confirmActionBtn">Confirm</button>
             </div>
         </div>
     </div>
