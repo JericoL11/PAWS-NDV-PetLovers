@@ -758,6 +758,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
             _context.Add(purchase);
             _context.UpdateRange(Products);
 
+            TempData["Message"] = "Successfully Created";
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", new  TransactionsVm{ activeBoardTab = DBoardTab.DBoard_Purchase});
         }

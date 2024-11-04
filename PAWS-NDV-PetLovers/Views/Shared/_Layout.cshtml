@@ -120,10 +120,10 @@
                     <ul class="btn-toggle-nav list-unstyled fw-normal pt-2  pb-3  big">
                         @if (Context.Session.GetString("UserRole") == "Admin")
                         {
-                            <li><a class="link-l mb-1 px-5" asp-action="Diagnosis" asp-controller="Billing">Diagnosis</a></li>
+                            <li><a class="link-l mb-1 px-5" asp-action="Diagnosis" asp-controller="Billing">Check-up</a></li>
                         }
                             <li><a class="link-l mb-1 px-5" asp-action="CreatePurchase" asp-controller="Billing">Purchase Product</a></li>
-                            <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Billing">Billing Invoice</a></li>
+                            <li><a class="link-l mb-1 px-5" asp-action="Index" asp-controller="Billing">Invoice</a></li>
                             <li><a class="link-l mb-1 px-5" asp-action="BillingHistory" asp-controller="Billing">History</a></li>
                            
                         </ul>

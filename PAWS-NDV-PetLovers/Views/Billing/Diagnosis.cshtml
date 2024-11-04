@@ -1,9 +1,9 @@
 ﻿@model PAWS_NDV_PetLovers.ViewModels.TransactionsVm
 @{
-    ViewData["Title"] = "Diagnosis";
+    ViewData["Title"] = "Diagnosis -> Check Up";
 }<div class="bg-custom-color py-5">
     <div class="container">
-        <h1 class="display-5 text-white">Diagnosis</h1>
+        <h1 class="display-5 text-white">Check-up</h1>
     </div>
 </div>
 
@@ -12,7 +12,7 @@
         <div class="col-6">
             <!-- Search Form -->
             <form id="searchForm" method="get" asp-action="Diagnosis" class="input-group mb-3">
-                <input type="text" name="searchTerm" class="form-control" placeholder="Search owner name..." />
+                <input type="text" name="searchTerm" class="form-control" placeholder="Search client name..." />
                 <button type="submit" class="btn btn-primary">
                     <i class="bi bi-search"></i> Search
                 </button>

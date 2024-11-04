@@ -44,7 +44,7 @@
                  
                     <td>
                         <div class="btn-group">
-                            <a class="btn btn-outline-primary me-2" asp-action="EditPurchase" asp-route-purchaseId="@item.purchaseId">Modify</a>
+                            <a class="btn btn-outline-primary me-2" asp-action="EditPurchase" asp-route-purchaseId="@item.purchaseId">Payment</a>
                             @if (totalPayment == 0)
                             {
                                 <form method="post" asp-action="DeletePurchase">
