@@ -14,11 +14,11 @@
             </div>
         </div>
 
-           <div class="card p-3">
+           <div class="card p-3 pt-3">
              <div class="table-responsive"> 
                 <table class="table table-bordered text-center" id="StockAdjTable">
                         <thead>
-                            <tr>
+                            <tr class="text-center">
                                 <th class="text-center">Product Id</th>
                                 <th class="text-center">Date</th>
                                 <th class="text-center">Product Name</th>
@@ -31,8 +31,8 @@
                             {
                                 if (stock.source == "Sales")
                                 {
-                                    <tr>
-                                        <td>@stock.productId</td>
+                                    <tr class="text-center">
+                                        <td class="text-center">@stock.productId</td>
                                         <td>@stock.date.ToString("MMM. dd, yyyy")</td>
                                         <td>@stock.productsNav.productName</td>
                                         <td> @stock.source</td>
@@ -41,12 +41,12 @@
                                 }
                                 else
                                 {
-                                    <tr>
-                                        <td>@stock.productId</td>
+                                    <tr class="text-center">
+                                        <td class="text-center">@stock.productId</td>
                                         <td>@stock.date.ToString("MMM. dd, yyyy")</td>
                                         <td>@stock.productsNav.productName</td>
                                         <td>@stock.source</td>
-                                        <td class="text-success fw-bold">+@stock.stock</td>
+                                        <td class="text-success fw-bold text-center">+@stock.stock</td>
                                     </tr>
                                 }
 

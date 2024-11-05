@@ -42,7 +42,7 @@
                 <table class="table table-bordered text-center hover" id="ProductTable">
                     <thead>
                         <tr>
-                            <th class="text-center">@Html.DisplayNameFor(model => model.id)</th>
+                            @* <th class="text-center">@Html.DisplayNameFor(model => model.id)</th> *@
                             <th class="text-center">@Html.DisplayNameFor(model => model.productName)</th>
                             <th class="text-center">@Html.DisplayNameFor(model => model.CategoryId)</th>
                             <th class="text-center">@Html.DisplayNameFor(model => model.sellingPrice)</th>
@@ -54,13 +54,13 @@
                         @foreach(var item in Model)
                         {
                             <tr>
-                                <td class="text-center visually-hidden">@Html.DisplayFor(modelItem => item.id)</td>
+                              @*   <td class="text-center visually-hidden">@Html.DisplayFor(modelItem => item.id)</td> *@
                                 <td class="text-center">@Html.DisplayFor(modelItem => item.productName)</td>
                                 <td class="text-center">@Html.DisplayFor(modelItem => item.category.categoryName)</td>
                                 <td class="text-center">@Html.DisplayFor(modelItem => item.sellingPrice)</td>
                                 <td class="text-center">@Html.DisplayFor(modelItem => item.quantity)</td>
                                 <td>
-                                    <a asp-action="Edit" class="btn btn-success" asp-route-id="@item.id">Update</a> 
+                                    <a asp-action="Edit" class="btn btn-update" asp-route-id="@item.id">Update</a> 
                                   @*  <a asp-action="Details" class="btn btn-warning" asp-route-id="@item.id">Details</a> |
                                     <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.id">Delete</a> *@
                                 </td>
