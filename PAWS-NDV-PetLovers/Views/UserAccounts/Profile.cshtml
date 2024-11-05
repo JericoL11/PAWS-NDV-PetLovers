@@ -3,6 +3,17 @@
     ViewData["Title"] = "Profile";
 }
 
+
+@if (TempData["Message"] != null)
+{
+    //bootstrap not for modal
+    <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Message"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
 <div class="container p-0 bg container-bord shadow  mb-5 bg-white rounded">
 
     <div class="container p-0">

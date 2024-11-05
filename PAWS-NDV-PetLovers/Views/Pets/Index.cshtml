@@ -26,9 +26,9 @@
                  <table class="table table-bordered" id="PetTable">
             <thead>
                     <tr>
-                    <th class="text-center">
+                   @*  <th class="text-center">
                        Pet Id
-                    </th>
+                    </th> *@
                     <th class="text-center">
                         @Html.DisplayNameFor(model => model.petName)
                     </th>
@@ -62,9 +62,9 @@
             <tbody>
         @foreach (var item in Model) {
                 <tr>
-                    <td class="text-center">
+                    @* <td class="text-center">
                         @Html.DisplayFor(modelItem => item.id)
-                    </td>
+                    </td> *@
                     <td class="text-center">
                         @Html.DisplayFor(modelItem => item.petName)
                     </td>

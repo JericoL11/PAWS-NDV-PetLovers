@@ -5,7 +5,21 @@
 <div class="card">
       <div class="table-responsive">
 
-          <div class="text-end p-3">
+          <div class="mb-3 float-end btn-group">
+
+            @if (Model.IPurchaseDetails.Count() > 0)
+            {
+
+                <form method="get" asp-action="RemoveProduct" asp-controller="Billing">
+
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-outline-danger removeButtonMdl me-2" data-bs-toggle="modal" asp-route-id="@Model.Diagnostics.diagnostic_Id" data-bs-target="#staticBackdropRemove">
+                        Decrease Qnty.
+                    </button>
+
+                </form>
+
+            }
             <button type="button" class="btn btn-confirm btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdropSelectedProduct">
                 Add Products
             </button>
@@ -18,22 +32,6 @@
                 <th class="text-center">Product Name</th>
                 <th class="text-center">Price</th>
                 <th class="text-center">Order Qty</th>
-                <th class="text-end">
-                   
-                </th>
-                @if(Model.IPurchaseDetails.Count() > 0)
-                {
-                <th>
-                    <form method="get" asp-action="RemoveProduct" asp-controller="Billing">
-
-                            <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-outline-danger removeButtonMdl" data-bs-toggle="modal" asp-route-id="@Model.Diagnostics.diagnostic_Id" data-bs-target="#staticBackdropRemove">
-                            Decrease Qnty.
-                        </button>
-
-                    </form>
-                 </th>
-                }
                 
             </tr>
         </thead>
@@ -66,7 +64,7 @@
             else
             {
                 <tr>
-                    <td colspan="5" class="text-secondary text-center">No Products</td>
+                    <td colspan="4" class="text-secondary text-center">No Products</td>
                 </tr>
             }
         </tbody>

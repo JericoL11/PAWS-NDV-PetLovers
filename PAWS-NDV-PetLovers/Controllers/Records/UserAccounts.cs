@@ -92,6 +92,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
 
             await _context.SaveChangesAsync();
 
+            TempData["Message"] = "Successfully Updated";
             return RedirectToAction(nameof(Profile));
 
         }
@@ -164,10 +165,9 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                     userAccount = userAccount
                 };
 
+                TempData["Message"] = "Password Successfully Updated ";
                 await _context.SaveChangesAsync();
                 return View("Profile", model);
-
-
             }
         }
 

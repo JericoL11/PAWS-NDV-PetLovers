@@ -26,7 +26,7 @@
         <table class="table table-bordered text-center hover " id="AppointmentsTable">
             <thead>
                 <tr>
-                    <th class="text-center">Booking Id</th>
+                    @* <th class="text-center">Booking Id</th> *@
                     <th class="text-center">Name</th>
                     <th class="text-center">Service</th>
                     <th class="text-center">Contact No.</th>
@@ -40,7 +40,7 @@
                 @foreach (var item in Model.IAppointments)
                 {
                     <tr>
-                        <td class="text-center">@item.AppointId</td>
+                        @* <td class="text-center">@item.AppointId</td> *@
                         <td class="text-center">
                             @Html.DisplayFor(modelItem => item.fname) @Html.Raw(" ") @Html.DisplayFor(modelItem => item.lname)
                         </td>

@@ -179,10 +179,10 @@
                             {
                                 if (stock.quantity <= 10)
                                 {
-                                    <tr class="bg-danger bg-opacity-10">
+                                    <tr>
                                         <td>@stock.productName</td>
                                         <td>@stock.category.categoryName</td>
-                                        <td>@stock.quantity</td>
+                                        <td class="text-danger fw-bold">@stock.quantity</td>
                                     </tr>
                                 }
                                 else
