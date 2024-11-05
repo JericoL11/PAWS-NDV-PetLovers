@@ -14,15 +14,15 @@
             </div>
         </div>
 
-            <div class="btn-group btn-group-toggle pt-4 mx-3" data-toggle="buttons">
+            <div class="btn-group btn-group-toggle pt-5 mx-3" data-toggle="buttons">
                 
-                    <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="stockLevel" class="@(Model.activeReportTab == PAWS_NDV_PetLovers.ViewModels.ReportTab.stockLevel ? "active" : string.Empty) btn btn-success btn-booking ">Stock Levels</a>
+                    <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="stockLevel" class="@(Model.activeReportTab == PAWS_NDV_PetLovers.ViewModels.ReportTab.stockLevel ? "active" : string.Empty) btn btn-success btn-booking btn-lg ">Stock Levels</a>
                
 
                 @if (Context.Session.GetString("UserRole") == "Admin")
                 {
                     
-                        <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="transacSum" class="@(Model.activeReportTab == PAWS_NDV_PetLovers.ViewModels.ReportTab.transacSum ? "active" : string.Empty) btn btn-success btn-booking">Transaction Summary</a>
+                        <a role="presentation" asp-action="SwitchToTab" asp-route-tabName="transacSum" class="@(Model.activeReportTab == PAWS_NDV_PetLovers.ViewModels.ReportTab.transacSum ? "active" : string.Empty) btn btn-success btn-booking btn-lg">Transaction Summary</a>
                     
                 }
      

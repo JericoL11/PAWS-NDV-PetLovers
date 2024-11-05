@@ -12,9 +12,6 @@
     </div>
 }
 
-
-
-
 <div class="container p-0 bg container-bord shadow  mb-5 bg-white rounded">
     <div class="container p-0">
 
@@ -25,10 +22,9 @@
                 </div>
             </div>
         </div>
-
                <div class="row justify-content-between p-3 pt-5">
                         <div class="col-3">
-                            <a asp-action="StockAdjustment" class="btn btn-cancel btn-lg ">Stock Adjustments</a>
+                            <a asp-action="StockAdjustment" class="btn btn-cancel btn-lg">Stock Adjustments</a>
                         </div>
                         <div class="col-9 text-end">
                             <a asp-action="Index" asp-controller="Categories" class="btn btn-cancel btn-lg">View Category</a>
@@ -54,7 +50,7 @@
                         @foreach(var item in Model)
                         {
                             <tr>
-                              @*   <td class="text-center visually-hidden">@Html.DisplayFor(modelItem => item.id)</td> *@
+                                @* <td class="text-center visually-hidden">@Html.DisplayFor(modelItem => item.id)</td> *@
                                 <td class="text-center">@Html.DisplayFor(modelItem => item.productName)</td>
                                 <td class="text-center">@Html.DisplayFor(modelItem => item.category.categoryName)</td>
                                 <td class="text-center">@Html.DisplayFor(modelItem => item.sellingPrice)</td>

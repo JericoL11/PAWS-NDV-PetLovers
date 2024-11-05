@@ -14,7 +14,11 @@
             </div>
         </div>
 
-           <div class="card p-3 pt-3">
+        <div class="p-3 pt-5">
+            <a asp-action="Index" class="btn btn-cancel btn-lg">Back to Product List</a>
+        </div>
+        
+           <div class="card p-3">
              <div class="table-responsive"> 
                 <table class="table table-bordered text-center" id="StockAdjTable">
                         <thead>
@@ -36,7 +40,7 @@
                                         <td>@stock.date.ToString("MMM. dd, yyyy")</td>
                                         <td>@stock.productsNav.productName</td>
                                         <td> @stock.source</td>
-                                        <td class="text-danger">-@stock.stock</td>
+                                        <td class="text-danger fw-bold text-center">-@stock.stock</td>
                                     </tr>
                                 }
                                 else

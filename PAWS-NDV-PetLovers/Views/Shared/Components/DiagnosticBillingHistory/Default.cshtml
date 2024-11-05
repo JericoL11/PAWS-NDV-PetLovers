@@ -19,7 +19,7 @@
                 @foreach (var item in Model.IBilling)
                 {
                     <tr>
-                        <td>
+                        <td class="text-center">
                             @Html.DisplayFor(modelItem => item.billingId)
                         </td>
                         <td>
@@ -38,7 +38,7 @@
                         </td>
 
                         <td>
-                            <a asp-action="BillingHistoryView" asp-route-billingId="@item.billingId" asp-controller="Billing" class="btn btn-outline-warning">View Receipt</a>
+                            <a asp-action="BillingHistoryView" asp-route-billingId="@item.billingId" asp-controller="Billing" class="btn btn-cancel btn-sm">View Receipt</a>
                         </td>
                     </tr>
                 }

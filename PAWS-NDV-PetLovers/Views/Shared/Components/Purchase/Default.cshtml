@@ -2,76 +2,82 @@
 @{
     ViewData["Title"] = "Purchase VC";
 }
-<div class="card">
-      <div class="table-responsive">
+<div class="container ">
+      <div class="card">
 
-          <div class="text-end p-3">
+          <div class="form-group text-end">
             <button type="button" class="btn btn-confirm btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdropSelectedProduct">
                 Add Products
             </button>
+          </div> 
+
+          <div class="mb-3 float-end btn-group">
+
+            @if (Model.IPurchaseDetails.Count() > 0)
+            {
+
+                <form method="get" asp-action="RemoveProduct" asp-controller="Billing">
+
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-outline-danger removeButtonMdl me-2" data-bs-toggle="modal" asp-route-id="@Model.Diagnostics.diagnostic_Id" data-bs-target="#staticBackdropRemove">
+                        Decrease Qnty.
+                    </button>
+
+                </form>
+
+            }
+          
           </div>
 
-        <table class="table table-bordered text-center">
-        <thead>
-            <tr>
-                <th class="text-center">Product ID</th>
-                <th class="text-center">Product Name</th>
-                <th class="text-center">Price</th>
-                <th class="text-center">Order Qty</th>
-                <th class="text-end">
-                   
-                </th>
-                @if(Model.IPurchaseDetails.Count() > 0)
-                {
-                <th>
-                    <form method="get" asp-action="RemoveProduct" asp-controller="Billing">
-
-                            <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-outline-danger removeButtonMdl" data-bs-toggle="modal" asp-route-id="@Model.Diagnostics.diagnostic_Id" data-bs-target="#staticBackdropRemove">
-                            Decrease Qnty.
-                        </button>
-
-                    </form>
-                 </th>
-                }
+          <div class="card">
+              <div class="table-responsive">
+                        <table class="table table-bordered text-center ">
+                    <thead>
+                        <tr> 
+                            <th class="text-center">Product ID</th>
+                            <th class="text-center">Product Name</th>
+                            <th class="text-center">Price</th>
+                            <th class="text-center">Order Qty</th>
                 
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                var Products = Model.IPurchaseDetails
-                .GroupBy(pd => new { pd.productId, pd.product.productName, pd.sellingPrice })
-                .Select(g => new
-                {
-                    ProductId = g.Key.productId,
-                    ProductName = g.Key.productName,
-                    ProductPrice = g.Key.sellingPrice,
-                    TotalQuantity = g.Sum(pd => pd.quantity)  // Sum quantities for each product
-                })
-                .ToList();
-            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var Products = Model.IPurchaseDetails
+                            .GroupBy(pd => new { pd.productId, pd.product.productName, pd.sellingPrice })
+                            .Select(g => new
+                            {
+                                ProductId = g.Key.productId,
+                                ProductName = g.Key.productName,
+                                ProductPrice = g.Key.sellingPrice,
+                                TotalQuantity = g.Sum(pd => pd.quantity)  // Sum quantities for each product
+                            })
+                            .ToList();
+                        }
 
-            @if (Products != null && Products.Count > 0)
-            {
-                @foreach (var item in Products)
-                {
-                    <tr>
-                        <td>@Html.DisplayFor(modelItem => item.ProductId)</td>
-                        <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
-                        <td>@Html.DisplayFor(modelItem => item.ProductPrice)</td>
-                        <td>@Html.DisplayFor(modelItem => item.TotalQuantity)</td>
-                    </tr>
-                }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="5" class="text-secondary text-center">No Products</td>
-                </tr>
-            }
-        </tbody>
+                        @if (Products != null && Products.Count > 0)
+                        {
+                            @foreach (var item in Products)
+                            {
+                                <tr class="text-center">
+                                    <td>@Html.DisplayFor(modelItem => item.ProductId)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.ProductPrice)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.TotalQuantity)</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4" class="text-secondary text-center">No Products</td>
+                            </tr>
+                        }
+                    </tbody>
 
-    </table>
+        </table>
+             </div>
+          </div>
       </div>
     <!-- Modal Remove Product -->
     <div class="modal fade" id="staticBackdropRemove" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -149,8 +155,8 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <form method="post" asp-action="CreatePurchaseDiagnostics">
-                    <div class="modal-header bg-primary">
-                        <h1 class="modal-title fs-5 text-white" id="staticBackdropLabel">Selected Product List</h1>
+                    <div class="modal-header ">
+                        <h1 class="modal-title fs-5 text-white" id="staticBackdropLabel"></h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -162,8 +168,8 @@
                             </div>
                         }
                         @* Display Selected Product*@
-                        <div class="row justify-content-center">
-                            <table class="table border w-75" id="purchaseTable">
+                        <div class="row p-3">
+                            <table class="table border " id="purchaseTable">
                                 <thead>
                                     <tr>
                                         <th class="text-center">Id</th>
@@ -171,7 +177,8 @@
                                         <th class="text-center">Category</th>
                                         <th class="text-center">Stock</th>
                                         <th class="text-center">Price</th>
-                                        <th>Order Quantity</th>
+                                        <th class="text-center ">Order Quantity</th>
+                                        <th class="text-center"> Actions</th>
                                     </tr>
                                 </thead>
 
@@ -197,11 +204,11 @@
                         <input class="visually-hidden" name="diagnosticid" value="@Model.Diagnostics.diagnostic_Id" />
 
 
-                        <button type="button" id="AddProductBtn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        <button type="button" id="AddProductBtn" class="btn btn-update btn-lg px-4" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                             Select Product
                         </button>
 
-                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+                        <button type="submit" class="btn btn-confirm btn-lg px-4" data-bs-dismiss="modal">Save</button>
                     </div>
                 </form>
             </div>
@@ -255,10 +262,10 @@
 
                         <div class="modal-footer">
                             <div class="text-danger me-2" id="selectionWarning" style="display:none;">Product is already selected.</div>
-                            <button type="button" class="btn btn-secondary bg-opacity-10" id="ViewSelectedProduct">Cancel</button>
+                            <button type="button" class="btn btn-cancel bg-opacity-10" id="ViewSelectedProduct">Cancel</button>
 
                             @* <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> *@
-                            <button type="button" class="btn btn-primary" id="SelectProductButton">Add</button>
+                            <button type="button" class="btn btn-confirm" id="SelectProductButton">Add</button>
                         </div>
                     </form>
                 </div>
