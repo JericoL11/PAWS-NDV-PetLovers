@@ -57,7 +57,7 @@
                     }
 
                     @* Purchase *@
-                    @if (Model.Billing.purchase != null)
+                    @if (Model.Billing.purchase != null && Model.Billing.purchase.purchaseDetails.Count() != 0)
                     {
                         <tr>
                             <th colspan="3">Purchase</th>
