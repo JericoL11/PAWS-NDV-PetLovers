@@ -13,215 +13,297 @@
     </div>
 }
 
-<div class="bg-custom-color">
-    <div class="container">
-        <h1>Check-up Form</h1>
-    </div>
-</div>
+<div class="container-fluid bg p-0 container-bord shadow  mb-5 bg-white rounded">
+    <div class="container p-0">
+        <div class="row p-3">
 
-<div class="container">
-    <div class="row">
-        <form method="post" asp-action="CreateDiagnosis">
-        <div class="row">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group col-lg-3 col-md-6">
-                <label class="control-label">Owner ID - Name</label>
-                @{
-                    var fullName = $"{Model.Owner.id} - {Model.Owner.fname} {Model.Owner.lname}";
-                }
-                <input name="id" class="form-control" value="@fullName" readonly />
+            <div class="container p-0 bg-custom-color text-center ">
+                <div>
+                    <div class="container p-2">
+                        <h1 class="fw-bold">Check-up Form</h1>
+                    </div>
+                </div>
             </div>
+
+
+            <form method="post" asp-action="CreateDiagnosis">
+            <div class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group col-lg-3 col-md-6 pt-5">
+                    <label class="control-label">Owner ID - Name</label>
+                    @{
+                        var fullName = $"{Model.Owner.id} - {Model.Owner.fname} {Model.Owner.lname}";
+                    }
+                    <input name="id" class="form-control" value="@fullName" readonly />
+                </div>
                
 
-            <div class="form-group col-lg-3 col-md-6 mt-4">
-                <!-- Button trigger modal -->
-                @if(Model.PetFollowUps == null)
-                {
-                    <button type="button" class="btn btn-success " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        Select Pet
-                    </button>
-                }
+                <div class="form-group col-lg-3 col-md-6 pt-5 mt-4">
+                    <!-- Button trigger modal -->
+                    @if(Model.PetFollowUps == null)
+                    {
+                        <button type="button" class="btn btn-confirm btn-sm  " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            Select Pet
+                        </button>
+                    }
               
                   
-            </div>
-
-
-            <div class="container">
-                <h3>Pet Information</h3>
-            </div>
-
-            @if (Model.PetFollowUps != null)
-            {
-            <div class="form-group col-lg-3 col-md-6 visually-hidden">
-                <label asp-for="Diagnostics.petId" class="control-label"></label>
-                <input asp-for="Diagnostics.petId" class="form-control petId" value="@Model.PetFollowUps.Diagnostics.petId" readonly required />
-            </div>   
-            
-              <div class="form-group col-lg-3 col-md-6">
-                    <label class="control-label">Pet Name</label>
-                    <input id="petName" value="@Model.PetFollowUps.Diagnostics.pet.petName" class="form-control" readonly />
                 </div>
 
-                <div class="form-group col-lg-3 col-md-6">
-                    <label class="control-label">Breed</label>
-                    <input id="breed" class="form-control" value="@Model.PetFollowUps.Diagnostics.pet.breed" readonly />
+
+                <div class="container text-center p-3">
+                    <h3>Pet Information</h3>
                 </div>
 
-                <div class="form-group col-lg-3 col-md-6">
-                    <label class="control-label">Gender</label>
-                        <input id="gender" class="form-control" value="@Model.PetFollowUps.Diagnostics.pet.gender" readonly />
-                </div>
-
-                <div class="form-group col-lg-3 col-md-6">
-                    <label class="control-label">Age</label>
-                    <input id="age" class="form-control" value="@Model.PetFollowUps.Diagnostics.pet.age" readonly />
-                </div>
-
-            }
-            else
-            {
-                <div class="form-group col-lg-3 col-md-6">
+                @if (Model.PetFollowUps != null)
+                {
+                <div class="form-group col-lg-3 col-md-6 visually-hidden" id="apppad">
                     <label asp-for="Diagnostics.petId" class="control-label"></label>
-                    <input asp-for="Diagnostics.petId" class="form-control petId"  readonly required />
-                </div>
+                    <input asp-for="Diagnostics.petId" class="form-control petId" value="@Model.PetFollowUps.Diagnostics.petId" readonly required />
+                </div>   
+            
+                  <div class="form-group col-lg-3 col-md-6" id="apppad">
+                        <label class="control-label">Pet Name</label>
+                        <input id="petName" value="@Model.PetFollowUps.Diagnostics.pet.petName" class="form-control" readonly />
+                    </div>
 
-                <div class="form-group col-lg-3 col-md-6">
-                    <label class="control-label">Pet Name</label>
-                    <input id="petName" class="form-control" readonly />
-                </div>
+                    <div class="form-group col-lg-3 col-md-6" id="apppad">
+                        <label class="control-label">Breed</label>
+                        <input id="breed" class="form-control" value="@Model.PetFollowUps.Diagnostics.pet.breed" readonly />
+                    </div>
 
-                <div class="form-group col-lg-3 col-md-6">
-                    <label class="control-label">Breed</label>
-                    <input id="breed" class="form-control" readonly />
-                </div>
+                    <div class="form-group col-lg-3 col-md-6" id="apppad">
+                        <label class="control-label">Gender</label>
+                            <input id="gender" class="form-control" value="@Model.PetFollowUps.Diagnostics.pet.gender" readonly />
+                    </div>
 
-                <div class="form-group col-lg-3 col-md-6">
-                    <label class="control-label">Gender</label>
-                    <input id="gender" class="form-control" readonly />
-                </div>
+                    <div class="form-group col-lg-3 col-md-6" id="apppad">
+                        <label class="control-label">Age</label>
+                        <input id="age" class="form-control" value="@Model.PetFollowUps.Diagnostics.pet.age" readonly />
+                    </div>
 
-                <div class="form-group col-lg-3 col-md-6">
-                    <label class="control-label">Age</label>
-                    <input id="age" class="form-control" readonly />
-                </div>
+                }
+                else
+                {
+                    <div class="form-group col-lg-3 col-md-6" id="apppad">
+                        <label asp-for="Diagnostics.petId" class="control-label"></label>
+                        <input asp-for="Diagnostics.petId" class="form-control petId"  readonly required />
+                    </div>
 
-                @* <div class="form-group col-lg-3 col-md-6">
-            <label class="control-label">Birth Date</label>
-            <input id="bdate" type="datetime" class="form-control" readonly />
-            </div>
-            *@
+                    <div class="form-group col-lg-3 col-md-6" id="apppad">
+                        <label class="control-label">Pet Name</label>
+                        <input id="petName" class="form-control" readonly />
+                    </div>
+
+                    <div class="form-group col-lg-3 col-md-6" id="apppad">
+                        <label class="control-label">Breed</label>
+                        <input id="breed" class="form-control" readonly />
+                    </div>
+
+                    <div class="form-group col-lg-3 col-md-6" id="apppad">
+                        <label class="control-label">Gender</label>
+                        <input id="gender" class="form-control" readonly />
+                    </div>
+
+                    <div class="form-group col-lg-3 col-md-6" id="apppad">
+                        <label class="control-label">Age</label>
+                        <input id="age" class="form-control" readonly />
+                    </div>
+
+                    @* <div class="form-group col-lg-3 col-md-6">
+                <label class="control-label">Birth Date</label>
+                <input id="bdate" type="datetime" class="form-control" readonly />
+                </div>
+                *@
               
-            }
-                <div class="row mt-3">
-                    <div class="form-group col-lg-3">
-                        <!-- Hidden Field for Date -->
-                        <label asp-for="Diagnostics.date" class="control-label"></label>
-                        <input asp-for="Diagnostics.date" class="form-control dateInput" readonly />
-                    </div>
-                    <div class="form-group col-lg-3">
-                        <!-- Hidden Field for Date -->
-                        <label asp-for="Diagnostics.weight" class="control-label"></label>
-                        <input asp-for="Diagnostics.weight" class="form-control bg-light decimal-input" placeholder="Input weight" required />
-                    </div>
-                </div>
+                }
+           
+                        <div class="form-group col-lg-3" id="apppad">
+                            <!-- Hidden Field for Date -->
+                            <label asp-for="Diagnostics.date" class="control-label"></label>
+                            <input asp-for="Diagnostics.date" class="form-control dateInput" readonly />
+                        </div>
+                        <div class="form-group col-lg-3" id="apppad">
+                            <!-- Hidden Field for Date -->
+                            <label asp-for="Diagnostics.weight" class="control-label"></label>
+                            <input asp-for="Diagnostics.weight" class="form-control bg-light decimal-input" placeholder="Input weight" required />
+                        </div>
+                
           
 
-      @*       <div class="form-group col-lg-3 col-md-6">
-                <label class="control-label">Pet Id</label>
-                <input class="form-control petId" readonly />
-            </div> *@
+          @*       <div class="form-group col-lg-3 col-md-6">
+                    <label class="control-label">Pet Id</label>
+                    <input class="form-control petId" readonly />
+                </div> *@
 
             
-         </div>
+             </div>
 
 
-              <!-- Diagnostics Details -->
-                <div class="col-12 ">
-                <table class="table mt-2" id="DetailsTable">
-                    <thead>
-                        <tr>
-                            <th>Service Name</th>
-                            <th>Details</th>
-                            <th </th>
-                            @if(Model.PetFollowUps != null)
-                            {
-                                <th class="text-end visually-hidden">
-                                    <button type="button" class="btn btn-success px-2" id="addRow">Add Service</button>
-                                </th>
-                            }
-                            else
-                            {
-                                <th class="text-end">
-                                    <button type="button" class="btn btn-success px-2" id="addRow">Add Service</button>
-                                </th>
-                            }
+                  <!-- Diagnostics Details -->
+                    <div class="col-12 pt-3 ">
+
+                            <div class="text-end">
+                                    @if (Model.PetFollowUps != null)
+                                    {
+                                        <th class="text-end visually-hidden">
+                                            <button type="button" class="btn btn-confirm btn-sm" id="addRow">Add Service</button>
+                                        </th>
+                                    }
+                                    else
+                                    {
+                                        <th class="text-end">
+                                            <button type="button" class="btn btn-confirm btn-sm" id="addRow">Add Service</button>
+                                        </th>
+                                    }
+                            </div>
+
+                        <table class="table mt-2" id="DetailsTable">
+
+                                <thead>
+                                    <tr class="no-col pt-2">
+                                        <th class="text-center">Service Name</th>
+                                        <th class="text-center">Details</th>
+                                        <th> </th>
                             
-                        </tr>
-                    </thead>
-                    <tbody>
-                 <!-- Loop through existing services if any -->
-                        @if (Model.Appointment != null)
-                        {
-                            <input type="hidden" name="appointId" value="@Model.Appointment.AppointId" />
-                            for (int i = 0; i < Model.Appointment.IAppDetails.Count(); i++)
-                            {
-                                var detail = Model.Appointment.IAppDetails[i].serviceID;
+                                    </tr>
+                                </thead>
 
-                                <tr class="detailRow">
-                                    <td>
-                                        <div class="form-group mt-2">
-                                            <!-- Use the value attribute in the select to set the selected service ID -->
-                                            <select name="Diagnostics.IdiagnosticDetails[@i].serviceId" class="form-select service-select" required value="@detail">
-                                                <option value="" data-price="0" disabled>Select Service</option>
+                                <tbody>
+                             <!-- Loop through existing services if any -->
+                                    @if (Model.Appointment != null)
+                                    {
+                                        <input type="hidden" name="appointId" value="@Model.Appointment.AppointId" />
+                                        for (int i = 0; i < Model.Appointment.IAppDetails.Count(); i++)
+                                        {
+                                            var detail = Model.Appointment.IAppDetails[i].serviceID;
 
-                                                <!-- Loop through NA-type services -->
-                                                @foreach (var service in Model.Services.Where(s => s.serviceType == "NA"))
-                                                {
-                                                    if (service.serviceId == detail)
-                                                    {
-                                                        <option value="@service.serviceId"
-                                                                data-price="@service.serviceCharge"
-                                                                data-service-type="@service.serviceType.ToLower()"
-                                                                data-service-name="@service.serviceName.ToLower()"
-                                                                data-follow="@(service.followUp ? "true" : "false")"
-                                                                selected="selected">
-                                                                @service.serviceName
-                                                        </option>
+                                            <tr class="detailRow">
+                                                <td>
+                                                    <div class="form-group mt-2">
+                                                        <!-- Use the value attribute in the select to set the selected service ID -->
+                                                        <select name="Diagnostics.IdiagnosticDetails[@i].serviceId" class="form-select service-select" required value="@detail">
+                                                            <option value="" data-price="0" disabled>Select Service</option>
 
-                                                    }
-                                                    else
-                                                    {
-                                                        <option value="@service.serviceId"
-                                                                data-price="@service.serviceCharge"
-                                                                data-follow="@(service.followUp ? "true" : "false")"
-                                                                data-service-type="@service.serviceType.ToLower()"
-                                                                data-service-name="@service.serviceName.ToLower()">
-                                                            @service.serviceName
-                                                        </option>
-                                                    }
+                                                            <!-- Loop through NA-type services -->
+                                                            @foreach (var service in Model.Services.Where(s => s.serviceType == "NA"))
+                                                            {
+                                                                if (service.serviceId == detail)
+                                                                {
+                                                                    <option value="@service.serviceId"
+                                                                            data-price="@service.serviceCharge"
+                                                                            data-follow="@((service.followUp ? "true" : "false"))"
+                                                                            data-service-type="@service.serviceType.ToLower()"
+                                                                            data-service-name="@service.serviceName.ToLower()"
+                                                                            selected="selected">
+                                                                            @service.serviceName
+                                                                    </option>
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    <option value="@service.serviceId"
+                                                                            data-price="@service.serviceCharge"
+                                                                            data-follow="@((service.followUp ? "true" : "false"))"
+                                                                            data-service-type="@service.serviceType.ToLower()"
+                                                                            data-service-name="@service.serviceName.ToLower()">
+                                                                        @service.serviceName
+                                                                    </option>
+                                                                }
                                                 
-                                                }
+                                                            }
 
-                                                <!-- Laboratory services grouped under "Laboratory test" optgroup -->
-                                                @{
-                                                    // Get all distinct service types for conditional rendering
-                                                    var checkType = Model.Services
-                                                    .Select(s => s.serviceType)
-                                                    .Distinct();
-                                                    // Convert types to lowercase for easier comparison
-                                                    var typepo = string.Join(",", checkType).ToLower();
-                                                }
+                                                            <!-- Laboratory services grouped under "Laboratory test" optgroup -->
+                                                            @{
+                                                                // Get all distinct service types for conditional rendering
+                                                                var checkType = Model.Services
+                                                                .Select(s => s.serviceType)
+                                                                .Distinct();
+                                                                // Convert types to lowercase for easier comparison
+                                                                var typepo = string.Join(",", checkType).ToLower();
+                                                            }
 
-                                                @if (typepo.Contains("lab"))
-                                                {
-                                                    <optgroup label="Laboratory test">
-                                                        @foreach (var service in Model.Services.Where(s => s.serviceType != "NA"))
+                                                            @if (typepo.Contains("lab"))
+                                                            {
+                                                                <optgroup label="Laboratory test">
+                                                                    @foreach (var service in Model.Services.Where(s => s.serviceType != "NA"))
+                                                                    {
+                                                                        if (service.serviceId == detail)
+                                                                        {
+                                                                            <option value="@service.serviceId"
+                                                                                    data-price="@service.serviceCharge"
+                                                                                    data-follow="@((service.followUp ? "true" : "false"))"
+                                                                                    data-service-type="@service.serviceType.ToLower()"
+                                                                                    data-service-name="@service.serviceName.ToLower()"
+                                                                                    selected="selected">
+                                                                                @service.serviceName
+                                                                            </option>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <option value="@service.serviceId"
+                                                                                    data-price="@service.serviceCharge"
+                                                                                     data-follow="@((service.followUp ? "true" : "false"))"
+                                                                                    data-service-type="@service.serviceType.ToLower()"
+                                                                                    data-service-name="@service.serviceName.ToLower()">
+                                                                                @service.serviceName
+                                                                            </option>
+                                                                        }
+
+                                                                    }
+                                                                </optgroup>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <div class="prescription">
+                                                        <textarea name="Diagnostics.IdiagnosticDetails[@i].details" class="form-control bg-light" rows="7" style="resize: true;" placeholder="(Optional)"></textarea>
+                                                    </div>
+                                                </td>
+
+                                                <!-- Follow-up section for specific services -->
+                                                <td>
+                                                    <div class="followUp visually-hidden">
+                                                        <label>Next Visit (Optional)</label>
+                                                        <input type="date" name="Diagnostics.IPetFollowUps[@i].date" class="form-control bg-light minDate" placeholder="(Optional)" />
+                                                        <input type="number" name="Diagnostics.IPetFollowUps[@i].serviceId" value="@detail" class="visually-hidden" />
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <div class="m-auto">
+                                                         <button type="button" class="form-control btn btn-danger removeRow">Remove</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                     
+                                    else if (Model.PetFollowUps != null)
+                                    {
+
+                                        <input type="hidden" name="followUpId" value="@Model.PetFollowUps.Id" />
+                                        <input type="hidden" name="followupId" value="@Model.PetFollowUps.Diagnostics.pet.ownerId" />
+                                        var detail = Model.PetFollowUps.serviceId;
+                                        <tr class="detailRow">
+                                            <td>
+                                                <div class="form-group mt-2">
+                                                    <!-- Use the value attribute in the select to set the selected service ID -->
+                                                    <select name="Diagnostics.IdiagnosticDetails[0].serviceId" class="form-select service-select" required value="@detail">
+                                                        <option value="" data-price="0" disabled>Select Service</option>
+
+                                                        <!-- Loop through NA-type services -->
+                                                        @foreach (var service in Model.Services.Where(s => s.serviceType == "NA"))
                                                         {
                                                             if (service.serviceId == detail)
                                                             {
                                                                 <option value="@service.serviceId"
                                                                         data-price="@service.serviceCharge"
+                                                                        data-follow="@((service.followUp ? "true" : "false"))"
                                                                         data-service-type="@service.serviceType.ToLower()"
                                                                         data-service-name="@service.serviceName.ToLower()"
                                                                         selected="selected">
@@ -232,257 +314,195 @@
                                                             {
                                                                 <option value="@service.serviceId"
                                                                         data-price="@service.serviceCharge"
+                                                                        data-follow="@((service.followUp ? "true" : "false"))"
                                                                         data-service-type="@service.serviceType.ToLower()"
                                                                         data-service-name="@service.serviceName.ToLower()">
                                                                     @service.serviceName
                                                                 </option>
                                                             }
-
                                                         }
-                                                    </optgroup>
-                                                }
-                                            </select>
-                                        </div>
-                                    </td>
 
-                                    <td>
-                                        <div class="prescription">
-                                            <textarea name="Diagnostics.IdiagnosticDetails[@i].details" class="form-control bg-light" rows="7" style="resize: true;" placeholder="(Optional)"></textarea>
-                                        </div>
-                                    </td>
+                                                        <!-- Laboratory services grouped under "Laboratory test" optgroup -->
+                                                        @{
+                                                            // Get all distinct service types for conditional rendering
+                                                            var checTypes = Model.Services
+                                                            .Select(s => s.serviceType)
+                                                            .Distinct();
+                                                            // Convert types to lowercase for easier comparison
+                                                            var typepo = string.Join(",", checTypes).ToLower();
+                                                        }
 
-                                    <!-- Follow-up section for specific services -->
+                                                        @if (typepo.Contains("lab"))
+                                                        {
+                                                            <optgroup label="Laboratory test">
+                                                                @foreach (var service in Model.Services.Where(s => s.serviceType != "NA"))
+                                                                {
+                                                                    if (service.serviceId == detail)
+                                                                    {
+                                                                        <option value="@service.serviceId"
+                                                                                data-price="@service.serviceCharge"
+                                                                                data-follow="@((service.followUp ? "true" : "false"))"
+                                                                                data-service-type="@service.serviceType.ToLower()"
+                                                                                data-service-name="@service.serviceName.ToLower()"
+                                                                                selected="selected">
+                                                                            @service.serviceName
+                                                                        </option>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <option value="@service.serviceId"
+                                                                                data-price="@service.serviceCharge"
+                                                                                data-follow="@((service.followUp ? "true" : "false"))"
+                                                                                data-service-type="@service.serviceType.ToLower()"
+                                                                                data-service-name="@service.serviceName.ToLower()">
+                                                                            @service.serviceName
+                                                                        </option>
+                                                                    }
+
+                                                                }
+                                                            </optgroup>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            
+                                            <td colspan="2">
+                                                <div class="prescription">
+                                                    <textarea name="Diagnostics.IdiagnosticDetails.details" class="form-control bg-light" rows="7" style="resize: true;" placeholder="(Optional)"></textarea>
+                                                </div>
+                                            </td>
+
                                     <td>
                                         <div class="followUp visually-hidden">
                                             <label>Next Visit (Optional)</label>
-                                            <input type="date" name="Diagnostics.IPetFollowUps[@i].date" class="form-control bg-light minDate" placeholder="(Optional)" />
-                                            <input type="number" name="Diagnostics.IPetFollowUps[@i].serviceId" value="@detail" class="visually-hidden" />
+                                            <input type="date" name="Diagnostics.IPetFollowUps[0].date" class="form-control bg-light minDate" placeholder="(Optional)" />
+                                            <input type="number" name="Diagnostics.IPetFollowUps[0].serviceId" value="" class="visually-hidden" />
+
                                         </div>
                                     </td>
+
 
                                     <td>
-                                        <div class="m-auto">
-                                             <button type="button" class="form-control btn btn-danger removeRow">Remove</button>
-                                        </div>
+                                        <button type="button" class="btn btn-danger removeRow">Remove</button>
                                     </td>
-                                </tr>
-                            }
-                        }
-                     
-                        else if (Model.PetFollowUps != null)
-                        {
+                              
+                                        </tr>
+                                        <div class="followUp visually-hidden">
+                                            <label>Next Visit (Optional)</label>
+                                            <input type="date" name="Diagnostics.IPetFollowUps.date" class="form-control bg-light minDate" placeholder="(Optional)" />
+                                            <input type="number" name="Diagnostics.IPetFollowUps.serviceId" value="@detail" class="visually-hidden" />
+                                        </div>
+                                    }
 
-                            <input type="hidden" name="followUpId" value="@Model.PetFollowUps.Id" />
-                            <input type="hidden" name="followupId" value="@Model.PetFollowUps.Diagnostics.pet.ownerId" />
-                            var detail = Model.PetFollowUps.serviceId;
-                            <tr class="detailRow">
-                                <td>
-                                    <div class="form-group mt-2">
-                                        <!-- Use the value attribute in the select to set the selected service ID -->
-                                        <select name="Diagnostics.IdiagnosticDetails[0].serviceId" class="form-select service-select" required value="@detail">
-                                            <option value="" data-price="0" disabled>Select Service</option>
+                  
+                                    else
+                                    {
+                                        <tr class="detailRow">
+                                            <td>
+                                                <div class="form-group mt-2">
+                                                    <select name="Diagnostics.IdiagnosticDetails[0].serviceId" class="form-control service-select" required>
+                                                        <option value="" data-price="0" disabled selected>Select Service</option>
 
-                                            <!-- Loop through NA-type services -->
-                                            @foreach (var service in Model.Services.Where(s => s.serviceType == "NA"))
-                                            {
-                                                if (service.serviceId == detail)
-                                                {
-                                                    <option value="@service.serviceId"
-                                                            data-price="@service.serviceCharge"
-                                                            data-follow="@((service.followUp ? "true" : "false"))"
-                                                            data-service-type="@service.serviceType.ToLower()"
-                                                            data-service-name="@service.serviceName.ToLower()"
-                                                            selected="selected">
-                                                        @service.serviceName
-                                                    </option>
-                                                }
-                                                else
-                                                {
-                                                    <option value="@service.serviceId"
-                                                            data-price="@service.serviceCharge"
-                                                            data-service-type="@service.serviceType.ToLower()"
-                                                            data-service-name="@service.serviceName.ToLower()">
-                                                        @service.serviceName
-                                                    </option>
-                                                }
-                                            }
-
-                                            <!-- Laboratory services grouped under "Laboratory test" optgroup -->
-                                            @{
-                                                // Get all distinct service types for conditional rendering
-                                                var checTypes = Model.Services
-                                                .Select(s => s.serviceType)
-                                                .Distinct();
-                                                // Convert types to lowercase for easier comparison
-                                                var typepo = string.Join(",", checTypes).ToLower();
-                                            }
-
-                                            @if (typepo.Contains("lab"))
-                                            {
-                                                <optgroup label="Laboratory test">
-                                                    @foreach (var service in Model.Services.Where(s => s.serviceType != "NA"))
-                                                    {
-                                                        if (service.serviceId == detail)
+                                                        @foreach (var service in Model.Services.Where(s => s.serviceType == "NA"))
                                                         {
                                                             <option value="@service.serviceId"
                                                                     data-price="@service.serviceCharge"
-                                                                    data-service-type="@service.serviceType.ToLower()"
-                                                                    data-service-name="@service.serviceName.ToLower()"
-                                                                    selected="selected">
-                                                                @service.serviceName
-                                                            </option>
-                                                        }
-                                                        else
-                                                        {
-                                                            <option value="@service.serviceId"
-                                                                    data-price="@service.serviceCharge"
+                                                                    data-follow="@((service.followUp ? "true" : "false"))"
                                                                     data-service-type="@service.serviceType.ToLower()"
                                                                     data-service-name="@service.serviceName.ToLower()">
                                                                 @service.serviceName
                                                             </option>
                                                         }
 
-                                                    }
-                                                </optgroup>
-                                            }
-                                        </select>
-                                    </div>
-                                </td>
-                                @if (Model.PetFollowUps != null)
-                                {
-                                <td colspan="2">
-                                    <div class="prescription">
-                                        <textarea name="Diagnostics.IdiagnosticDetails.details" class="form-control bg-light" rows="7" style="resize: true;" placeholder="(Optional)"></textarea>
-                                    </div>
-                                </td>
+                                                        @* for display laboratory items *@
+                                                        @{
+                                                            //check services
+                                                            var checkTypes = Model.Services
+                                                            .Select(s => s.serviceType)
+                                                            .Distinct();
 
-                                }
-                                else
-                                {
-                                    <td>
-                                        <div class=" m-auto">
-                                            <button type="button" class="btn btn-danger form-control removeRow">Remove</button>
-                                        </div>
-                                    </td>
-                                }
-                              
-                            </tr>
-                            <div class="followUp visually-hidden">
-                                <label>Next Visit (Optional)</label>
-                                <input type="date" name="Diagnostics.IPetFollowUps.date" class="form-control bg-light minDate" placeholder="(Optional)" />
-                                <input type="number" name="Diagnostics.IPetFollowUps.serviceId" value="@detail" class="visually-hidden" />
-                            </div>
-                        }
+                                                            var type = string.Join(",", checkTypes).ToLower();
 
-                  
-                        else
-                        {
-                            <tr class="detailRow">
-                                <td>
-                                    <div class="form-group mt-2">
-                                        <select name="Diagnostics.IdiagnosticDetails[0].serviceId" class="form-control service-select" required>
-                                            <option value="" data-price="0" disabled selected>Select Service</option>
+                                                        }
+                                                        @if (type.Contains("lab"))
+                                                        {
+                                                            <optgroup label="Laboratory test">
+                                                                @foreach (var service in Model.Services.Where(s => s.serviceType != "NA"))
+                                                                {
+                                                                    <option value="@service.serviceId"
+                                                                            data-price="@service.serviceCharge"
+                                                                            data-follow="@((service.followUp ? "true" : "false"))"
+                                                                            data-service-type="@service.serviceType.ToLower()"
+                                                                            data-service-name="@service.serviceName.ToLower()">
+                                                                        @service.serviceName
+                                                                    </option>
+                                                                }
+                                                            </optgroup>
+                                                        }
 
-                                            @foreach (var service in Model.Services.Where(s => s.serviceType == "NA"))
-                                            {
-                                                <option value="@service.serviceId"
-                                                        data-price="@service.serviceCharge"
-                                                        data-follow="@((service.followUp ? "true" : "false"))"
-                                                        data-service-type="@service.serviceType.ToLower()"
-                                                        data-service-name="@service.serviceName.ToLower()">
-                                                    @service.serviceName
-                                                </option>
-                                            }
+                                                    </select>
+                                                    <input type="hidden" name="Diagnostics.IdiagnosticDetails[0].totalServicePayment" class="service-charge" value="" />
+                                                </div>
+                                            </td>
 
-                                            @* for display laboratory items *@
-                                            @{
-                                                //check services
-                                                var checkTypes = Model.Services
-                                                .Select(s => s.serviceType)
-                                                .Distinct();
+                                            <td>
+                                                <div class="prescription">
+                                                    <textarea name="Diagnostics.IdiagnosticDetails[0].details" class="form-control bg-light" rows="7" style="resize: none;" placeholder="(Optional)"></textarea>
+                                                </div>
+                                            </td>
 
-                                                var type = string.Join(",", checkTypes).ToLower();
+                                            <td>
+                                                <div class="followUp visually-hidden">
+                                                    <label>Next Visit (Optional)</label>
+                                                    <input type="date" name="Diagnostics.IPetFollowUps[0].date" class="form-control bg-light minDate" placeholder="(Optional)" />
+                                                    <input type="number" name="Diagnostics.IPetFollowUps[0].serviceId" value="" class="visually-hidden" />
 
-                                            }
-                                            @if (type.Contains("lab"))
-                                            {
-                                                <optgroup label="Laboratory test">
-                                                    @foreach (var service in Model.Services.Where(s => s.serviceType != "NA"))
-                                                    {
-                                                        <option value="@service.serviceId"
-                                                                data-price="@service.serviceCharge"
-                                                                data-follow="@((service.followUp ? "true" : "false"))"
-                                                                data-service-type="@service.serviceType.ToLower()"
-                                                                data-service-name="@service.serviceName.ToLower()">
-                                                            @service.serviceName
-                                                        </option>
-                                                    }
-                                                </optgroup>
-                                            }
-
-                                        </select>
-                                        <input type="hidden" name="Diagnostics.IdiagnosticDetails[0].totalServicePayment" class="service-charge" value="" />
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="prescription">
-                                        <textarea name="Diagnostics.IdiagnosticDetails[0].details" class="form-control bg-light" rows="7" style="resize: none;" placeholder="(Optional)"></textarea>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="followUp visually-hidden">
-                                        <label>Next Visit (Optional)</label>
-                                        <input type="date" name="Diagnostics.IPetFollowUps[0].date" class="form-control bg-light minDate" placeholder="(Optional)" />
-                                        <input type="number" name="Diagnostics.IPetFollowUps[0].serviceId" value="" class="visually-hidden" />
-
-                                    </div>
-                                </td>
+                                                </div>
+                                            </td>
 
 
-                                <td>
-                                    <button type="button" class="btn btn-danger removeRow">Remove</button>
-                                </td>
-                            </tr>
+                                            <td>
+                                                <button type="button" class="btn btn-danger removeRow">Remove</button>
+                                            </td>
+                                        </tr>
                             
-                        }
-                    </tbody>
-                </table>
-                </div>
+                                    }
+                                </tbody>
+                        </table>
+                    </div>
           
-            @if (Model.btnCnl == "booking")
-            {
-                <div class="form-group justify-content-end">
-                    <a class="btn btn-md btn-cancel btn-lg my-2 px-4" asp-action="SwitchToTab" asp-route-tabName="booking" asp-controller="Appointments">Cancel</a>
-                    <input type="submit" value="Save" class="btn btn-confirm btn-lg px-4" />
-                </div>
-            }
-            else if (Model.btnCnl == "followUp")
-            {
-                <div class="form-group justify-content-end">
-                    <a class="btn btn-md btn-cancel btn-lg my-2 px-4" asp-action="SwitchToTab" asp-route-tabName="followUp" asp-controller="Appointments">Cancel</a>
-                    <input type="submit" value="Save" class="btn btn-confirm btn-lg px-4" />
-                </div>
+                @if (Model.btnCnl == "booking")
+                {
+                    <div class="form-group text-end">
+                        <a class="btn btn-md btn-cancel btn-lg my-2 px-4" asp-action="SwitchToTab" asp-route-tabName="booking" asp-controller="Appointments">Cancel</a>
+                        <input type="submit" value="Save" class="btn btn-confirm btn-lg px-4" />
+                    </div>
+                }
+                else if (Model.btnCnl == "followUp")
+                {
+                    <div class="form-group text-end">
+                        <a class="btn btn-md btn-cancel btn-lg my-2 px-4" asp-action="SwitchToTab" asp-route-tabName="followUp" asp-controller="Appointments">Cancel</a>
+                        <input type="submit" value="Save" class="btn btn-confirm btn-lg px-4" />
+                    </div>
                 
-            }
-            else
-            {
-                <div class="form-group justify-content-end">
-                    <a class="btn btn-md btn-cancel btn-lg my-2 px-4" asp-action="Diagnosis">Cancel</a>
-                    <input type="submit" value="Save" class="btn btn-confirm btn-lg px-4" />
-                </div>
-            }
-    </form>
-
+                }
+                else
+                {
+                    <div class="form-group text-end">
+                        <a class="btn btn-md btn-cancel btn-lg my-2 px-4" asp-action="Diagnosis">Cancel</a>
+                        <input type="submit" value="Save" class="btn btn-confirm btn-lg px-4" />
+                    </div>
+                }
+            </form>
+        </div>
 </div>
-
+</div>
     <!-- Modal for selecting existing records -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Select Record</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel"></h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

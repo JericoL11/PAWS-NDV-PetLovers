@@ -17,9 +17,10 @@
     </div>
 
     <div class="container p-0 ">
-           <div class="pt-4 p-3">
+           <div class="pt-5 p-3">
                 <!-- Button trigger modal -->
-            <button type="button" class="btn btn-warning btn-cancel btn-lg" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Existing Record</button>                    
+            <button type="button" class="btn btn-warning btn-cancel btn-lg" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Existing Record</button>   
+           </div>                 
     </div>
 
     <form asp-action="Create" method="post" class="p-0"><div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -149,7 +150,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content" id="modalapp">
                 <div class="modal-header" id="headapp">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Select Record</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel"></h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -167,7 +168,7 @@
                                 <tbody>
                                     @foreach (var owner in Model.IOwner)
                                     {
-                                        <tr style="background-color: #90bb9a6c;">
+                                        <tr>
                                             <td class="text-center">
                                                 <input type="radio" name="SelectedOwnerId"
                                                        value="@owner.id"

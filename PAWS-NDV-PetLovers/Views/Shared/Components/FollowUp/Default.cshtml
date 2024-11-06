@@ -52,13 +52,13 @@
                         <td>
 
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-secondary me-1 btn-cancel" data-id="@item.Id" data-bs-toggle="modal" data-bs-target="#staticBackdropCancel">
+                            <button type="button" class="btn btn-secondary me-1 btn-cancel btn-sm" data-id="@item.Id" data-bs-toggle="modal" data-bs-target="#staticBackdropCancel">
                                 Cancel
                             </button>
 
                             @if(Context.Session.GetString("UserRole") == "Admin")
                             {
-                                <a asp-action="CreateDiagnosis" asp-controller="Billing" asp-route-id="@item.Diagnostics.pet.ownerId" asp-route-followupId="@item.Id" asp-route-btnCnl="followUp" class="btn btn-success btn-sm me-1">
+                                <a asp-action="CreateDiagnosis" asp-controller="Billing" asp-route-id="@item.Diagnostics.pet.ownerId" asp-route-followupId="@item.Id" asp-route-btnCnl="followUp" class="btn btn-confirm btn-sm me-1">
                                     Attend
                                 </a>
                             }
@@ -80,8 +80,8 @@
 <div class="modal fade" id="staticBackdropCancel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header bg-danger bg-opacity-50">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Warning</h1>
+            <div class="modal-header ">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel"></h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -89,11 +89,11 @@
             </div>
             <div class="modal-footer">
 
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-cancel btn-lg px-4" data-bs-dismiss="modal">Close</button>
 
                 <form asp-action="Cancel" asp-controller="PetFollowUp" method="post">
                     <input type="hidden" name="id" id="followupId" />
-                    <input type="submit" value="Confirm" class="btn btn-primary" />
+                    <input type="submit" value="Confirm" class="btn btn-confirm btn-lg px-4" />
                 </form>
 
             </div>

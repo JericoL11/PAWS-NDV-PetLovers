@@ -22,14 +22,14 @@
         <form method="post" asp-action="CreatePurchase">
 
             <div class="container ">
-                
 
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-4 pt-3 d-flex justify-content-center align-items-center vh-10 "></div>
                 <!-- Center-aligned wrapper for the form content -->
                 <div class="d-flex justify-content-center align-items-center vh-10 pt-5">
                    
 
                         <!-- Validation Summary -->
-                        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+                       
 
                         <!-- Customer Name Field -->
                         <div class="form-group mb-3 me-3">
@@ -141,10 +141,10 @@
 
                     <div class="modal-footer">
                         <div class="text-danger me-2" id="selectionWarning" style="display:none;">Product is already selected.</div>
-                        <button type="button" class="btn btn-cancel btn-sm " id="ViewSelectedProduct">Cancel</button>
+                        <button type="button" class="btn btn-cancel btn-lg px-4 " id="ViewSelectedProduct">Cancel</button>
 
                         @* <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> *@
-                        <button type="button" class="btn  btn-confirm btn-sm" id="SelectProductButton">Add</button>
+                        <button type="button" class="btn  btn-confirm btn-lg px-4" id="SelectProductButton">Add</button>
                     </div>
                 </form>
             </div>

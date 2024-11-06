@@ -7,7 +7,7 @@
     <div class="table-responsive">
         <table class="table HistoryTbl table-bordered text-center">
         <thead>
-            <tr class="">
+            <tr class="text-center">
                 <th class="text-center"> Billing Id</th>
                 <th class="text-center"> Name </th>
                 <th class="text-center"> Date</th>
@@ -19,7 +19,7 @@
             @foreach (var item in Model.IBilling)
             {
                 <tr>
-                    <td>
+                    <td class="text-center">
                         @Html.DisplayFor(modelItem => item.billingId)
                     </td>
                     <td>

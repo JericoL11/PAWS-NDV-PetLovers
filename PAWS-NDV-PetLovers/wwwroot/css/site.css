@@ -400,10 +400,6 @@ html {
     margin-right: 0px;
 }
 
-#headapp {
-    background: #c0d1ce;
-    border-bottom: 1px solid #469387;
-}
 
 #exrecord {
     background-color: rgba(70, 147, 135, 0.575);
@@ -444,15 +440,18 @@ html {
     border-color: #469387;
 
 }
+
 /*APPOINTMENTS AREA END*/
 
-
-
+.bg-signup {
+    background-color: #469387 !important;
+    color:white;
+}
+.bg-signbody {
+    background-color: #D7F2DA !important;
+}
 /*END CLASS AREA*/
-
-
 /*ID AREA*/
-
 /*FOR SUBMENU*/
 #appointment-collapse,
 #recordmanagement-collapse,
@@ -561,9 +560,8 @@ html {
 }
 
 
+
 /*END ID AREA*/
-
-
 /* Mobile styles */
 @media (max-width: 768px) {
     #sidebar {
@@ -588,9 +586,11 @@ html {
 
 }
 
+
+
 /*External table color*/
 table thead tr {
-    background-color: #D7F2DA !important;
+    background-color: #C4E4DB !important;
 }
 
 .bg-payment {

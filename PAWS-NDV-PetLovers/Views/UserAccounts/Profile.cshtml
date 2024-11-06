@@ -73,7 +73,7 @@
                 <div class="modal-content">
 
                         <div class="modal-header text-center">
-                            <h1 class="modal-title fs-5 text-black fw-bold bg-white " id="staticBackdropLabel">Change Password</h1>
+                            <h1 class="modal-title fs-5 text-black fw-bold bg-white " id="staticBackdropLabel"></h1>
                             <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
@@ -82,7 +82,7 @@
                         <div class="modal-body">
                             <div asp-validation-summary="ModelOnly" class="text-danger "></div>
 
-                            <div class="mb-4">
+                            @* <div class="mb-4">
                                 <div class="form-floating mb-3 position-relative">
                                     <input type="password" class="form-control password-field" name="oldPassword" placeholder="Old Password" required>
                                     <label>Old Password</label>
@@ -111,12 +111,48 @@
                                     </span>
                                 </div>
                             </div>
-                        </div>
+                        </div> *@
 
+                            <div class="mb-4">
+                                <div class="form-group mb-3 position-relative">
+                                    <label class="control-label">Old Password</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control password-field" name="oldPassword" placeholder="Old Password" required>
+                                        <span class="input-group-text toggle-password-icon" style="cursor: pointer;">
+                                            <i class="fas fa-eye togglePasswordIcon"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <div class="form-group mb-3 position-relative">
+                                    <label class="control-label">New Password</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control password-field" name="passWord" placeholder="New Password" required>
+                                        <span class="input-group-text toggle-password-icon" style="cursor: pointer;">
+                                            <i class="fas fa-eye togglePasswordIcon"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <div class="form-group mb-3 position-relative">
+                                    <label class="control-label">Confirm Password</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control password-field" name="ConfirmPassword" placeholder="Confirm Password" required>
+                                        <span class="input-group-text toggle-password-icon" style="cursor: pointer;">
+                                            <i class="fas fa-eye togglePasswordIcon"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="modal-footer">
 
                             <button type="button" class="btn btn-cancel btn-lg px-4" data-bs-dismiss="modal">Close</button>
-                            <input type="submit" value="Save" class="btn btn-confirm px-4" />
+                            <input type="submit" value="Save" class="btn btn-confirm btn-lg px-4" />
 
                         </div>
                     </form>
