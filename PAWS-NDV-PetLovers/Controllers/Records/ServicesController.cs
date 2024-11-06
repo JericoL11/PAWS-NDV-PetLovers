@@ -66,6 +66,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
             // Add the service to the database
             _context.Add(service);
             await _context.SaveChangesAsync();
+            TempData["Message"] = "Successfully Created";
 
             return RedirectToAction(nameof(Index)); // Redirect to the appropriate action
         }
