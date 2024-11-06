@@ -1211,6 +1211,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                 // Update remarks and save changes
                 petfollowUp.status = "Attended";
                 _context.Update(petfollowUp);
+
             }
 
             if (appointment != null)
@@ -1244,7 +1245,7 @@ namespace PAWS_NDV_PetLovers.Controllers.Transactions
                     _context.Update(followUp); // Update the follow-up entry with the IDs
                 }
             }
-            
+          
            
             // Add the new Diagnostics entity and save changes
             _context.Add(diagnostics);

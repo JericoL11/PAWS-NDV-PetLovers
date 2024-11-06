@@ -148,8 +148,8 @@
                             <div class="text-end">
                                     @if (Model.PetFollowUps != null)
                                     {
-                                        <th class="text-end visually-hidden">
-                                            <button type="button" class="btn btn-confirm btn-sm" id="addRow">Add Service</button>
+                                        <th class="text-end ">
+                                            <button type="button" class="btn btn-confirm btn-sm visually-hidden" id="addRow">Add Service</button>
                                         </th>
                                     }
                                     else
@@ -310,7 +310,7 @@
                                                                     @service.serviceName
                                                                 </option>
                                                             }
-                                                            else
+                                                          @*   else
                                                             {
                                                                 <option value="@service.serviceId"
                                                                         data-price="@service.serviceCharge"
@@ -319,7 +319,7 @@
                                                                         data-service-name="@service.serviceName.ToLower()">
                                                                     @service.serviceName
                                                                 </option>
-                                                            }
+                                                            } *@
                                                         }
 
                                                         <!-- Laboratory services grouped under "Laboratory test" optgroup -->
@@ -334,7 +334,7 @@
 
                                                         @if (typepo.Contains("lab"))
                                                         {
-                                                            <optgroup label="Laboratory test">
+                                                          @*   <optgroup label="Laboratory test"> *@
                                                                 @foreach (var service in Model.Services.Where(s => s.serviceType != "NA"))
                                                                 {
                                                                     if (service.serviceId == detail)
@@ -348,7 +348,7 @@
                                                                             @service.serviceName
                                                                         </option>
                                                                     }
-                                                                    else
+                                                                 @*    else
                                                                     {
                                                                         <option value="@service.serviceId"
                                                                                 data-price="@service.serviceCharge"
@@ -357,10 +357,10 @@
                                                                                 data-service-name="@service.serviceName.ToLower()">
                                                                             @service.serviceName
                                                                         </option>
-                                                                    }
+                                                                    } *@
 
                                                                 }
-                                                            </optgroup>
+                                                            @* </optgroup> *@
                                                         }
                                                     </select>
                                                 </div>
@@ -376,22 +376,18 @@
                                         <div class="followUp visually-hidden">
                                             <label>Next Visit (Optional)</label>
                                             <input type="date" name="Diagnostics.IPetFollowUps[0].date" class="form-control bg-light minDate" placeholder="(Optional)" />
-                                            <input type="number" name="Diagnostics.IPetFollowUps[0].serviceId" value="" class="visually-hidden" />
+                                            <input type="number" name="Diagnostics.IPetFollowUps[0].serviceId" value="@Model.PetFollowUps.serviceId" class="" />
 
                                         </div>
                                     </td>
 
 
-                                    <td>
+                                    <td class="visually-hidden">
                                         <button type="button" class="btn btn-danger removeRow">Remove</button>
                                     </td>
                               
                                         </tr>
-                                        <div class="followUp visually-hidden">
-                                            <label>Next Visit (Optional)</label>
-                                            <input type="date" name="Diagnostics.IPetFollowUps.date" class="form-control bg-light minDate" placeholder="(Optional)" />
-                                            <input type="number" name="Diagnostics.IPetFollowUps.serviceId" value="@detail" class="visually-hidden" />
-                                        </div>
+                                        
                                     }
 
                   
