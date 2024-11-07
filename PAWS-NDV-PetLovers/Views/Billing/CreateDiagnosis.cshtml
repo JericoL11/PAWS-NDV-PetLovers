@@ -604,12 +604,32 @@
                     followUpDiv.find('input').val(''); // Clear input if hidden
                 }
             }
-
             // Function to update the service ID field based on selected option
             function updateServiceId(row) {
                 var selectedServiceId = row.find('.service-select option:selected').val(); // Get selected service ID
                 row.find('input[name*="serviceId"]').val(selectedServiceId); // Set the hidden service ID input field
             }
+         
+            // Function to update row names after a row is removed
+            function updateRowNames() {
+                $('#DetailsTable tbody tr').each(function (index) {
+                    // Update name attributes for each row's select and input fields
+                    $(this).find('select[name*="Diagnostics.IdiagnosticDetails"]').attr('name', `Diagnostics.IdiagnosticDetails[${index}].serviceId`);
+                    $(this).find('input[name*="Diagnostics.IdiagnosticDetails"]').attr('name', `Diagnostics.IdiagnosticDetails[${index}].totalServicePayment`);
+                    $(this).find('textarea[name*="Diagnostics.IdiagnosticDetails"]').attr('name', `Diagnostics.IdiagnosticDetails[${index}].details`);
+
+                    // Update name attributes for follow-up fields
+                    $(this).find('input[name*="Diagnostics.IPetFollowUps"]').each(function () {
+                        if ($(this).attr('name').includes("date")) {
+                            $(this).attr('name', `Diagnostics.IPetFollowUps[${index}].date`);
+                        } else if ($(this).attr('name').includes("serviceId")) {
+                            $(this).attr('name', `Diagnostics.IPetFollowUps[${index}].serviceId`);
+                        }
+
+                    });
+                });
+            }
+
 
             // Event listener for when service selection changes
             $(document).on('change', '.service-select', function () {
