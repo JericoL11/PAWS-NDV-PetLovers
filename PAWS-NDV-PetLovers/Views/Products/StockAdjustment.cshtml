@@ -23,7 +23,7 @@
                 <table class="table table-bordered text-center" id="StockAdjTable">
                         <thead>
                             <tr class="text-center">
-                                <th class="text-center">Product Id</th>
+                                @* <th class="text-center">Product Id</th> *@
                                 <th class="text-center">Date</th>
                                 <th class="text-center">Product Name</th>
                                 <th class="text-center">Source</th>
@@ -36,7 +36,7 @@
                                 if (stock.source == "Sales")
                                 {
                                     <tr class="text-center">
-                                        <td class="text-center">@stock.productId</td>
+                                        @* <td class="text-center">@stock.productId</td> *@
                                         <td>@stock.date.ToString("MMM. dd, yyyy")</td>
                                         <td>@stock.productsNav.productName</td>
                                         <td> @stock.source</td>
@@ -46,7 +46,7 @@
                                 else
                                 {
                                     <tr class="text-center">
-                                        <td class="text-center">@stock.productId</td>
+                                       @*  <td class="text-center">@stock.productId</td> *@
                                         <td>@stock.date.ToString("MMM. dd, yyyy")</td>
                                         <td>@stock.productsNav.productName</td>
                                         <td>@stock.source</td>

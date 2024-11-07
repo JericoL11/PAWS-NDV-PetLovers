@@ -10,7 +10,7 @@
         <div class="container p-0  bg-custom-color">
             <div>
                 <div class="container p-2">
-                    <h1>Check-up Information</h1>
+                    <h1>History Information</h1>
                 </div>
             </div>
         </div>
@@ -31,7 +31,7 @@
                 <div class="form-group col-lg-3">
                     <!-- Hidden Field for Date -->
                     <label asp-for="Diagnostics.weight" class="control-label"></label>
-                    <input asp-for="Diagnostics.weight" class="form-control bg-light decimal-input" placeholder="Input weight" value="@Model.Diagnostics.weight" required />
+                <input asp-for="Diagnostics.weight" class="form-control bg-light decimal-input" placeholder="Input weight" value="@Model.Diagnostics.weight" readonly />
                 </div>
             </div>
 

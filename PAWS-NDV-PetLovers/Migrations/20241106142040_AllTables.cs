@@ -16,7 +16,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:Identity", "5000, 1"),
                     categoryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     registeredDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -32,7 +32,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:Identity", "1000, 1"),
                     fname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     lname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     mname = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -53,7 +53,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     purchaseId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:Identity", "30000, 1"),
                     date = table.Column<DateTime>(type: "datetime2", nullable: true),
                     status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     diagnosisId_holder = table.Column<int>(type: "int", nullable: true),
@@ -69,7 +69,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     serviceId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:Identity", "500, 1"),
                     serviceName = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
                     serviceCharge = table.Column<double>(type: "float", nullable: false),
                     serviceType = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -109,7 +109,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:Identity", "50000, 1"),
                     productName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     sellingPrice = table.Column<double>(type: "float", nullable: false),
                     supplierPrice = table.Column<double>(type: "float", nullable: false),
@@ -134,7 +134,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     AppointId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:Identity", "100, 1"),
                     ownerId = table.Column<int>(type: "int", nullable: true),
                     fname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     mname = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -159,7 +159,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:Identity", "100000, 1"),
                     petName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     species = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     breed = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -208,7 +208,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     purchaseDet_Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:Identity", "300000, 1"),
                     purchaseId = table.Column<int>(type: "int", nullable: false),
                     productId = table.Column<int>(type: "int", nullable: false),
                     quantity = table.Column<int>(type: "int", nullable: false),
@@ -236,7 +236,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     AppDetailsId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:Identity", "11000, 1"),
                     AppointId = table.Column<int>(type: "int", nullable: false),
                     serviceID = table.Column<int>(type: "int", nullable: true)
                 },
@@ -261,7 +261,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     diagnostic_Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:Identity", "60000, 1"),
                     petId = table.Column<int>(type: "int", nullable: false),
                     weight = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true),
                     date = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -289,7 +289,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     billingId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:Identity", "80000, 1"),
                     DiagnosticsId = table.Column<int>(type: "int", nullable: true),
                     PurchaseId = table.Column<int>(type: "int", nullable: true),
                     date = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -317,7 +317,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     diagnosticDet_Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:Identity", "160000, 1"),
                     details = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     diagnosticsId = table.Column<int>(type: "int", nullable: false),
                     serviceId = table.Column<int>(type: "int", nullable: false),
@@ -345,7 +345,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:Identity", "21000, 1"),
                     diagnosticsId = table.Column<int>(type: "int", nullable: false),
                     serviceId = table.Column<int>(type: "int", nullable: false),
                     date = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -373,7 +373,7 @@ namespace PAWS_NDV_PetLovers.Migrations
                 columns: table => new
                 {
                     stockAdj_Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:Identity", "6010, 1"),
                     source = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     stock = table.Column<int>(type: "int", nullable: false),
