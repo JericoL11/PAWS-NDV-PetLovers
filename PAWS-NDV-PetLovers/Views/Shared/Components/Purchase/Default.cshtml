@@ -4,30 +4,33 @@
 }
 <div class="container ">
       <div class="card">
+          <div class="btn-group d-flex justify-content-end mb-2">
+          
 
-          <div class="form-group text-end">
-            <button type="button" class="btn btn-confirm btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdropSelectedProduct">
-                Add Products
-            </button>
-          </div> 
+                @if (Model.IPurchaseDetails.Count() > 0)
+                {
 
-          <div class="mb-3 float-end btn-group">
+                    <form method="get" asp-action="RemoveProduct" asp-controller="Billing">
 
-            @if (Model.IPurchaseDetails.Count() > 0)
-            {
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-danger btn-sm removeButtonMdl me-2" data-bs-toggle="modal" asp-route-id="@Model.Diagnostics.diagnostic_Id" data-bs-target="#staticBackdropRemove">
+                            Decrease Qnty.
+                        </button>
 
-                <form method="get" asp-action="RemoveProduct" asp-controller="Billing">
+                    </form>
 
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-outline-danger removeButtonMdl me-2" data-bs-toggle="modal" asp-route-id="@Model.Diagnostics.diagnostic_Id" data-bs-target="#staticBackdropRemove">
-                        Decrease Qnty.
+                }
+           
+                <div class="form-group">
+                    <button type="button" class="btn btn-confirm btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdropSelectedProduct">
+                        Add Products
                     </button>
-
-                </form>
-
-            }
+                </div>
+            </div>
           
           </div>
+
+        
 
           <div class="card">
               <div class="table-responsive">
@@ -221,7 +224,7 @@
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
-                <div class="modal-header bg-primary">
+                <div class="modal-header">
                     @* <h1 class="modal-title fs-5" id="staticBackdropLabel">Select Product</h1>  *@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
