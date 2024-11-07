@@ -212,6 +212,14 @@ namespace PAWS_NDV_PetLovers.Controllers.Records
                         break;
 
 
+                    case "Delete":
+                        TempData["Message"] = "Successfully Deleted";
+                        _context.UserAccounts.Remove(userAccount);
+                        //if mag add ug options about sa transac2 dapat attribute na nga deleted ang ibutang
+                        await _context.SaveChangesAsync();
+                        break;
+
+
                     default:
                         // Handle unknown action if necessary
                         break;
