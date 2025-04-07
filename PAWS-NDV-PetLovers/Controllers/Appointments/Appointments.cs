@@ -384,9 +384,6 @@ namespace PAWS_NDV_PetLovers.Controllers.Appointments
                 return View("Index", vm);
             }
 
-    
-  
-          
 
             //get owner Objects 
             var owner = await _context.Owners

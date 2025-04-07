@@ -1,4 +1,50 @@
-    
+/* Sidebar Styles */
+.sidebar {
+    height: 100vh;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #343a40;
+    padding-top: 20px;
+    transition: all 0.3s;
+}
+
+    .sidebar img {
+        display: block;
+        margin: 0 auto 15px;
+        width: 120px; /* Adjust logo size */
+    }
+
+    .sidebar a {
+        color: white;
+        padding: 10px 15px;
+        display: block;
+        text-decoration: none;
+        font-size: 1.1rem;
+    }
+
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+
+.content {
+    margin-left: 250px;
+    padding: 20px;
+    transition: all 0.3s;
+}
+/* Responsive Sidebar */
+@media (max-width: 768px) {
+    .sidebar {
+        left: -250px;
+    }
+
+    .content {
+        margin-left: 0;
+    }
+}    
+
+
 /*Select Icon*/
 
 /*.custom-select-wrapper {

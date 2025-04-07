@@ -18,7 +18,7 @@
         <table class="table table-bordered text-center hover" id="PetFollowUpTable">
             <thead>
                 <tr>
-                    <th class="visually-hidden">Id</th>
+                    <th class="text-center">Id</th>
                     <th class="text-center">Pet Name</th>
                     <th class="text-center">Owner Name</th>
                     <th class="text-center">Service</th>
@@ -30,7 +30,7 @@
                 @foreach (var item in Model.IPetFollowUps)
                 {
                     <tr>
-                        <td class="visually-hidden">@Html.DisplayFor(modelItem => item.Id)</td>
+                        <td class="text-center">@Html.DisplayFor(modelItem => item.Id)</td>
                         <td>@Html.DisplayFor(modelItem => item.Diagnostics.pet.petName)</td>
 
                         @{

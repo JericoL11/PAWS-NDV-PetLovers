@@ -58,8 +58,7 @@
                 </div>
                 <div class="form-group col-lg-4 col-md-6">
                     <label asp-for="bdate" class="control-label"></label>
-                    <input type="hidden" asp-for="bdate" class="form-control bg-light birthdate" />
-                    <input value="@Model.bdate?.ToString("MMM. dd, yyyy")" class="form-control bg-light birthdate" readonly/>
+                    <input type="date" asp-for="bdate" class="form-control bg-light birthdate" />
                     <span asp-validation-for="bdate" class="text-danger"></span>
                 </div>
                 <div class="form-group col-lg-4 col-md-6">
